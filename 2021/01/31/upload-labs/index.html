@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>upload-labs - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="pass-01前端js绕过
+之前我先拿了一张png图片...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">upload-labs</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">upload-labs</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 31, 2021</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2021/01/31/upload-labs/" class="leancloud" data-flag-title="upload-labs"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5141</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="pass-01前端js绕过"><a href="#pass-01前端js绕过" class="headerlink" title="pass-01前端js绕过"></a>pass-01前端js绕过</h1><p><img   class="lazyload" data-original="image-20210131134748188.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>之前我先拿了一张png图片试了一下，后面想上传php文件受到了禁止</p>
+<p>既然前端判断文件类型，那不如在上面填一个|.php</p>
+<p><img   class="lazyload" data-original="image-20210131135724052.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >理论上说应该是可以了呀</p>
+<p><img   class="lazyload" data-original="image-20210131141211389.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>那换个方法，抓个包试试</p>
+<p><img   class="lazyload" data-original="image-20210131142212800.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>把后缀png改成php</p>
+<p><img   class="lazyload" data-original="image-20210131194919028.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="pass-02MIME验证"><a href="#pass-02MIME验证" class="headerlink" title="pass-02MIME验证"></a>pass-02MIME验证</h1><p><img   class="lazyload" data-original="image-20210131195511883.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>数据包啊，那先抓一个再说（貌似只是判断content-type），那就改一下文件名后缀</p>
+<p><img   class="lazyload" data-original="image-20210131200416986.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210131201442983.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="pass-03黑名单绕过"><a href="#pass-03黑名单绕过" class="headerlink" title="pass-03黑名单绕过"></a>pass-03黑名单绕过</h1><p><img   class="lazyload" data-original="image-20210131201902525.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>服务器端做了一个黑名单过滤，过滤了 asp、aspx、php、jsp，那看来得改一下文件名了</p>
+<h3 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h3><p>不允许上传.asp,.aspx,.php,.jsp后缀文件，但是可以上传其他任意后缀。比如说:<code>.phtml .phps .php5 .pht</code>，但如果上传的是.php5这种类型文件的话，如果想要被当成php执行的话，需要有个前提条件，即Apache的httpd.conf有如下配置代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">AddType application&#x2F;x-httpd-php .php .phtml .phps .php5 .pht<br></code></pre></td></tr></table></figure>
+
+<p>关于AddType命令的作用解释如下</p>
+<blockquote>
+<p>AddType 指令<br> 作用：在给定的文件扩展名与特定的内容类型之间建立映射<br> 语法：AddType MIME-type extension [extension] …<br> AddType指令在给定的文件扩展名与特定的内容类型之间建立映射关系。MIME-type指明了包含extension扩展名的文件的媒体类型。<br> AddType 是与类型表相关的，描述的是扩展名与文件类型之间的关系。</p>
+</blockquote>
+<p><img   class="lazyload" data-original="image-20210131203201503.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>修改后上传成功</p>
+<h1 id="pass-04黑名单绕过-htaccess"><a href="#pass-04黑名单绕过-htaccess" class="headerlink" title="pass-04黑名单绕过-.htaccess"></a>pass-04黑名单绕过-.htaccess</h1><p><img   class="lazyload" data-original="image-20210131203257621.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>刚才的方法，在这里就不太行了，可以看到，黑名单里php、php5等这种后缀全部不允许上传，但并没有限制.htaccsess文件。</p>
+<p>故可以上传.htaccsess文件绕过</p>
+<p>此处黑名单没有过滤.htaccess后缀，故此处也可上传.htaccess文件进行绕过。<br> <em>注: .htaccess文件生效前提条件为1.mod_rewrite模块开启。2.AllowOverride All</em></p>
+<blockquote>
+<p>.htaccess文件是Apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过htaccess文件，可以实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能IIS平台上不存在该文件，该文件默认开启，启用和关闭在httpd.conf文件中配置。</p>
+</blockquote>
+<p>构造.htaccess文件，内容如下:<code>AddType application/x-httpd-php .jpg</code><br> 这里代码的意思可以让 .jpg后缀名文件格式的文件名以php格式解析，因此达到了可执行的效果。所以我们可以把要上传的php文件的后缀名改为.jpg格式从而绕过</p>
+<p>**1 . 如何让的本地APACHE器.htaccess<br>**如何让的本地APACHE器&amp;quot;.htaccess&amp;quot;呢?其实只要简朴修改一下apache的httpd.conf设置就让APACHE.htaccess了,来看看操作</p>
+<p>打开httpd.conf(在那里? APACHE目录的CONF目录里面),用文本编纂器打开后,查找<br>(1)<br>Options FollowSymLinks<br>AllowOverride None</p>
+<p>改为<br>Options FollowSymLinks<br>AllowOverride All</p>
+<p>**(2)去掉下面的注释<br>**LoadModule rewrite_module modules/mod_rewrite.so</p>
+<p>就了</p>
+<p>然后我这边的httpd.conf中并没有这几个设置</p>
+<p>那要不直接写入文件试一下？</p>
+<p><img   class="lazyload" data-original="image-20210201134428556.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>成功了</p>
+<h1 id="pass-05黑名单验证，-user-ini"><a href="#pass-05黑名单验证，-user-ini" class="headerlink" title="pass-05黑名单验证，.user.ini."></a>pass-05黑名单验证，.user.ini.</h1><p><img   class="lazyload" data-original="image-20210201135856996.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边的源代码不仅将.htaccess加入黑名单，并且还进行全部转小写</p>
+<p><img   class="lazyload" data-original="image-20210201141225000.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>本关可以利用ini配置文件进行上传，先上传以<code>auto_prepend_file=1.jpg</code>为内容的<code>.user.ini</code>文件（<strong>所有的php文件都自动包含1.jpg文件。.user.ini相当于一个用户自定义的php.ini</strong>）然后再上传一句话的脚本，命名为<code>1.jpg</code>。访问即可。</p>
+<p>然后<img   class="lazyload" data-original="image-20210201142803165.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>奇怪，不行诶</p>
+<p>应该是要，上传成功后，蚁剑连接，但是要注意，题目提示<code>上传目录存在php文件（readme.php)</code>所以蚁剑连接的时候要把文件名改成readme.php</p>
+<p><img   class="lazyload" data-original="image-20210202165054432.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>查了一下，这边解析失败应该是版本问题了这边是phpstudy2018</p>
+<p>有人说把aphache改成nginx就行，我试试</p>
+<p><img   class="lazyload" data-original="image-20210210212453445.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>连接成功</p>
+<h1 id="pass-06黑名单验证-大小写绕过"><a href="#pass-06黑名单验证-大小写绕过" class="headerlink" title="pass-06黑名单验证-大小写绕过"></a>pass-06黑名单验证-大小写绕过</h1><p><img   class="lazyload" data-original="image-20210201150707490.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边没有对大小写进行检查，和pass-04相似，利用大小写混写绕过，先上传php文件然后进行抓包，改成大写即可</p>
+<h1 id="pass-07黑名单验证–空格绕过"><a href="#pass-07黑名单验证–空格绕过" class="headerlink" title="pass-07黑名单验证–空格绕过"></a>pass-07黑名单验证–空格绕过</h1><p><img   class="lazyload" data-original="image-20210201151655228.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>从源码中可以看到，服务器端对文件后缀名仅仅是进行了去除末尾的”.”以及小写转换操作。但是并没有进行去除空格的操作,(<strong>windows系统中会将文件扩展名后的空格做空处理，防止文件被当成另一种不可识别的文件类型。故可利用这个特性来绕过这一关的黑名单</strong>)直接上传，抓包，加空格，访问</p>
+<h1 id="pass-08黑名单验证–点号绕过"><a href="#pass-08黑名单验证–点号绕过" class="headerlink" title="pass-08黑名单验证–点号绕过"></a>pass-08黑名单验证–点号绕过</h1><p><img   class="lazyload" data-original="image-20210201153651274.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>看看和pass-07的区别在哪里？这边对文件名的处理，少了尾部的点号去除，那就加个点</p>
+<p><strong>注：</strong>Win下xx.jpg[空格] 或xx.jpg.这两类文件都是不允许存在的，若这样命名，windows会默认除去空格或点****</p>
+<h1 id="pass-09-DATA绕过"><a href="#pass-09-DATA绕过" class="headerlink" title="pass-09::$DATA绕过"></a>pass-09::$DATA绕过</h1><p><img   class="lazyload" data-original="image-20210201172346433.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边少了去除字符串::$DATA</p>
+<p><strong>那什么是$ DATA</strong></p>
+<p><strong>NTFS文件系统包括对备用数据流的支持。这不是众所周知的功能，主要包括提供与Macintosh文件系统中的文件的兼容性。备用数据流允许文件包含多个数据流。每个文件至少有一个数据流。在Windows中，此默认数据流称为：$ DATA。</strong></p>
+<p><strong>简单讲就是在php+windows的情况下：如果文件名+”::$DATA”会把::$DATA之后的数据当成文件流处理,不会检测后缀名.且保持”::$DATA”之前的文件名。</strong></p>
+<p><strong><em>注:仅windows适用喔</em></strong></p>
+<p>好了，可以去抓包了</p>
+<h1 id="pass-10黑名单-单次处理"><a href="#pass-10黑名单-单次处理" class="headerlink" title="pass-10黑名单-单次处理"></a>pass-10黑名单-单次处理</h1><p><img   class="lazyload" data-original="image-20210201213735503.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边只去除一次点号，一次空格，那么通过抓包，把后缀加上. .即可</p>
+<h1 id="pass-11黑名单-双写绕过"><a href="#pass-11黑名单-双写绕过" class="headerlink" title="pass-11黑名单-双写绕过"></a>pass-11黑名单-双写绕过</h1><p><img   class="lazyload" data-original="image-20210201215610723.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这个代码相比之前陌生了很多，总的来说就是利用str_ireplace对黑名单里的文件后缀名进行了替换，换成空字符，使用了str_ireplace函数，即不区分大小写，故大小写绕过不适用。</p>
+<p>那就利用抓包，把后缀改成.pphphp,即可</p>
+<h1 id="pass-12-00截断"><a href="#pass-12-00截断" class="headerlink" title="pass-12 00截断"></a>pass-12 00截断</h1><p><img   class="lazyload" data-original="image-20210201221720015.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>可以发现，这里与之前代码相比，使用了白名单，只允许上传，jpg，png，gif三种格式文件。<br> 但是在进行move_uploaded_file前。利用$_GET[‘save_path’]和随机时间函数拼接成文件存储路径传入，导致服务器最终存储的文件名可控。故可以利用这个点进行绕过。<br> 这里利用的是00截断。即move_uploaded_file函数的底层实现类似于C语言，遇到0x00会截断，0x表示16进制，URL中%00解码成16进制就是0x00。</p>
+<p><strong>截断条件：</strong><br><strong>1、php版本小于5.3.4</strong><br><strong>2、php.ini的magic_quotes_gpc为OFF状态</strong></p>
+<p>先选择一个同名的图片文件抓包构造<code>sava_path=/upload/1.php%00</code>绕过，最后上传的为php文件</p>
+<h1 id="pass-13"><a href="#pass-13" class="headerlink" title="pass-13"></a>pass-13</h1><p><img   class="lazyload" data-original="image-20210202150649835.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>和pass-12相似，抓包改路径就对了</p>
+<p><img   class="lazyload" data-original="image-20210202174104367.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="pass-14图片马，文件包含利用"><a href="#pass-14图片马，文件包含利用" class="headerlink" title="pass-14图片马，文件包含利用"></a>pass-14图片马，文件包含利用</h1><p><img   class="lazyload" data-original="image-20210202174408800.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>啊？什么？图片马？图片马=图片+木马？先整一只来好了。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lzkalislw/p/12877943.html%E5%8F%AF%E4%BB%A5%E7%9C%8B%E7%9C%8B%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0">https://www.cnblogs.com/lzkalislw/p/12877943.html可以看看这篇文章</a></p>
+<p><img   class="lazyload" data-original="image-20210202175322155.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210202192959914.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>不成功的原因是因为PHP版本不够高，这边是5.2.17</p>
+<p><img   class="lazyload" data-original="image-20210202193203122.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>版本高一点即可成功</p>
+<p>来看看代码，那个我们来冷静分析一下</p>
+<p><img   class="lazyload" data-original="image-20210202212818249.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>来获取文件类型</p>
+<p>通过读文件的前2个字节判断文件类型，因此直接上传图片马即可！</p>
+<h1 id="pass-15图片马，文件包含利用"><a href="#pass-15图片马，文件包含利用" class="headerlink" title="pass-15图片马，文件包含利用"></a>pass-15图片马，文件包含利用</h1><p>听说上一关的马还能用，我试一下，嗯，真的可以</p>
+<p>直接来看看源代码吧</p>
+<p><img   class="lazyload" data-original="image-20210202221147450.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>函数与pass-14略有不同，但功能与作用都是一样的，这里不再赘述</p>
+<h1 id="pass-16-exif-imagetype"><a href="#pass-16-exif-imagetype" class="headerlink" title="pass-16 exif_imagetype()"></a>pass-16 exif_imagetype()</h1><p>来看个提示</p>
+<p><img   class="lazyload" data-original="image-20210203120500066.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210203120634221.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><strong>exif_imagetype — 判断一个图像的类型**</strong>，读取一个图像的第一个字节并检查其签名。**   </p>
+<p><img   class="lazyload" data-original="image-20210203120907552.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="pass-17-二次渲染绕过"><a href="#pass-17-二次渲染绕过" class="headerlink" title="pass-17 二次渲染绕过"></a>pass-17 二次渲染绕过</h1><p><img   class="lazyload" data-original="image-20210203214302010.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>啥意思，先丢只图片马试一下</p>
+<p><img   class="lazyload" data-original="image-20210203215418042.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>图片和之前长得不一样了</p>
+<p>看看这两张图有什么区别</p>
+<p><img   class="lazyload" data-original="image-20210203220322288.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>上图为原图，下图为上传之后的</p>
+<p><img   class="lazyload" data-original="image-20210203220409620.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>之前的语句写的被渲染了，那现在考虑一下要怎么绕过渲染</p>
+<p>三种图片方式的解决方案并不相同那分开来说</p>
+<h2 id="gif"><a href="#gif" class="headerlink" title="gif"></a>gif</h2><p>关于绕过gif的二次渲染,我们只需要找到渲染前后没有变化的位置,然后将php代码写进去,就可以成功上传带有php代码的图片了.</p>
+<h2 id="jpg、png"><a href="#jpg、png" class="headerlink" title="jpg、png"></a>jpg、png</h2><p>至于具体详情可以看一下这篇文章：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2657">https://xz.aliyun.com/t/2657</a></p>
+<h1 id="pass-18-条件竞争"><a href="#pass-18-条件竞争" class="headerlink" title="pass-18 条件竞争"></a>pass-18 条件竞争</h1><p><img   class="lazyload" data-original="image-20210205192627708.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>不难发现，这里是先move_uploaded_file函数将上传文件临时保存，再进行判断，如果不在白名单里则unlink删除，在的话就rename重命名，所以这里存在条件竞争。这边通过抓包实现重复上传和重复访问</p>
+<p>条件竞争绕过存在一定概率，实践中如果一次不成功，可以多试几次</p>
+<h1 id="pass-19"><a href="#pass-19" class="headerlink" title="pass-19"></a>pass-19</h1><p>这一关的话和前面的相似，可以尝试抓包解决，不过因为本关先检查文件后缀的缘故，采取图片马即可</p>
+<p>有看到这种解法：也可将php文件后缀名更改为.php.7z，因为白名单中允许上传.7z的文件，但是apache又不能解析这个格式而会把该文件当php的格式解析。饶有兴趣尝试了一下</p>
+<p><img   class="lazyload" data-original="image-20210205200914528.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>但是用蚁剑连接不上</p>
+<p><img   class="lazyload" data-original="image-20210205201745531.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="pass-20"><a href="#pass-20" class="headerlink" title="pass-20"></a>pass-20</h1><p><img   class="lazyload" data-original="image-20210205202214725.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>来看看源码，这回又是黑名单，只是禁用小写的文件名后缀，因此将文件名后缀大写即可绕过也可以在post save_name中在文件名后缀末添加空格即可通过。不过这关考的点应该是pathinfo</p>
+<p><img   class="lazyload" data-original="image-20210205203620027.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>可以看到，这里img_path可控（通过post save_name），所以可以利用move_uploaded_file的\x00截断(save_name=1.php%00.jpg)绕过,但是上传是成功了，却连接不上，原因是我这里PHP版本过高，php5.3以下可用。<br> 于是网上找找别人的答案，发现考点是:move_uploaded_file会忽略掉文件末尾的/.<br> 所以可以构造save_path=1.php/.,这样file_ext值就为空，就能绕过黑名单，而move_uploaded_file函数忽略文件末尾的/.可以实现保存文件为.php</p>
+<h1 id="pass-21"><a href="#pass-21" class="headerlink" title="pass-21"></a>pass-21</h1><p>现在是白名单数组绕过</p>
+<p>但是我很想试一试图片马，然后我就去试了一下</p>
+<p><img   class="lazyload" data-original="image-20210210213330416.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>不太行</p>
+<p><img   class="lazyload" data-original="image-20210205211712316.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>分析一下代码：</p>
+<p>先检查MIME类型(改<code>Content-Type</code>)，然后判断<code>save_name</code>参数是否为空，为空就把文件名称赋值给<code>$file</code>,否则将<code>save_name</code>参数的值赋给它。然后判断<code>$file</code>是否是数组.不是就用<code>explode()</code>函数通过<code>.</code>号分割成数组,取最后一个后缀名，进行白名单验证。不符合就报错，符合就拼接数组的第一个和最后一个作为文件名，保存。</p>
+<p><code>explode()</code> 函数把字符串打散为数组。详情：<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/php/func_string_explode.asp">explode()</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">reset</span><span class="hljs-params">(array &amp;<span class="hljs-variable">$array</span>)</span></span><span class="hljs-comment">//将数组的内部指针指向第一个单元Copy</span><br></code></pre></td></tr></table></figure>
+
+<p>绕过<code>explode()</code>函数：传入数组，绕过白名单，由于取的是数组最后一个，所以传入数组的最后一个要为<code>jpg|png|gif</code>，然后拼接文件名，取<code>reset()</code>第一个，即索引为0，和索引<code>count()-1</code>（数组内元素个数-1）。所以索引0应为<code>.php</code>，索引3为<code>jpg</code>（索引1之后即可），这样数组元素个数为2，拼接的就是索引0和索引1即<code>.php</code>和空，结果还是<code>.php</code></p>
+<p><img   class="lazyload" data-original="image-20210210221220589.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210210221301025.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>不懂是不是因为用php7的缘故，我在后面加了/才成功，试了一下换成5的话是不用加/的</p>
+<h6 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h6><p>这个赶在年末结束之前刷完，但是刷的不算特别认真，以后还得经常翻看</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://liquor-boop.github.io/2021/01/24/upload/#Pass-15-%E7%99%BD%E5%90%8D%E5%8D%95-%E5%9B%BE%E7%89%87%E9%A9%AC-getimagesize">https://liquor-boop.github.io/2021/01/24/upload/#Pass-15-%E7%99%BD%E5%90%8D%E5%8D%95-%E5%9B%BE%E7%89%87%E9%A9%AC-getimagesize</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/aabc1e7408d5%E6%9D%A5%E6%BA%90%EF%BC%9A%E7%AE%80%E4%B9%A6">https://www.jianshu.com/p/aabc1e7408d5来源：简书</a></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/01/31/upload-labs/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;01&#x2F;31&#x2F;upload-labs&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;01&#x2F;31&#x2F;upload-labs&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/upload/" rel="tag">upload</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/"><i class="iconfont iconleft"></i>dvwa-暴力破解</a>
+    <a href="/2021/01/29/sqllib-54-65/">sqllib 54-65 以及总结<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-01%E5%89%8D%E7%AB%AFjs%E7%BB%95%E8%BF%87"><span class="toc-text">pass-01前端js绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-02MIME%E9%AA%8C%E8%AF%81"><span class="toc-text">pass-02MIME验证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-03%E9%BB%91%E5%90%8D%E5%8D%95%E7%BB%95%E8%BF%87"><span class="toc-text">pass-03黑名单绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95"><span class="toc-text">绕过方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-04%E9%BB%91%E5%90%8D%E5%8D%95%E7%BB%95%E8%BF%87-htaccess"><span class="toc-text">pass-04黑名单绕过-.htaccess</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-05%E9%BB%91%E5%90%8D%E5%8D%95%E9%AA%8C%E8%AF%81%EF%BC%8C-user-ini"><span class="toc-text">pass-05黑名单验证，.user.ini.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-06%E9%BB%91%E5%90%8D%E5%8D%95%E9%AA%8C%E8%AF%81-%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-text">pass-06黑名单验证-大小写绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-07%E9%BB%91%E5%90%8D%E5%8D%95%E9%AA%8C%E8%AF%81%E2%80%93%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87"><span class="toc-text">pass-07黑名单验证–空格绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-08%E9%BB%91%E5%90%8D%E5%8D%95%E9%AA%8C%E8%AF%81%E2%80%93%E7%82%B9%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">pass-08黑名单验证–点号绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-09-DATA%E7%BB%95%E8%BF%87"><span class="toc-text">pass-09::$DATA绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-10%E9%BB%91%E5%90%8D%E5%8D%95-%E5%8D%95%E6%AC%A1%E5%A4%84%E7%90%86"><span class="toc-text">pass-10黑名单-单次处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-11%E9%BB%91%E5%90%8D%E5%8D%95-%E5%8F%8C%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-text">pass-11黑名单-双写绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-12-00%E6%88%AA%E6%96%AD"><span class="toc-text">pass-12 00截断</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-13"><span class="toc-text">pass-13</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-14%E5%9B%BE%E7%89%87%E9%A9%AC%EF%BC%8C%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%88%A9%E7%94%A8"><span class="toc-text">pass-14图片马，文件包含利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-15%E5%9B%BE%E7%89%87%E9%A9%AC%EF%BC%8C%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%88%A9%E7%94%A8"><span class="toc-text">pass-15图片马，文件包含利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-16-exif-imagetype"><span class="toc-text">pass-16 exif_imagetype()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-17-%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93%E7%BB%95%E8%BF%87"><span class="toc-text">pass-17 二次渲染绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gif"><span class="toc-text">gif</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jpg%E3%80%81png"><span class="toc-text">jpg、png</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-18-%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89"><span class="toc-text">pass-18 条件竞争</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-19"><span class="toc-text">pass-19</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-20"><span class="toc-text">pass-20</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-21"><span class="toc-text">pass-21</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

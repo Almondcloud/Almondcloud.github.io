@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>dvwa-file inclusion&amp;upload - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="file inclusion文件包含是指当服务器开启a...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">dvwa-file inclusion&amp;upload</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">dvwa-file inclusion&amp;upload</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 16, 2021</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2021/02/16/dvwa-file-inclusion-upload/" class="leancloud" data-flag-title="dvwa-file inclusion&upload"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>4417</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="file-inclusion"><a href="#file-inclusion" class="headerlink" title="file inclusion"></a>file inclusion</h1><p>文件包含是指当服务器开启allow_url_include选项时，就可以通过php的某些特性函数（include()，require()和include_once()，require_once()）利用url去动态包含文件，此时如果没有对文件来源进行严格审查，就会导致任意文件读取或者任意命令执行。文件包含漏洞分为本地文件包含漏洞与远程文件包含漏洞，远程文件包含漏洞是因为开启了php配置中的allow_url_fopen选项（选项开启之后，服务器允许包含一个远程的文件）。</p>
+<h2 id="low"><a href="#low" class="headerlink" title="low"></a>low</h2><p><img   class="lazyload" data-original="image-20210216121553094.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边没有任何防御机制，那上传一个php文件试试</p>
+<p><img   class="lazyload" data-original="image-20210216122135546.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>地址填错了不过这里会爆出文件地址</p>
+<p><img   class="lazyload" data-original="image-20210216122752469.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>修改成功后，会弹出info相关信息但是我这里会消失就没截图了</p>
+<h2 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h2><p><img   class="lazyload" data-original="image-20210216123858569.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边对”http://“, “https://“ “../“, “..&quot;“进行了过滤，前面用双写绕过，后者并不能阻止我使用绝对地址（手动滑稽</p>
+<p><img   class="lazyload" data-original="image-20210216125314140.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/dvwa/vulnerabilities/fi/?page=D:%5CphpStudy%5CPHPTutorial%5CWWW%5Cdvwa%5C6.php">http://127.0.0.1/dvwa/vulnerabilities/fi/?page=D:\phpStudy\PHPTutorial\WWW\dvwa\6.php</a></p>
+<p>有趣的是我这里没进行双写，但是成功上传了</p>
+<h2 id="high"><a href="#high" class="headerlink" title="high"></a>high</h2><p><img   class="lazyload" data-original="image-20210216131827017.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>file？ 读取本地文件用的不就是这个协议嘛</p>
+<p><img   class="lazyload" data-original="image-20210216135424543.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>很奇怪，报错了</p>
+<p><img   class="lazyload" data-original="image-20210216140253659.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>使用反斜杠即可</p>
+<h2 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h2><p><img   class="lazyload" data-original="image-20210216151801214.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>白名单的保护方式，除了以上四个文件其余的都不能打开。</p>
+<h1 id="file-upload"><a href="#file-upload" class="headerlink" title="file upload"></a>file upload</h1><p>上传文件漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务器的webshell权限，因此文件上传漏洞带来的危害常常是毁灭性的，Apache、Tomcat、Nginx等都曝出过文件上传漏洞。</p>
+<h2 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h2><p><img   class="lazyload" data-original="image-20210216123211495.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里并没有对文件名做任何检查，那直接上传php文件试试</p>
+<p><img   class="lazyload" data-original="image-20210216123433881.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>上传成功，打开试试</p>
+<p><img   class="lazyload" data-original="image-20210216123628063.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a>medium</h2><p><img   class="lazyload" data-original="image-20210216125717626.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里只支持上传jpeg或png格式的图片</p>
+<p>抓个包看看</p>
+<p><img   class="lazyload" data-original="image-20210216130549488.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210216130730139.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>png和php文件上传还是有差，不如尝试改一下content-type</p>
+<p><img   class="lazyload" data-original="image-20210216131027987.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>上传成功</p>
+<p><img   class="lazyload" data-original="image-20210216131356880.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>有尝试过直接修改后缀然后上传，但是蚁剑连接不上。图片马的话是可以的</p>
+<h2 id="high-1"><a href="#high-1" class="headerlink" title="high"></a>high</h2><p><img   class="lazyload" data-original="image-20210216140431215.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里白名单检查文件名，用图片马即可绕过</p>
+<p>同时也可以采取%00截断的方式进行上传，这里并没有上传成功</p>
+<p><img   class="lazyload" data-original="image-20210216151055875.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="impossible-1"><a href="#impossible-1" class="headerlink" title="impossible"></a>impossible</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><br><br><span class="hljs-keyword">if</span>( <span class="hljs-keyword">isset</span>( $_POST[ <span class="hljs-string">&#x27;Upload&#x27;</span> ] ) ) &#123;<br><br>  <span class="hljs-comment">// Check Anti-CSRF token</span><br><br>  checkToken( $_REQUEST[ <span class="hljs-string">&#x27;user_token&#x27;</span> ], $_SESSION[ <span class="hljs-string">&#x27;session_token&#x27;</span> ], <span class="hljs-string">&#x27;index.php&#x27;</span> );<br><br><br><br><br><br>  <span class="hljs-comment">// File information</span><br><br>  $uploaded_name = $_FILES[ <span class="hljs-string">&#x27;uploaded&#x27;</span> ][ <span class="hljs-string">&#x27;name&#x27;</span> ];<br><br>  $uploaded_ext = substr( $uploaded_name, strrpos( $uploaded_name, <span class="hljs-string">&#x27;.&#x27;</span> ) + <span class="hljs-number">1</span>);<br><br>  $uploaded_size = $_FILES[ <span class="hljs-string">&#x27;uploaded&#x27;</span> ][ <span class="hljs-string">&#x27;size&#x27;</span> ];<br><br>  $uploaded_type = $_FILES[ <span class="hljs-string">&#x27;uploaded&#x27;</span> ][ <span class="hljs-string">&#x27;type&#x27;</span> ];<br><br>  $uploaded_tmp = $_FILES[ <span class="hljs-string">&#x27;uploaded&#x27;</span> ][ <span class="hljs-string">&#x27;tmp_name&#x27;</span> ];<br><br><br><br>  <span class="hljs-comment">// Where are we going to be writing to?</span><br><br>  $target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="hljs-string">&#x27;hackable/uploads/&#x27;</span>;<br><br>  <span class="hljs-comment">//$target_file  = basename( $uploaded_name, &#x27;.&#x27; . $uploaded_ext ) . &#x27;-&#x27;;</span><br><br>  $target_file  = md5( uniqid() . $uploaded_name ) . <span class="hljs-string">&#x27;.&#x27;</span> . $uploaded_ext;<br><br>  $temp_file   = ( ( ini_get( <span class="hljs-string">&#x27;upload_tmp_dir&#x27;</span> ) == <span class="hljs-string">&#x27;&#x27;</span> ) ? ( sys_get_temp_dir() ) : ( ini_get( <span class="hljs-string">&#x27;upload_tmp_dir&#x27;</span> ) ) );<br><br>  $temp_file  .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . <span class="hljs-string">&#x27;.&#x27;</span> . $uploaded_ext;<br><br><br><br>  <span class="hljs-comment">// Is it an image?</span><br><br>  <span class="hljs-keyword">if</span>( ( strtolower( $uploaded_ext ) == <span class="hljs-string">&#x27;jpg&#x27;</span> || strtolower( $uploaded_ext ) == <span class="hljs-string">&#x27;jpeg&#x27;</span> || strtolower( $uploaded_ext ) == <span class="hljs-string">&#x27;png&#x27;</span> ) &amp;&amp;<br><br>​    ( $uploaded_size &lt; <span class="hljs-number">100000</span> ) &amp;&amp;<br><br>​    ( $uploaded_type == <span class="hljs-string">&#x27;image/jpeg&#x27;</span> || $uploaded_type == <span class="hljs-string">&#x27;image/png&#x27;</span> ) &amp;&amp;<br><br>​    getimagesize( $uploaded_tmp ) ) &#123;<br><br><br><br>​    <span class="hljs-comment">// Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)</span><br><br>​    <span class="hljs-keyword">if</span>( $uploaded_type == <span class="hljs-string">&#x27;image/jpeg&#x27;</span> ) &#123;<br><br>​      $img = imagecreatefromjpeg( $uploaded_tmp );<br><br>​      imagejpeg( $img, $temp_file, <span class="hljs-number">100</span>);<br><br>​    &#125;<br><br>​    <span class="hljs-keyword">else</span> &#123;<br><br>​      $img = imagecreatefrompng( $uploaded_tmp );<br><br>​      imagepng( $img, $temp_file, <span class="hljs-number">9</span>);<br><br>​    &#125;<br><br>​    imagedestroy( $img );<br><br><br><br>​    <span class="hljs-comment">// Can we move the file to the web root from the temp folder?</span><br><br>​    <span class="hljs-keyword">if</span>( rename( $temp_file, ( getcwd() . DIRECTORY_SEPARATOR . $target_path . $target_file ) ) ) &#123;<br><br>​      <span class="hljs-comment">// Yes!</span><br><br>​      $html .= <span class="hljs-string">&quot;&lt;pre&gt;&lt;a href=&#x27;$&#123;target_path&#125;$&#123;target_file&#125;&#x27;&gt;$&#123;target_file&#125;&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;&quot;</span>;<br><br>​    &#125;<br><br>​    <span class="hljs-keyword">else</span> &#123;<br><br>​      <span class="hljs-comment">// No</span><br><br>​      $html .= <span class="hljs-string">&#x27;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&#x27;</span>;<br><br>​    &#125;<br><br><br><br>​    <span class="hljs-comment">// Delete any temp files</span><br><br>​    <span class="hljs-keyword">if</span>( file_exists( $temp_file ) )<br><br>​      unlink( $temp_file );<br><br>  &#125;<br><br>  <span class="hljs-keyword">else</span> &#123;<br><br>​    <span class="hljs-comment">// Invalid file</span><br><br>​    $html .= <span class="hljs-string">&#x27;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&#x27;</span>;<br><br>  &#125;<br><br>&#125;<br><br><br><br><span class="hljs-comment">// Generate Anti-CSRF token</span><br><br>generateSessionToken();<br><br><br><br><span class="hljs-meta">?&gt;</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p><em>in_get(varname)</em></p>
+<p>函数返回相应选项的值</p>
+<p><em>imagecreatefromjpeg ( filename )</em></p>
+<p>函数返回图片文件的图像标识，失败返回false</p>
+<p><em>imagejpeg ( image , filename , quality)</em></p>
+<p>从image图像以filename为文件名创建一个JPEG图像，可选参数quality，范围从 0（最差质量，文件更小）到 100（最佳质量，文件最大）。</p>
+<p> <em>imagedestroy( img )</em></p>
+<p>函数销毁图像资源</p>
+<p>可以看到，Impossible级别的代码对上传文件进行了重命名（为md5值，导致%00截断无法绕过过滤规则），加入Anti-CSRF token防护CSRF攻击，同时对文件的内容作了严格的检查，导致攻击者无法上传含有恶意脚本的文件。</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/119150.html">https://www.freebuf.com/articles/web/119150.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/119467.html">https://www.freebuf.com/articles/web/119467.html</a></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/02/16/dvwa-file-inclusion-upload/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;02&#x2F;16&#x2F;dvwa-file-inclusion-upload&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;02&#x2F;16&#x2F;dvwa-file-inclusion-upload&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/02/16/dvwa-weak-session-ids/"><i class="iconfont iconleft"></i>dvwa-weak session ids</a>
+    <a href="/2021/02/13/dvwa-sql-blind/">dvwa-sql(blind)<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#file-inclusion"><span class="toc-text">file inclusion</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#low"><span class="toc-text">low</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#medium"><span class="toc-text">medium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#high"><span class="toc-text">high</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#impossible"><span class="toc-text">impossible</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#file-upload"><span class="toc-text">file upload</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#low-1"><span class="toc-text">low</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#medium-1"><span class="toc-text">medium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#high-1"><span class="toc-text">high</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#impossible-1"><span class="toc-text">impossible</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

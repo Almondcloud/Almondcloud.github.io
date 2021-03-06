@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MySQL进阶 - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="表的连接创建信息表123456789101112131...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">MySQL进阶</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">MySQL进阶</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 12, 2020</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2020/10/12/MySQL%E8%BF%9B%E9%98%B6/" class="leancloud" data-flag-title="MySQL进阶"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>19856</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="表的连接"><a href="#表的连接" class="headerlink" title="表的连接"></a>表的连接</h2><h3 id="创建信息表"><a href="#创建信息表" class="headerlink" title="创建信息表"></a>创建信息表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table score add evaluation char(20) default &#39;normal&#39;;<br>Query OK, 0 rows affected (0.02 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; insert into score values (1,&#39;zhao&#39;,85.25,&#39;excellent&#39;),(2,&#39;qian&#39;,75.80,&#39;normal&#39;),(3,&#39;sun&#39;,92.40,&#39;excellent&#39;),(4,&#39;li&#39;,59.00,&#39;weak&#39;);<br>Query OK, 4 rows affected (0.04 sec)<br>Records: 4  Duplicates: 0  Warnings: 0<br><br>mysql&gt; create table info(<br>    -&gt; name char(20) not null;<br>ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;&#39; at line 2<br>mysql&gt; create table info(<br>    -&gt; name char(20) not null,<br>    -&gt; phone char(20),<br>    -&gt; address char(20));<br>Query OK, 0 rows affected (0.08 sec)<br><br>mysql&gt; insert into values(&#39;zhao&#39;,13199999999,&#39;beijing&#39;),(&#39;qian&#39;,&#39;13288888888&#39;,&#39;harbin&#39;),(&#39;sun&#39;,13166666666,&#39;shanghai&#39;);<br>ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;values(&#39;zhao&#39;,13199999999,&#39;beijing&#39;),(&#39;qian&#39;,&#39;13288888888&#39;,&#39;harbin&#39;),(&#39;sun&#39;,1316&#39; at line 1<br>mysql&gt; insert into info values(&#39;zhao&#39;,13199999999,&#39;beijing&#39;),(&#39;qian&#39;,&#39;13288888888&#39;,&#39;harbin&#39;),(&#39;sun&#39;,13166666666,&#39;shanghai&#39;);<br>Query OK, 3 rows affected (0.05 sec)<br>Records: 3  Duplicates: 0  Warnings: 0<br><br>mysql&gt; select * from info;<br>+------+-------------+----------+<br>| name | phone       | address  |<br>+------+-------------+----------+<br>| zhao | 13199999999 | beijing  |<br>| qian | 13288888888 | harbin   |<br>| sun  | 13166666666 | shanghai |<br>+------+-------------+----------+<br>3 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
+
+<h3 id="等值连接（内连接）"><a href="#等值连接（内连接）" class="headerlink" title="等值连接（内连接）"></a>等值连接（内连接）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; select score.id,score.name,info.phone from score inner join info on score.name &#x3D; info.name;<br>+----+------+-------------+<br>| id | name | phone       |<br>+----+------+-------------+<br>|  1 | zhao | 13199999999 |<br>|  2 | qian | 13288888888 |<br>|  3 | sun  | 13166666666 |<br>+----+------+-------------+<br>3 rows in set (0.04 sec)<br></code></pre></td></tr></table></figure>
+
+<p>select 表A.字段1,表A.字段2，表B. 字段3 from 表A inner join 表B on 表A.字段2=表B.字段2；</p>
+<h3 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; select score.id,score.name,info.phone from score left join info on score.name &#x3D; info.name;<br>+----+------+-------------+<br>| id | name | phone       |<br>+----+------+-------------+<br>|  1 | zhao | 13199999999 |<br>|  2 | qian | 13288888888 |<br>|  3 | sun  | 13166666666 |<br>|  4 | li   | NULL        |<br>+----+------+-------------+<br>4 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
+
+<h3 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; insert into info values(&#39;li&#39;,&#39;13255555555&#39;,&#39;Hongkong&#39;),(&#39;jack&#39;,&#39;123456789&#39;,&#39;canada&#39;); #为使其效果明显增加其数据<br>Query OK, 2 rows affected (0.04 sec)<br>Records: 2  Duplicates: 0  Warnings: 0<br><br>mysql&gt; select score.id,score.name,info.phone from score right join info on score.name &#x3D; info.name;<br>+------+------+-------------+<br>| id   | name | phone       |<br>+------+------+-------------+<br>|    1 | zhao | 13199999999 |<br>|    2 | qian | 13288888888 |<br>|    3 | sun  | 13166666666 |<br>|    4 | li   | 13255555555 |<br>| NULL | NULL | 123456789   |<br>+------+------+-------------+<br>5 rows in set (0.00 sec)<br><br>mysql&gt; select score.id,info.name,info.phone from score right join info on score.name &#x3D; info.name;<br>+------+------+-------------+<br>| id   | name | phone       |<br>+------+------+-------------+<br>|    1 | zhao | 13199999999 |<br>|    2 | qian | 13288888888 |<br>|    3 | sun  | 13166666666 |<br>|    4 | li   | 13255555555 |<br>| NULL | jack | 123456789   |<br>+------+------+-------------+<br>5 rows in set (0.00 sec)<br></code></pre></td></tr></table></figure>
+
+<p>inner join：表A和表B的交集      left join：表A全部      right join：表B全部</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h3><h4 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; create index ind_score on score(name); #对score表中name字段创建一个索引，名为ind_score<br>Query OK, 0 rows affected (0.09 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score; #查看当前索引<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name  | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY   |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>| score |          1 | ind_score |            1 | name        | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>2 rows in set (0.05 sec)<br></code></pre></td></tr></table></figure>
+
+<p>格式：create index 索引名 on 表名(字段名);</p>
+<h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; alter table score add index ind_score(name);<br>Query OK, 0 rows affected (0.03 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score;<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>|<span class="hljs-string"> Table </span>|<span class="hljs-string"> Non_unique </span>|<span class="hljs-string"> Key_name  </span>|<span class="hljs-string"> Seq_in_index </span>|<span class="hljs-string"> Column_name </span>|<span class="hljs-string"> Collation </span>|<span class="hljs-string"> Cardinality </span>|<span class="hljs-string"> Sub_part </span>|<span class="hljs-string"> Packed </span>|<span class="hljs-string"> Null </span>|<span class="hljs-string"> Index_type </span>|<span class="hljs-string"> Comment </span>|<span class="hljs-string"> Index_comment </span>|<span class="hljs-string"> Visible </span>|<span class="hljs-string"> Expression </span>|<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>|<span class="hljs-string"> score </span>|<span class="hljs-string">          0 </span>|<span class="hljs-string"> PRIMARY   </span>|<span class="hljs-string">            1 </span>|<span class="hljs-string"> id          </span>|<span class="hljs-string"> A         </span>|<span class="hljs-string">           4 </span>|<span class="hljs-string">     NULL </span>|<span class="hljs-string">   NULL </span>|<span class="hljs-string">      </span>|<span class="hljs-string"> BTREE      </span>|<span class="hljs-string">         </span>|<span class="hljs-string">               </span>|<span class="hljs-string"> YES     </span>|<span class="hljs-string"> NULL       </span>|<br>|<span class="hljs-string"> score </span>|<span class="hljs-string">          1 </span>|<span class="hljs-string"> ind_score </span>|<span class="hljs-string">            1 </span>|<span class="hljs-string"> name        </span>|<span class="hljs-string"> A         </span>|<span class="hljs-string">           4 </span>|<span class="hljs-string">     NULL </span>|<span class="hljs-string">   NULL </span>|<span class="hljs-string">      </span>|<span class="hljs-string"> BTREE      </span>|<span class="hljs-string">         </span>|<span class="hljs-string">               </span>|<span class="hljs-string"> YES     </span>|<span class="hljs-string"> NULL       </span>|<br>+-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>2 rows in set (0.05 sec)<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="添加表时直接创建索引"><a href="#添加表时直接创建索引" class="headerlink" title="添加表时直接创建索引"></a>添加表时直接创建索引</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; create table index_test(<br>    -&gt; id int(4) not null,<br>    -&gt; name char(20) not null,<br>    -&gt; index ind_test(name));<br>Query OK, 0 rows affected, 1 warning (0.08 sec)<br></code></pre></td></tr></table></figure>
+
+<p>格式：········index 表名(字段名));</p>
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><h4 id="方法一-1"><a href="#方法一-1" class="headerlink" title="方法一"></a>方法一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; drop index ind_score on score;<br>Query OK, 0 rows affected (0.09 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score;<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY  |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>1 row in set (0.03 sec)<br></code></pre></td></tr></table></figure>
+
+<p>格式：drop index 索引名 on 表名;</p>
+<h4 id="方法二-1"><a href="#方法二-1" class="headerlink" title="方法二"></a>方法二</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table score drop index ind_score;<br>Query OK, 0 rows affected (0.03 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score;<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY  |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>1 row in set (0.04 sec)<br></code></pre></td></tr></table></figure>
+
+<h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><h4 id="创建唯一索引"><a href="#创建唯一索引" class="headerlink" title="创建唯一索引"></a>创建唯一索引</h4><h5 id="方法一-2"><a href="#方法一-2" class="headerlink" title="方法一"></a>方法一</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; create unique index a on score(name);<br>Query OK, 0 rows affected (0.06 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score;<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY  |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>| score |          0 | a        |            1 | name        | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>2 rows in set (0.05 sec <br></code></pre></td></tr></table></figure>
+
+<p>格式：create unique index 索引名 on 表名(字段名)；</p>
+<h5 id="方法二-2"><a href="#方法二-2" class="headerlink" title="方法二"></a>方法二</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table score add unique(name);<br>Query OK, 0 rows affected, 1 warning (0.09 sec)<br>Records: 0  Duplicates: 0  Warnings: 1<br><br>mysql&gt; show index from score;<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY  |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>| score |          0 | a        |            1 | name        | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>| score |          0 | name     |            1 | name        | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>3 rows in set (0.04 sec)<br></code></pre></td></tr></table></figure>
+
+<p>格式：alter table 表格名称 add unique(字段名称)；</p>
+<h3 id="删除唯一索引"><a href="#删除唯一索引" class="headerlink" title="删除唯一索引"></a>删除唯一索引</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table score drop index name;<br>Query OK, 0 rows affected (0.05 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br><br>mysql&gt; show index from score;<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>| score |          0 | PRIMARY  |            1 | id          | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>| score |          0 | a        |            1 | name        | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |<br>+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+<br>2 rows in set (0.04 sec)<br></code></pre></td></tr></table></figure>
+
+<p>格式：alter table 表格名称 drop index 字段名;</p>
+<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><p>外键：一个表的某个字段指向另个表的主键，称为外键。   主表（父表）：被指向的表   从表（子表）：主键所在表</p>
+<h3 id="创建作者表"><a href="#创建作者表" class="headerlink" title="创建作者表"></a>创建作者表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; create table author_table(<br>    -&gt; author_id int(4) not null primary key auto_increment,<br>    -&gt; author_name char(20) not null);<br>Query OK, 0 rows affected, 1 warning (0.10 sec)<br><br>mysql&gt; desc author_table;<br>+-------------+----------+------+-----+---------+----------------+<br>| Field       | Type     | Null | Key | Default | Extra          |<br>+-------------+----------+------+-----+---------+----------------+<br>| author_id   | int      | NO   | PRI | NULL    | auto_increment |<br>| author_name | char(20) | NO   |     | NULL    |                |<br>+-------------+----------+------+-----+---------+----------------+<br>2 rows in set (0.05 sec)<br></code></pre></td></tr></table></figure>
+
+<h3 id="创建文章表"><a href="#创建文章表" class="headerlink" title="创建文章表"></a>创建文章表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; create table article_table(<br>    -&gt; article_id int(4) not null primary key auto_increment,<br>    -&gt; article_title char(20) not null,<br>    -&gt; author_id int(4) not null,<br>    -&gt; foreign key(author_id) references author_table(author_id)); #设置外键，指向作者表的author_id字段<br>Query OK, 0 rows affected, 2 warnings (0.08 sec)<br><br><br>mysql&gt; desc article_table;<br>+---------------+----------+------+-----+---------+----------------+<br>| Field         | Type     | Null | Key | Default | Extra          |<br>+---------------+----------+------+-----+---------+----------------+<br>| article_id    | int      | NO   | PRI | NULL    | auto_increment |<br>| article_title | char(20) | NO   |     | NULL    |                |<br>| author_id     | int      | NO   | MUL | NULL    |                |<br>+---------------+----------+------+-----+---------+----------------+<br>3 rows in set (0.05 sec)<br></code></pre></td></tr></table></figure>
+
+<h3 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; insert into author_table values<br>    -&gt; (1,&#39;zhao&#39;),<br>    -&gt; (2,&#39;qian&#39;),<br>    -&gt; (3,&#39;sun&#39;),<br>    -&gt; (4,&#39;li&#39;);<br>Query OK, 4 rows affected (0.04 sec)<br>Records: 4  Duplicates: 0  Warnings: 0<br><br>mysql&gt; insert into article_table values<br>    -&gt; (1001,&#39;C++&#39;,1),<br>    -&gt; (1002,&#39;Java&#39;,2),<br>    -&gt; (1003,&#39;Python&#39;,3),<br>    -&gt; (1004,&#39;MySQL&#39;,1),<br>    -&gt; (1005,&#39;JavaScript&#39;,4);<br>Query OK, 5 rows affected (0.04 sec)<br>Records: 5  Duplicates: 0  Warnings: 0<br></code></pre></td></tr></table></figure>
+
+<p>那是否能添加第五个数据呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; insert into article_table values(1006,&#39;Swift&#39;,5);<br>ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (&#96;test&#96;.&#96;article_table&#96;, CONSTRAINT &#96;article_table_ibfk_1&#96; FOREIGN KEY (&#96;author_id&#96;) REFERENCES &#96;author_table&#96; (&#96;author_id&#96;))<br></code></pre></td></tr></table></figure>
+
+<p>主表中没有id为5的作者，添加一个作者id是5的文章数据是不可以的。同理，我们无法删除父表中作者id为4的文章数据。</p>
+<h3 id="查看一个表的外键"><a href="#查看一个表的外键" class="headerlink" title="查看一个表的外键"></a>查看一个表的外键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; show create table article_table; #查看表结构<br>+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+<br>| Table         | Create Table                                                                                                                                                                                                                                                                                                                                                                                            |<br>+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+<br>| article_table | CREATE TABLE &#96;article_table&#96; (<br>  &#96;article_id&#96; int NOT NULL AUTO_INCREMENT,<br>  &#96;article_title&#96; char(20) NOT NULL,<br>  &#96;author_id&#96; int NOT NULL,<br>  PRIMARY KEY (&#96;article_id&#96;),<br>  KEY &#96;author_id&#96; (&#96;author_id&#96;),<br>  CONSTRAINT &#96;article_table_ibfk_1&#96; FOREIGN KEY (&#96;author_id&#96;) REFERENCES &#96;author_table&#96; (&#96;author_id&#96;) <br>) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;1006 DEFAULT CHARSET&#x3D;utf8mb4 COLLATE&#x3D;utf8mb4_0900_ai_ci |<br>+---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+<br>1 row in set (0.00 sec)<br></code></pre></td></tr></table></figure>
+
+<p><code>article_table_ibfk_1</code>为外键名</p>
+<p>格式：show create table 表名;</p>
+<h3 id="删除一个表的外键"><a href="#删除一个表的外键" class="headerlink" title="删除一个表的外键"></a>删除一个表的外键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table article_table drop foreign key article_table_ibfk_1;<br>Query OK, 0 rows affected (0.05 sec)<br>Records: 0  Duplicates: 0  Warnings: 0<br></code></pre></td></tr></table></figure>
+
+<p>格式：alter table 表名 drop foreign key 外键名;</p>
+<h3 id="给两表设置级联操作"><a href="#给两表设置级联操作" class="headerlink" title="给两表设置级联操作"></a>给两表设置级联操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; alter table article_table #alter命令添加一个外键<br>    -&gt; add foreign key fk_id(author_id)<br>    -&gt; references author_table(author_id)<br>    -&gt; on delete cascade<br>    -&gt; on update cascade;<br>Query OK, 5 rows affected (0.11 sec)<br>Records: 5  Duplicates: 0  Warnings: 0<br></code></pre></td></tr></table></figure>
+
+<p>cascade 表示关联操作，如果父表中数据被删除或更新，子表同步操作。</p>
+<p>set null：子表数据不指向父表任何记录</p>
+<p>restrict：拒绝主表的相关操作</p>
+<h4 id="删除作者表一条数据"><a href="#删除作者表一条数据" class="headerlink" title="删除作者表一条数据"></a>删除作者表一条数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; select * from author_table;<br>+-----------+-------------+<br>| author_id | author_name |<br>+-----------+-------------+<br>|         1 | zhao        |<br>|         2 | qian        |<br>|         3 | sun         |<br>|         4 | li          |<br>+-----------+-------------+<br>4 rows in set (0.05 sec)<br><br>mysql&gt; select * from article_table;<br>+------------+---------------+-----------+<br>| article_id | article_title | author_id |<br>+------------+---------------+-----------+<br>|       1001 | C++           |         1 |<br>|       1002 | Java          |         2 |<br>|       1003 | Python        |         3 |<br>|       1004 | MySQL         |         1 |<br>|       1005 | JavaScript    |         4 |<br>+------------+---------------+-----------+<br>5 rows in set (0.00 sec)<br><br>mysql&gt; delete from author_table where author_id &#x3D; 4;<br>Query OK, 1 row affected (0.04 sec)<br><br>mysql&gt; select * from author_table;<br>+-----------+-------------+<br>| author_id | author_name |<br>+-----------+-------------+<br>|         1 | zhao        |<br>|         2 | qian        |<br>|         3 | sun         |<br>+-----------+-------------+<br>3 rows in set (0.00 sec)<br><br>mysql&gt; select * from article_table;<br>+------------+---------------+-----------+<br>| article_id | article_title | author_id |<br>+------------+---------------+-----------+<br>|       1001 | C++           |         1 |<br>|       1002 | Java          |         2 |<br>|       1003 | Python        |         3 |<br>|       1004 | MySQL         |         1 |<br>+------------+---------------+-----------+<br></code></pre></td></tr></table></figure>
+
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2020/10/12/MySQL%E8%BF%9B%E9%98%B6/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;12&#x2F;MySQL%E8%BF%9B%E9%98%B6&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;12&#x2F;MySQL%E8%BF%9B%E9%98%B6&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/"><i class="iconfont iconleft"></i>“Python 文件操作</a>
+    <a href="/2020/10/11/mysql/">MySQL数据库基本操作<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="toc-text">表的连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BF%A1%E6%81%AF%E8%A1%A8"><span class="toc-text">创建信息表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5%EF%BC%88%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="toc-text">等值连接（内连接）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A6%E8%BF%9E%E6%8E%A5"><span class="toc-text">左连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%B3%E8%BF%9E%E6%8E%A5"><span class="toc-text">右连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95"><span class="toc-text">普通索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="toc-text">删除索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95"><span class="toc-text">唯一索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95"><span class="toc-text">删除唯一索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%94%AE"><span class="toc-text">外键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BD%9C%E8%80%85%E8%A1%A8"><span class="toc-text">创建作者表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E7%AB%A0%E8%A1%A8"><span class="toc-text">创建文章表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="toc-text">添加数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%9A%84%E5%A4%96%E9%94%AE"><span class="toc-text">查看一个表的外键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%9A%84%E5%A4%96%E9%94%AE"><span class="toc-text">删除一个表的外键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E4%B8%A4%E8%A1%A8%E8%AE%BE%E7%BD%AE%E7%BA%A7%E8%81%94%E6%93%8D%E4%BD%9C"><span class="toc-text">给两表设置级联操作</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

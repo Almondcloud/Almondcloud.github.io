@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>dvwa-xss - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="XSS跨站脚本攻击（XSS），是最普遍的Web应用安全...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">dvwa-xss</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">dvwa-xss</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 18, 2021</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2021/02/18/dvwa-xss/" class="leancloud" data-flag-title="dvwa-xss"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7010</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p>跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的。</p>
+<p>攻击者可以使用户在浏览器中执行其预定义的恶意脚本，其导致的危害可想而知，如劫持用户会话，插入恶意内容、重定向用户、使用恶意软件劫持用户浏览器、繁殖<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/XSS%E8%A0%95%E8%99%AB/22777013">XSS蠕虫</a>，甚至破坏网站、修改路由器配置信息等。</p>
+<p>HTML是一种超文本标记语言，通过将一些字符特殊地对待来区别文本和标记，例如，小于符号（&lt;）被看作是HTML标签的开始，<title>与</title>之间的字符是页面的标题等等。当动态页面中插入的内容含有这些特殊字符（如&lt;）时，用户浏览器会将其误认为是插入了HTML标签，当这些HTML标签引入了一段JavaScript脚本时，这些脚本程序就将会在用户浏览器中执行。所以，当这些特殊字符不能被动态页面检查或检查出现失误时，就将会产生XSS漏洞。</p>
+<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式。</p>
+<p>DOM型XSS其实是一种特殊类型的反射型XSS，它是基于DOM文档对象模型的一种漏洞。</p>
+<p>在网站页面中有许多页面的元素，当页面到达浏览器时浏览器会为页面创建一个顶级的Document object文档对象，接着生成各个子文档对象，每个页面元素对应一个文档对象，每个文档对象包含属性、方法和事件。可以通过JS脚本对文档对象进行编辑从而修改页面的元素。也就是说，客户端的脚本程序可以通过DOM来动态修改页面内容，从客户端获取DOM中的数据并在本地执行。基于这个特性，就可以利用JS脚本来实现XSS漏洞的利用。</p>
+<h3 id="LOW"><a href="#LOW" class="headerlink" title="LOW"></a>LOW</h3><p>我也很好奇注入点会在哪里？然后根据页面的设计点了一下</p>
+<p><img   class="lazyload" data-original="image-20210221154705154.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="image-20210221154726558.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>你会发现所做出的的选择会显示在url上</p>
+<p>看看源代码</p>
+<p><img   class="lazyload" data-original="image-20210221183848810.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>牛，没有防护</p>
+<p><img   class="lazyload" data-original="image-20210221184140984.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>运行成功</p>
+<h3 id="MEDIUM"><a href="#MEDIUM" class="headerlink" title="MEDIUM"></a>MEDIUM</h3><p><img   class="lazyload" data-original="image-20210221184400043.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>来看看源码</p>
+<p>这里先检查了default参数是否为空，如果不为空则将default等于获取到的default值。这里还使用了stripos 用于检测default值中是否有 &lt;script ，如果有的话，则将 default=English </p>
+<p>stripos() 函数返回字符串在另一个字符串中第一次出现的位置。</p>
+<p>如果没有找到该字符串，则返回 false。</p>
+<p>如果区分大小写的话，算了试一下，无弹窗，返回了English</p>
+<p><img   class="lazyload" data-original="image-20210221191141134.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里使用了&lt;img scr=1 onerror=alert(‘hack’)&gt;,没有回显，但是成功注入进了蓝色那行中，那么这里只要先将</select>提前注入，即可将语句闭合，实现xss注入</p>
+<p><img   class="lazyload" data-original="image-20210222194934469.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h3 id="HIGH"><a href="#HIGH" class="headerlink" title="HIGH"></a>HIGH</h3><p><img   class="lazyload" data-original="image-20210222195057236.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>这里对default的内容，通过switch枚举进行判断</p>
+<p>这里可以通过#进行注入</p>
+<p><img   class="lazyload" data-original="image-20210222200620765.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>原理：在URL中<code>#</code>表示的是一个锚点。在浏览器识别url的时候，会把<code>#</code>后的字符当做页面的定位，然后加载页面的时候，直接定位到指定的标签。因此<code>#</code>后面的字符是不会被浏览器发送到服务器端的。这样就实现了绕过服务器端的防御机制。而依赖DOM修改html结构执行的是js代码，这个执行过程是在客户浏览器端的，因此实现了不经过服务器就可以实现xss注入。</p>
+<h3 id="IMPOSSIBLE"><a href="#IMPOSSIBLE" class="headerlink" title="IMPOSSIBLE"></a>IMPOSSIBLE</h3><p><img   class="lazyload" data-original="image-20210222204038801.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>防护都在客户端了</p>
+<p>看了前端的代码感觉和前面挺像的</p>
+<p>就拿之前的攻击代码试了一下</p>
+<p><img   class="lazyload" data-original="image-20210222204852729.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>都进了框里</p>
+<p><img   class="lazyload" data-original="image-20210222205020347.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>#也是不能使用的</p>
+<p>与high的前端代码比较后发现</p>
+<p>这里的<code>lang</code>没有像之前一样经过<code>decodeURL</code>解码。因此输入进去的数据都会经过url编码呈现到页面上。</p>
+<h2 id="REFLECTED"><a href="#REFLECTED" class="headerlink" title="REFLECTED"></a>REFLECTED</h2><p>当用户在网站的地址栏输入URL，从服务器端获取到数据时，网站页面会根据返回的信息而呈现不同的返回页面，如果这个时候恶意用户在页面中输入的数据不经过验证且不经过超文本标记语言的编码就录入到脚本中，就会产生漏洞</p>
+<h3 id="LOW-1"><a href="#LOW-1" class="headerlink" title="LOW"></a>LOW</h3><p><img   class="lazyload" data-original="image-20210222210545827.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>我输什么就hello什么，那我直接放一段代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">alert(<span class="hljs-string">&#x27;vincent&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="image-20210222210945039.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>看看源码</p>
+<p><img   class="lazyload" data-original="image-20210222211835523.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>好家伙，这波是真的零防护</p>
+<h3 id="MEDIUM-1"><a href="#MEDIUM-1" class="headerlink" title="MEDIUM"></a>MEDIUM</h3><p><img   class="lazyload" data-original="image-20210222212025178.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>拿之前的代码试了一下，发现回显中&lt;script*&gt;与&lt;/script*&gt;都不见了</p>
+<p>查看源代码</p>
+<p><img   class="lazyload" data-original="image-20210222212206833.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>果然，这里过滤了&lt;script*&gt;那用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">1</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">alert(/vincent/)</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>即可，</p>
+<p>当然也可以大小写混写，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">scRipt</span>&gt;</span><span class="javascript">alert(<span class="hljs-regexp">/VINCENT/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>以及双写的方式进行绕过</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html">&lt;sc&lt;script&gt;ript&gt;alert(/vincent/)&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="HIGH-1"><a href="#HIGH-1" class="headerlink" title="HIGH"></a>HIGH</h3><p>直接看源码吧</p>
+<p><img   class="lazyload" data-original="image-20210222213337795.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>preg_replace() 函数用于正则表达式的搜索和替换，</p>
+<p>.*具有贪婪的性质，首先匹配到不能匹配为止，根据后面的正则表达式，会进行回溯。</p>
+<p>这使得双写绕过、大小写混淆绕过（正则表达式中i表示不区分大小写）不再有效。</p>
+<p>直接用</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=1 <span class="hljs-attribute">onerror</span>=alert(/vincent/)&gt;<br></code></pre></td></tr></table></figure>
+
+<p>绕过即可</p>
+<h3 id="IMPOSSIBLE-1"><a href="#IMPOSSIBLE-1" class="headerlink" title="IMPOSSIBLE"></a>IMPOSSIBLE</h3><p><img   class="lazyload" data-original="image-20210222213757165.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>anti-csrf 好久不见</p>
+<p>同时，Impossible级别的代码使用htmlspecialchars函数把预定义的字符&amp;、”、 ’、&lt;、&gt;转换为 HTML 实体，防止浏览器将其作为HTML元素。</p>
+<h2 id="STORED"><a href="#STORED" class="headerlink" title="STORED"></a>STORED</h2><p>存储式漏洞，该类型是应用最为广泛而且有可能影响到Web服务器自身安全的漏洞，黑客将攻击脚本上传到Web服务器上，使得所有访问该页面的用户都面临信息泄漏的可能，其中也包括了Web服务器的管理员。这种类型的漏洞 可以使恶意用户将javascrip永久性的存储在数据库中。</p>
+<h3 id="LOW-2"><a href="#LOW-2" class="headerlink" title="LOW"></a>LOW</h3><p><img   class="lazyload" data-original="image-20210222214446460.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>看得出来，这里对name的输入进行了长度限制，那不如在message处注入，但是我这里试了多次之后</p>
+<p><img   class="lazyload" data-original="image-20210222214822568.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>并没有回应（之后刷新后发现，均注入成功且出现弹窗），抓个包试试好了</p>
+<p><img   class="lazyload" data-original="image-20210222215252849.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>我在name处改写了代码后，放包，出现弹窗，再加上之前在message处写的，所以弹出了两次</p>
+<p><img   class="lazyload" data-original="image-20210222215219306.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>来看看源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs php+HTML">&lt;?php<br><br><br><br>if( isset( $_POST[ &#39;btnSign&#39; ] ) ) &#123;<br><br>  &#x2F;&#x2F; Get input<br><br>  $message &#x3D; trim( $_POST[ &#39;mtxMessage&#39; ] );<br><br>  $name  &#x3D; trim( $_POST[ &#39;txtName&#39; ] );<br><br><br><br>  &#x2F;&#x2F; Sanitize message input<br><br>  $message &#x3D; stripslashes( $message );<br><br>  $message &#x3D; ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;], $message ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));<br><br><br><br>  &#x2F;&#x2F; Sanitize name input<br><br>  $name &#x3D; ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;], $name ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));<br><br><br><br>  &#x2F;&#x2F; Update database<br><br>  $query &#x3D; &quot;INSERT INTO guestbook ( comment, name ) VALUES ( &#39;$message&#39;, &#39;$name&#39; );&quot;;<br><br>  $result &#x3D; mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;], $query ) or die( &#39;&lt;pre&gt;&#39; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res &#x3D; mysqli_connect_error()) ? $___mysqli_res : false)) . &#39;&lt;&#x2F;pre&gt;&#39; );<br><br><br><br>  &#x2F;&#x2F;mysql_close();<br><br>&#125;<br><br><br><br>?&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>相关函数介绍</strong></p>
+<p>trim(string,charlist)</p>
+<p>函数移除字符串两侧的空白字符或其他预定义字符，预定义字符包括、\t、\n、\x0B、\r以及空格，可选参数charlist支持添加额外需要删除的字符。</p>
+<p>mysql_real_escape_string(string,connection)</p>
+<p>函数会对字符串中的特殊符号（\x00，\n，\r，\，’，”，\x1a）进行转义。</p>
+<p>stripslashes(string)</p>
+<p>函数删除字符串中的反斜杠。</p>
+<p>可以看到，对输入并没有做XSS方面的过滤与检查，且存储在数据库中，因此这里存在明显的存储型XSS漏洞。</p>
+<h3 id="MEDIUM-2"><a href="#MEDIUM-2" class="headerlink" title="MEDIUM"></a>MEDIUM</h3><p><img   class="lazyload" data-original="image-20210222220340089.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>上面为输入，底下为输出，你会发现&lt;script*&gt;被过滤了，尝试一下双写与大小写混合</p>
+<p><img   class="lazyload" data-original="image-20210222220832064.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>无弹窗</p>
+<p><img   class="lazyload" data-original="image-20210222220515529.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>无弹窗</p>
+<p>最后显示如下</p>
+<p><img   class="lazyload" data-original="image-20210222220926269.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>看了源代码，发现漏洞在name上，抓包进行注入即可成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs php+HTML">&lt;?php<br><br><br><br>if( isset( $_POST[ &#39;btnSign&#39; ] ) ) &#123;<br><br>  &#x2F;&#x2F; Get input<br><br>  $message &#x3D; trim( $_POST[ &#39;mtxMessage&#39; ] );<br><br>  $name  &#x3D; trim( $_POST[ &#39;txtName&#39; ] );<br><br><br><br>  &#x2F;&#x2F; Sanitize message input<br><br>  $message &#x3D; strip_tags( addslashes( $message ) );<br><br>  $message &#x3D; ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;], $message ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));<br><br>  $message &#x3D; htmlspecialchars( $message );<br><br><br><br>  &#x2F;&#x2F; Sanitize name input<br><br>  $name &#x3D; str_replace( &#39;&lt;script&gt;&#39;, &#39;&#39;, $name );<br><br>  $name &#x3D; ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;], $name ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));<br><br><br><br>  &#x2F;&#x2F; Update database<br><br>  $query &#x3D; &quot;INSERT INTO guestbook ( comment, name ) VALUES ( &#39;$message&#39;, &#39;$name&#39; );&quot;;<br><br>  $result &#x3D; mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;], $query ) or die( &#39;&lt;pre&gt;&#39; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res &#x3D; mysqli_connect_error()) ? $___mysqli_res : false)) . &#39;&lt;&#x2F;pre&gt;&#39; );<br><br><br><br>  &#x2F;&#x2F;mysql_close();<br><br>&#125;<br><br><br><br>?&gt;<br></code></pre></td></tr></table></figure>
+
+<p>strip_tags() 函数剥去字符串中的 HTML、XML 以及 PHP 的标签，但允许使用<b>标签。</p>
+<p>addslashes() 函数返回在预定义字符（单引号、双引号、反斜杠、NULL）之前添加反斜杠的字符串。</p>
+<p>可以看到，由于对message参数使用了htmlspecialchars函数进行编码，因此无法再通过message参数注入XSS代码，但是对于name参数，只是简单过滤了&lt;script*&gt;字符串，仍然存在存储型的XSS。</p>
+<h3 id="HIGH-2"><a href="#HIGH-2" class="headerlink" title="HIGH"></a>HIGH</h3><p>看完源码后发现，这里只对&lt;script*&gt;一系列进行防护，并没有对其余的尖括号有防护措施</p>
+<p><img   class="lazyload" data-original="image-20210222222414132.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">1</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">alert(</span>&#x27;<span class="hljs-attr">vincent</span>&#x27;)&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>即可成功</p>
+<h3 id="IMPOSSIBLE-2"><a href="#IMPOSSIBLE-2" class="headerlink" title="IMPOSSIBLE"></a>IMPOSSIBLE</h3><p>看了源码发现均使用了htmlspecialchars函数，解决了XSSstored的问题。从网上了解，该函数若使用不当，依然存在绕过的机会。</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/XSS%E6%94%BB%E5%87%BB/954065?fr=aladdin">https://baike.baidu.com/item/XSS%E6%94%BB%E5%87%BB/954065?fr=aladdin</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yyxianren/p/11381304.html">https://www.cnblogs.com/yyxianren/p/11381304.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/82932557">https://blog.csdn.net/qq_36119192/article/details/82932557</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/123779.html">https://www.freebuf.com/articles/web/123779.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44720762/article/details/89637370">https://blog.csdn.net/weixin_44720762/article/details/89637370</a></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/02/18/dvwa-xss/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;02&#x2F;18&#x2F;dvwa-xss&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;02&#x2F;18&#x2F;dvwa-xss&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/02/20/dvwa-javascript/"><i class="iconfont iconleft"></i>dvwa-javascript</a>
+    <a href="/2021/02/16/dvwa-csp-bypass/">dvwa-csp bypass<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS"><span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM"><span class="toc-text">DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LOW"><span class="toc-text">LOW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MEDIUM"><span class="toc-text">MEDIUM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HIGH"><span class="toc-text">HIGH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMPOSSIBLE"><span class="toc-text">IMPOSSIBLE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFLECTED"><span class="toc-text">REFLECTED</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LOW-1"><span class="toc-text">LOW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MEDIUM-1"><span class="toc-text">MEDIUM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HIGH-1"><span class="toc-text">HIGH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMPOSSIBLE-1"><span class="toc-text">IMPOSSIBLE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STORED"><span class="toc-text">STORED</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LOW-2"><span class="toc-text">LOW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MEDIUM-2"><span class="toc-text">MEDIUM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HIGH-2"><span class="toc-text">HIGH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMPOSSIBLE-2"><span class="toc-text">IMPOSSIBLE</span></a></li></ol></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

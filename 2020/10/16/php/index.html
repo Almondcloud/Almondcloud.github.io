@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>php - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="PHP常量设置PHP常量语法1bool define ...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '/images/theme/loading.gif'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '/images/theme/welcome-image.png',
+          api: ''
+        },
+        motto: {
+          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: '',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        model: 'simple'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+    </div>
+    <div class="center">php</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+
+<nav class="menu">
+  <div class="menu-wrap">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">php</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 16, 2020</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2020/10/16/php/" class="leancloud" data-flag-title="php"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2984</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="PHP常量"><a href="#PHP常量" class="headerlink" title="PHP常量"></a>PHP常量</h2><h3 id="设置PHP常量"><a href="#设置PHP常量" class="headerlink" title="设置PHP常量"></a>设置PHP常量</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">bool</span> define ( <span class="hljs-keyword">string</span> $name , mixed $value [ , <span class="hljs-keyword">bool</span> $case_insensitive = <span class="hljs-literal">false</span> ])<br></code></pre></td></tr></table></figure>
+
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 区分大小写的常量名</span><br>define(<span class="hljs-string">&quot;GREETING&quot;</span>,<span class="hljs-string">&quot;欢迎访问 runoob.com&quot;</span>);<br><span class="hljs-keyword">echo</span> GREETING;   <span class="hljs-comment">//输出欢迎访问&quot;Runoob.com&quot;</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br><span class="hljs-keyword">echo</span> greeting;   <span class="hljs-comment">//输出 &quot;greeting&quot;</span><br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">欢迎访问 runoob.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">Warning: Use of undefined constant greeting - assumed &#x27;greeting&#x27; (this will throw an Error in a future version of PHP) in /box/script.php on line 6</span><br><span class="hljs-comment">greeting*/</span><br><br>  <br>  <br>  <br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 不区分大小写的常量名</span><br>define(<span class="hljs-string">&quot;GREETING&quot;</span>,<span class="hljs-string">&quot;欢迎访问 runoob.com&quot;</span>,ture);<br><span class="hljs-keyword">echo</span> GREETING;   <span class="hljs-comment">//输出欢迎访问&quot;Runoob.com&quot;</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br><span class="hljs-keyword">echo</span> greeting;   <span class="hljs-comment">//输出 &quot;greeting&quot;</span><br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Warning: Use of undefined constant ture - assumed &#x27;ture&#x27; (this will throw an Error in a future version of PHP) in /box/script.php on line 3</span><br><span class="hljs-comment">欢迎访问 runoob.com</span><br><span class="hljs-comment">欢迎访问 runoob.com</span><br><span class="hljs-comment">*/</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="PHP字符串变量"><a href="#PHP字符串变量" class="headerlink" title="PHP字符串变量"></a>PHP字符串变量</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$txt= <span class="hljs-string">&quot;Hello World!&quot;</span>; <br><span class="hljs-keyword">echo</span> $txt;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h2 id="PHP并置运算符"><a href="#PHP并置运算符" class="headerlink" title="PHP并置运算符"></a>PHP并置运算符</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$txt1= <span class="hljs-string">&quot;Hello World!&quot;</span>; <br>$txt2= <span class="hljs-string">&quot;What a nice day!&quot;</span>;<br><span class="hljs-keyword">echo</span> $txt1 . <span class="hljs-string">&quot; &quot;</span> . $txt2; <span class="hljs-comment">#并置运算符（.）串联两个字符串。使用两次字符串要在之间插入一个空格。</span><br><span class="hljs-meta">?&gt;</span> <br><br><span class="hljs-comment">#输出结果：Hello World! What a nice day! </span><br></code></pre></td></tr></table></figure>
+
+<h2 id="PHP-strlen-函数"><a href="#PHP-strlen-函数" class="headerlink" title="PHP strlen() 函数"></a>PHP strlen() 函数</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-keyword">echo</span> strlen(<span class="hljs-string">&quot;Hello World!&quot;</span>); <span class="hljs-comment">#获取字符串长度</span><br><span class="hljs-meta">?&gt;</span> <br><br><span class="hljs-comment">#输出结果：12</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="PHP-strpos-函数"><a href="#PHP-strpos-函数" class="headerlink" title="PHP strpos() 函数"></a>PHP strpos() 函数</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-keyword">echo</span> strpos(<span class="hljs-string">&quot;Hello World!&quot;</span>,<span class="hljs-string">&quot;world&quot;</span>);  <span class="hljs-comment">#strpos()用于在字符串中查找一个字符或一段特定文本</span><br><span class="hljs-meta">?&gt;</span> <br><br><span class="hljs-comment">#输出结果：6</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="PHP类型比较"><a href="#PHP类型比较" class="headerlink" title="PHP类型比较"></a>PHP类型比较</h2><h3 id="松散比较"><a href="#松散比较" class="headerlink" title="松散比较"></a>松散比较</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-keyword">if</span>(<span class="hljs-number">42</span> == <span class="hljs-string">&quot;42&quot;</span>)&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;1、值相等&#x27;</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> PHP_EOL;<span class="hljs-comment">// 换行符</span><br><span class="hljs-meta">?&gt;</span> <br><br> <span class="hljs-comment">#输出结果：1、值相等</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="严格比较"><a href="#严格比较" class="headerlink" title="严格比较"></a>严格比较</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-keyword">if</span>(<span class="hljs-number">42</span> === <span class="hljs-string">&quot;42&quot;</span>)&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;2、类型相等&#x27;</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;3、不相等&#x27;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br>  <br> <span class="hljs-comment">#输出结果：3、不相等</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="PHP比较0、false、null"><a href="#PHP比较0、false、null" class="headerlink" title="PHP比较0、false、null"></a>PHP比较0、false、null</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 == false: &#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 === false: &#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> === <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 == null&#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 === null&#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> === <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;false == null:&#x27;</span>;<br>var_dump(<span class="hljs-literal">false</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;false === null&#x27;</span>;<br>var_dump(<span class="hljs-literal">false</span> ===<span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; == false&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; === false&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> === <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; == null&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; === null&#x27;</span>;<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;&quot; == false:&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;&quot; == null &#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;&quot;</span> === <span class="hljs-literal">null</span>);<br><br><br><span class="hljs-comment">#输出结果：</span><br><span class="hljs-number">0</span> == <span class="hljs-literal">false</span>: <span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-number">0</span> === <span class="hljs-literal">false</span>: <span class="hljs-keyword">bool</span>(<span class="hljs-literal">false</span>)<br><br><span class="hljs-number">0</span> == nullbool(<span class="hljs-literal">true</span>)<br><span class="hljs-number">0</span> === nullbool(<span class="hljs-literal">false</span>)<br><br><span class="hljs-literal">false</span> == <span class="hljs-literal">null</span>:<span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-literal">false</span> === nullbool(<span class="hljs-literal">false</span>)<br><span class="hljs-string">&quot;0&quot;</span> == falsebool(<span class="hljs-literal">true</span>)<br><span class="hljs-string">&quot;0&quot;</span> === falsebool(<span class="hljs-literal">false</span>)<br><br><span class="hljs-string">&quot;0&quot;</span> == nullbool(<span class="hljs-literal">false</span>)<br><span class="hljs-string">&quot;0&quot;</span> === <span class="hljs-literal">null</span><br><span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">false</span>:<span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">null</span> <span class="hljs-keyword">bool</span>(<span class="hljs-literal">false</span>)<br>  <br><span class="hljs-comment">#bool为布尔型变量，用于逻辑运算和关系运算</span><br><span class="hljs-comment">#var_dump()函数用于打印与显示程序代码结构</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2020/10/16/php/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;16&#x2F;php&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;16&#x2F;php&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/10/21/python-%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80-1/"><i class="iconfont iconleft"></i>python_爬虫基础</a>
+    <a href="/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/">“Python 文件操作<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
+        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
+        placeHolder: "昨夜小楼夜听雨",
+        avatar: "mp",
+        pagesize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E5%B8%B8%E9%87%8F"><span class="toc-text">PHP常量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEPHP%E5%B8%B8%E9%87%8F"><span class="toc-text">设置PHP常量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E9%87%8F"><span class="toc-text">PHP字符串变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E5%B9%B6%E7%BD%AE%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">PHP并置运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-strlen-%E5%87%BD%E6%95%B0"><span class="toc-text">PHP strlen() 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-strpos-%E5%87%BD%E6%95%B0"><span class="toc-text">PHP strpos() 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83"><span class="toc-text">PHP类型比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%BE%E6%95%A3%E6%AF%94%E8%BE%83"><span class="toc-text">松散比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E6%AF%94%E8%BE%83"><span class="toc-text">严格比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E6%AF%94%E8%BE%830%E3%80%81false%E3%80%81null"><span class="toc-text">PHP比较0、false、null</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+    <div class="scrollbar j-scrollbar">
+  <div class="scrollbar-current j-scrollbar-current"></div>
+</div>
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
+      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
