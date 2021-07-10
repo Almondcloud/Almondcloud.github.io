@@ -171,7 +171,7 @@ base...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image7.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-2</h1>
     <div class="head-info">
@@ -181,7 +181,7 @@ base...">
           <i class="iconfont iconeye"></i><span id="/2021/07/09/buu-2/" class="leancloud" data-flag-title="buu-2"></span>
         </span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5163</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5048</span>
     </div>
   </div>
 </section>
@@ -209,7 +209,7 @@ base...">
 <p>（在各种base64解析失败的情况下，用浏览器直接把编码粘贴进去，（奇怪的小技巧增加了</p>
 <h1 id="webshell后门"><a href="#webshell后门" class="headerlink" title="webshell后门"></a>webshell后门</h1><p>这题和后门查杀挺像的，但是只是单纯的去找webshell的pass我觉得意义不算太大，</p>
 <p>来看看后门代码吧</p>
-<p><img    class="lazyload" data-original="buu-2/image-20210709193823883.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709193823883</span></p>
+<p><img   class="lazyload" data-original="image-20210709193823883.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这里的eval() 函数把字符串按照 PHP 代码来计算。eval()方法会无条件执行传给它的代码，很容易导致安全问题。这里就是webshell能够上传成功的原因了。</p>
 <p>代替函数： </p>
 <p>system类型函数 </p>
@@ -217,12 +217,12 @@ base...">
 
 <p>system和evel还是有区别的，它是命令执行而不是代码执行。evel是代码执行而不是命令执行。</p>
 <p>好大一个马，看的确实不是很懂</p>
-<p><img    class="lazyload" data-original="buu-2/image-20210709195343648.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195343648</span></p>
+<p><img   class="lazyload" data-original="image-20210709195343648.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>base64decode加密</p>
-<p><img    class="lazyload" data-original="buu-2/image-20210709195417061.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195417061</span></p>
-<h2 id="php-webshell执行命令原理"><a href="#php-webshell执行命令原理" class="headerlink" title="php webshell执行命令原理"></a><strong>php webshell</strong>执行命令原理</h2><p><img    class="lazyload" data-original="buu-2/image-20210709195743494.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195743494</span></p>
+<p><img   class="lazyload" data-original="image-20210709195417061.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="php-webshell执行命令原理"><a href="#php-webshell执行命令原理" class="headerlink" title="php webshell执行命令原理"></a><strong>php webshell</strong>执行命令原理</h2><p><img   class="lazyload" data-original="image-20210709195743494.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>即按顺利调用system(),passthru(),shell_exec,exec,popen函数 成功调用就不再往下调用</p>
-<h1 id="吹着贝斯扫二维码"><a href="#吹着贝斯扫二维码" class="headerlink" title="吹着贝斯扫二维码"></a>吹着贝斯扫二维码</h1><p><img    class="lazyload" data-original="buu-2/image-20210709203507860.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709203507860</span></p>
+<h1 id="吹着贝斯扫二维码"><a href="#吹着贝斯扫二维码" class="headerlink" title="吹着贝斯扫二维码"></a>吹着贝斯扫二维码</h1><p><img   class="lazyload" data-original="image-20210709203507860.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>那36个文件用010打开完发现都是jpg文件但是文件尾后有数字，这边用脚本加个后缀，经过观察，是有顺序的，因此可以通过脚本进行自动拼图。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#将无后缀的文件加上.jpg</span><br>dir_list = os.listdir(<span class="hljs-string">&#x27;./&#x27;</span>)<br><span class="hljs-comment">#print(dir_list)</span><br><span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> dir_list:<br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;.&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> file:<br><span class="hljs-comment"># print(file)</span><br>        os.rename(file, file+<span class="hljs-string">&#x27;.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
