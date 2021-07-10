@@ -171,7 +171,7 @@ base...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image7.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-2</h1>
     <div class="head-info">
@@ -181,7 +181,7 @@ base...">
           <i class="iconfont iconeye"></i><span id="/2021/07/09/buu-2/" class="leancloud" data-flag-title="buu-2"></span>
         </span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2123</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5163</span>
     </div>
   </div>
 </section>
@@ -189,51 +189,51 @@ base...">
       <section class="content">
         <h1 id="base64隐写"><a href="#base64隐写" class="headerlink" title="base64隐写"></a>base64隐写</h1><p>base64编码还是很熟悉了</p>
 <p>base64原理如下</p>
-<p><img    class="lazyload" data-original="buu-2/20160911234157892" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
-<p><img    class="lazyload" data-original="buu-2/20160911234205557" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img   class="lazyload" data-original="20160911234157892" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="20160911234205557" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>解码规则是将所有被修改过的base64字符串结尾的二进制值提取出来组成一个二进制串，以8位分割并转为十进制值，最终十进制对应的ASCII字符串即为base64隐写结果。</p>
 <p>用脚本跑一下就行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_base64_diff_value</span>(<span class="hljs-params">s1, s2</span>):</span><br>    base64chars = <span class="hljs-string">&#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&#x27;</span><br>    res = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(s2)):     <span class="hljs-comment">#xrange() 函数用法与 range 完全相同，所不同的是生成的不是一个数组，而是一个生成器。</span><br>        <span class="hljs-keyword">if</span> s1[i] != s2[i]:<br>            <span class="hljs-keyword">return</span> abs(base64chars.index(s1[i]) - base64chars.index(s2[i])) <span class="hljs-comment">#index() 方法查找指定值的首次出现。</span><br>    <span class="hljs-keyword">return</span> res<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solve_stego</span>():</span><br>    <span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;ComeOn!.txt&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        file_lines = f.readlines()<br>        bin_str = <span class="hljs-string">&#x27;&#x27;</span><br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> file_lines:<br>            steg_line = line.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>            norm_line = line.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>).decode(<span class="hljs-string">&#x27;base64&#x27;</span>).encode(<span class="hljs-string">&#x27;base64&#x27;</span>).replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>            diff = get_base64_diff_value(steg_line, norm_line)<br>            <span class="hljs-keyword">print</span> diff<br>            pads_num = steg_line.count(<span class="hljs-string">&#x27;=&#x27;</span>)<br>            <span class="hljs-keyword">if</span> diff:<br>                bin_str += bin(diff)[<span class="hljs-number">2</span>:].zfill(pads_num * <span class="hljs-number">2</span>)       <span class="hljs-comment">#zfill() 方法返回指定长度的字符串，原字符串右对齐，前面填充0。</span><br>            <span class="hljs-keyword">else</span>:<br>                bin_str += <span class="hljs-string">&#x27;0&#x27;</span> * pads_num * <span class="hljs-number">2</span><br>            <span class="hljs-keyword">print</span> goflag(bin_str)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">goflag</span>(<span class="hljs-params">bin_str</span>):</span>    <span class="hljs-comment">#bin()函数用于获取数字的二进制值，接受数字并返回等效的二进制字符。</span><br>    res_str = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(<span class="hljs-number">0</span>, len(bin_str), <span class="hljs-number">8</span>):    <br>      <span class="hljs-comment">#xrange(start, stop[, step])start: 计数从 start 开始。默认是从 0 开始。例如 xrange(5) 等价于 xrange(0， 5)stop: 计数到 stop 			结束，但不包括 stop。例如：xrange(0， 5) 是 [0, 1, 2, 3, 4] 没有 5。step：步长，默认为1。例如：xrange(0， 5) 等价于 xrange(0, 				5, 1)</span><br>        res_str += chr(int(bin_str[i:i + <span class="hljs-number">8</span>], <span class="hljs-number">2</span>))<br>    <span class="hljs-keyword">return</span> res_str<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    solve_stego()<br><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs prolog"><span class="hljs-symbol">Python</span>中<br>				[m : ] 代表列表中的第m+<span class="hljs-number">1</span>项到最后一项<br>				[ : n] 代表列表中的第一项到第n项<br>				[<span class="hljs-number">-1</span>] 取最后一个元素<br>				[:-<span class="hljs-number">1</span>] 除了最后一个取全部<br>				[::-<span class="hljs-number">1</span>] 取从后向前（相反）的元素<br>				[<span class="hljs-number">2</span>::-<span class="hljs-number">1</span>] 取从下标为<span class="hljs-number">2</span>的元素翻转读取<br>				[<span class="hljs-number">1</span>:]  取第二个到最后一个元素<br></code></pre></td></tr></table></figure>
 
+<h1 id="后门查杀"><a href="#后门查杀" class="headerlink" title="后门查杀"></a>后门查杀</h1><p>拥有一个d盾，然后去查杀附件，找到对应webshell的密码，结束</p>
+<h1 id="荷兰宽带数据泄露"><a href="#荷兰宽带数据泄露" class="headerlink" title="荷兰宽带数据泄露"></a>荷兰宽带数据泄露</h1><p>附件为bin，是宽带数据文件，需要用RouterPassView打开</p>
+<p><img   class="lazyload" data-original="image-20210709160032787.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>泄露的话应该是用户相关信息username、password，题目也没说，猜一下好了</p>
+<h1 id="数据包中的线索"><a href="#数据包中的线索" class="headerlink" title="数据包中的线索"></a>数据包中的线索</h1><p><img   class="lazyload" data-original="image-20210709163916551.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>我觉得我的技能点就没点在流量分析上，找了好久了才发现这是传输图片</p>
+<p><img   class="lazyload" data-original="image-20210709164030316.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>可能是base64编码</p>
+<p><img   class="lazyload" data-original="image-20210709172344316.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p>（在各种base64解析失败的情况下，用浏览器直接把编码粘贴进去，（奇怪的小技巧增加了</p>
+<h1 id="webshell后门"><a href="#webshell后门" class="headerlink" title="webshell后门"></a>webshell后门</h1><p>这题和后门查杀挺像的，但是只是单纯的去找webshell的pass我觉得意义不算太大，</p>
+<p>来看看后门代码吧</p>
+<p><img    class="lazyload" data-original="buu-2/image-20210709193823883.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709193823883</span></p>
+<p>这里的eval() 函数把字符串按照 PHP 代码来计算。eval()方法会无条件执行传给它的代码，很容易导致安全问题。这里就是webshell能够上传成功的原因了。</p>
+<p>代替函数： </p>
+<p>system类型函数 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> system($_POST[<span class="hljs-string">&quot;cmd&quot;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
+<p>system和evel还是有区别的，它是命令执行而不是代码执行。evel是代码执行而不是命令执行。</p>
+<p>好大一个马，看的确实不是很懂</p>
+<p><img    class="lazyload" data-original="buu-2/image-20210709195343648.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195343648</span></p>
+<p>base64decode加密</p>
+<p><img    class="lazyload" data-original="buu-2/image-20210709195417061.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195417061</span></p>
+<h2 id="php-webshell执行命令原理"><a href="#php-webshell执行命令原理" class="headerlink" title="php webshell执行命令原理"></a><strong>php webshell</strong>执行命令原理</h2><p><img    class="lazyload" data-original="buu-2/image-20210709195743494.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709195743494</span></p>
+<p>即按顺利调用system(),passthru(),shell_exec,exec,popen函数 成功调用就不再往下调用</p>
+<h1 id="吹着贝斯扫二维码"><a href="#吹着贝斯扫二维码" class="headerlink" title="吹着贝斯扫二维码"></a>吹着贝斯扫二维码</h1><p><img    class="lazyload" data-original="buu-2/image-20210709203507860.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210709203507860</span></p>
+<p>那36个文件用010打开完发现都是jpg文件但是文件尾后有数字，这边用脚本加个后缀，经过观察，是有顺序的，因此可以通过脚本进行自动拼图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#将无后缀的文件加上.jpg</span><br>dir_list = os.listdir(<span class="hljs-string">&#x27;./&#x27;</span>)<br><span class="hljs-comment">#print(dir_list)</span><br><span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> dir_list:<br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;.&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> file:<br><span class="hljs-comment"># print(file)</span><br>        os.rename(file, file+<span class="hljs-string">&#x27;.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-comment"># python2</span><br><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br><span class="hljs-comment">#图片压缩后的大小</span><br>width_i = <span class="hljs-number">134</span><br>height_i = <span class="hljs-number">130</span><br><br><span class="hljs-comment">#每行每列显示图片数量</span><br>row_max = <span class="hljs-number">6</span><br>line_max = <span class="hljs-number">6</span><br><br>all_path = list()<br>num = <span class="hljs-number">0</span><br>pic_max = line_max * row_max<br><br><span class="hljs-comment">#文件夹路径</span><br>dir_name = <span class="hljs-string">r&quot;./&quot;</span><br><br><br><span class="hljs-comment">#获取文件夹下文件名的列表</span><br>dir_list = os.listdir(<span class="hljs-string">&#x27;./&#x27;</span>)<br><br><span class="hljs-comment">#将文件列表重新排序（按文件原始数据末尾的数字）</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">36</span>,<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>):<br>    <span class="hljs-comment"># print(i)</span><br>    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> dir_list:<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;.jpg&#x27;</span> <span class="hljs-keyword">in</span> file:<br>            f=open(file ,<span class="hljs-string">&#x27;rb&#x27;</span>)<br>            n1 = f.read()<br>            n2 = n1[<span class="hljs-number">-2</span>:]<br>            <span class="hljs-comment"># print()</span><br>            <span class="hljs-keyword">if</span> i &gt; <span class="hljs-number">9</span>:<br>                <span class="hljs-keyword">if</span> str(i) <span class="hljs-keyword">in</span> n2:<br>                    <span class="hljs-comment"># all_path.append(os.path.join(file))</span><br>                    all_path.insert(<span class="hljs-number">0</span>,os.path.join(file))<br>                    <span class="hljs-comment"># print(all_path)</span><br>                    <span class="hljs-keyword">break</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;d9&#x27;</span> <span class="hljs-keyword">in</span> n1.encode(<span class="hljs-string">&#x27;hex&#x27;</span>)[<span class="hljs-number">-4</span>:] <span class="hljs-keyword">and</span> str(i) <span class="hljs-keyword">in</span> n2:<br>                    <span class="hljs-comment"># print(file)</span><br>                    all_path.insert(<span class="hljs-number">0</span>,os.path.join(file))<br>                    <span class="hljs-keyword">break</span><br>print(all_path)<br><br><br>toImage = Image.new(<span class="hljs-string">&#x27;RGBA&#x27;</span>,(width_i*line_max,height_i*row_max))<br><br><span class="hljs-comment">#拼接图片</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(row_max):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(line_max):<br>        <span class="hljs-comment"># 每次打开图片绝对路路径列表的第一张图片</span><br>        pic_fole_head = Image.open(all_path[num])<br>        <span class="hljs-comment"># 获取图片的尺寸</span><br>        wihth,height = pic_fole_head.size<br>        <span class="hljs-comment"># 按照指定的尺寸，给图片重新赋值，&lt;PIL.Image.Image image mode=RGB size=200x200 at 0x127B7978&gt;</span><br>        tmppic = pic_fole_head.resize((width_i, height_i))<br>        <span class="hljs-comment"># 计算每个图片的左上角的坐标点(0, 0)，(0, 200)，(0, 400)，(200, 0)，(200, 200)。。。。(400, 400)</span><br>        loc = (int(j % line_max * width_i), int(i % line_max * height_i))<br>        print(loc)<br>        <span class="hljs-comment"># print(&quot;第&#123;&#125;张图的存放位置&quot;.format(num),loc)</span><br>        toImage.paste(tmppic, loc)<br>        num = num + <span class="hljs-number">1</span><br><br>        <span class="hljs-keyword">if</span> num &gt;= len(all_path):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> num &gt;= pic_max:<br>        <span class="hljs-keyword">break</span><br><br><span class="hljs-comment"># print(toImage.size)</span><br>toImage.save(<span class="hljs-string">&#x27;merged.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>然后扫二维码根据二维码的提示去解码over。</p>
 <p>参考资料：</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Sanctuary1307/article/details/113836907">https://blog.csdn.net/Sanctuary1307/article/details/113836907</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/springrolls/article/details/95220169">https://blog.csdn.net/springrolls/article/details/95220169</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/R4v3n/articles/8696317.html">https://www.cnblogs.com/R4v3n/articles/8696317.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/paku/p/14750137.html">https://www.cnblogs.com/paku/p/14750137.html</a></p>
 
       </section>
       <section class="extra">
@@ -248,7 +248,7 @@ base...">
         
         
         
-  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul> 
 
         
   <nav class="nav">
@@ -299,7 +299,7 @@ base...">
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#base64%E9%9A%90%E5%86%99"><span class="toc-text">base64隐写</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#base64%E9%9A%90%E5%86%99"><span class="toc-text">base64隐写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E9%97%A8%E6%9F%A5%E6%9D%80"><span class="toc-text">后门查杀</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8D%B7%E5%85%B0%E5%AE%BD%E5%B8%A6%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2"><span class="toc-text">荷兰宽带数据泄露</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%B4%A2"><span class="toc-text">数据包中的线索</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#webshell%E5%90%8E%E9%97%A8"><span class="toc-text">webshell后门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#php-webshell%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E5%8E%9F%E7%90%86"><span class="toc-text">php webshell执行命令原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%B9%E7%9D%80%E8%B4%9D%E6%96%AF%E6%89%AB%E4%BA%8C%E7%BB%B4%E7%A0%81"><span class="toc-text">吹着贝斯扫二维码</span></a></li></ol>
   </aside>
 
         
