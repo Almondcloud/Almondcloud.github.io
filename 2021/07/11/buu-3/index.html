@@ -171,7 +171,7 @@ NTFS交换数据流（...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-3</h1>
     <div class="head-info">
@@ -181,7 +181,7 @@ NTFS交换数据流（...">
           <i class="iconfont iconeye"></i><span id="/2021/07/11/buu-3/" class="leancloud" data-flag-title="buu-3"></span>
         </span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>3105</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>3097</span>
     </div>
   </div>
 </section>
@@ -189,7 +189,7 @@ NTFS交换数据流（...">
       <section class="content">
         <h1 id="NTFS数据流"><a href="#NTFS数据流" class="headerlink" title="NTFS数据流"></a>NTFS数据流</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>先来个介绍吧，</p>
 <p>NTFS交换数据流（alternate data streams，简称ADS）指的是微软Windows NT<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8/108410">内核</a>的系列，是NTFS磁盘格式的一个特性。在NTFS文件系统下，每个文件都可以存在多个数据流，就是说除了主文件流之外还可以有许多非主文件流寄宿在主文件流中。它使用资源派生来维持与文件相关的信息。————百度百科</p>
-<p><strong>NT**</strong>FS**<strong>数据**</strong>流** （<strong>AD**</strong>S**，Alternate Data Streams，附加 数据流 ）通常用于保存 文件 额外信息，例如 文件 属性中的摘要信息就是以 流 的形式存储的。</p>
+<p>**NTFS数据流 **（ADS，Alternate Data Streams，附加 数据流 ）通常用于保存 文件 额外信息，例如 文件 属性中的摘要信息就是以 流 的形式存储的。</p>
 <p>说点大白话就是一个文件可以寄生在另外一个文件上，且在文件界面上只显示宿主文件，利用这个性质，木马可以寄生宿主文件上，甚至可以躲过大多数杀毒软件的查杀。</p>
 <h2 id="如何创建一个ntfs数据流文件？"><a href="#如何创建一个ntfs数据流文件？" class="headerlink" title="如何创建一个ntfs数据流文件？"></a>如何创建一个ntfs数据流文件？</h2><p>“宿主文件：准备与宿主文件关联的数据流文件”。很有意思的是，用windows自带的notepad可以创建并查看流文件内容，已创建内容会显示隐藏的信息，无相关数据流文件则问是否创建流文件（这里使用的是windows 7 x64）</p>
 <h3 id="notepad打开数据流文件"><a href="#notepad打开数据流文件" class="headerlink" title="notepad打开数据流文件"></a>notepad打开数据流文件</h3><p><img   class="lazyload" data-original="image-20210711110815844.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
