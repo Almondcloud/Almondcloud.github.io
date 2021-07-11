@@ -28,7 +28,7 @@
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -63,7 +63,7 @@
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -85,11 +85,12 @@
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -97,13 +98,13 @@
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -111,6 +112,10 @@
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -124,25 +129,45 @@
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
+  <nav class="navbar">
+    <div class="left">
+      
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
+      
+    </div>
+    <div class="center"> </div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
   
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -152,27 +177,35 @@
   <main id="main">
   
     <div class="preview">
-  <nav class="navbar j-navbar-menu">
+  <!-- <nav class="navbar j-navbar-menu">
     <i class="iconfont iconmenu"></i>
-  </nav>
+  </nav> -->
   <div class="preview-image">
-    <h2 class="preview-motto" id="motto">There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.</h2>
-    <!-- <span class="preview-cursor">|</span> -->
     
-      <div class="preview-overlay">
-        <svg class="preview-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-          <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g class="preview-parallax">
-            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(var(--color-background-rgb),0.7"></use>
-            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(var(--color-background-rgb),0.5)"></use>
-            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(var(--color-background-rgb),0.3)"></use>
-            <use xlink:href="#gentle-wave" x="48" y="7" fill="var(--color-background)"></use>
-          </g>
-        </svg>
-      </div>
+        
+              <div class="preview-overlay">
+                <svg class="preview-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                  <defs>
+                    <path id="gentle-wave"
+                      d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                  </defs>
+                  <g class="preview-parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(var(--color-background-rgb),0.7"></use>
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(var(--color-background-rgb),0.5)"></use>
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(var(--color-background-rgb),0.3)"></use>
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="var(--color-background)"></use>
+                  </g>
+                </svg>
+              </div>
+              
+  </div>
+  <div class="preview-motto-wrapper">
+    <h2 class="preview-motto" id="motto">
+      
+        听   说   你   在   看   我   博   客   ？
+          
+    </h2>
     
   </div>
   <div class="preview-scroll">
@@ -189,7 +222,7 @@
   <div class="post-wrap">
     
     <a href="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image9.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image3.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -205,10 +238,6 @@
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 02, 2021</span>
         
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" class="leancloud" data-flag-title="dvwa-暴力破解"></span>
-          </span>
-        
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>851</span>
       </div>
     </div>
@@ -222,7 +251,7 @@
   <div class="post-wrap">
     
     <a href="/2021/01/31/upload-labs/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -238,10 +267,6 @@
       </div>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 31, 2021</span>
-        
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/31/upload-labs/" class="leancloud" data-flag-title="upload-labs"></span>
-          </span>
         
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>5141</span>
       </div>
@@ -272,10 +297,6 @@ less58-61报错注入
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 29, 2021</span>
         
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/29/sqllib-54-65/" class="leancloud" data-flag-title="sqllib 54-65 以及总结"></span>
-          </span>
-        
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>295</span>
       </div>
     </div>
@@ -289,7 +310,7 @@ less58-61报错注入
   <div class="post-wrap">
     
     <a href="/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -301,10 +322,6 @@ less58-61报错注入
       </div>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 28, 2021</span>
-        
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/" class="leancloud" data-flag-title="sqlmap的使用常见语句"></span>
-          </span>
         
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>430</span>
       </div>
@@ -319,7 +336,7 @@ less58-61报错注入
   <div class="post-wrap">
     
     <a href="/2021/01/28/sqllib-46-53/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image7.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -337,10 +354,6 @@ less46
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 28, 2021</span>
         
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/28/sqllib-46-53/" class="leancloud" data-flag-title="sqllib 46-53"></span>
-          </span>
-        
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>902</span>
       </div>
     </div>
@@ -354,7 +367,7 @@ less46
   <div class="post-wrap">
     
     <a href="/2021/01/27/sqllib-38-45/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image7.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -366,10 +379,6 @@ less46
       </div>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 27, 2021</span>
-        
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/27/sqllib-38-45/" class="leancloud" data-flag-title="sqllib 38-45"></span>
-          </span>
         
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>544</span>
       </div>
@@ -384,7 +393,7 @@ less46
   <div class="post-wrap">
     
     <a href="/2021/01/27/sqllib-32-37/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -397,10 +406,6 @@ Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放�
       </div>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 27, 2021</span>
-        
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/27/sqllib-32-37/" class="leancloud" data-flag-title="sqllib 32-37"></span>
-          </span>
         
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>1574</span>
       </div>
@@ -415,7 +420,7 @@ Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放�
   <div class="post-wrap">
     
     <a href="/2021/01/26/sqllib-29-31/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -438,10 +443,6 @@ image...</p>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 26, 2021</span>
         
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/26/sqllib-29-31/" class="leancloud" data-flag-title="sqllib 29-31"></span>
-          </span>
-        
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>584</span>
       </div>
     </div>
@@ -455,7 +456,7 @@ image...</p>
   <div class="post-wrap">
     
     <a href="/2021/01/25/sqllib-23-28a/" class="post-image">
-      <img   class="lazyload" data-original="/images/theme/post-image10.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+      <img   class="lazyload" data-original="/images/theme/post-image3.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
     </a>
     <div class="post-content">
       <div class="post-content-wrap">
@@ -473,10 +474,6 @@ image...</p>
       </div>
       <div class="post-info">
         <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 25, 2021</span>
-        
-          <span class="post-info-item">
-            <i class="iconfont iconeye"></i><span id="/2021/01/25/sqllib-23-28a/" class="leancloud" data-flag-title="sqllib 23-28a"></span>
-          </span>
         
         <span class="post-info-item"><i class="iconfont iconfont-size"></i>2813</span>
       </div>
@@ -533,14 +530,25 @@ image...</p>
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -569,42 +577,7 @@ image...</p>
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 

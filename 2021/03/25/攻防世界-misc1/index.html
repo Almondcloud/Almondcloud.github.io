@@ -28,7 +28,7 @@
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -63,7 +63,7 @@
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -85,11 +85,12 @@
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -97,13 +98,13 @@
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -111,6 +112,10 @@
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -124,13 +129,20 @@
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
   <nav class="navbar">
     <div class="left">
       
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
       
         <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
       
     </div>
     <div class="center">攻防世界-misc1</div>
@@ -141,22 +153,23 @@
   </nav>
 
   
+  
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -170,15 +183,11 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image3.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">攻防世界-misc1</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>March 25, 2021</span>
-      
-        <span class="post-info-item">
-          <i class="iconfont iconeye"></i><span id="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/" class="leancloud" data-flag-title="攻防世界-misc1"></span>
-        </span>
       
       <span class="post-info-item"><i class="iconfont iconfont-size"></i>964</span>
     </div>
@@ -189,26 +198,26 @@
         <h1 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h1><p>从前有个人没有钱冲vip，然后他拿到的pdf的图片文件无法编辑，他以为要把图片提取出来，后面发现只要pdf转word，就可以把图片移开，就能看见flag</p>
 <h3 id="分享一些奇怪的小技巧"><a href="#分享一些奇怪的小技巧" class="headerlink" title="分享一些奇怪的小技巧"></a>分享一些奇怪的小技巧</h3><p>1.pdf用ps打开可提取其中的图片</p>
 <p>2.<a target="_blank" rel="noopener" href="https://xpdf.net/%E5%85%8D%E8%B4%B9%E7%9A%84%E5%9C%A8%E7%BA%BF%E8%BD%AC%E6%8D%A2%E7%BD%91%E7%AB%99">https://xpdf.net/免费的在线转换网站</a></p>
-<h1 id="如来十三掌"><a href="#如来十三掌" class="headerlink" title="如来十三掌"></a>如来十三掌</h1><p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145406015.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210325145406015</span></p>
+<h1 id="如来十三掌"><a href="#如来十三掌" class="headerlink" title="如来十三掌"></a>如来十三掌</h1><p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145406015.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210325145406015</span></p>
 <p>之前以为是base的编码后面试过去都不对，但是为什么是十三掌啊，等等这个13好像是有个编码，我是不是在某个wp里见过，so rot13？</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145647914.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210325145647914</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145647914.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210325145647914</span></p>
 <p>好像有点东西，这回应该是base了吧</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145730414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210325145730414</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210325145730414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210325145730414</span></p>
 <h1 id="ext3"><a href="#ext3" class="headerlink" title="ext3"></a>ext3</h1><p>附件说是linux光盘，</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202400863.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210328202400863</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202400863.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210328202400863</span></p>
 <p>010打开发现有一个flag.txt文件，将附件加上后缀.zip，即可获取flag.txt</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202055152.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210328202055152</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202055152.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210328202055152</span></p>
 <p>base64，转就完事</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202435893.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210328202435893</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328202435893.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210328202435893</span></p>
 <h1 id="stegano"><a href="#stegano" class="headerlink" title="stegano"></a>stegano</h1><p>pdf文件，转成word，（感觉把文件都掀了，啥也没看见，我去看wp了），那个pdf用火狐打开然后复制粘贴到记事本上，啊，奇迹发生了</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328204908069.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210328204908069</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328204908069.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210328204908069</span></p>
 <p>BABA BBB BA BBA ABA AB B AAB ABAA AB B AA BBB BA AAA BBAABB AABA ABAA AB BBA BBBAAA ABBBB BA AAAB ABBBB AAAAA ABBBB BAAA ABAA AAABB BB AAABB AAAAA AAAAA AAAAB BBA AAABB</p>
 <p>这啥玩意？有一点点二进制的味道，但是这个断开的位置不太对，也许是摩尔斯电码，分享转换链接<a target="_blank" rel="noopener" href="http://moersima.00cha.net/">http://moersima.00cha.net/</a></p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328205452751.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210328205452751</span></p>
-<h1 id="SimpleRAR"><a href="#SimpleRAR" class="headerlink" title="SimpleRAR"></a>SimpleRAR</h1><p>拿到压缩包，解压<img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329214127636.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210329214127636</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210328205452751.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210328205452751</span></p>
+<h1 id="SimpleRAR"><a href="#SimpleRAR" class="headerlink" title="SimpleRAR"></a>SimpleRAR</h1><p>拿到压缩包，解压<img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329214127636.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210329214127636</span></p>
 <p>winrar修复并没有什么卵用，向生活低头（垃圾去看wp了）</p>
 <p>原来我对rar文件一无所知</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329220144077.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210329220144077</span></p>
+<p><img   class="lazyload" data-original="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329220144077.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210329220144077</span></p>
 <p>拿到png文件发现是白的，010打开发现是gif文件</p>
 <p>剩下的p图，然后扫码就完事了</p>
 
@@ -234,39 +243,6 @@
   </nav>
 
       </section>
-      
-        <section class="comments">
-  
-    <div class="btn" id="comments-btn">查看评论</div>
-  
-  
-<div id="valine"></div>
-<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  window.onload = function () {
-    var loadValine = function () {
-      new Valine({
-        el: '#valine',
-        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
-        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
-        placeHolder: "昨夜小楼夜听雨",
-        avatar: "mp",
-        pagesize: "10",
-        lang: "zh-CN",
-      });
-    }
-    if ( true ) {
-      $("#comments-btn").on("click", function () {
-        $(this).hide();
-        loadValine();
-      });
-    } else {
-      loadValine();
-    }
-  };
-</script>
-
-</section>
       
     </section>
   </div>
@@ -324,14 +300,25 @@
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -360,42 +347,7 @@
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 

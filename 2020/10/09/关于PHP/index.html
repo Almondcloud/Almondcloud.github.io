@@ -29,7 +29,7 @@ P...">
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -64,7 +64,7 @@ P...">
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -86,11 +86,12 @@ P...">
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -98,13 +99,13 @@ P...">
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -112,6 +113,10 @@ P...">
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -125,13 +130,20 @@ P...">
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
   <nav class="navbar">
     <div class="left">
       
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
       
         <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
       
     </div>
     <div class="center">关于PHP</div>
@@ -142,22 +154,23 @@ P...">
   </nav>
 
   
+  
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -171,15 +184,11 @@ P...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">关于PHP</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 09, 2020</span>
-      
-        <span class="post-info-item">
-          <i class="iconfont iconeye"></i><span id="/2020/10/09/%E5%85%B3%E4%BA%8EPHP/" class="leancloud" data-flag-title="关于PHP"></span>
-        </span>
       
       <span class="post-info-item"><i class="iconfont iconfont-size"></i>2509</span>
     </div>
@@ -191,7 +200,7 @@ P...">
 <h2 id="PHP语法"><a href="#PHP语法" class="headerlink" title="PHP语法"></a>PHP语法</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// PHP 代码</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 这是 PHP 单行注释</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">这是</span><br><span class="hljs-comment">PHP 多行</span><br><span class="hljs-comment">注释</span><br><span class="hljs-comment">*/</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<h2 id="PHP变量"><a href="#PHP变量" class="headerlink" title="PHP变量"></a>PHP变量</h2><h3 id="变量规则"><a href="#变量规则" class="headerlink" title="变量规则"></a>变量规则</h3><p> <img   class="lazyload" data-original="PHP%E5%8F%98%E9%87%8F%E8%A7%84%E5%88%99.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="PHP变量"><a href="#PHP变量" class="headerlink" title="PHP变量"></a>PHP变量</h2><h3 id="变量规则"><a href="#变量规则" class="headerlink" title="变量规则"></a>变量规则</h3><p> <img   class="lazyload" data-original="/2020/10/09/%E5%85%B3%E4%BA%8EPHP/PHP%E5%8F%98%E9%87%8F%E8%A7%84%E5%88%99.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <h3 id="4种变量作用域"><a href="#4种变量作用域" class="headerlink" title="4种变量作用域"></a>4种变量作用域</h3><p>local //只能在函数之外进行访问<br>global //访问全局变量，只能在函数之外进行访问，global关键字<br>static //局部变量不被删除<br>parameter //参数，通过调用代码将值传递给函数的局部变量，在参数列表中声明，为函数声明的一部分</p>
 <h4 id="global-关键字"><a href="#global-关键字" class="headerlink" title="global 关键字"></a>global 关键字</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$x=<span class="hljs-number">5</span>;<br>$y=<span class="hljs-number">10</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">global</span> $x,$y;<br>	$y=$x+$y;<br>&#125;<br><br>myTest();<br><span class="hljs-keyword">echo</span> $y; <span class="hljs-comment">// 输出15</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 <p>其中</p>
@@ -231,39 +240,6 @@ P...">
   </nav>
 
       </section>
-      
-        <section class="comments">
-  
-    <div class="btn" id="comments-btn">查看评论</div>
-  
-  
-<div id="valine"></div>
-<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  window.onload = function () {
-    var loadValine = function () {
-      new Valine({
-        el: '#valine',
-        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
-        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
-        placeHolder: "昨夜小楼夜听雨",
-        avatar: "mp",
-        pagesize: "10",
-        lang: "zh-CN",
-      });
-    }
-    if ( true ) {
-      $("#comments-btn").on("click", function () {
-        $(this).hide();
-        loadValine();
-      });
-    } else {
-      loadValine();
-    }
-  };
-</script>
-
-</section>
       
     </section>
   </div>
@@ -321,14 +297,25 @@ P...">
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -357,42 +344,7 @@ P...">
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 

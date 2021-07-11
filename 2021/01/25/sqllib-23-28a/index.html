@@ -32,7 +32,7 @@
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -67,7 +67,7 @@
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -89,11 +89,12 @@
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -101,13 +102,13 @@
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -115,6 +116,10 @@
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -128,13 +133,20 @@
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
   <nav class="navbar">
     <div class="left">
       
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
       
         <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
       
     </div>
     <div class="center">sqllib 23-28a</div>
@@ -145,22 +157,23 @@
   </nav>
 
   
+  
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -180,45 +193,41 @@
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 25, 2021</span>
       
-        <span class="post-info-item">
-          <i class="iconfont iconeye"></i><span id="/2021/01/25/sqllib-23-28a/" class="leancloud" data-flag-title="sqllib 23-28a"></span>
-        </span>
-      
       <span class="post-info-item"><i class="iconfont iconfont-size"></i>2813</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
-        <h1 id="less-23"><a href="#less-23" class="headerlink" title="less 23"></a>less 23</h1><p><img   class="lazyload" data-original="image-20210125194954318.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+        <h1 id="less-23"><a href="#less-23" class="headerlink" title="less 23"></a>less 23</h1><p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125194954318.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这波啊</p>
-<p><img   class="lazyload" data-original="image-20210125195034854.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125195034854.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>然后将代码改为</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span> ($result)&#123;<br><br>$row = mysql_fetch_array($result);<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img   class="lazyload" data-original="image-20210125195147069.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125195147069.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>像极了第一关，看看源码</p>
-<p><img   class="lazyload" data-original="image-20210125200152321.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125200152321.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>–  和  # 在这里都不能再进行使用，那就考虑用‘把后面的’进行闭合</p>
 <p>想用order by进行查询，but</p>
-<p><img   class="lazyload" data-original="image-20210125221330438.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125221330438.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>无论我输入几，回显都是这样的</p>
 <p>原因见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46315342/article/details/106557837">https://blog.csdn.net/m0_46315342/article/details/106557837</a></p>
-<p><img   class="lazyload" data-original="image-20210125222145497.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125222145497.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>既然会回显嘛，那就正常查询好了</p>
 <p>大概省略一些</p>
-<p><img   class="lazyload" data-original="image-20210125220017629.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125220017629.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>然后收获了一个之前尝试失败的payload，但是这次成功了，看来逻辑没问题</p>
-<p><img   class="lazyload" data-original="image-20210125223122094.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125223122094.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>当然这里延时，报错什么的也是可以用的</p>
 <h1 id="less-24"><a href="#less-24" class="headerlink" title="less 24"></a>less 24</h1><p>记得是修改代码来着，想去看看源代码，打开文件夹，谢谢，有被吓到，东西有点多</p>
-<p><img   class="lazyload" data-original="sqllib-23-28a/image-20210125224043570.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210125224043570.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>那问题会出在哪里呢1、看了一圈感觉cookie 会有东西，抓个包试试，猜的不对，不行（cookie时间一到就过期了，我在想什么，不好好看代码是我了）</p>
 <p>老实点，上网搜教程了</p>
 <h3 id="session-start-会创建新会话或者重用现有会话。-如果通过-GET-或者-POST-方式，或者使用-cookie-提交了会话-ID，-则会重用现有会话。"><a href="#session-start-会创建新会话或者重用现有会话。-如果通过-GET-或者-POST-方式，或者使用-cookie-提交了会话-ID，-则会重用现有会话。" class="headerlink" title="session_start() 会创建新会话或者重用现有会话。 如果通过 GET 或者 POST 方式，或者使用 cookie 提交了会话 ID， 则会重用现有会话。"></a><strong>session_start()</strong> 会创建新会话或者重用现有会话。 如果通过 GET 或者 POST 方式，或者使用 cookie 提交了会话 ID， 则会重用现有会话。</h3><h3 id="session-start的作用是开启-SESION-需要在-SESION使用之前调用。-PHP-SESION-变量用于存储关于用户会话（session）的信息"><a href="#session-start的作用是开启-SESION-需要在-SESION使用之前调用。-PHP-SESION-变量用于存储关于用户会话（session）的信息" class="headerlink" title="session_start的作用是开启$_SESION,需要在$_SESION使用之前调用。  PHP $_SESION 变量用于存储关于用户会话（session）的信息"></a>session_start的作用是开启$_SESION,需要在$_SESION使用之前调用。  PHP $_SESION 变量用于存储关于用户会话（session）的信息</h3><p>我又把代码看了一遍，问题应该是在修改密码那里了（不会再错了吧，不会吧不会吧）</p>
 <p>哦，对了，那继续</p>
 <p>其他界面基本都处理了吧（听说绕过可以，先放放）</p>
-<p><img   class="lazyload" data-original="image-20210126113337340.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126113337340.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这里的username没有过滤，直接用于了之后的下一个语句当中，如果当前的用户名含有注释，那么就可以修改包含的另一账户的密码</p>
 <p>可以看看这篇博客，我觉得写的很详细了：<a target="_blank" rel="noopener" href="https://www.freesion.com/article/2430806761/">https://www.freesion.com/article/2430806761/</a></p>
 <p>举个栗子好了：</p>
@@ -226,58 +235,58 @@
 
 <p>这里并不会去改admin’#的密码，而是修改了admin的密码。</p>
 <p>less24带来的应该是不同的思维方式了，比一次注入更难发现了。</p>
-<h1 id="less25、less25a"><a href="#less25、less25a" class="headerlink" title="less25、less25a"></a>less25、less25a</h1><p><img   class="lazyload" data-original="image-20210126120416655.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
-<p><img   class="lazyload" data-original="image-20210126121112706.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="less25、less25a"><a href="#less25、less25a" class="headerlink" title="less25、less25a"></a>less25、less25a</h1><p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126120416655.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126121112706.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>先来查询一下字段数，既然说是绕过了AND 和OR，那就试试大小写换一下（And，anD,oR……）</p>
 <p>或者</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs"><br><br>（1）编码，hex，urlencode <br><br>（2）添加注释/*or*/ <br><br>（3）利用符号 and=&amp;&amp; or=||<br></code></pre></td></tr></table></figure>
 
 <p>其实直接联合注入的话，是可以不用and，or的，基本上可以看成less1了</p>
-<p><img   class="lazyload" data-original="image-20210126122840705.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126122840705.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>那试试报错好了</p>
-<p><img   class="lazyload" data-original="image-20210126124928628.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126124928628.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>哦豁，information变成了infmation，然后这里不能用&amp;&amp;，会出啥情况自行尝试</p>
-<p><img   class="lazyload" data-original="image-20210126125118518.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126125118518.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>试了一下换大小写的话都是不行的</p>
-<p><img   class="lazyload" data-original="image-20210126125440951.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126125440951.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>注释也不行</p>
-<p><img   class="lazyload" data-original="image-20210126130205534.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126130205534.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>hex编码</p>
-<p><img   class="lazyload" data-original="image-20210126130505138.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126130505138.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>url编码</p>
-<p><img   class="lazyload" data-original="image-20210126163048361.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126163048361.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>双写oorr</p>
 <p>less25a就不能能进行报错注入了，这里就不多说啦。</p>
-<h1 id="less26"><a href="#less26" class="headerlink" title="less26"></a>less26</h1><p><img   class="lazyload" data-original="image-20210126173752974.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h1 id="less26"><a href="#less26" class="headerlink" title="less26"></a>less26</h1><p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126173752974.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>相比less25，这边被被过滤了不仅是or，and 还有各种字符</p>
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs haml">对于空格，有较多的方法： <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">09</span></span> <br><br>TAB 键（水平） <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">0a</span></span> <br><br>新建一行 <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">0c</span></span> <br><br>新的一页 <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">0d</span></span> <br><br>return 功能 <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">0b</span></span> <br><br>TAB 键（垂直） <br><br><span class="hljs-tag">%<span class="hljs-selector-tag">a0</span></span> <br><br>空格 <br></code></pre></td></tr></table></figure>
 
 <p>但是这里是在windows+phpstudy2018中下只有%a0，%0b可用</p>
-<p><img   class="lazyload" data-original="image-20210126190818309.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" > </p>
-<p><img   class="lazyload" data-original="image-20210126190847464.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126190818309.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" > </p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126190847464.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>啊哈，怎么会这样，奇怪的问题又双叒叕增加了（语句不对，不愧是我）</p>
-<p><img   class="lazyload" data-original="image-20210126191711783.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126191711783.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>linux上直接报错？？？？？（在windows上能获取数据的在linux上全报错？？？？？）</p>
-<p><img   class="lazyload" data-original="image-20210126194620491.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
-<p><img   class="lazyload" data-original="image-20210126194913465.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126194620491.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126194913465.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>#用；%00代替</p>
 <p>再换成||‘</p>
-<p><img   class="lazyload" data-original="image-20210126195431199.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126195431199.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>再改成||’1</p>
-<p><img   class="lazyload" data-original="image-20210126195316777.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126195316777.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>再改成||‘1’=‘1</p>
-<p><img   class="lazyload" data-original="image-20210126195806414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126195806414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>我惊了</p>
 <p>来试个报错缓缓</p>
-<p><img   class="lazyload" data-original="image-20210126201849272.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126201849272.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>顺便测试一下刚才的问题</p>
-<p><img   class="lazyload" data-original="image-20210126201939653.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126201939653.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>并没有发生变化，两种闭合方式对报错注入貌似没什么影响</p>
-<p><img   class="lazyload" data-original="image-20210126203234997.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126203234997.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这句用||‘来注释</p>
-<p><img   class="lazyload" data-original="image-20210126203333162.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126203333162.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>现在是用||’1‘=’1注释（怎么是一样的？？？）</p>
-<p><img   class="lazyload" data-original="image-20210126203433630.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2021/01/25/sqllib-23-28a/image-20210126203433630.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>我？？？？？那前面那个怎么回事，算了先到这里</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?id=100%27||%0bupdatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span>%<span class="hljs-number">0</span>bgroup_concat(table_name)%<span class="hljs-number">0</span>bfrom%<span class="hljs-number">0</span>binfoorrmation_schema.tables%<span class="hljs-number">0</span>bwhere%<span class="hljs-number">0</span>btable_schema=%<span class="hljs-number">27</span><span class="hljs-keyword">security</span>%<span class="hljs-number">27</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>);%00<br></code></pre></td></tr></table></figure>
 
@@ -318,39 +327,6 @@
   </nav>
 
       </section>
-      
-        <section class="comments">
-  
-    <div class="btn" id="comments-btn">查看评论</div>
-  
-  
-<div id="valine"></div>
-<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  window.onload = function () {
-    var loadValine = function () {
-      new Valine({
-        el: '#valine',
-        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
-        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
-        placeHolder: "昨夜小楼夜听雨",
-        avatar: "mp",
-        pagesize: "10",
-        lang: "zh-CN",
-      });
-    }
-    if ( true ) {
-      $("#comments-btn").on("click", function () {
-        $(this).hide();
-        loadValine();
-      });
-    } else {
-      loadValine();
-    }
-  };
-</script>
-
-</section>
       
     </section>
   </div>
@@ -408,14 +384,25 @@
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -444,42 +431,7 @@
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 

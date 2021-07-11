@@ -28,7 +28,7 @@
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -63,7 +63,7 @@
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -85,11 +85,12 @@
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -97,13 +98,13 @@
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -111,6 +112,10 @@
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -124,13 +129,20 @@
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
   <nav class="navbar">
     <div class="left">
       
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
       
         <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
       
     </div>
     <div class="center">攻防世界-misc3</div>
@@ -141,22 +153,23 @@
   </nav>
 
   
+  
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -170,15 +183,11 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image4.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">攻防世界-misc3</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>April 09, 2021</span>
-      
-        <span class="post-info-item">
-          <i class="iconfont iconeye"></i><span id="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/" class="leancloud" data-flag-title="攻防世界-misc3"></span>
-        </span>
       
       <span class="post-info-item"><i class="iconfont iconfont-size"></i>3403</span>
     </div>
@@ -187,12 +196,12 @@
     <section class="main">
       <section class="content">
         <h1 id="MISCall"><a href="#MISCall" class="headerlink" title="MISCall"></a>MISCall</h1><p>文件用010打开没有半点提示，用binwalk发现是bzip文件，tar解压</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409211654103.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210409211654103</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409211654103.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210409211654103</span></p>
 <p>会收获一个假flag.txt文件</p>
 <p>flag在哪里呢？</p>
 <p>新知识！：<strong>以“.”开头的文件会被Linux自动隐藏，</strong></p>
 <p><strong>查看隐藏文件看到.git目录，大致浏览了下，接着对.git目录进行操作(在.git目录外操作)：</strong></p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409212050128.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210409212050128</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409212050128.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210409212050128</span></p>
 <p><strong>git stash 的作用</strong><br><strong>git stash用于想要保存当前的修改,但是想回到之前最后一次提交的干净的工作仓库时进行的操作.git stash将本地的修改保存起来,并且将当前代码切换到HEAD提交上.</strong></p>
 <p><strong>通过<code>git stash</code>存储的修改列表,可以通过<code>git stash list</code>查看.<code>git stash show</code>用于校验,<code>git stash apply</code>用于重新存储.直接执行<code>git stash</code>等同于<code>git stash save</code>.</strong></p>
 <p>参考:<a target="_blank" rel="noopener" href="https://blog.csdn.net/zz_Caleb/article/details/89331985">https://blog.csdn.net/zz_Caleb/article/details/89331985</a></p>
@@ -202,47 +211,47 @@
 <p>然后，要密码，题目提示只有</p>
 <p><strong>假如你是李华（LiHua)，收到乔帮主一封密信，没有任何特殊字符，请输入密码，不少于1000个字。同学，记得署名哦～</strong></p>
 <p>1000？（英语作文可没写过这么多，二进制？八位密码？）然后署名？那后五位LiHua？爆破试试</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409214453607.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210409214453607</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210409214453607.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210409214453607</span></p>
 <p>（很想说最后密码是九位来着，然后1000确实和15CC位数相同）懂了，1000以上，所以密码至少九位</p>
-<h1 id="我们的秘密是绿色的"><a href="#我们的秘密是绿色的" class="headerlink" title="我们的秘密是绿色的"></a>我们的秘密是绿色的</h1><p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/%E6%88%91%E4%BB%AC%E7%9A%84%E7%A7%98%E5%AF%86%E6%98%AFgreen.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">我们的秘密是green</span></p>
+<h1 id="我们的秘密是绿色的"><a href="#我们的秘密是绿色的" class="headerlink" title="我们的秘密是绿色的"></a>我们的秘密是绿色的</h1><p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/%E6%88%91%E4%BB%AC%E7%9A%84%E7%A7%98%E5%AF%86%E6%98%AFgreen.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">我们的秘密是green</span></p>
 <p>各种方法试过去，啥都没有。。。。。。。。。。。。。。。。。。</p>
 <p>（看wp）提示竟在题目里，我们的秘密=our secret  是一个加密工具，秘密是绿色的？日期上的数字确实有绿色的</p>
 <p>我愿意称这题为无限套娃，解开得到压缩包，需要爆破密码（八位生日），然后明文攻击解压里面的zip文件，把明文（txt，）压缩使用</p>
 <p><strong>有的时候，我们可能会把很多不起眼的文本文件、PPT文档、doc文件等，作为“已知明文”来使用。</strong>（通过比较压缩包里外的文件和CRC32来判断）</p>
 <p>收获flag文件，恭喜你</p>
 <p>这不是真的</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200052562.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210410200052562</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200052562.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210410200052562</span></p>
 <p>栅栏密码（别问，问就是不会）</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200723584.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210410200723584</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200723584.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210410200723584</span></p>
 <p>在线解一下，这个看起来比较像flag，但是这个肯定不是啊</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200957573.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210410200957573</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210410200957573.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210410200957573</span></p>
 <p>真实的凯撒加密出现在了misc里</p>
 <p>这个套娃游戏终于结束了。。。。。。。。。。。。。。。。。。。。。。。。</p>
 <h1 id="labour"><a href="#labour" class="headerlink" title="labour"></a>labour</h1><p>觉得这题很有意思就写了一下</p>
 <p>拿到的是一个无后缀文件，通过010得知，这是xml文件，然后有</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411160215035.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411160215035</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411160215035.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411160215035</span></p>
 <p>没提示了，看了long time。。。。。。。哦，这个是经纬度</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411160253945.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411160253945</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411160253945.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411160253945</span></p>
 <p>gps信息会生成地图，然后首字母组合得到flag</p>
 <p>依次得到</p>
 <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mathematica">WP01-A - Bangladesh<br>WP02-B - India<br>WP03-<span class="hljs-keyword">C</span> - Turkmenistan<br>WP04-<span class="hljs-keyword">D</span> - Sudan<br>WP05-<span class="hljs-keyword">E</span> - Chad<br>WP06-F - Thailand<br>WP07-G - France<br>WP08-H - Malesia<br>WP09-<span class="hljs-keyword">I</span> - Afganistan<br>WP10-J - Pakistan<br>WP11-<span class="hljs-keyword">K</span> - Turkey<br>WP12-L - Hungary<br>WP13-M - Egypt<br>WP14-<span class="hljs-keyword">N</span> - Haiti<br>WP15-<span class="hljs-keyword">O</span> - Angola<br>WP16-P - China<br>WP17-Q - Kazaksztan<br></code></pre></td></tr></table></figure>
 
 <h1 id="glance-50"><a href="#glance-50" class="headerlink" title="glance-50"></a>glance-50</h1><p>是一张gif，看得出来这是windowxp默认壁纸，用python进行分帧合成得到</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411163833034.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411163833034</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411163833034.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411163833034</span></p>
 <p>（我也想知道为什么我这个合成出来这么离谱）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#将gif图片转成PNG图片</span><br><span class="hljs-comment"># utf-8</span><br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">import</span> os<br>im = Image.open(<span class="hljs-string">&#x27;glance.gif&#x27;</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">iter_frames</span>(<span class="hljs-params">im</span>):</span><br>    <span class="hljs-keyword">try</span>:<br>        i= <span class="hljs-number">0</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>            im.seek(i)<br>            imframe = im.copy()<br>            <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:<br>                palette = imframe.getpalette()<br>            <span class="hljs-keyword">else</span>:<br>                imframe.putpalette(palette)<br>            <span class="hljs-keyword">yield</span> imframe<br>            i += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">except</span> EOFError:<br>        <span class="hljs-keyword">pass</span><br><span class="hljs-keyword">for</span> i, frame <span class="hljs-keyword">in</span> enumerate(iter_frames(im)):<br>    frame.save(<span class="hljs-string">&#x27;glance&#x27;</span>+ str(i) + <span class="hljs-string">&#x27;.png&#x27;</span>,**frame.info)<br><br> <br><br>IMAGES_PATH = <span class="hljs-string">r&#x27;C:\Users\lxy0218\Desktop\新建文件夹&#x27;</span> <span class="hljs-comment"># 图片地址</span><br> <br>IMAGES_FORMAT = [<span class="hljs-string">&#x27;.png&#x27;</span>] <span class="hljs-comment"># 图片后缀</span><br>IMAGE_SIZE = <span class="hljs-number">2</span> <span class="hljs-comment"># 每张小图片的宽度大小</span><br>IMAGE_ROW = <span class="hljs-number">600</span> <span class="hljs-comment"># 图片的长度</span><br>IMAGE_COLUMN = <span class="hljs-number">202</span> <span class="hljs-comment"># 图片间隔，也就是合并成一张图后，一共有几列</span><br>IMAGE_SAVE_PATH = <span class="hljs-string">&#x27;final.jpg&#x27;</span> <span class="hljs-comment"># 图片转换后的地址</span><br>image_names = sorted([name <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> os.listdir(IMAGES_PATH) <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> IMAGES_FORMAT <span class="hljs-keyword">if</span><br>        os.path.splitext(name)[<span class="hljs-number">1</span>] == item])<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">image_compose</span>():</span><br>    to_image = Image.new(<span class="hljs-string">&#x27;RGB&#x27;</span>, (IMAGE_COLUMN * IMAGE_SIZE, IMAGE_ROW)) <span class="hljs-comment">#创建一个新图</span><br>    <span class="hljs-comment"># 循环遍历，把每张图片按顺序粘贴到对应位置上</span><br>    flag = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> image_names:<br>        ph = Image.open(name)<br>        to_image.paste(ph,(flag,<span class="hljs-number">0</span>))<br>        flag += IMAGE_SIZE<br>    <span class="hljs-keyword">return</span> to_image.save(IMAGE_SAVE_PATH) <span class="hljs-comment"># 保存新图</span><br> <br>image_compose()<br></code></pre></td></tr></table></figure>
 
 <p>后来看wp，<a target="_blank" rel="noopener" href="https://tu.sioe.cn/gj/fenjie/%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E4%BA%86">https://tu.sioe.cn/gj/fenjie/一个网站就能搞定了</a></p>
 <p>也可以用linux来做</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411165356628.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411165356628</span></p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411165423332.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411165423332</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411165356628.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411165356628</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411165423332.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411165423332</span></p>
 <p>强迫症选手表示非常满意</p>
 <h1 id="Ditf"><a href="#Ditf" class="headerlink" title="Ditf"></a>Ditf</h1><p>前面都好说，就是这个流量包搞得我很难受，在里面找到了一张png，但是什么都没有发现，然后</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411172949473.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210411172949473</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210411172949473.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210411172949473</span></p>
 <p>属实没有想到html里藏了一串base64，转换完即可得到flag</p>
 <h1 id="Hidden-Message"><a href="#Hidden-Message" class="headerlink" title="Hidden-Message"></a>Hidden-Message</h1><p>追踪udp流</p>
 <p>发现是文本，大概讲的是量子物理</p>
-<p><img    class="lazyload" data-original="%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210412210021281.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210412210021281</span></p>
+<p><img   class="lazyload" data-original="/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/image-20210412210021281.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210412210021281</span></p>
 <p>（这个信息隐藏在哪里啊。。。。。。。。。。。。。。。。。。。）</p>
 <p>你看看端口，3401,3400变换，量子纠缠是0和1变换，好像对应上了</p>
 <p>二进制转文本，未果</p>
@@ -269,39 +278,6 @@
   </nav>
 
       </section>
-      
-        <section class="comments">
-  
-    <div class="btn" id="comments-btn">查看评论</div>
-  
-  
-<div id="valine"></div>
-<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  window.onload = function () {
-    var loadValine = function () {
-      new Valine({
-        el: '#valine',
-        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
-        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
-        placeHolder: "昨夜小楼夜听雨",
-        avatar: "mp",
-        pagesize: "10",
-        lang: "zh-CN",
-      });
-    }
-    if ( true ) {
-      $("#comments-btn").on("click", function () {
-        $(this).hide();
-        loadValine();
-      });
-    } else {
-      loadValine();
-    }
-  };
-</script>
-
-</section>
       
     </section>
   </div>
@@ -359,14 +335,25 @@
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -395,42 +382,7 @@
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 

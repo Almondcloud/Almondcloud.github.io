@@ -28,7 +28,7 @@
 
   
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_s6x2xcokxrl.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
 
   
 
@@ -63,7 +63,7 @@
       lazyload: {
         enable: true,
         only_post: 'false',
-        loading: '/images/theme/loading.gif'
+        loading: '[object Object]'
       },
       donate: {
         enable: false,
@@ -85,11 +85,12 @@
       },
       preview: {
         background: {
-          default: '/images/theme/welcome-image.png',
+          default: '',
           api: ''
         },
         motto: {
-          default: 'There may be a great fire in our hearts,and the passers-by see only a wisp of smoke.',
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
           api: '',
           data_contents: '["data","content"]'
         },
@@ -97,13 +98,13 @@
       qrcode: {
         enable: false,
         type: 'url',
-        image: '',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
       },
       toc: {
         enable: true
       },
       scrollbar: {
-        model: 'simple'
+        type: 'default'
       },
       notification: {
         enable: false,
@@ -111,6 +112,10 @@
         list: '',
         page_white_list: '',
         page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
       }
     }
   </script>
@@ -124,13 +129,20 @@
 <body class="lock-screen">
   <div class="loading"></div>
   
+    
 
 
   <nav class="navbar">
     <div class="left">
       
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
       
         <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
       
     </div>
     <div class="center">sqli-labs less5-6盲注</div>
@@ -141,22 +153,23 @@
   </nav>
 
   
+  
 
 <nav class="menu">
-  <div class="menu-wrap">
+  <div class="menu-container">
     <div class="menu-close">
       <i class="iconfont iconbaseline-close-px"></i>
     </div>
     <ul class="menu-content"><li class="menu-item">
         <a href="/ " class="underline "> 首页</a>
       </li><li class="menu-item">
-        <a href="/archives " class="underline "> 归档</a>
+        <a href="/archives/ " class="underline "> 归档</a>
       </li><li class="menu-item">
-        <a href="/tags " class="underline "> 标签</a>
+        <a href="/tags/ " class="underline "> 标签</a>
       </li><li class="menu-item">
         <a href="/categories/ " class="underline "> 分类</a>
       </li><li class="menu-item">
-        <a href="/about " class="underline "> 关于</a>
+        <a href="/about/ " class="underline "> 关于</a>
       </li></ul>
     
       <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
@@ -170,15 +183,11 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image3.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">sqli-labs less5-6盲注</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>November 22, 2020</span>
-      
-        <span class="post-info-item">
-          <i class="iconfont iconeye"></i><span id="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/" class="leancloud" data-flag-title="sqli-labs less5-6盲注"></span>
-        </span>
       
       <span class="post-info-item"><i class="iconfont iconfont-size"></i>1656</span>
     </div>
@@ -190,35 +199,35 @@
 <h1 id="盲注的分类"><a href="#盲注的分类" class="headerlink" title="盲注的分类"></a>盲注的分类</h1><p>•基于布尔 SQL 盲注 </p>
 <p>•基于时间的 SQL 盲注 </p>
 <p>•基于报错的 SQL 盲注</p>
-<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><h3 id="截取字符串相关函数"><a href="#截取字符串相关函数" class="headerlink" title="截取字符串相关函数"></a>截取字符串相关函数</h3><p><img   class="lazyload" data-original="image-20201124161121482.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><h3 id="截取字符串相关函数"><a href="#截取字符串相关函数" class="headerlink" title="截取字符串相关函数"></a>截取字符串相关函数</h3><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124161121482.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">▲ascii(substr((<span class="hljs-keyword">select</span> table_name information_schema.tables <span class="hljs-keyword">where</span> tables_schema =<span class="hljs-keyword">database</span>()<span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">101</span> <span class="hljs-comment">--+ //substr()函数，ascii()函数 </span><br><span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">substr</span>(a,b,c)从 b 位置开始，截取字符串 a 的 c 长度。<span class="hljs-keyword">Ascii</span>()将某个字符转换 为 <span class="hljs-keyword">ascii</span> 值 ▲<span class="hljs-keyword">ascii</span>(<span class="hljs-keyword">substr</span>((selectdatabase()),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">98</span> <br>▲<span class="hljs-keyword">ORD</span>(<span class="hljs-keyword">MID</span>((<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">IFNULL</span>(<span class="hljs-keyword">CAST</span>(username <span class="hljs-keyword">AS</span> <span class="hljs-built_in">CHAR</span>),<span class="hljs-number">0x20</span>)<span class="hljs-keyword">FROM</span> security.users <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&gt;<span class="hljs-number">98</span>%<span class="hljs-number">23</span> <br>//<span class="hljs-keyword">ORD</span>()函数，<span class="hljs-keyword">MID</span>()函数 <span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">mid</span>(a,b,c)从位置 b 开始，截取 a 字符串的 c 位 <span class="hljs-keyword">Ord</span>()函数同 <span class="hljs-keyword">ascii</span>()，将字符转为 <span class="hljs-keyword">ascii</span> 值<br><br></code></pre></td></tr></table></figure>
 
 <p>ord()→mid()</p>
 <p>ascii()→substr()                            这二者通常组合使用</p>
 <h3 id="regexp正则注入"><a href="#regexp正则注入" class="headerlink" title="regexp正则注入"></a>regexp正则注入</h3><p>这边拿user()来举个栗子，这边结果为root</p>
-<p><img   class="lazyload" data-original="image-20201130193453164.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201130193453164.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这边使用了if语句</p>
 <p>通过 if 语句的条件判断，返回一些条件句，比如 if 等构造一个判断。根据返回结果是否等 </p>
 <p>于 0 或者 1 进行判断。</p>
 <p>但是这里可以通过是否有回显进行判断结果的正确性。</p>
-<h4 id="通过regexp正则注入查表名"><a href="#通过regexp正则注入查表名" class="headerlink" title="通过regexp正则注入查表名"></a>通过regexp正则注入查表名</h4><p><img   class="lazyload" data-original="image-20201124204427880.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h4 id="通过regexp正则注入查表名"><a href="#通过regexp正则注入查表名" class="headerlink" title="通过regexp正则注入查表名"></a>通过regexp正则注入查表名</h4><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124204427880.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <h2 id="基于时间sql注入——延时注入"><a href="#基于时间sql注入——延时注入" class="headerlink" title="基于时间sql注入——延时注入"></a>基于时间sql注入——延时注入</h2><p>可与前面的截取字符串函数，逻辑判断联用</p>
 <p>举个栗子</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">192.168.199.132</span>/sqli-labs/Less-<span class="hljs-number">5</span>/?id=<span class="hljs-number">1</span>&#x27; and if(left(database(),<span class="hljs-number">1</span>)=&#x27;s&#x27;,sleep(<span class="hljs-number">5</span>),<span class="hljs-number">1</span>)--+<br></code></pre></td></tr></table></figure>
 
 <p>在网速不好的情况下，该方法注入会受其影响。</p>
 <h2 id="基于报错sql注入"><a href="#基于报错sql注入" class="headerlink" title="基于报错sql注入"></a>基于报错sql注入</h2><p>相比一个个手打或者等时长来说，报错sql注入确实方便很多。</p>
-<h3 id="▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><a href="#▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a" class="headerlink" title="▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a"></a>▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</h3><p><img   class="lazyload" data-original="image-20201125220841958.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h3 id="▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><a href="#▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a" class="headerlink" title="▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a"></a>▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</h3><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201125220841958.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>[]: <a target="_blank" rel="noopener" href="https://www.freebuf.com/column/235496.html">https://www.freebuf.com/column/235496.html</a>    “Mysql报错注入之floor(rand(0)*2)报错原理探究”</p>
 <h3 id="利用-double-数值类型超出范围进行报错注入"><a href="#利用-double-数值类型超出范围进行报错注入" class="headerlink" title="利用 double 数值类型超出范围进行报错注入"></a>利用 double 数值类型超出范围进行报错注入</h3><h4 id="Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）"><a href="#Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）" class="headerlink" title="Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）"></a>Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">exp</span>(~(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">FROM</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">USER</span>())a)) <br></code></pre></td></tr></table></figure>
 
 <h4 id="bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）"><a href="#bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）" class="headerlink" title="bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）"></a>bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> !(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">user</span>())x) -（ps:这是减号） ~<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure>
 
 <p>好家伙，我这里mysql版本为5.5.53,并不能成功实现报错。</p>
-<h3 id="xpath-函数报错注入"><a href="#xpath-函数报错注入" class="headerlink" title="xpath 函数报错注入"></a>xpath 函数报错注入</h3><h4 id="extravalue-报错注入"><a href="#extravalue-报错注入" class="headerlink" title="extravalue()报错注入"></a>extravalue()报错注入</h4><p><img   class="lazyload" data-original="image-20201127195301610.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
-<h4 id="updatexml-报错注入"><a href="#updatexml-报错注入" class="headerlink" title="updatexml()报错注入"></a>updatexml()报错注入</h4><p><img   class="lazyload" data-original="image-20201127195328445.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h3 id="xpath-函数报错注入"><a href="#xpath-函数报错注入" class="headerlink" title="xpath 函数报错注入"></a>xpath 函数报错注入</h3><h4 id="extravalue-报错注入"><a href="#extravalue-报错注入" class="headerlink" title="extravalue()报错注入"></a>extravalue()报错注入</h4><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195301610.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h4 id="updatexml-报错注入"><a href="#updatexml-报错注入" class="headerlink" title="updatexml()报错注入"></a>updatexml()报错注入</h4><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195328445.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>这里的0x7e可换为其他的十六进制符号编码，若为十六进制字母编码或者非十六进制编码则报错失败</p>
-<h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img   class="lazyload" data-original="image-20201127204011874.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
+<h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img   class="lazyload" data-original="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127204011874.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>据说这个只能查系统版本，改天来试一下好了。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>大概整理了一下这两关注入所需的方法，今天好像是写这篇博客的的的的的的的的的。。。。。。。。对，第六天（27了，就离谱），讲真内容还蛮多的，慢慢来好了，反正我不急，我真的不着急。</p>
 
@@ -244,39 +253,6 @@
   </nav>
 
       </section>
-      
-        <section class="comments">
-  
-    <div class="btn" id="comments-btn">查看评论</div>
-  
-  
-<div id="valine"></div>
-<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  window.onload = function () {
-    var loadValine = function () {
-      new Valine({
-        el: '#valine',
-        appId: "mFmkxkQiWWHoWdmShYWGKpLA-gzGzoHsz",
-        appKey: "Cwy5hLAur0P89FwQ5J2sz9rz",
-        placeHolder: "昨夜小楼夜听雨",
-        avatar: "mp",
-        pagesize: "10",
-        lang: "zh-CN",
-      });
-    }
-    if ( true ) {
-      $("#comments-btn").on("click", function () {
-        $(this).hide();
-        loadValine();
-      });
-    } else {
-      loadValine();
-    }
-  };
-</script>
-
-</section>
       
     </section>
   </div>
@@ -334,14 +310,25 @@
   </div>
   
   
-    <div class="scrollbar j-scrollbar">
-  <div class="scrollbar-current j-scrollbar-current"></div>
-</div>
-  
   
     
 <script src="/js/color-mode.js"></script>
 
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
   
 </body>
 
@@ -370,42 +357,7 @@
 
 
 
-  <script>
-  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
 
-    AV.init({
-      appId: 'WX8aQk4GsrBk4AHV5fKhttEs-9Nh9j0Va',
-      appKey: 'KeFoQ67mYsmvsYyinfxfaaNk',
-      serverURLs: 'https://leancloud.cn/',
-    });
-
-    const showCount = (Counter) => {
-      const asyncLimit = new AsyncLimit(2);
-      $(".leancloud").each(async (e) => {
-        const url = $(".leancloud").eq(e).attr('id').trim();
-        const query = new AV.Query("Counter");
-        query.equalTo("words", url);
-        let count = await asyncLimit.run(() => query.count());
-        $(".leancloud").eq(e).text(count ? count : '--');
-      });
-    }
-
-    const addCount = (Counter) => {
-      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'http://example.com';
-      var query = new Counter;
-      query.save({
-        words: url
-      });
-    }
-
-    $(function () {
-      const Counter = AV.Object.extend("Counter");
-      addCount(Counter);
-      showCount(Counter);
-    });
-
-  });
-</script>
 
 
 
