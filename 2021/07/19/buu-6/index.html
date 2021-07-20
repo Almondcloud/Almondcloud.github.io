@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   
-  
+  <meta name="description" content="john-in-the-middle跟流量包逐渐熟悉起...">
   <meta name="author" content="Almond">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -183,19 +183,50 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-6</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 19, 2021</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>0</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1800</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
-        
+        <h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719212634015.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719212634015</span></p>
+<p>导出就对了（毕竟搜flag、john啥也没搜到）图片好几张，先观察一下</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719212935554.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719212935554</span></p>
+<p>logo.png中间缺了一条</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719213145620.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719213145620</span></p>
+<p>scanline？？？但是这张图是空的，难道拼起来？？？</p>
+<p>stegosolve先打开logo然后和scanline拼起来，啊这，啥也没有，那换过来试试</p>
+<p>好家伙，金色传说，flag有了</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719213533992.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719213533992</span></p>
+<h1 id="WUSTCTF2020-爬"><a href="#WUSTCTF2020-爬" class="headerlink" title="[WUSTCTF2020]爬"></a>[WUSTCTF2020]爬</h1><p>我一定要来吐槽一下这道题，把覆盖flag的图片和flag图片组合在一起，真的没想到</p>
+<h1 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h1><p>这，这么多</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719214222876.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719214222876</span></p>
+<p>每一个文件还都一样大，难道crc32碰撞？（略有耳闻，倒是第一次碰到）</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210719214758889.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210719214758889</span></p>
+<p>打开一个看看，加密了，那应该是了</p>
+<p>先研究一下原理<a target="_blank" rel="noopener" href="https://preshing.com/20110504/hash-collision-probabilities/">https://preshing.com/20110504/hash-collision-probabilities/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zz_Caleb/article/details/88852078">https://blog.csdn.net/zz_Caleb/article/details/88852078</a></p>
+<p>CRC32:CRC本身是“<a target="_blank" rel="noopener" href="http://baike.baidu.com/item/CRC32">冗余校验码</a>”的意思，CRC32则表示会产生一个32bit（8位十六进制数）的校验值。</p>
+<p>在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同的CRC32值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p>（来看一点看得懂的）</p>
+<p>拿脚本跑吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#python3</span><br><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackCrc</span>(<span class="hljs-params">crc</span>):</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dic:<br>		<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> dic:<br>			<span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> dic:<br>				<span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> dic:<br>					s = i + j + k + h<br>					<span class="hljs-keyword">if</span> crc == (binascii.crc32(s.encode())):<br>						f.write(s)<br>						<span class="hljs-keyword">return</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackZip</span>():</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">68</span>):<br>		file = <span class="hljs-string">&#x27;out&#x27;</span>+str(i)+<span class="hljs-string">&#x27;.zip&#x27;</span><br>		crc = zipfile.ZipFile(file,<span class="hljs-string">&#x27;r&#x27;</span>).getinfo(<span class="hljs-string">&#x27;data.txt&#x27;</span>).CRC<br>		CrackCrc(crc)<br>		print(<span class="hljs-string">&#x27;\r&#x27;</span>+<span class="hljs-string">&quot;loading：&#123;:%&#125;&quot;</span>.format(float((i+<span class="hljs-number">1</span>)/<span class="hljs-number">68</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br>dic = string.ascii_letters + string.digits + <span class="hljs-string">&#x27;+/=&#x27;</span><br>f = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>print(<span class="hljs-string">&quot;\nCRC32begin&quot;</span>)<br>CrackZip()<br>print(<span class="hljs-string">&quot;CRC32finished&quot;</span>)<br>f.close()<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>base64_text = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).read()<br>byte_stream = base64.b64decode(base64_text)<br>open(<span class="hljs-string">&#x27;new.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>).write(byte_stream)<br><br></code></pre></td></tr></table></figure>
+
+<p>解开是缺失文件头的rar压缩包，补上文件头后，flag在备注里。</p>
+<h1 id="小易的U盘"><a href="#小易的U盘" class="headerlink" title="小易的U盘"></a>小易的U盘</h1><p>iso文件，用记事本打开，发现是rar压缩包，同时有一堆和flag相关的文件</p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210720130343139.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210720130343139</span></p>
+<p><img   class="lazyload" data-original="/2021/07/19/buu-6/Users/lxy0218/AppData/Roaming/Typora/draftsRecover/buu-6/image-20210720131008264.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210720131008264</span></p>
+<p>运行一下收获一个avi文件，但是根本打不开，010查看完发现全是f<del>（脸黑</del></p>
+
       </section>
       <section class="extra">
         
@@ -209,6 +240,8 @@
         
         
         
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+
         
   <nav class="nav">
     <a></a>
@@ -225,7 +258,7 @@
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#john-in-the-middle"><span class="toc-text">john-in-the-middle</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WUSTCTF2020-%E7%88%AC"><span class="toc-text">[WUSTCTF2020]爬</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zip"><span class="toc-text">zip</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E6%98%93%E7%9A%84U%E7%9B%98"><span class="toc-text">小易的U盘</span></a></li></ol>
   </aside>
 
         
