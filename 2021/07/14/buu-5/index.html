@@ -183,13 +183,13 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image1.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-5</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 14, 2021</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>950</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>874</span>
     </div>
   </div>
 </section>
@@ -212,18 +212,19 @@
 <p>（真的好小，我需要一双列文虎克的眼睛）</p>
 <p>后面还有一串base64，拼起来就是flag2压缩包密码，解完之后用010打开，搜索ctf即可找到flag。</p>
 <h1 id="MRCTF2020-ezmisc"><a href="#MRCTF2020-ezmisc" class="headerlink" title="[MRCTF2020]ezmisc"></a>[MRCTF2020]ezmisc</h1><p>没啥想说的，写一个小技巧，当</p>
-<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210717125159751.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210717125159751</span></p>
+<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210717125159751.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>crc 报错时可以尝试去改一下图片高（很奇怪，我的010并不报错</p>
 <h1 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h1><p>我以为是压缩包弱口令，尝试爆破，n分钟后，无果，发现压缩包有别的信息</p>
-<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718134018368.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210718134018368</span></p>
+<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718134018368.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>但是好像看不出来是什么，复制一下，在各种文本编辑器里试图查看</p>
-<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718134159164.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210718134159164</span></p>
+<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718134159164.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>你看这像不像莫斯密码</p>
-<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718135411821.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210718135411821</span></p>
+<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718135411821.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p>被→ 坑了一下这个是长的（包括了一个空格）然后一行是一个字母，就可以解压了</p>
 <p>png图片，通道分析完感觉是lsb隐写，但是解不出来，根据题目弱口令</p>
-<p>找到脚本，模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
-<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718162413435.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210718162413435</span></p>
+<p>找到脚本，<a target="_blank" rel="noopener" href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a></p>
+<p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
+<p><img   class="lazyload" data-original="/2021/07/14/buu-5/image-20210718162413435.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ></p>
 <p><del>（终于成功了，太感人了</del></p>
 
       </section>
@@ -243,7 +244,7 @@
 
         
   <nav class="nav">
-    <a></a>
+    <a href="/2021/07/19/buu-6/"><i class="iconfont iconleft"></i>buu-6</a>
     <a href="/2021/07/11/buu-4/">buu-4<i class="iconfont iconright"></i></a>
   </nav>
 
