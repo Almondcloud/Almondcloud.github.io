@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>buu-7 - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="[GUET-CTF2019]虚假的压缩包image-2...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
+      
+    </div>
+    <div class="center">buu-7</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image3.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">buu-7</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 23, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1122</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="GUET-CTF2019-虚假的压缩包"><a href="#GUET-CTF2019-虚假的压缩包" class="headerlink" title="[GUET-CTF2019]虚假的压缩包"></a>[GUET-CTF2019]虚假的压缩包</h1><p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210723211338559.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210723211338559</span></p>
+<p>一真一假，亦真亦假，都解开就知道了</p>
+<p>虚假压缩包伪加密，打开</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210723211601096.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210723211601096</span></p>
+<p>呆滞，rsa</p>
+<h2 id="rsa算法"><a href="#rsa算法" class="headerlink" title="rsa算法"></a>rsa算法</h2><p>RSA算法的具体描述如下：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dbs1215/article/details/48953589">https://blog.csdn.net/dbs1215/article/details/48953589</a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公钥</td>
+<td>（E，N）</td>
+</tr>
+<tr>
+<td>私钥</td>
+<td>（D，N）</td>
+</tr>
+<tr>
+<td>密钥对</td>
+<td>（E，D，N）</td>
+</tr>
+<tr>
+<td>加密</td>
+<td>密文＝明文EmodN密文＝明文EmodN</td>
+</tr>
+<tr>
+<td>解密</td>
+<td>明文＝密文DmodN</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>求N</th>
+<th>N＝ p ＊ q ；p，q为质数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>求L</td>
+<td>L＝lcm（p－1，q－1） ；L为p－1、q－1的最小公倍数</td>
+</tr>
+<tr>
+<td>求E</td>
+<td>1 &lt; E &lt; L，gcd（E，L）=1；E，L最大公约数为1（E和L互质）</td>
+</tr>
+<tr>
+<td>求D</td>
+<td>1 &lt; D &lt; L，E＊D mod L ＝ 1</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br><br>p = <span class="hljs-number">3</span><br>q = <span class="hljs-number">11</span><br>e = <span class="hljs-number">3</span><br>c = <span class="hljs-number">26</span><br>n = <span class="hljs-number">33</span><br>s = (p- <span class="hljs-number">1</span>) * (q - <span class="hljs-number">1</span>)<br>d = gmpy2.invert(e,s)<span class="hljs-comment">#求逆元</span><br>m = pow(c,d,n)<span class="hljs-comment">#函数是计算 x 的 y 次方，如果 z 在存在，则再对结果进行取模，其结果等效于 pow(x,y) %z。</span><br><br>print(pow(c, d, n))<br></code></pre></td></tr></table></figure>
+
+<p>这题算出来是5，感觉真实压缩包密码应该就是5了，结果。。。。竟然不对，</p>
+<p>压缩包密码是<strong>答案是5</strong><del>（这就是脑袋题吗</del></p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210723234154830.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210723234154830</span></p>
+<p>目测修改图片高</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210723235419873.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210723235419873</span></p>
+<p>异或5?</p>
+<p>再看一下亦真亦假，十六进制</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210723235746824.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210723235746824</span></p>
+<p>但是不知道是什么，总不会异或整份文件吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">f1 = open(<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>xor_data = f1.read()<br>f1.close()<br>dec_data = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xor_data:<br>    tmp = int(i,<span class="hljs-number">16</span>) ^ <span class="hljs-number">5</span><span class="hljs-comment">#int默认十进制</span><br>    dec_data += hex(tmp)[<span class="hljs-number">2</span>:]<span class="hljs-comment">#两位字符作为一个十六位进制数</span><br>f2 = open(<span class="hljs-string">&#x27;./data.doc&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>)<span class="hljs-comment">#创建一个可读写文件</span><br>f2.write(dec_data.decode(<span class="hljs-string">&#x27;hex&#x27;</span>))<br>f2.close()<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724001105669.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724001105669</span></p>
+<p>开护眼模式的好处<del>（手动滑稽）</del></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/07/23/buu-7/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;23&#x2F;buu-7&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;23&#x2F;buu-7&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/" rel="tag">crypto</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/07/19/buu-6/">buu-6<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsa%E7%AE%97%E6%B3%95"><span class="toc-text">rsa算法</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
