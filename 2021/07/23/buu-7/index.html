@@ -183,13 +183,13 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-7</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 23, 2021</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1122</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2021</span>
     </div>
   </div>
 </section>
@@ -265,6 +265,41 @@
 
 <p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724001105669.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724001105669</span></p>
 <p>开护眼模式的好处<del>（手动滑稽）</del></p>
+<h1 id="SUCTF-2019-Game"><a href="#SUCTF-2019-Game" class="headerlink" title="[SUCTF 2019]Game"></a>[SUCTF 2019]Game</h1><p>一张图，一个源码</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724132616632.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724132616632</span></p>
+<p>很遗憾，这个base32转出来的flag是假的</p>
+<p>问题应该是在图里</p>
+<p>看了题解才知道</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724134046594.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724134046594</span></p>
+<p>我真去找了，</p>
+<p>这个代码真的有可读性吗。。。。。。。。。。。<del>（眼睛已瞎</del></p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724132253801.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724132253801</span></p>
+<p>藏得也太深了吧</p>
+<p>图里lsb隐写</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724134437432.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724134437432</span></p>
+<p>你看这个像不像base64（压根解不出来</p>
+<p> 根据U2FsdGVkX1我们知道是DES加密，因为DES加密之后开头都是这几位，不过解密需要秘钥。</p>
+<p>秘钥啊，那猜一下假的flag好了，再不行猜个比赛名称什么的</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724140927183.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724140927183</span></p>
+<p>我在官方wp里看了些什么。。。</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724151059663.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724151059663</span></p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724141147088.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724141147088</span></p>
+<p>绝了，注意，这里是3des也就是tripeDES</p>
+<h1 id="ACTF新生赛2020-明文攻击"><a href="#ACTF新生赛2020-明文攻击" class="headerlink" title="[ACTF新生赛2020]明文攻击"></a>[ACTF新生赛2020]明文攻击</h1><p>图片隐藏着明文flag的zip，记得修一下文件头，然后<img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724153613679.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724153613679</span></p>
+<p>我也想知道他会不会真的攻击一个小时</p>
+<h1 id="MRCTF2020-不眠之夜"><a href="#MRCTF2020-不眠之夜" class="headerlink" title="[MRCTF2020]不眠之夜"></a>[MRCTF2020]不眠之夜</h1><p>看了一下，把图片拼起来</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724153832749.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724153832749</span></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">montage</span> *jpg -tile <span class="hljs-number">10</span>x<span class="hljs-number">12</span> -geometry <span class="hljs-number">200</span>x<span class="hljs-number">100</span>+<span class="hljs-number">0</span>+<span class="hljs-number">0</span> flag.jpg <br><span class="hljs-attribute">gaps</span> --image=flag.jpg --generations=<span class="hljs-number">40</span> --population=<span class="hljs-number">120</span> --size=<span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>因为是在kali上安装，我这里montage自带了，所以就放个<a target="_blank" rel="noopener" href="https://github.com/nemanja-m/gaps%E7%9A%84%E9%93%BE%E6%8E%A5">https://github.com/nemanja-m/gaps的链接</a></p>
+<p>按照步骤来就行</p>
+<h1 id="MRCTF2020-Hello-misc"><a href="#MRCTF2020-Hello-misc" class="headerlink" title="[MRCTF2020]Hello_ misc"></a>[MRCTF2020]Hello_ misc</h1><p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724160600568.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724160600568</span></p>
+<p>红色通道有图片</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724160641776.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724160641776</span></p>
+<p>压缩包密码，压缩包也在红色的图里</p>
+<p>解压缩</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724161018947.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724161018947</span></p>
+<p>感觉是rgb色块</p>
 
       </section>
       <section class="extra">
@@ -297,7 +332,7 @@
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsa%E7%AE%97%E6%B3%95"><span class="toc-text">rsa算法</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsa%E7%AE%97%E6%B3%95"><span class="toc-text">rsa算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SUCTF-2019-Game"><span class="toc-text">[SUCTF 2019]Game</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACTF%E6%96%B0%E7%94%9F%E8%B5%9B2020-%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB"><span class="toc-text">[ACTF新生赛2020]明文攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-%E4%B8%8D%E7%9C%A0%E4%B9%8B%E5%A4%9C"><span class="toc-text">[MRCTF2020]不眠之夜</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-Hello-misc"><span class="toc-text">[MRCTF2020]Hello_ misc</span></a></li></ol>
   </aside>
 
         
