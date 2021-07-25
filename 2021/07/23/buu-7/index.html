@@ -183,13 +183,13 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image9.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-7</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 23, 2021</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2021</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>4573</span>
     </div>
   </div>
 </section>
@@ -293,13 +293,84 @@
 
 <p>因为是在kali上安装，我这里montage自带了，所以就放个<a target="_blank" rel="noopener" href="https://github.com/nemanja-m/gaps%E7%9A%84%E9%93%BE%E6%8E%A5">https://github.com/nemanja-m/gaps的链接</a></p>
 <p>按照步骤来就行</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Deion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–image</td>
+<td>指向拼图的路径</td>
+</tr>
+<tr>
+<td>–size</td>
+<td>拼图块的像素尺寸</td>
+</tr>
+<tr>
+<td>–generations</td>
+<td>遗传算法的代的数量</td>
+</tr>
+<tr>
+<td>–population</td>
+<td>个体数量</td>
+</tr>
+<tr>
+<td>–verbose</td>
+<td>每一代训练结束后展示最佳结果</td>
+</tr>
+<tr>
+<td>–save</td>
+<td>将拼图还原为图像</td>
+</tr>
+</tbody></table>
+<p>可以来看看这个<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1120042">https://cloud.tencent.com/developer/article/1120042</a></p>
 <h1 id="MRCTF2020-Hello-misc"><a href="#MRCTF2020-Hello-misc" class="headerlink" title="[MRCTF2020]Hello_ misc"></a>[MRCTF2020]Hello_ misc</h1><p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724160600568.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724160600568</span></p>
 <p>红色通道有图片</p>
 <p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724160641776.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724160641776</span></p>
 <p>压缩包密码，压缩包也在红色的图里</p>
 <p>解压缩</p>
 <p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724161018947.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724161018947</span></p>
-<p>感觉是rgb色块</p>
+<p>感觉是rgb色块，但是36个色块，也不可能是图片了（虽然但是，我还是去画了</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724162838504.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724162838504</span></p>
+<p>解密压缩包，得到：一个只包含127 255 63 191的TXT文件，正经解法应该是转换成二进制然后取前两位重组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;out.txt&#x27;</span>) <span class="hljs-keyword">as</span> a_file:<br>    content = [x.strip() <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a_file.readlines()]<span class="hljs-comment"># 去除空格</span><br>bins = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> content:<br>    bins.append(bin(int(i))[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">8</span>)[:<span class="hljs-number">2</span>]) <span class="hljs-comment">#bin为转为二进制数开头为0b，这里通过[2:]来删除；zfill()返回指定长度的字符串，原字符串右对齐，前面填充0。在这里指定长度为8，取前两位</span><br>stringBins = <span class="hljs-string">&#x27;&#x27;</span>.join(bins)  <span class="hljs-comment">#将序列中的元素以指定的字符连接生成一个新的字符串。这里&#x27;&#x27;表示直接连接</span><br>num = <span class="hljs-number">0</span><br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(int(len(stringBins)/<span class="hljs-number">8</span>)):<br>    flag+=chr(int(stringBins[num:num+<span class="hljs-number">8</span>],<span class="hljs-number">2</span>))<span class="hljs-comment">#8个数字转为一个字母，int默认十进制，这里为二进制需标注</span><br>    num+=<span class="hljs-number">8</span><br><br>print(flag)<br></code></pre></td></tr></table></figure>
+
+<p>得到rar-passwd:0ac1fe6b77be5dbe</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724171551913.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724171551913</span></p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724171816937.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724171816937</span></p>
+<p>吐了，这题目</p>
+<p>这离谱的玩法</p>
+<h1 id="SWPU2019-Network"><a href="#SWPU2019-Network" class="headerlink" title="[SWPU2019]Network"></a>[SWPU2019]Network</h1><p>上一题类似的操作，不过总算知道这到底是是什么操作了  </p>
+<p>TTL隐写<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yunqian2017/p/14671031.html">https://www.cnblogs.com/yunqian2017/p/14671031.html</a></p>
+<h2 id="TTL隐写"><a href="#TTL隐写" class="headerlink" title="TTL隐写"></a>TTL隐写</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">IP报文在路由间穿梭的时候每经过一个路由，TTL就会减<span class="hljs-number">1</span>，当TTL为<span class="hljs-number">0</span>的时候，该报文就会被丢弃。<br>TTL所占的位数是<span class="hljs-number">8</span>位，也就是<span class="hljs-number">0</span><span class="hljs-number">-255</span>的范围，但是在大多数情况下通常只需要经过很小的跳数就能完成报文的转发，<br>远远比上限<span class="hljs-number">255</span>小得多，所以我们可以用TTL值的前两位来进行传输隐藏数据。<br>如：须传送H字符，只需把H字符换成二进制，每两位为一组，每次填充到TTL字段的开头两位并把剩下的<span class="hljs-number">6</span>位设置为<span class="hljs-number">1</span>（xx111111），这样发<span class="hljs-number">4</span>个IP报文即可传送<span class="hljs-number">1</span>个字节。<br></code></pre></td></tr></table></figure>
+
+<p>因为写出来是一个压缩包的hex码，so上一题的脚本其实改一改就行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;attachment.txt&#x27;</span>) <span class="hljs-keyword">as</span> a_file:<br>    content = [x.strip() <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a_file.readlines()]<br>bins = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> content:<br>    bins.append(bin(int(i))[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">8</span>)[:<span class="hljs-number">2</span>])<br><span class="hljs-comment">#print(bins)</span><br>stringBins = <span class="hljs-string">&#x27;&#x27;</span>.join(bins)<br>num = <span class="hljs-number">0</span><br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(int(len(stringBins)/<span class="hljs-number">8</span>)):<br>    flag+=chr(int(stringBins[num:num+<span class="hljs-number">8</span>],<span class="hljs-number">2</span>))<br>    num+=<span class="hljs-number">8</span><br> <br>print(flag)<br>flag = binascii.unhexlify(flag)<br>wp = open(<span class="hljs-string">&#x27;ans.zip&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>)<br>wp.write(flag)<br>wp.close()<br></code></pre></td></tr></table></figure>
+
+<p>关于binascii.unhexllify()可以看看这篇文章<a target="_blank" rel="noopener" href="https://200ok.ch/posts/2018-12-09_unhexlify.html">https://200ok.ch/posts/2018-12-09_unhexlify.html</a></p>
+<p>伪加密，然后flag.txt是个base64套娃，来个脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br>f=open(<span class="hljs-string">&quot;flag.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>)<br>a=f.read()<br><span class="hljs-comment">#print(f,a)</span><br>res=base64.b64decode(a)<br><br><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>    res=base64.b64decode(res)<br>    print(res)<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="UTCTF2020-file-header"><a href="#UTCTF2020-file-header" class="headerlink" title="[UTCTF2020]file header"></a>[UTCTF2020]file header</h1><p>补png文件头，flag在图上</p>
+<h1 id="BSidesSF2019-zippy"><a href="#BSidesSF2019-zippy" class="headerlink" title="[BSidesSF2019]zippy"></a>[BSidesSF2019]zippy</h1><p>题目说的这么明白了，反手就把流量包里的压缩包分离出了，尝试弱密码未果，确定是真加密，在流量包找到密码，over</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724221204671.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724221204671</span></p>
+<p>解完就行</p>
+<h1 id="MRCTF2020-Unravel"><a href="#MRCTF2020-Unravel" class="headerlink" title="[MRCTF2020]Unravel!!"></a>[MRCTF2020]Unravel!!</h1><p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724223643837.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724223643837</span></p>
+<p>先看文件尾，<img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724224008868.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724224008868</span></p>
+<p>目测des或aes，JM.png图片分离可以得到秘钥，用来解win-win.zip然后</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724224136176.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724224136176</span></p>
+<p>silent，好久没用了，有亿点点没想到</p>
+<h1 id="UTCTF2020-basic-forensics"><a href="#UTCTF2020-basic-forensics" class="headerlink" title="[UTCTF2020]basic-forensics"></a>[UTCTF2020]basic-forensics</h1><p>jpeg后缀，010打开发现是文本，直接搜flag，结束</p>
+<h1 id="WUSTCTF2020-spaceclub"><a href="#WUSTCTF2020-spaceclub" class="headerlink" title="[WUSTCTF2020]spaceclub"></a>[WUSTCTF2020]spaceclub</h1><p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724225503193.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724225503193</span></p>
+<p>真看不出来</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724225542091.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724225542091</span></p>
+<p>你看它短短长长的样子像不像莫斯，试了前面，发现分割是个问题</p>
+<p>短的换成0，长的换成1</p>
+<p><img   class="lazyload" data-original="/2021/07/23/buu-7/image-20210724232824574.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210724232824574</span></p>
 
       </section>
       <section class="extra">
@@ -332,7 +403,7 @@
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsa%E7%AE%97%E6%B3%95"><span class="toc-text">rsa算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SUCTF-2019-Game"><span class="toc-text">[SUCTF 2019]Game</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACTF%E6%96%B0%E7%94%9F%E8%B5%9B2020-%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB"><span class="toc-text">[ACTF新生赛2020]明文攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-%E4%B8%8D%E7%9C%A0%E4%B9%8B%E5%A4%9C"><span class="toc-text">[MRCTF2020]不眠之夜</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-Hello-misc"><span class="toc-text">[MRCTF2020]Hello_ misc</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsa%E7%AE%97%E6%B3%95"><span class="toc-text">rsa算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SUCTF-2019-Game"><span class="toc-text">[SUCTF 2019]Game</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACTF%E6%96%B0%E7%94%9F%E8%B5%9B2020-%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB"><span class="toc-text">[ACTF新生赛2020]明文攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-%E4%B8%8D%E7%9C%A0%E4%B9%8B%E5%A4%9C"><span class="toc-text">[MRCTF2020]不眠之夜</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-Hello-misc"><span class="toc-text">[MRCTF2020]Hello_ misc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SWPU2019-Network"><span class="toc-text">[SWPU2019]Network</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TTL%E9%9A%90%E5%86%99"><span class="toc-text">TTL隐写</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UTCTF2020-file-header"><span class="toc-text">[UTCTF2020]file header</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BSidesSF2019-zippy"><span class="toc-text">[BSidesSF2019]zippy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-Unravel"><span class="toc-text">[MRCTF2020]Unravel!!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UTCTF2020-basic-forensics"><span class="toc-text">[UTCTF2020]basic-forensics</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WUSTCTF2020-spaceclub"><span class="toc-text">[WUSTCTF2020]spaceclub</span></a></li></ol>
   </aside>
 
         
