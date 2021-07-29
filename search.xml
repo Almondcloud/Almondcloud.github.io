@@ -294,6 +294,98 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-6</title>
+    <url>/2021/07/19/buu-6/</url>
+    <content><![CDATA[<h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
+<p><img src="/2021/07/19/buu-6/image-20210719212634015.png"></p>
+<p>导出就对了（毕竟搜flag、john啥也没搜到）图片好几张，先观察一下</p>
+<p><img src="/2021/07/19/buu-6/image-20210719212935554.png"></p>
+<p>logo.png中间缺了一条</p>
+<p><img src="/2021/07/19/buu-6/image-20210719213145620.png"></p>
+<p>scanline？？？但是这张图是空的，难道拼起来？？？</p>
+<p>stegosolve先打开logo然后和scanline拼起来，啊这，啥也没有，那换过来试试</p>
+<p>好家伙，金色传说，flag有了</p>
+<p><img src="/2021/07/19/buu-6/image-20210719213533992.png"></p>
+<h1 id="WUSTCTF2020-爬"><a href="#WUSTCTF2020-爬" class="headerlink" title="[WUSTCTF2020]爬"></a>[WUSTCTF2020]爬</h1><p>我一定要来吐槽一下这道题，把覆盖flag的图片和flag图片组合在一起，真的没想到</p>
+<h1 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h1><p>这，这么多</p>
+<p><img src="/2021/07/19/buu-6/image-20210719214222876.png"></p>
+<p>每一个文件还都一样大，难道crc32碰撞？（略有耳闻，倒是第一次碰到）</p>
+<p><img src="/2021/07/19/buu-6/image-20210719214758889.png"></p>
+<p>打开一个看看，加密了，那应该是了</p>
+<p>先研究一下原理<a href="https://preshing.com/20110504/hash-collision-probabilities/">https://preshing.com/20110504/hash-collision-probabilities/</a></p>
+<p><a href="https://blog.csdn.net/zz_Caleb/article/details/88852078">https://blog.csdn.net/zz_Caleb/article/details/88852078</a></p>
+<p>CRC32:CRC本身是“<a href="http://baike.baidu.com/item/CRC32">冗余校验码</a>”的意思，CRC32则表示会产生一个32bit（8位十六进制数）的校验值。</p>
+<p>在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同的CRC32值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p>（来看一点看得懂的）</p>
+<p>拿脚本跑吧</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#python3</span><br><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackCrc</span>(<span class="hljs-params">crc</span>):</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dic:<br>		<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> dic:<br>			<span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> dic:<br>				<span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> dic:<br>					s = i + j + k + h<br>					<span class="hljs-keyword">if</span> crc == (binascii.crc32(s.encode())):<br>						f.write(s)<br>						<span class="hljs-keyword">return</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackZip</span>():</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">68</span>):<br>		file = <span class="hljs-string">&#x27;out&#x27;</span>+str(i)+<span class="hljs-string">&#x27;.zip&#x27;</span><br>		crc = zipfile.ZipFile(file,<span class="hljs-string">&#x27;r&#x27;</span>).getinfo(<span class="hljs-string">&#x27;data.txt&#x27;</span>).CRC<br>		CrackCrc(crc)<br>		print(<span class="hljs-string">&#x27;\r&#x27;</span>+<span class="hljs-string">&quot;loading：&#123;:%&#125;&quot;</span>.format(float((i+<span class="hljs-number">1</span>)/<span class="hljs-number">68</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br>dic = string.ascii_letters + string.digits + <span class="hljs-string">&#x27;+/=&#x27;</span><br>f = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>print(<span class="hljs-string">&quot;\nCRC32begin&quot;</span>)<br>CrackZip()<br>print(<span class="hljs-string">&quot;CRC32finished&quot;</span>)<br>f.close()<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>base64_text = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).read()<br>byte_stream = base64.b64decode(base64_text)<br>open(<span class="hljs-string">&#x27;new.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>).write(byte_stream)<br><br></code></pre></td></tr></table></figure>
+
+<p>解开是缺失文件头的rar压缩包，补上文件头后，flag在备注里。</p>
+<h1 id="小易的U盘"><a href="#小易的U盘" class="headerlink" title="小易的U盘"></a>小易的U盘</h1><p>iso文件，用记事本打开，发现是rar压缩包，同时有一堆和flag相关的文件</p>
+<p><img src="/2021/07/19/buu-6/image-20210720130343139.png"></p>
+<p><img src="/2021/07/19/buu-6/image-20210720131008264.png"></p>
+<p>运行一下收获一个avi文件，但是根本打不开，010查看完发现全是f<del>（脸黑</del></p>
+<p>不如re一下那个副本程序？</p>
+<p>等等怎么解压完程序显示不出来</p>
+<p><img src="/2021/07/19/buu-6/image-20210720165626002.png"></p>
+<p>原来如此，不过不影响ida使用，六十多个副本不会要我一个个看过去吧。。。。。。</p>
+<p><img src="/2021/07/19/buu-6/image-20210720170624053.png"></p>
+<p>好家伙，搜就完事</p>
+<p><img src="/2021/07/19/buu-6/image-20210720170658687.png"></p>
+<h1 id="从娃娃抓起"><a href="#从娃娃抓起" class="headerlink" title="从娃娃抓起"></a>从娃娃抓起</h1><p>两种汉字编码方式</p>
+<p><img src="/2021/07/19/buu-6/image-20210720172642126.png"></p>
+<p>数字的是中文电码，字母的是五笔输入法</p>
+<h1 id="WUSTCTF2020-alison-likes-jojo"><a href="#WUSTCTF2020-alison-likes-jojo" class="headerlink" title="[WUSTCTF2020]alison_likes_jojo"></a>[WUSTCTF2020]alison_likes_jojo</h1><p>前面还挺顺利的，解出base，然后以为是flag，反复提交，发现不太对劲，少利用了一张图，outguess隐写，killerqueen是解密密码</p>
+<h1 id="GUET-CTF2019-zips"><a href="#GUET-CTF2019-zips" class="headerlink" title="[GUET-CTF2019]zips"></a>[GUET-CTF2019]zips</h1><p>前面正常爆破，伪加密还行，说说最后一步</p>
+<p><img src="/2021/07/19/buu-6/image-20210720193757935.png"></p>
+<p>过了很久很久我才意识到，出题人用时间轴加密，这个也是个爆破，再根据比赛时间推算了一下时间戳大概开头，用掩码爆破</p>
+<p><img src="/2021/07/19/buu-6/image-20210720194011184.png"></p>
+<h1 id="百里挑一"><a href="#百里挑一" class="headerlink" title="百里挑一"></a>百里挑一</h1><p>我还真以为flag会在一张图里，结果在两张的图里。</p>
+<p>先是直接在流量包搜索flag{找到了前面一半，后面找到了在90（1）.jpg里，发现他写在备注里，然后搜索adobe，获得后半段flag（因为前半段flag和adobe段挺近的？<del>我这什么清奇的思路</del></p>
+<h1 id="MRCTF2020-千层套路"><a href="#MRCTF2020-千层套路" class="headerlink" title="[MRCTF2020]千层套路"></a>[MRCTF2020]千层套路</h1><p>真正的套娃，这个套娃竟然套了六百多层，sos就离谱</p>
+<p>密码就是压缩包文件名，手动解了快十个觉得事情不简单</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br>name = <span class="hljs-string">&#x27;0573&#x27;</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    fz = zipfile.ZipFile(name + <span class="hljs-string">&#x27;.zip&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>)<br>    fz.extractall(pwd=bytes(name, <span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    name = fz.filelist[<span class="hljs-number">0</span>].filename[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>]<br>    fz.close()<br><br></code></pre></td></tr></table></figure>
+
+<p>解出来一个qr.zip里有个qr.txt，看来二维码得自己画了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>x = y = <span class="hljs-number">200</span><br>img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(x,y))<br>file = open(<span class="hljs-string">&#x27;qr.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br><br><span class="hljs-keyword">for</span> width <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,x):<br>    <span class="hljs-keyword">for</span> height <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,y):<br>        line = file.readline()<br>        rgb = line.split(<span class="hljs-string">&#x27;,&#x27;</span>)<br>        img.putpixel((width,height),(int(rgb[<span class="hljs-number">0</span>]),int(rgb[<span class="hljs-number">1</span>]),int(rgb[<span class="hljs-number">2</span>])))<br>img.save(<span class="hljs-string">&#x27;flag.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="安洵杯-2019-Attack"><a href="#安洵杯-2019-Attack" class="headerlink" title="[安洵杯 2019]Attack"></a>[安洵杯 2019]Attack</h1><p>在流量包里找到flag.txt的压缩包，但是压缩包加密了</p>
+<p><img src="/2021/07/19/buu-6/image-20210721144042759.png"></p>
+<p>难道是要密码？上网学习ing</p>
+<p>在网上学习了一番后，知道了这是通过获取用户密码来解开压缩包</p>
+<p>用到mimikatz获取明文密码，现在又需要lsass.dmp这个进程的内存</p>
+<p>lsass是<a href="http://d.hatena.ne.jp/keyword/windows">windows</a>系统的一个进程，用于本地安全和登陆策略。</p>
+<p>导出lsass.dmp文件</p>
+<p>尝试使用mimikatz，很奇怪，怎么都打不开，各种打不开，各种拒绝访问，几个小时过去了，在确定自己的用户为管理员之后，把所有的杀毒软件关掉后，用管理员运行模式打开，<img src="/2021/07/19/buu-6/073E6641.jpg"><span class="image-caption">img</span>终于啊<img src="/2021/07/19/buu-6/image-20210721234435678.png"><span class="image-caption">image-20210721234435678</span></p>
+<p>debug检查一下</p>
+<p><img src="/2021/07/19/buu-6/image-20210722001149114.png"><span class="image-caption">image-20210722001149114</span></p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/LEOGG321/1850290/o_2009181317142.png"><span class="image-caption">image-20200918211554925</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000642035.png"><span class="image-caption">image-20210722000642035</span></p>
+<p><img src="/2021/07/19/buu-6/image-20210722000755964.png"><span class="image-caption">image-20210722000755964</span></p>
+<p>妙啊</p>
+<p>不过mimikatz有时间还是要好好研究一下的</p>
+<h1 id="XMAN2018排位赛-通行证"><a href="#XMAN2018排位赛-通行证" class="headerlink" title="[XMAN2018排位赛]通行证"></a>[XMAN2018排位赛]通行证</h1><p>很明显的base64</p>
+<p>很难想象，不同的栅栏密码解密出来的结果是不一样的，发一个能用的<a href="http://ctf.ssleye.com/railfence.html">http://ctf.ssleye.com/railfence.html</a></p>
+<p>然后凯撒移位，over</p>
+<h1 id="WUSTCTF2020-girlfriend"><a href="#WUSTCTF2020-girlfriend" class="headerlink" title="[WUSTCTF2020]girlfriend"></a>[WUSTCTF2020]girlfriend</h1><p>打开音频，惯性摩斯电码，压根没听，直接转字母，发现，我转了个寂寞，后来才知道是电话拨号（这么多年了，这个音我还是听不出来，找个程序识别吧<a href="http://aluigi.altervista.org/mytoolz/dtmf2num.zip">dtmf2num下载地址</a></p>
+<p><img src="/2021/07/19/buu-6/image-20210722131151592.png"><span class="image-caption">image-20210722131151592</span></p>
+<p>难道数字就是flag？？？？</p>
+<p>不像啊，这啥，什么和数字有关？手机键盘吧，试试（啊，竟然是按键机的玩法，直接九键完全不对</p>
+<p>flag{youaremyfriends}</p>
+<p><img src="/2021/07/19/buu-6/image-20200917152757024.png"><span class="image-caption">image-20200917152757024</span></p>
+<p>笑了，改个系统时间就行</p>
+<h1 id="SUCTF2018-followme"><a href="#SUCTF2018-followme" class="headerlink" title="[SUCTF2018]followme"></a>[SUCTF2018]followme</h1><p>ctf搜不到就去搜flag，注意比赛的名称，有的时候不需要想得太复杂</p>
+<h1 id="docx"><a href="#docx" class="headerlink" title="docx"></a>docx</h1><p>docx后缀改zip，找到media，打开会发现flag相关图片</p>
+<h1 id="DDCTF2018-╯°□°）╯︵-┻━┻"><a href="#DDCTF2018-╯°□°）╯︵-┻━┻" class="headerlink" title="[DDCTF2018](╯°□°）╯︵ ┻━┻"></a>[DDCTF2018](╯°□°）╯︵ ┻━┻</h1><p>看图</p>
+<p><img src="/2021/07/19/buu-6/image-20210723205551997.png"><span class="image-caption">image-20210723205551997</span></p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-7</title>
     <url>/2021/07/23/buu-7/</url>
     <content><![CDATA[<h1 id="GUET-CTF2019-虚假的压缩包"><a href="#GUET-CTF2019-虚假的压缩包" class="headerlink" title="[GUET-CTF2019]虚假的压缩包"></a>[GUET-CTF2019]虚假的压缩包</h1><p><img src="/2021/07/23/buu-7/image-20210723211338559.png"><span class="image-caption">image-20210723211338559</span></p>
@@ -479,92 +571,165 @@
       </tags>
   </entry>
   <entry>
-    <title>buu-6</title>
-    <url>/2021/07/19/buu-6/</url>
-    <content><![CDATA[<h1 id="john-in-the-middle"><a href="#john-in-the-middle" class="headerlink" title="john-in-the-middle"></a>john-in-the-middle</h1><p>跟流量包逐渐熟悉起来，感觉这个包的信息挺多</p>
-<p><img src="/2021/07/19/buu-6/image-20210719212634015.png"></p>
-<p>导出就对了（毕竟搜flag、john啥也没搜到）图片好几张，先观察一下</p>
-<p><img src="/2021/07/19/buu-6/image-20210719212935554.png"></p>
-<p>logo.png中间缺了一条</p>
-<p><img src="/2021/07/19/buu-6/image-20210719213145620.png"></p>
-<p>scanline？？？但是这张图是空的，难道拼起来？？？</p>
-<p>stegosolve先打开logo然后和scanline拼起来，啊这，啥也没有，那换过来试试</p>
-<p>好家伙，金色传说，flag有了</p>
-<p><img src="/2021/07/19/buu-6/image-20210719213533992.png"></p>
-<h1 id="WUSTCTF2020-爬"><a href="#WUSTCTF2020-爬" class="headerlink" title="[WUSTCTF2020]爬"></a>[WUSTCTF2020]爬</h1><p>我一定要来吐槽一下这道题，把覆盖flag的图片和flag图片组合在一起，真的没想到</p>
-<h1 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h1><p>这，这么多</p>
-<p><img src="/2021/07/19/buu-6/image-20210719214222876.png"></p>
-<p>每一个文件还都一样大，难道crc32碰撞？（略有耳闻，倒是第一次碰到）</p>
-<p><img src="/2021/07/19/buu-6/image-20210719214758889.png"></p>
-<p>打开一个看看，加密了，那应该是了</p>
-<p>先研究一下原理<a href="https://preshing.com/20110504/hash-collision-probabilities/">https://preshing.com/20110504/hash-collision-probabilities/</a></p>
-<p><a href="https://blog.csdn.net/zz_Caleb/article/details/88852078">https://blog.csdn.net/zz_Caleb/article/details/88852078</a></p>
-<p>CRC32:CRC本身是“<a href="http://baike.baidu.com/item/CRC32">冗余校验码</a>”的意思，CRC32则表示会产生一个32bit（8位十六进制数）的校验值。</p>
-<p>在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同的CRC32值，利用这个原理我们可以直接爆破出加密文件的内容</p>
-<p>（来看一点看得懂的）</p>
-<p>拿脚本跑吧</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#python3</span><br><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackCrc</span>(<span class="hljs-params">crc</span>):</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dic:<br>		<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> dic:<br>			<span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> dic:<br>				<span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> dic:<br>					s = i + j + k + h<br>					<span class="hljs-keyword">if</span> crc == (binascii.crc32(s.encode())):<br>						f.write(s)<br>						<span class="hljs-keyword">return</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">CrackZip</span>():</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">68</span>):<br>		file = <span class="hljs-string">&#x27;out&#x27;</span>+str(i)+<span class="hljs-string">&#x27;.zip&#x27;</span><br>		crc = zipfile.ZipFile(file,<span class="hljs-string">&#x27;r&#x27;</span>).getinfo(<span class="hljs-string">&#x27;data.txt&#x27;</span>).CRC<br>		CrackCrc(crc)<br>		print(<span class="hljs-string">&#x27;\r&#x27;</span>+<span class="hljs-string">&quot;loading：&#123;:%&#125;&quot;</span>.format(float((i+<span class="hljs-number">1</span>)/<span class="hljs-number">68</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br>dic = string.ascii_letters + string.digits + <span class="hljs-string">&#x27;+/=&#x27;</span><br>f = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>print(<span class="hljs-string">&quot;\nCRC32begin&quot;</span>)<br>CrackZip()<br>print(<span class="hljs-string">&quot;CRC32finished&quot;</span>)<br>f.close()<br><br></code></pre></td></tr></table></figure>
+    <title>buu-9</title>
+    <url>/2021/07/27/buu-9/</url>
+    <content><![CDATA[<h1 id="GKCTF-2021-签到"><a href="#GKCTF-2021-签到" class="headerlink" title="[GKCTF 2021]签到"></a>[GKCTF 2021]签到</h1><p>签到题 x 猜flag √</p>
+<p>这是一道靠猜的题目</p>
+<p><img src="/2021/07/27/buu-9/image-20210727211853547.png"><span class="image-caption">image-20210727211853547</span></p>
+<p>发现一些小细节</p>
+<p>http追踪流</p>
+<p><img src="/2021/07/27/buu-9/image-20210727211937583.png"><span class="image-caption">image-20210727211937583</span></p>
+<p>数字蛮奇怪的，往下翻<img src="/2021/07/27/buu-9/image-20210727212449419.png"><span class="image-caption">image-20210727212449419</span></p>
+<p>base64，那就是16进制转文本再转base64</p>
+<p>转完我直接沉默</p>
+<figure class="highlight clean"><table><tr><td class="code"><pre><code class="hljs clean"><span class="hljs-number">44516</span>f4e4367306a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d4b44534d674943416749434167494341344d446f784d446f774d6941774d79307a4d4330784d6a417949434167494341674943416749776f4e49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a436730744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c516f3d<br><br>DQoNCg0jIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKDSMgICAgICAgICA4MDoxMDowMiAwMy0zMC0xMjAyICAgICAgICAgIwoNIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCg0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo=<br><br><br><br>#######################################<br><br>#         <span class="hljs-number">80</span>:<span class="hljs-number">10</span>:<span class="hljs-number">02</span> <span class="hljs-number">03</span><span class="hljs-number">-30</span><span class="hljs-number">-1202</span>         #<br><br>#######################################<br><br>--------------------------------------------------<br><br><br><br><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>base64_text = open(<span class="hljs-string">&#x27;out.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).read()<br>byte_stream = base64.b64decode(base64_text)<br>open(<span class="hljs-string">&#x27;new.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>).write(byte_stream)<br><br></code></pre></td></tr></table></figure>
 
-<p>解开是缺失文件头的rar压缩包，补上文件头后，flag在备注里。</p>
-<h1 id="小易的U盘"><a href="#小易的U盘" class="headerlink" title="小易的U盘"></a>小易的U盘</h1><p>iso文件，用记事本打开，发现是rar压缩包，同时有一堆和flag相关的文件</p>
-<p><img src="/2021/07/19/buu-6/image-20210720130343139.png"></p>
-<p><img src="/2021/07/19/buu-6/image-20210720131008264.png"></p>
-<p>运行一下收获一个avi文件，但是根本打不开，010查看完发现全是f<del>（脸黑</del></p>
-<p>不如re一下那个副本程序？</p>
-<p>等等怎么解压完程序显示不出来</p>
-<p><img src="/2021/07/19/buu-6/image-20210720165626002.png"></p>
-<p>原来如此，不过不影响ida使用，六十多个副本不会要我一个个看过去吧。。。。。。</p>
-<p><img src="/2021/07/19/buu-6/image-20210720170624053.png"></p>
-<p>好家伙，搜就完事</p>
-<p><img src="/2021/07/19/buu-6/image-20210720170658687.png"></p>
-<h1 id="从娃娃抓起"><a href="#从娃娃抓起" class="headerlink" title="从娃娃抓起"></a>从娃娃抓起</h1><p>两种汉字编码方式</p>
-<p><img src="/2021/07/19/buu-6/image-20210720172642126.png"></p>
-<p>数字的是中文电码，字母的是五笔输入法</p>
-<h1 id="WUSTCTF2020-alison-likes-jojo"><a href="#WUSTCTF2020-alison-likes-jojo" class="headerlink" title="[WUSTCTF2020]alison_likes_jojo"></a>[WUSTCTF2020]alison_likes_jojo</h1><p>前面还挺顺利的，解出base，然后以为是flag，反复提交，发现不太对劲，少利用了一张图，outguess隐写，killerqueen是解密密码</p>
-<h1 id="GUET-CTF2019-zips"><a href="#GUET-CTF2019-zips" class="headerlink" title="[GUET-CTF2019]zips"></a>[GUET-CTF2019]zips</h1><p>前面正常爆破，伪加密还行，说说最后一步</p>
-<p><img src="/2021/07/19/buu-6/image-20210720193757935.png"></p>
-<p>过了很久很久我才意识到，出题人用时间轴加密，这个也是个爆破，再根据比赛时间推算了一下时间戳大概开头，用掩码爆破</p>
-<p><img src="/2021/07/19/buu-6/image-20210720194011184.png"></p>
-<h1 id="百里挑一"><a href="#百里挑一" class="headerlink" title="百里挑一"></a>百里挑一</h1><p>我还真以为flag会在一张图里，结果在两张的图里。</p>
-<p>先是直接在流量包搜索flag{找到了前面一半，后面找到了在90（1）.jpg里，发现他写在备注里，然后搜索adobe，获得后半段flag（因为前半段flag和adobe段挺近的？<del>我这什么清奇的思路</del></p>
-<h1 id="MRCTF2020-千层套路"><a href="#MRCTF2020-千层套路" class="headerlink" title="[MRCTF2020]千层套路"></a>[MRCTF2020]千层套路</h1><p>真正的套娃，这个套娃竟然套了六百多层，sos就离谱</p>
-<p>密码就是压缩包文件名，手动解了快十个觉得事情不简单</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br>name = <span class="hljs-string">&#x27;0573&#x27;</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    fz = zipfile.ZipFile(name + <span class="hljs-string">&#x27;.zip&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>)<br>    fz.extractall(pwd=bytes(name, <span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    name = fz.filelist[<span class="hljs-number">0</span>].filename[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>]<br>    fz.close()<br><br></code></pre></td></tr></table></figure>
 
-<p>解出来一个qr.zip里有个qr.txt，看来二维码得自己画了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>x = y = <span class="hljs-number">200</span><br>img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(x,y))<br>file = open(<span class="hljs-string">&#x27;qr.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br><br><span class="hljs-keyword">for</span> width <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,x):<br>    <span class="hljs-keyword">for</span> height <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,y):<br>        line = file.readline()<br>        rgb = line.split(<span class="hljs-string">&#x27;,&#x27;</span>)<br>        img.putpixel((width,height),(int(rgb[<span class="hljs-number">0</span>]),int(rgb[<span class="hljs-number">1</span>]),int(rgb[<span class="hljs-number">2</span>])))<br>img.save(<span class="hljs-string">&#x27;flag.jpg&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs base64">64306c455357644251306c6e51554e4a5a3046355355737764306c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154576c44546d39525241707154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7162314645616b46445357644251306c6e51554e4a5a32644554545a46524530325157704e5a3046365458524e524531305257704e436e5177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d644442705130354e65556c7154586c4a616b31355357704e65556b4b4e6b467154576442656b31305455524e644556715458644a616b38775a566f324d6d56774e557377643074795556645a64315a485a48593152556c3051576c4e4d5546355a4777316255733254545a7162475a7763573579555552304d464e4d64444254544170304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d537a42425357526159585a764e7a567462485a735130354e564530325255524e436e6f77655531334d464e4e6555467154545a524e327877596a647362584a5252484a7a5131706f516c68614d446c745647637751306c355655524a4d315a74596e4676656d3951567974736357563151303477553078304d464e4d64444254544851775530774b63336858576d786b4d5659354d544e6c4e325179576d684752324a7a576d31615a7a427363446c7064573569567974585a7a427363446c7064573569567974585a7a427363446c706457356956797458537a423354586876564531336230524e6555464454517045546a4252524534775555527356324636546c684e65444258596d593562464a48556b524f5245347759584a6b4d464a6d4f565a6162444658596e644252456c6b556d46746345524c61577832526b6c6b556d46746345524c61577832566b747754544a5a436a303955556c6f545442525245347755516f3d<br><br><br>d0lESWdBQ0lnQUNJZ0F5SUswd0lqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTWlDTm9RRApqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqb1FEakFDSWdBQ0lnQUNJZ2dETTZFRE02QWpNZ0F6TXRNRE10RWpNCnQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBpQ05NeUlqTXlJak15SWpNeUkKNkFqTWdBek10TURNdEVqTXdJak8wZVo2MmVwNUswd0tyUVdZd1ZHZHY1RUl0QWlNMUF5ZGw1bUs2TTZqbGZwcW5yUUR0MFNMdDBTTAp0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMSzBBSWRaYXZvNzVtbHZsQ05NVE02RURNCnoweU13MFNNeUFqTTZRN2xwYjdsbXJRRHJzQ1poQlhaMDltVGcwQ0l5VURJM1ZtYnFvem9QVytscWV1Q04wU0x0MFNMdDBTTHQwU0wKc3hXWmxkMVY5MTNlN2QyWmhGR2JzWm1aZzBscDlpdW5iVytXZzBscDlpdW5iVytXZzBscDlpdW5iVytXSzB3TXhvVE13b0RNeUFDTQpETjBRRE4wUURsV2F6TlhNeDBXYmY5bFJHUkRORE4wYXJkMFJmOVZabDFXYndBRElkUmFtcERLaWx2RklkUmFtcERLaWx2VktwTTJZCj09UUloTTBRRE4wUQo&#x3D;<br><br>wIDIgACIgACIgAyIK0wIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMiCNoQD<br>jMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjoQDjACIgACIgACIggDM6EDM6AjMgAzMtMDMtEjM<br>t0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0iCNMyIjMyIjMyIjMyI<br>6AjMgAzMtMDMtEjMwIjO0eZ62ep5K0wKrQWYwVGdv5EItAiM1Aydl5mK6M6jlfpqnrQDt0SLt0SL<br>t0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLK0AIdZavo75mlvlCNMTM6EDM<br>z0yMw0SMyAjM6Q7lpb7lmrQDrsCZhBXZ09mTg0CIyUDI3VmbqozoPW+lqeuCN0SLt0SLt0SLt0SL<br>sxWZld1V913e7d2ZhFGbsZmZg0lp9iunbW+Wg0lp9iunbW+Wg0lp9iunbW+WK0wMxoTMwoDMyACM<br>DN0QDN0QDlWazNXMx0Wbf9lRGRDNDN0ard0Rf9VZl1WbwADIdRampDKilvFIdRampDKilvVKpM2Y<br>&#x3D;&#x3D;QIhM0QDN0Q<br></code></pre></td></tr></table></figure>
 
-<h1 id="安洵杯-2019-Attack"><a href="#安洵杯-2019-Attack" class="headerlink" title="[安洵杯 2019]Attack"></a>[安洵杯 2019]Attack</h1><p>在流量包里找到flag.txt的压缩包，但是压缩包加密了</p>
-<p><img src="/2021/07/19/buu-6/image-20210721144042759.png"></p>
-<p>难道是要密码？上网学习ing</p>
-<p>在网上学习了一番后，知道了这是通过获取用户密码来解开压缩包</p>
-<p>用到mimikatz获取明文密码，现在又需要lsass.dmp这个进程的内存</p>
-<p>lsass是<a href="http://d.hatena.ne.jp/keyword/windows">windows</a>系统的一个进程，用于本地安全和登陆策略。</p>
-<p>导出lsass.dmp文件</p>
-<p>尝试使用mimikatz，很奇怪，怎么都打不开，各种打不开，各种拒绝访问，几个小时过去了，在确定自己的用户为管理员之后，把所有的杀毒软件关掉后，用管理员运行模式打开，<img src="/2021/07/19/buu-6/073E6641.jpg"><span class="image-caption">img</span>终于啊<img src="/2021/07/19/buu-6/image-20210721234435678.png"><span class="image-caption">image-20210721234435678</span></p>
-<p>debug检查一下</p>
-<p><img src="/2021/07/19/buu-6/image-20210722001149114.png"><span class="image-caption">image-20210722001149114</span></p>
-<p><img src="https://images.cnblogs.com/cnblogs_com/LEOGG321/1850290/o_2009181317142.png"><span class="image-caption">image-20200918211554925</span></p>
-<p><img src="/2021/07/19/buu-6/image-20210722000642035.png"><span class="image-caption">image-20210722000642035</span></p>
-<p><img src="/2021/07/19/buu-6/image-20210722000755964.png"><span class="image-caption">image-20210722000755964</span></p>
-<p>妙啊</p>
-<p>不过mimikatz有时间还是要好好研究一下的</p>
-<h1 id="XMAN2018排位赛-通行证"><a href="#XMAN2018排位赛-通行证" class="headerlink" title="[XMAN2018排位赛]通行证"></a>[XMAN2018排位赛]通行证</h1><p>很明显的base64</p>
-<p>很难想象，不同的栅栏密码解密出来的结果是不一样的，发一个能用的<a href="http://ctf.ssleye.com/railfence.html">http://ctf.ssleye.com/railfence.html</a></p>
-<p>然后凯撒移位，over</p>
-<h1 id="WUSTCTF2020-girlfriend"><a href="#WUSTCTF2020-girlfriend" class="headerlink" title="[WUSTCTF2020]girlfriend"></a>[WUSTCTF2020]girlfriend</h1><p>打开音频，惯性摩斯电码，压根没听，直接转字母，发现，我转了个寂寞，后来才知道是电话拨号（这么多年了，这个音我还是听不出来，找个程序识别吧<a href="http://aluigi.altervista.org/mytoolz/dtmf2num.zip">dtmf2num下载地址</a></p>
-<p><img src="/2021/07/19/buu-6/image-20210722131151592.png"><span class="image-caption">image-20210722131151592</span></p>
-<p>难道数字就是flag？？？？</p>
-<p>不像啊，这啥，什么和数字有关？手机键盘吧，试试（啊，竟然是按键机的玩法，直接九键完全不对</p>
-<p>flag{youaremyfriends}</p>
-<p><img src="/2021/07/19/buu-6/image-20200917152757024.png"><span class="image-caption">image-20200917152757024</span></p>
-<p>笑了，改个系统时间就行</p>
-<h1 id="SUCTF2018-followme"><a href="#SUCTF2018-followme" class="headerlink" title="[SUCTF2018]followme"></a>[SUCTF2018]followme</h1><p>ctf搜不到就去搜flag，注意比赛的名称，有的时候不需要想得太复杂</p>
-<h1 id="docx"><a href="#docx" class="headerlink" title="docx"></a>docx</h1><p>docx后缀改zip，找到media，打开会发现flag相关图片</p>
-<h1 id="DDCTF2018-╯°□°）╯︵-┻━┻"><a href="#DDCTF2018-╯°□°）╯︵-┻━┻" class="headerlink" title="[DDCTF2018](╯°□°）╯︵ ┻━┻"></a>[DDCTF2018](╯°□°）╯︵ ┻━┻</h1><p>看图</p>
-<p><img src="/2021/07/19/buu-6/image-20210723205551997.png"><span class="image-caption">image-20210723205551997</span></p>
+<p>仔细观察你会发现这两段的相似之处</p>
+<p>最后那串base64是反着的，那就</p>
+<p><img src="/2021/07/27/buu-9/image-20210728232146423.png"><span class="image-caption">image-20210728232146423</span></p>
+<figure class="highlight clean"><table><tr><td class="code"><pre><code class="hljs clean">Q0NDQ0MhIQ==<br>Y2MpKVvliKDpmaRdIFvliKDpmaRdIDAwbW1lZV9fR0dra0NDNDRGRl9fbW0xMXNzaWlDQ0NDQ0ND<br>MCAyMDowMToxMw0KW+Wbnui9pl0gW+Wbnui9pl0gW+Wbnui9pl0gZmZsbGFhZ2d7e319V1dlZWxs<br>LS0tLS0tLS0tLS0NCueql+WPozoqbmV3IDUyIC0gTm90ZXBhZCsrDQrml7bpl7Q6MjAyMS0wMy0z<br>MDE6MTMNClvlm57ovaZdIA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t<br>LS0tLS0tDQrnqpflj6M6Km5ldyA1MiAtIE5vdGVwYWQrKw0K5pe26Ze0OjIwMjEtMDMtMzAgMjA6<br>IyMjIyMjIyMjIyMNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t<br>MjEtMDMtMzAgMjA6MDE6MDggICAgICAgICAjDQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj<br>DQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KIyAgICAgICAgIDIw<br><br>CCCCC!!<br>cc))[删除] [删除] <span class="hljs-number">00</span>mmee__GGkkCC44FF__mm11ssiiCCCCCCC0 <span class="hljs-number">20</span>:<span class="hljs-number">01</span>:<span class="hljs-number">13</span><br>[回车] [回车] [回车] ffllaagg&#123;&#123;&#125;&#125;WWeell-----------<br>窗口:*new <span class="hljs-number">52</span> - Notepad++<br>时间:<span class="hljs-number">2021</span><span class="hljs-number">-03</span><span class="hljs-number">-301</span>:<span class="hljs-number">13</span><br>[回车] <br>---------------------------------------------<br>窗口:*new <span class="hljs-number">52</span> - Notepad++<br>时间:<span class="hljs-number">2021</span><span class="hljs-number">-03</span><span class="hljs-number">-30</span> <span class="hljs-number">20</span>:###########<br>-------------------------------------------<span class="hljs-number">-21</span><span class="hljs-number">-03</span><span class="hljs-number">-30</span> <span class="hljs-number">20</span>:<span class="hljs-number">01</span>:<span class="hljs-number">08</span>         #<br>############################<br><br>#######################################<br>#         <span class="hljs-number">20</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>你猜猜flag是什么，反正我没猜到</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">flag</span>&#123;Welc<span class="hljs-number">0</span>me_GkC<span class="hljs-number">4</span>F_m<span class="hljs-number">1</span>siCCCCCC!&#125;<br></code></pre></td></tr></table></figure>
+
+<p>绝了</p>
+<h1 id="hashcat"><a href="#hashcat" class="headerlink" title="hashcat"></a>hashcat</h1><p><img src="/2021/07/27/buu-9/image-20210728233320953.png"><span class="image-caption">image-20210728233320953</span></p>
+<p>无后缀文件，看了一下应该是某个办公软件的文件</p>
+<p>随便改一个，</p>
+<p><img src="/2021/07/27/buu-9/image-20210728233715495.png"><span class="image-caption">image-20210728233715495</span></p>
+<p>手动爆破是不可能的，上网搜一下工具 <strong>Accent OFFICE Password Recovery破解版</strong></p>
+<p><img src="/2021/07/27/buu-9/image-20210729001711425.png"><span class="image-caption">image-20210729001711425</span></p>
+<p>docx打开是乱码，试一下ppt</p>
+<p><img src="/2021/07/27/buu-9/image-20210729001844141.png"><span class="image-caption">image-20210729001844141</span></p>
+<p>有点东西</p>
+<p><img src="/2021/07/27/buu-9/image-20210729002025008.png"><span class="image-caption">image-20210729002025008</span></p>
+<p>第七页ppt有惊喜。</p>
+<h1 id="UTCTF2020-zero"><a href="#UTCTF2020-zero" class="headerlink" title="[UTCTF2020]zero"></a>[UTCTF2020]zero</h1><p><img src="/2021/07/27/buu-9/image-20210729112610362.png"><span class="image-caption">image-20210729112610362</span></p>
+<p><del>有一种英文夹带法语的感觉（我看不懂我开始乱说</del></p>
+<p><img src="/2021/07/27/buu-9/image-20210729113027631.png"><span class="image-caption">image-20210729113027631</span></p>
+<p>不太对劲，查了一下这里是零宽度字符隐写：<a href="https://330k.github.io/misc_tools/unicode_steganography.html">https://330k.github.io/misc_tools/unicode_steganography.html</a></p>
+<p><img src="/2021/07/27/buu-9/image-20210729112513636.png"><span class="image-caption">image-20210729112513636</span></p>
+<h1 id="SCTF2019-电单车"><a href="#SCTF2019-电单车" class="headerlink" title="[SCTF2019]电单车"></a>[SCTF2019]电单车</h1><p>音频只响了一声，像是锁车的声音，沿着题目搜到了题目描述</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript">题目描述：截获了一台电动车的钥匙发出的锁车信号，<span class="hljs-number">3</span>分钟之内，我要获得它地址位的全部信息。flag内容二进制表示即可。<br><br></code></pre></td></tr></table></figure>
+
+<p>二进制啊，这就找高低频</p>
+<p><img src="/2021/07/27/buu-9/image-20210729122824094.png"><span class="image-caption">image-20210729122824094</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729122837549.png"><span class="image-caption">image-20210729122837549</span></p>
+<p>这里分成了三段</p>
+<h2 id="关于固定码"><a href="#关于固定码" class="headerlink" title="关于固定码"></a>关于固定码</h2><p><a href="https://www.freebuf.com/articles/wireless/191534.html">https://www.freebuf.com/articles/wireless/191534.html</a></p>
+<p><img src="/2021/07/27/buu-9/image-20210729123137550.png"><span class="image-caption">image-20210729123137550</span></p>
+<p>所以只要把第二段的二进制整理出来就行</p>
+<h1 id="CTF2019-otaku"><a href="#CTF2019-otaku" class="headerlink" title="[*CTF2019]otaku"></a>[*CTF2019]otaku</h1><p>第一层伪加密第二层明文爆破</p>
+<p><img src="/2021/07/27/buu-9/image-20210729160327466.png"><span class="image-caption">image-20210729160327466</span></p>
+<p>lastword？应该是明文了</p>
+<p>在doc文件找找看</p>
+<p><img src="/2021/07/27/buu-9/image-20210729160307504.png"><span class="image-caption">image-20210729160307504</span></p>
+<p>我看到的长这样，护眼和显示隐藏文字都开了这波着实被坑，就没摸到重点，把各种有标注的文字都尝试作为明文破解的文件发现都不对，上网搜到提示gbk编码隐藏文字部分</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#encoding=GBK</span><br>f = open(<span class="hljs-string">&quot;1.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>)<br>s=<span class="hljs-string">&quot;Hello everyone, I am Gilbert. Everyone thought that I was killed, but actually I survived. Now that I have no cash with me and I’m trapped in another country. I can&#x27;t contact Violet now. She must be desperate to see me and I don&#x27;t want her to cry for me. I need to pay 300 for the train, and 88 for the meal. Cash or battlenet point are both accepted. I don&#x27;t play the Hearthstone, and I don&#x27;t even know what is Rastakhan&#x27;s Rumble.&quot;</span><br>f.write(s)<br>f.close()<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/27/buu-9/image-20210729160736090.png"><span class="image-caption">image-20210729160736090</span></p>
+<p>就可以愉快的爆破了</p>
+<p><img src="/2021/07/27/buu-9/image-20210729161535289.png"><span class="image-caption">image-20210729161535289</span></p>
+<p>zsteg可以直接分离出flag</p>
+<h1 id="湖南省赛2019-Findme"><a href="#湖南省赛2019-Findme" class="headerlink" title="[湖南省赛2019]Findme"></a>[湖南省赛2019]Findme</h1><p>这题比我想象的离谱多了</p>
+<h2 id="1-png"><a href="#1-png" class="headerlink" title="1.png"></a>1.png</h2><p><img src="/2021/07/27/buu-9/image-20210729163607327.png"><span class="image-caption">image-20210729163607327</span></p>
+<p>感觉信息量很大但是没什么线索</p>
+<p><img src="/2021/07/27/buu-9/image-20210729163927298.png"><span class="image-caption">image-20210729163927298</span></p>
+<p>但是这图绝对有问题,先放一放</p>
+<p>四张图折腾完再来看这个大量的IDAT应该有点问题</p>
+<p>与其他四张图对比，宽高应该是要修改的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zlib<br><span class="hljs-keyword">import</span> struct<br>file = <span class="hljs-string">&#x27;1.png&#x27;</span><br>fr = open(file,<span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>data = bytearray(fr[<span class="hljs-number">12</span>:<span class="hljs-number">29</span>])<span class="hljs-comment">#bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 &lt;= x &lt; 256。</span><br><span class="hljs-comment">#crc32key = eval(str(fr[29:33]).replace(&#x27;\\x&#x27;,&#x27;&#x27;).replace(&quot;b&#x27;&quot;,&#x27;0x&#x27;).replace(&quot;&#x27;&quot;,&#x27;&#x27;)) </span><br>crc32key = <span class="hljs-number">0xC4ED3</span> <br><span class="hljs-comment">#data = bytearray(b&#x27;\x49\x48\x44\x52\x00\x00\x01\xF4\x00\x00\x01\xF1\x08\x06\x00\x00\x00&#x27;) </span><br>n = <span class="hljs-number">4095</span> <br><span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(n): <br>    width = bytearray(struct.pack(<span class="hljs-string">&#x27;&gt;i&#x27;</span>, w))<br>    <span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> range(n): <br>        height = bytearray(struct.pack(<span class="hljs-string">&#x27;&gt;i&#x27;</span>, h)) <br>        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>): <br>            data[x+<span class="hljs-number">4</span>] = width[x] <br>            data[x+<span class="hljs-number">8</span>] = height[x] <br>            <span class="hljs-comment">#print(data) </span><br>        crc32result = zlib.crc32(data) <br>        <span class="hljs-keyword">if</span> crc32result == crc32key: <br>            print(width,height) <br>            print(data) <br>            newpic = bytearray(fr) <br>            <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>): <br>                newpic[x+<span class="hljs-number">16</span>] = width[x]<br>                newpic[x+<span class="hljs-number">20</span>] = height[x] <br>            fw = open(file+<span class="hljs-string">&#x27;.png&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>) <br>            fw.write(newpic) <br>            fw.close <br><br><span class="hljs-comment">#class bytearray([source[, encoding[, errors]]])            </span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">参数</span><br><span class="hljs-string">如果 source 为整数，则返回一个长度为 source 的初始化数组；</span><br><span class="hljs-string">如果 source 为字符串，则按照指定的 encoding 将字符串转换为字节序列；</span><br><span class="hljs-string">如果 source 为可迭代类型，则元素必须为[0 ,255] 中的整数；</span><br><span class="hljs-string">如果 source 为与 buffer 接口一致的对象，则此对象也可以被用于初始化 bytearray。</span><br><span class="hljs-string">如果没有输入任何参数，默认就是初始化数组为0个元素。</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>            <br><br></code></pre></td></tr></table></figure>
+
+<p>然后修改</p>
+<p><img src="/2021/07/27/buu-9/image-20210729172259582.png"><span class="image-caption">image-20210729172259582</span></p>
+<p>chunk[2]和[3]的uint32 type 令其十六进制数为49444154h</p>
+<p><img src="/2021/07/27/buu-9/image-20210729172417096.png"><span class="image-caption">image-20210729172417096</span></p>
+<p>没有比较就没有伤害。。。。。。。</p>
+<p><img src="/2021/07/27/buu-9/../../../CTF%E5%B7%A5%E5%85%B7%E5%8C%85/CTF%E5%B7%A5%E5%85%B7%E5%8C%852017-10-30/3.%E6%9D%82%E9%A1%B9/1.%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E6%9C%AF/5.%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%AB%E6%8F%8F/%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%AB%E6%8F%8F/image-20210729172523975.png"><span class="image-caption">image-20210729172523975</span></p>
+<p>有点东西</p>
+<p><img src="/2021/07/27/buu-9/image-20210729175010276.png"><span class="image-caption">image-20210729175010276</span></p>
+<p>那就把五段拼起来，看起来不是图片顺序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">ZmxhZ3s0X3<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-png"><a href="#2-png" class="headerlink" title="2.png"></a>2.png</h2><p>文件尾藏了一个疑似7z压缩的压缩包实则是zip压缩，需要将所有的7z改成PK</p>
+<p><img src="/2021/07/27/buu-9/image-20210729164716150.png"><span class="image-caption">image-20210729164716150</span></p>
+<p>找大小不一样的</p>
+<p><img src="/2021/07/27/buu-9/image-20210729164744709.png"><span class="image-caption">image-20210729164744709</span></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript"><span class="hljs-number">1</span>RVcmVfc<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-png"><a href="#3-png" class="headerlink" title="3.png"></a>3.png</h2><p>crc报错，尝试修改其图片高不是很成功</p>
+<p>仔细观察各个IDAT的crc和IEND的crc对比</p>
+<p><img src="/2021/07/27/buu-9/image-20210729165528558.png"><span class="image-caption">image-20210729165528558</span></p>
+<p>提取出来看看</p>
+<p><img src="/2021/07/27/buu-9/image-20210729165803797.png"><span class="image-caption">image-20210729165803797</span></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript"><span class="hljs-number">3</span>RlZ30=<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-png"><a href="#4-png" class="headerlink" title="4.png"></a>4.png</h2><p><img src="/2021/07/27/buu-9/image-20210729165939840.png"><span class="image-caption">image-20210729165939840</span></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">cExlX1BsY<br></code></pre></td></tr></table></figure>
+
+<p>这边的=和.-为干扰</p>
+<h2 id="5-png"><a href="#5-png" class="headerlink" title="5.png"></a>5.png</h2><p><img src="/2021/07/27/buu-9/image-20210729170340714.png"><span class="image-caption">image-20210729170340714</span></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">Yzcllfc0lN<br></code></pre></td></tr></table></figure>
+
+<p>找到开头</p>
+<p><img src="/2021/07/27/buu-9/image-20210729175411089.png"><span class="image-caption">image-20210729175411089</span></p>
+<p>1-5-4-2-3</p>
+<p><img src="/2021/07/27/buu-9/image-20210729175645466.png"><span class="image-caption">image-20210729175645466</span></p>
+<h1 id="QCTF2018-X-man-A-face"><a href="#QCTF2018-X-man-A-face" class="headerlink" title="[QCTF2018]X-man-A face"></a>[QCTF2018]X-man-A face</h1><p>补齐二维码就行，手机扫一扫</p>
+<p><img src="/2021/07/27/buu-9/image-20210729191035177.png"><span class="image-caption">image-20210729191035177</span></p>
+<p><del>（别问，问就是徒手补二维码）</del>然后base32</p>
+<h1 id="MRCTF2020-pyFlag"><a href="#MRCTF2020-pyFlag" class="headerlink" title="[MRCTF2020]pyFlag"></a>[MRCTF2020]pyFlag</h1><p>三张图片尾有惊喜，可以拼成一个zip压缩包，爆破得密码为1234，然后真base套娃现场</p>
+<p><img src="/2021/07/27/buu-9/image-20210729193557484.png"><span class="image-caption">image-20210729193557484</span></p>
+<h1 id="真的很杂"><a href="#真的很杂" class="headerlink" title="真的很杂"></a>真的很杂</h1><p>图片套apk（我之前以为是压缩包，尬住了，后缀直接改成apk，在手机上安装</p>
+<p>我以为出flag了，（我还是太年轻了</p>
+<p><img src="/2021/07/27/buu-9/image-20210729203831755.png"><span class="image-caption">image-20210729203831755</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729203847098.png"><span class="image-caption">image-20210729203847098</span></p>
+<p>转成java</p>
+<p><img src="/2021/07/27/buu-9/image-20210729203922006.png"><span class="image-caption">image-20210729203922006</span></p>
+<p>有两位数是随机出的。。。。。。。。猜吧</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">flag</span>&#123;<span class="hljs-number">25</span>f<span class="hljs-number">991</span>b<span class="hljs-number">27</span>fcdc<span class="hljs-number">2</span>f<span class="hljs-number">7</span>a<span class="hljs-number">82</span>a<span class="hljs-number">2</span>b<span class="hljs-number">34386</span>e<span class="hljs-number">81</span>c<span class="hljs-number">4</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Business-Planning-Group"><a href="#Business-Planning-Group" class="headerlink" title="Business Planning Group"></a>Business Planning Group</h1><p>png套bpg，用honeyview即可打开bpg文件</p>
+<p><img src="/2021/07/27/buu-9/image-20210729210450928.png"><span class="image-caption">image-20210729210450928</span></p>
+<p>base64，结束    {BPG_i5_b3tt3r_7h4n_JPG}bpg是另一种jpg，hhh</p>
+<h1 id="watevrCTF-2019-Evil-Cuteness"><a href="#watevrCTF-2019-Evil-Cuteness" class="headerlink" title="[watevrCTF 2019]Evil Cuteness"></a>[watevrCTF 2019]Evil Cuteness</h1><p>把图片藏的压缩包打开就行</p>
+<h1 id="ACTF新生赛2020-剑龙"><a href="#ACTF新生赛2020-剑龙" class="headerlink" title="[ACTF新生赛2020]剑龙"></a>[ACTF新生赛2020]剑龙</h1><p>hh.png为steghide隐写密码为pwd.txt的颜文字解密后的结果</p>
+<p><img src="/2021/07/27/buu-9/image-20210729232451785.png"><span class="image-caption">image-20210729232451785</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729232509358.png"><span class="image-caption">image-20210729232509358</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729232550478.png"><span class="image-caption">image-20210729232550478</span></p>
+<p>密钥在哪里</p>
+<p><img src="/2021/07/27/buu-9/image-20210729232618705.png"><span class="image-caption">image-20210729232618705</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729232843136.png"><span class="image-caption">image-20210729232843136</span></p>
+<p>stegosarus？搜一下好了，剑龙加密，只有对pyc pyo py文件才有用的</p>
+<h1 id="voip"><a href="#voip" class="headerlink" title="voip"></a>voip</h1><p>是个流量包，看了好久啥都没发现，只有udp流</p>
+<p>搜了才知道voip是VoIP，对voip：互联网协议语音（VoIP），也称为IP电话，简称电话。 将其放在wireshark中，选择电话，voip呼叫。</p>
+<p>就可以听到flag了，是英文<del>（听力废物听了好多遍</del></p>
+<h1 id="UTCTF2020-File-Carving"><a href="#UTCTF2020-File-Carving" class="headerlink" title="[UTCTF2020]File Carving"></a>[UTCTF2020]File Carving</h1><p>图片藏压缩包，压缩包里是ELF文件，直接在linux上运行就行，直接尝试直接搜索flag但是</p>
+<p><img src="/2021/07/27/buu-9/image-20210729222923654.png"><span class="image-caption">image-20210729222923654</span></p>
+<p><img src="/2021/07/27/buu-9/image-20210729223106550.png"><span class="image-caption">image-20210729223106550</span></p>
+<h1 id="GUET-CTF2019-soul-sipse"><a href="#GUET-CTF2019-soul-sipse" class="headerlink" title="[GUET-CTF2019]soul sipse"></a>[GUET-CTF2019]soul sipse</h1><p>这个题目有点意思</p>
+<p><img src="/2021/07/27/buu-9/image-20210729224043092.png"><span class="image-caption">image-20210729224043092</span></p>
+<p>打开音频，鸡皮疙瘩都起来了，这个频率，感觉没有什么特点<del>（像个杂音，听着头大</del></p>
+<p><img src="/2021/07/27/buu-9/image-20210729225528565.png"><span class="image-caption">image-20210729225528565</span></p>
+<p>有点东西，看起来是考隐写了</p>
+<p><img src="/2021/07/27/buu-9/image-20210729225612031.png"><span class="image-caption">image-20210729225612031</span></p>
+<p>steghide无密码隐写，然后藏了一个微云链接，是png图片</p>
+<p><img src="/2021/07/27/buu-9/image-20210729225722131.png"><span class="image-caption">image-20210729225722131</span></p>
+<p>修改错误的文件头</p>
+<p><img src="/2021/07/27/buu-9/image-20210729225809445.png"><span class="image-caption">image-20210729225809445</span></p>
+<p>unicode</p>
+<p><img src="/2021/07/27/buu-9/image-20210729230219993.png"><span class="image-caption">image-20210729230219993</span></p>
+<p>好像没提示了，看看音频吧</p>
+<p><img src="/2021/07/27/buu-9/image-20210729230520431.png"><span class="image-caption">image-20210729230520431</span></p>
+<p>好家伙，这里藏了个hint，求和</p>
+<h1 id="UTCTF2020-spectogram"><a href="#UTCTF2020-spectogram" class="headerlink" title="[UTCTF2020]spectogram"></a>[UTCTF2020]spectogram</h1><p>频谱隐写</p>
+<p><img src="/2021/07/27/buu-9/image-20210729230646524.png"><span class="image-caption">image-20210729230646524</span></p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -708,139 +873,6 @@
 ]]></content>
       <tags>
         <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu-9</title>
-    <url>/2021/07/27/buu-9/</url>
-    <content><![CDATA[<h1 id="GKCTF-2021-签到"><a href="#GKCTF-2021-签到" class="headerlink" title="[GKCTF 2021]签到"></a>[GKCTF 2021]签到</h1><p>签到题 x 猜flag √</p>
-<p>这是一道靠猜的题目</p>
-<p><img src="/2021/07/27/buu-9/image-20210727211853547.png"><span class="image-caption">image-20210727211853547</span></p>
-<p>发现一些小细节</p>
-<p>http追踪流</p>
-<p><img src="/2021/07/27/buu-9/image-20210727211937583.png"><span class="image-caption">image-20210727211937583</span></p>
-<p>数字蛮奇怪的，往下翻<img src="/2021/07/27/buu-9/image-20210727212449419.png"><span class="image-caption">image-20210727212449419</span></p>
-<p>base64，那就是16进制转文本再转base64</p>
-<p>转完我直接沉默</p>
-<figure class="highlight clean"><table><tr><td class="code"><pre><code class="hljs clean"><span class="hljs-number">44516</span>f4e4367306a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d4b44534d674943416749434167494341344d446f784d446f774d6941774d79307a4d4330784d6a417949434167494341674943416749776f4e49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a49794d6a436730744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c5330744c516f3d<br><br>DQoNCg0jIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKDSMgICAgICAgICA4MDoxMDowMiAwMy0zMC0xMjAyICAgICAgICAgIwoNIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCg0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo=<br><br><br><br>#######################################<br><br>#         <span class="hljs-number">80</span>:<span class="hljs-number">10</span>:<span class="hljs-number">02</span> <span class="hljs-number">03</span><span class="hljs-number">-30</span><span class="hljs-number">-1202</span>         #<br><br>#######################################<br><br>--------------------------------------------------<br><br><br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs base64">64306c455357644251306c6e51554e4a5a3046355355737764306c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154576c44546d39525241707154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7154586c4a616b31355357704e65556c7162314645616b46445357644251306c6e51554e4a5a32644554545a46524530325157704e5a3046365458524e524531305257704e436e5177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d644442705130354e65556c7154586c4a616b31355357704e65556b4b4e6b467154576442656b31305455524e644556715458644a616b38775a566f324d6d56774e557377643074795556645a64315a485a48593152556c3051576c4e4d5546355a4777316255733254545a7162475a7763573579555552304d464e4d64444254544170304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d6444425454485177553078304d464e4d537a42425357526159585a764e7a567462485a735130354e564530325255524e436e6f77655531334d464e4e6555467154545a524e327877596a647362584a5252484a7a5131706f516c68614d446c745647637751306c355655524a4d315a74596e4676656d3951567974736357563151303477553078304d464e4d64444254544851775530774b63336858576d786b4d5659354d544e6c4e325179576d684752324a7a576d31615a7a427363446c7064573569567974585a7a427363446c7064573569567974585a7a427363446c706457356956797458537a423354586876564531336230524e6555464454517045546a4252524534775555527356324636546c684e65444258596d593562464a48556b524f5245347759584a6b4d464a6d4f565a6162444658596e644252456c6b556d46746345524c61577832526b6c6b556d46746345524c61577832566b747754544a5a436a303955556c6f545442525245347755516f3d<br><br><br>d0lESWdBQ0lnQUNJZ0F5SUswd0lqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTWlDTm9RRApqTXlJak15SWpNeUlqTXlJak15SWpNeUlqTXlJak15SWpNeUlqb1FEakFDSWdBQ0lnQUNJZ2dETTZFRE02QWpNZ0F6TXRNRE10RWpNCnQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBpQ05NeUlqTXlJak15SWpNeUkKNkFqTWdBek10TURNdEVqTXdJak8wZVo2MmVwNUswd0tyUVdZd1ZHZHY1RUl0QWlNMUF5ZGw1bUs2TTZqbGZwcW5yUUR0MFNMdDBTTAp0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMdDBTTHQwU0x0MFNMSzBBSWRaYXZvNzVtbHZsQ05NVE02RURNCnoweU13MFNNeUFqTTZRN2xwYjdsbXJRRHJzQ1poQlhaMDltVGcwQ0l5VURJM1ZtYnFvem9QVytscWV1Q04wU0x0MFNMdDBTTHQwU0wKc3hXWmxkMVY5MTNlN2QyWmhGR2JzWm1aZzBscDlpdW5iVytXZzBscDlpdW5iVytXZzBscDlpdW5iVytXSzB3TXhvVE13b0RNeUFDTQpETjBRRE4wUURsV2F6TlhNeDBXYmY5bFJHUkRORE4wYXJkMFJmOVZabDFXYndBRElkUmFtcERLaWx2RklkUmFtcERLaWx2VktwTTJZCj09UUloTTBRRE4wUQo&#x3D;<br><br>wIDIgACIgACIgAyIK0wIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMiCNoQD<br>jMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjMyIjoQDjACIgACIgACIggDM6EDM6AjMgAzMtMDMtEjM<br>t0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0iCNMyIjMyIjMyIjMyI<br>6AjMgAzMtMDMtEjMwIjO0eZ62ep5K0wKrQWYwVGdv5EItAiM1Aydl5mK6M6jlfpqnrQDt0SLt0SL<br>t0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLt0SLK0AIdZavo75mlvlCNMTM6EDM<br>z0yMw0SMyAjM6Q7lpb7lmrQDrsCZhBXZ09mTg0CIyUDI3VmbqozoPW+lqeuCN0SLt0SLt0SLt0SL<br>sxWZld1V913e7d2ZhFGbsZmZg0lp9iunbW+Wg0lp9iunbW+Wg0lp9iunbW+WK0wMxoTMwoDMyACM<br>DN0QDN0QDlWazNXMx0Wbf9lRGRDNDN0ard0Rf9VZl1WbwADIdRampDKilvFIdRampDKilvVKpM2Y<br>&#x3D;&#x3D;QIhM0QDN0Q<br></code></pre></td></tr></table></figure>
-
-<p>仔细观察你会发现这两段的相似之处</p>
-<p>最后那串base64是反着的，那就</p>
-<p><img src="/2021/07/27/buu-9/image-20210728232146423.png"><span class="image-caption">image-20210728232146423</span></p>
-<figure class="highlight clean"><table><tr><td class="code"><pre><code class="hljs clean">Q0NDQ0MhIQ==<br>Y2MpKVvliKDpmaRdIFvliKDpmaRdIDAwbW1lZV9fR0dra0NDNDRGRl9fbW0xMXNzaWlDQ0NDQ0ND<br>MCAyMDowMToxMw0KW+Wbnui9pl0gW+Wbnui9pl0gW+Wbnui9pl0gZmZsbGFhZ2d7e319V1dlZWxs<br>LS0tLS0tLS0tLS0NCueql+WPozoqbmV3IDUyIC0gTm90ZXBhZCsrDQrml7bpl7Q6MjAyMS0wMy0z<br>MDE6MTMNClvlm57ovaZdIA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t<br>LS0tLS0tDQrnqpflj6M6Km5ldyA1MiAtIE5vdGVwYWQrKw0K5pe26Ze0OjIwMjEtMDMtMzAgMjA6<br>IyMjIyMjIyMjIyMNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t<br>MjEtMDMtMzAgMjA6MDE6MDggICAgICAgICAjDQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj<br>DQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KIyAgICAgICAgIDIw<br><br>CCCCC!!<br>cc))[删除] [删除] <span class="hljs-number">00</span>mmee__GGkkCC44FF__mm11ssiiCCCCCCC0 <span class="hljs-number">20</span>:<span class="hljs-number">01</span>:<span class="hljs-number">13</span><br>[回车] [回车] [回车] ffllaagg&#123;&#123;&#125;&#125;WWeell-----------<br>窗口:*new <span class="hljs-number">52</span> - Notepad++<br>时间:<span class="hljs-number">2021</span><span class="hljs-number">-03</span><span class="hljs-number">-301</span>:<span class="hljs-number">13</span><br>[回车] <br>---------------------------------------------<br>窗口:*new <span class="hljs-number">52</span> - Notepad++<br>时间:<span class="hljs-number">2021</span><span class="hljs-number">-03</span><span class="hljs-number">-30</span> <span class="hljs-number">20</span>:###########<br>-------------------------------------------<span class="hljs-number">-21</span><span class="hljs-number">-03</span><span class="hljs-number">-30</span> <span class="hljs-number">20</span>:<span class="hljs-number">01</span>:<span class="hljs-number">08</span>         #<br>############################<br><br>#######################################<br>#         <span class="hljs-number">20</span><br><br><br></code></pre></td></tr></table></figure>
-
-<p>你猜猜flag是什么，反正我没猜到</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">flag</span>&#123;Welc<span class="hljs-number">0</span>me_GkC<span class="hljs-number">4</span>F_m<span class="hljs-number">1</span>siCCCCCC!&#125;<br></code></pre></td></tr></table></figure>
-
-<p>绝了</p>
-<h1 id="hashcat"><a href="#hashcat" class="headerlink" title="hashcat"></a>hashcat</h1><p><img src="/2021/07/27/buu-9/image-20210728233320953.png"><span class="image-caption">image-20210728233320953</span></p>
-<p>无后缀文件，看了一下应该是某个办公软件的文件</p>
-<p>随便改一个，</p>
-<p><img src="/2021/07/27/buu-9/image-20210728233715495.png"><span class="image-caption">image-20210728233715495</span></p>
-<p>手动爆破是不可能的，上网搜一下工具 <strong>Accent OFFICE Password Recovery破解版</strong></p>
-<p><img src="/2021/07/27/buu-9/image-20210729001711425.png"><span class="image-caption">image-20210729001711425</span></p>
-<p>docx打开是乱码，试一下ppt</p>
-<p><img src="/2021/07/27/buu-9/image-20210729001844141.png"><span class="image-caption">image-20210729001844141</span></p>
-<p>有点东西</p>
-<p><img src="/2021/07/27/buu-9/image-20210729002025008.png"><span class="image-caption">image-20210729002025008</span></p>
-<p>第七页ppt有惊喜。</p>
-<h1 id="UTCTF2020-zero"><a href="#UTCTF2020-zero" class="headerlink" title="[UTCTF2020]zero"></a>[UTCTF2020]zero</h1><p><img src="/2021/07/27/buu-9/image-20210729112610362.png"><span class="image-caption">image-20210729112610362</span></p>
-<p><del>有一种英文夹带法语的感觉（我看不懂我开始乱说</del></p>
-<p><img src="/2021/07/27/buu-9/image-20210729113027631.png"><span class="image-caption">image-20210729113027631</span></p>
-<p>不太对劲，查了一下这里是零宽度字符隐写：<a href="https://330k.github.io/misc_tools/unicode_steganography.html">https://330k.github.io/misc_tools/unicode_steganography.html</a></p>
-<p><img src="/2021/07/27/buu-9/image-20210729112513636.png"><span class="image-caption">image-20210729112513636</span></p>
-<h1 id="SCTF2019-电单车"><a href="#SCTF2019-电单车" class="headerlink" title="[SCTF2019]电单车"></a>[SCTF2019]电单车</h1><p>音频只响了一声，像是锁车的声音，沿着题目搜到了题目描述</p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript">题目描述：截获了一台电动车的钥匙发出的锁车信号，<span class="hljs-number">3</span>分钟之内，我要获得它地址位的全部信息。flag内容二进制表示即可。<br><br></code></pre></td></tr></table></figure>
-
-<p>二进制啊，这就找高低频</p>
-<p><img src="/2021/07/27/buu-9/image-20210729122824094.png"><span class="image-caption">image-20210729122824094</span></p>
-<p><img src="/2021/07/27/buu-9/image-20210729122837549.png"><span class="image-caption">image-20210729122837549</span></p>
-<p>这里分成了三段</p>
-<h2 id="关于固定码"><a href="#关于固定码" class="headerlink" title="关于固定码"></a>关于固定码</h2><p><a href="https://www.freebuf.com/articles/wireless/191534.html">https://www.freebuf.com/articles/wireless/191534.html</a></p>
-<p><img src="/2021/07/27/buu-9/image-20210729123137550.png"><span class="image-caption">image-20210729123137550</span></p>
-<p>所以只要把第二段的二进制整理出来就行</p>
-<h1 id="CTF2019-otaku"><a href="#CTF2019-otaku" class="headerlink" title="[*CTF2019]otaku"></a>[*CTF2019]otaku</h1><p>第一层伪加密第二层明文爆破</p>
-<p><img src="/2021/07/27/buu-9/image-20210729160327466.png"><span class="image-caption">image-20210729160327466</span></p>
-<p>lastword？应该是明文了</p>
-<p>在doc文件找找看</p>
-<p><img src="/2021/07/27/buu-9/image-20210729160307504.png"><span class="image-caption">image-20210729160307504</span></p>
-<p>我看到的长这样，护眼和显示隐藏文字都开了这波着实被坑，就没摸到重点，把各种有标注的文字都尝试作为明文破解的文件发现都不对，上网搜到提示gbk编码隐藏文字部分</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#encoding=GBK</span><br>f = open(<span class="hljs-string">&quot;1.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>)<br>s=<span class="hljs-string">&quot;Hello everyone, I am Gilbert. Everyone thought that I was killed, but actually I survived. Now that I have no cash with me and I’m trapped in another country. I can&#x27;t contact Violet now. She must be desperate to see me and I don&#x27;t want her to cry for me. I need to pay 300 for the train, and 88 for the meal. Cash or battlenet point are both accepted. I don&#x27;t play the Hearthstone, and I don&#x27;t even know what is Rastakhan&#x27;s Rumble.&quot;</span><br>f.write(s)<br>f.close()<br><br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/07/27/buu-9/image-20210729160736090.png"><span class="image-caption">image-20210729160736090</span></p>
-<p>就可以愉快的爆破了</p>
-<p><img src="/2021/07/27/buu-9/image-20210729161535289.png"><span class="image-caption">image-20210729161535289</span></p>
-<p>zsteg可以直接分离出flag</p>
-<h1 id="湖南省赛2019-Findme"><a href="#湖南省赛2019-Findme" class="headerlink" title="[湖南省赛2019]Findme"></a>[湖南省赛2019]Findme</h1><p>这题比我想象的离谱多了</p>
-<h2 id="1-png"><a href="#1-png" class="headerlink" title="1.png"></a>1.png</h2><p><img src="/2021/07/27/buu-9/image-20210729163607327.png"><span class="image-caption">image-20210729163607327</span></p>
-<p>感觉信息量很大但是没什么线索</p>
-<p><img src="/2021/07/27/buu-9/image-20210729163927298.png"><span class="image-caption">image-20210729163927298</span></p>
-<p>但是这图绝对有问题,先放一放</p>
-<p>四张图折腾完再来看这个大量的IDAT应该有点问题</p>
-<p>与其他四张图对比，宽高应该是要修改的</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zlib<br><span class="hljs-keyword">import</span> struct<br>file = <span class="hljs-string">&#x27;1.png&#x27;</span><br>fr = open(file,<span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>data = bytearray(fr[<span class="hljs-number">12</span>:<span class="hljs-number">29</span>])<span class="hljs-comment">#bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 &lt;= x &lt; 256。</span><br><span class="hljs-comment">#crc32key = eval(str(fr[29:33]).replace(&#x27;\\x&#x27;,&#x27;&#x27;).replace(&quot;b&#x27;&quot;,&#x27;0x&#x27;).replace(&quot;&#x27;&quot;,&#x27;&#x27;)) </span><br>crc32key = <span class="hljs-number">0xC4ED3</span> <br><span class="hljs-comment">#data = bytearray(b&#x27;\x49\x48\x44\x52\x00\x00\x01\xF4\x00\x00\x01\xF1\x08\x06\x00\x00\x00&#x27;) </span><br>n = <span class="hljs-number">4095</span> <br><span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(n): <br>    width = bytearray(struct.pack(<span class="hljs-string">&#x27;&gt;i&#x27;</span>, w))<br>    <span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> range(n): <br>        height = bytearray(struct.pack(<span class="hljs-string">&#x27;&gt;i&#x27;</span>, h)) <br>        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>): <br>            data[x+<span class="hljs-number">4</span>] = width[x] <br>            data[x+<span class="hljs-number">8</span>] = height[x] <br>            <span class="hljs-comment">#print(data) </span><br>        crc32result = zlib.crc32(data) <br>        <span class="hljs-keyword">if</span> crc32result == crc32key: <br>            print(width,height) <br>            print(data) <br>            newpic = bytearray(fr) <br>            <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>): <br>                newpic[x+<span class="hljs-number">16</span>] = width[x]<br>                newpic[x+<span class="hljs-number">20</span>] = height[x] <br>            fw = open(file+<span class="hljs-string">&#x27;.png&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>) <br>            fw.write(newpic) <br>            fw.close <br><br><span class="hljs-comment">#class bytearray([source[, encoding[, errors]]])            </span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">参数</span><br><span class="hljs-string">如果 source 为整数，则返回一个长度为 source 的初始化数组；</span><br><span class="hljs-string">如果 source 为字符串，则按照指定的 encoding 将字符串转换为字节序列；</span><br><span class="hljs-string">如果 source 为可迭代类型，则元素必须为[0 ,255] 中的整数；</span><br><span class="hljs-string">如果 source 为与 buffer 接口一致的对象，则此对象也可以被用于初始化 bytearray。</span><br><span class="hljs-string">如果没有输入任何参数，默认就是初始化数组为0个元素。</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>            <br><br></code></pre></td></tr></table></figure>
-
-<p>然后修改</p>
-<p><img src="/2021/07/27/buu-9/image-20210729172259582.png"><span class="image-caption">image-20210729172259582</span></p>
-<p>chunk[2]和[3]的uint32 type 令其十六进制数为49444154h</p>
-<p><img src="/2021/07/27/buu-9/image-20210729172417096.png"><span class="image-caption">image-20210729172417096</span></p>
-<p>没有比较就没有伤害。。。。。。。</p>
-<p><img src="/2021/07/27/buu-9/../../../CTF%E5%B7%A5%E5%85%B7%E5%8C%85/CTF%E5%B7%A5%E5%85%B7%E5%8C%852017-10-30/3.%E6%9D%82%E9%A1%B9/1.%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E6%9C%AF/5.%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%AB%E6%8F%8F/%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%AB%E6%8F%8F/image-20210729172523975.png"><span class="image-caption">image-20210729172523975</span></p>
-<p>有点东西</p>
-<p><img src="/2021/07/27/buu-9/image-20210729175010276.png"><span class="image-caption">image-20210729175010276</span></p>
-<p>那就把五段拼起来，看起来不是图片顺序</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">ZmxhZ3s0X3<br></code></pre></td></tr></table></figure>
-
-<h2 id="2-png"><a href="#2-png" class="headerlink" title="2.png"></a>2.png</h2><p>文件尾藏了一个疑似7z压缩的压缩包实则是zip压缩，需要将所有的7z改成PK</p>
-<p><img src="/2021/07/27/buu-9/image-20210729164716150.png"><span class="image-caption">image-20210729164716150</span></p>
-<p>找大小不一样的</p>
-<p><img src="/2021/07/27/buu-9/image-20210729164744709.png"><span class="image-caption">image-20210729164744709</span></p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript"><span class="hljs-number">1</span>RVcmVfc<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-png"><a href="#3-png" class="headerlink" title="3.png"></a>3.png</h2><p>crc报错，尝试修改其图片高不是很成功</p>
-<p>仔细观察各个IDAT的crc和IEND的crc对比</p>
-<p><img src="/2021/07/27/buu-9/image-20210729165528558.png"><span class="image-caption">image-20210729165528558</span></p>
-<p>提取出来看看</p>
-<p><img src="/2021/07/27/buu-9/image-20210729165803797.png"><span class="image-caption">image-20210729165803797</span></p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript"><span class="hljs-number">3</span>RlZ30=<br></code></pre></td></tr></table></figure>
-
-<h2 id="4-png"><a href="#4-png" class="headerlink" title="4.png"></a>4.png</h2><h2 id><a href="#" class="headerlink" title></a><img src="/2021/07/27/buu-9/image-20210729165939840.png"><span class="image-caption">image-20210729165939840</span></h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">cExlX1BsY<br></code></pre></td></tr></table></figure>
-
-<p>这边的=和.-为干扰</p>
-<h2 id="5-png"><a href="#5-png" class="headerlink" title="5.png"></a>5.png</h2><p><img src="/2021/07/27/buu-9/image-20210729170340714.png"><span class="image-caption">image-20210729170340714</span></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs plain">Yzcllfc0lN<br></code></pre></td></tr></table></figure>
-
-<p>找到开头</p>
-<p><img src="/2021/07/27/buu-9/image-20210729175411089.png"><span class="image-caption">image-20210729175411089</span></p>
-<p>1-5-4-2-3</p>
-<p><img src="/2021/07/27/buu-9/image-20210729175645466.png"><span class="image-caption">image-20210729175645466</span></p>
-<h1 id="QCTF2018-X-man-A-face"><a href="#QCTF2018-X-man-A-face" class="headerlink" title="[QCTF2018]X-man-A face"></a>[QCTF2018]X-man-A face</h1><p>补齐二维码就行，手机扫一扫</p>
-<p><img src="/2021/07/27/buu-9/image-20210729191035177.png"><span class="image-caption">image-20210729191035177</span></p>
-<p><del>（别问，问就是徒手补二维码）</del>然后base32</p>
-<h1 id="MRCTF2020-pyFlag"><a href="#MRCTF2020-pyFlag" class="headerlink" title="[MRCTF2020]pyFlag"></a>[MRCTF2020]pyFlag</h1><p>三张图片尾有惊喜，可以拼成一个zip压缩包，爆破得密码为1234，然后真base套娃现场</p>
-<p><img src="/2021/07/27/buu-9/image-20210729193557484.png"><span class="image-caption">image-20210729193557484</span></p>
-<h1 id="真的很杂"><a href="#真的很杂" class="headerlink" title="真的很杂"></a>真的很杂</h1><p>图片套apk（我之前以为是压缩包，尬住了，后缀直接改成apk，在手机上安装</p>
-<p>我以为出flag了，（我还是太年轻了</p>
-<p><img src="/2021/07/27/buu-9/image-20210729203831755.png"><span class="image-caption">image-20210729203831755</span></p>
-<p><img src="/2021/07/27/buu-9/image-20210729203847098.png"><span class="image-caption">image-20210729203847098</span></p>
-<p>转成java</p>
-<p><img src="/2021/07/27/buu-9/image-20210729203922006.png"><span class="image-caption">image-20210729203922006</span></p>
-<p>有两位数是随机出的。。。。。。。。猜吧</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">flag</span>&#123;<span class="hljs-number">25</span>f<span class="hljs-number">991</span>b<span class="hljs-number">27</span>fcdc<span class="hljs-number">2</span>f<span class="hljs-number">7</span>a<span class="hljs-number">82</span>a<span class="hljs-number">2</span>b<span class="hljs-number">34386</span>e<span class="hljs-number">81</span>c<span class="hljs-number">4</span>&#125;<br></code></pre></td></tr></table></figure>
-
-<h1 id="Business-Planning-Group"><a href="#Business-Planning-Group" class="headerlink" title="Business Planning Group"></a>Business Planning Group</h1><p>png套bpg，用honeyview即可打开bpg文件</p>
-<p><img src="/2021/07/27/buu-9/image-20210729210450928.png"><span class="image-caption">image-20210729210450928</span></p>
-<p>base64，结束    {BPG_i5_b3tt3r_7h4n_JPG}bpg是另一种jpg，hhh</p>
-<h1 id="watevrCTF-2019-Evil-Cuteness"><a href="#watevrCTF-2019-Evil-Cuteness" class="headerlink" title="[watevrCTF 2019]Evil Cuteness"></a>[watevrCTF 2019]Evil Cuteness</h1><p>把图片藏的压缩包打开就行</p>
-<h1 id="ACTF新生赛2020-剑龙"><a href="#ACTF新生赛2020-剑龙" class="headerlink" title="[ACTF新生赛2020]剑龙"></a>[ACTF新生赛2020]剑龙</h1>]]></content>
-      <tags>
-        <tag>misc</tag>
       </tags>
   </entry>
   <entry>
@@ -1089,62 +1121,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-insecure CAPTCHA</title>
-    <url>/2021/02/23/insecure-CAPTCHA/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>insecure CAPTCHA，翻译过来是不安全的验证码。CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)的简称。</p>
-<p><strong>reCAPTCHA验证流程</strong></p>
-<p>这一模块的验证码使用的是Google提供reCAPTCHA服务，下图是验证的具体流程。</p>
-<p><img src="https://image.3001.net/images/20161110/14787625541269.png!small"><span class="image-caption">1.png</span></p>
-<p>服务器通过调用recaptcha_check_answer函数检查用户输入的正确性。</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">recaptcha_check_answer</span><span class="hljs-params">(<span class="hljs-variable">$privkey</span>,<span class="hljs-variable">$remoteip</span>, <span class="hljs-variable">$challenge</span>,<span class="hljs-variable">$response</span>)</span></span><br></code></pre></td></tr></table></figure>
-
-
-
-<p>参数$privkey是服务器申请的private key ，$remoteip是用户的ip，$challenge 是recaptcha_challenge_field 字段的值，来自前端页面 ，$response是 recaptcha_response_field 字段的值。函数返回ReCaptchaResponse class的实例，ReCaptchaResponse 类有2个属性 ：</p>
-<blockquote>
-<p>$is_valid是布尔型的，表示校验是否有效，</p>
-<p>$error是返回的错误代码。</p>
-</blockquote>
-<p>（ps:有人也许会问，那这个模块的实验是不是需要科学上网呢？答案是不用，因为我们可以绕过验证码）</p>
-<p>​                                                                                                                                                               —-摘自<a href="https://www.freebuf.com/articles/web/119692.html">https://www.freebuf.com/articles/web/119692.html</a></p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>因为没有翻墙，so 我在这里确实是没有看见验证码</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223202954658.png"></p>
-<p>如果我直接提交的话，就会</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203040434.png"></p>
-<p>不如我们抓个包来看看</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203157928.png"></p>
-<p>step？现在是1，我没有输入验证码，那如果step=2时，就是已输入正确的验证码，那不就可以实现绕过了吗？</p>
-<p>改成了step=2后，放包，修改成功</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203456715.png"></p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和刚才一样的操作，抓包</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203727452.png"></p>
-<p>和low一样？应该不可能，比较二者源码后发现，多了</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204227233.png"></p>
-<p>且这一段在change前面，改包试一下</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204413895.png"></p>
-<p>放包，等等，step没改，改完后放包</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204546747.png"></p>
-<p>？？？？wtf</p>
-<p>换个位置，再试一次</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204745956.png"></p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204904872.png"></p>
-<p>成功，<del>所以前面的问题（不愧是我，打错了。。。。</del></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223225013792.png"></p>
-<p>核心代码应该是在这里了</p>
-<p>如果验证码不正确，代码就会进一步检查g-recaptcha-response和HTTP_USER_AGENT，倘若正确，即可绕过验证码</p>
-<p>抓包伪造吧</p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223230407810.png"></p>
-<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223230556322.png"></p>
-<p>修改成功</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223224545377.png"></p>
-<p>源代码这里就不放了（太长了）</p>
-<p>Impossible级别的代码增加了Anti-CSRF token 机制防御CSRF攻击，利用PDO技术防护sql注入，验证过程终于不再分成两部分了，验证码无法绕过，同时要求用户输入之前的密码，进一步加强了身份认证。</p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-xss</title>
     <url>/2021/02/18/dvwa-xss/</url>
     <content><![CDATA[<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p>跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的。</p>
@@ -1328,6 +1304,62 @@
 ]]></content>
   </entry>
   <entry>
+    <title>dvwa-insecure CAPTCHA</title>
+    <url>/2021/02/23/insecure-CAPTCHA/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>insecure CAPTCHA，翻译过来是不安全的验证码。CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)的简称。</p>
+<p><strong>reCAPTCHA验证流程</strong></p>
+<p>这一模块的验证码使用的是Google提供reCAPTCHA服务，下图是验证的具体流程。</p>
+<p><img src="https://image.3001.net/images/20161110/14787625541269.png!small"><span class="image-caption">1.png</span></p>
+<p>服务器通过调用recaptcha_check_answer函数检查用户输入的正确性。</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">recaptcha_check_answer</span><span class="hljs-params">(<span class="hljs-variable">$privkey</span>,<span class="hljs-variable">$remoteip</span>, <span class="hljs-variable">$challenge</span>,<span class="hljs-variable">$response</span>)</span></span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>参数$privkey是服务器申请的private key ，$remoteip是用户的ip，$challenge 是recaptcha_challenge_field 字段的值，来自前端页面 ，$response是 recaptcha_response_field 字段的值。函数返回ReCaptchaResponse class的实例，ReCaptchaResponse 类有2个属性 ：</p>
+<blockquote>
+<p>$is_valid是布尔型的，表示校验是否有效，</p>
+<p>$error是返回的错误代码。</p>
+</blockquote>
+<p>（ps:有人也许会问，那这个模块的实验是不是需要科学上网呢？答案是不用，因为我们可以绕过验证码）</p>
+<p>​                                                                                                                                                               —-摘自<a href="https://www.freebuf.com/articles/web/119692.html">https://www.freebuf.com/articles/web/119692.html</a></p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>因为没有翻墙，so 我在这里确实是没有看见验证码</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223202954658.png"></p>
+<p>如果我直接提交的话，就会</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203040434.png"></p>
+<p>不如我们抓个包来看看</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203157928.png"></p>
+<p>step？现在是1，我没有输入验证码，那如果step=2时，就是已输入正确的验证码，那不就可以实现绕过了吗？</p>
+<p>改成了step=2后，放包，修改成功</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203456715.png"></p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和刚才一样的操作，抓包</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223203727452.png"></p>
+<p>和low一样？应该不可能，比较二者源码后发现，多了</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204227233.png"></p>
+<p>且这一段在change前面，改包试一下</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204413895.png"></p>
+<p>放包，等等，step没改，改完后放包</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204546747.png"></p>
+<p>？？？？wtf</p>
+<p>换个位置，再试一次</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204745956.png"></p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223204904872.png"></p>
+<p>成功，<del>所以前面的问题（不愧是我，打错了。。。。</del></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223225013792.png"></p>
+<p>核心代码应该是在这里了</p>
+<p>如果验证码不正确，代码就会进一步检查g-recaptcha-response和HTTP_USER_AGENT，倘若正确，即可绕过验证码</p>
+<p>抓包伪造吧</p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223230407810.png"></p>
+<p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223230556322.png"></p>
+<p>修改成功</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/23/insecure-CAPTCHA/image-20210223224545377.png"></p>
+<p>源代码这里就不放了（太长了）</p>
+<p>Impossible级别的代码增加了Anti-CSRF token 机制防御CSRF攻击，利用PDO技术防护sql注入，验证过程终于不再分成两部分了，验证码无法绕过，同时要求用户输入之前的密码，进一步加强了身份认证。</p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>猜数字</title>
     <url>/2020/10/02/my-first-blog/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code> 通过导入python预设随机数模块，设计两个猜数字游戏（1~10），一个猜单次，一个猜多次。</code></pre>
@@ -1336,6 +1368,20 @@
 
 
 <h3 id="多次"><a href="#多次" class="headerlink" title="多次"></a>多次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br><span class="hljs-comment">#在1到10之间的一个整数</span><br>number=random.randint(1,10)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我在想一个1到10之间的整数&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(1,7):<br>    <span class="hljs-comment">#猜6次</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;猜猜看，这个数字是：&#x27;</span>)<br>    guess=int(input())<br>    <span class="hljs-keyword">if</span> guess&lt;number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;太小了！&#x27;</span>)<br></code></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>随机点大福</title>
+    <url>/2020/10/04/my-fourth-blog/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于某同学想吃大福不知道吃哪一个的问题，写了个无聊小程序，练练手。</p>
+<p>一开始想到了Python自带的random模块，对大福创建一个列表。<br>那么如何实现对列表的元素进行随机抽取呢？</p>
+<p>More info: (<a href="https://www.cnblogs.com/tallme/p/11173422.html">https://www.cnblogs.com/tallme/p/11173422.html</a>)</p>
+<p>分为三种情况</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">random.randint()<span class="hljs-comment">#随机生一个整数int类型，可以指定这个整数的范围，同样有上限和下限值，。</span><br>random.choice()<span class="hljs-comment">#可以从任何序列，比如list列表中，选取一个随机的元素返回，可以用于字符串、列表、元组等。</span><br>random.sample()<span class="hljs-comment">#可以从指定的序列中，随机的截取指定长度的片断，不作原地修改。</span><br></code></pre></td></tr></table></figure>
+<p>那很显然，这里输出的结果不为整数，也不需要进行返回的操作，在这里就选择了random.sample()。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br>大福=[<span class="hljs-string">&#x27;提拉米苏大福 &#x27;</span>,<span class="hljs-string">&#x27;抹茶大福&#x27;</span>,<span class="hljs-string">&#x27;桃桃大福&#x27;</span>,<span class="hljs-string">&#x27;芒芒大福&#x27;</span>,<span class="hljs-string">&#x27;榴莲大福&#x27;</span>]<br>ran_大福=random.sample(大福,1)<br><span class="hljs-built_in">print</span>(ran_大福)<br></code></pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -1401,20 +1447,6 @@
       </tags>
   </entry>
   <entry>
-    <title>随机点大福</title>
-    <url>/2020/10/04/my-fourth-blog/</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>基于某同学想吃大福不知道吃哪一个的问题，写了个无聊小程序，练练手。</p>
-<p>一开始想到了Python自带的random模块，对大福创建一个列表。<br>那么如何实现对列表的元素进行随机抽取呢？</p>
-<p>More info: (<a href="https://www.cnblogs.com/tallme/p/11173422.html">https://www.cnblogs.com/tallme/p/11173422.html</a>)</p>
-<p>分为三种情况</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">random.randint()<span class="hljs-comment">#随机生一个整数int类型，可以指定这个整数的范围，同样有上限和下限值，。</span><br>random.choice()<span class="hljs-comment">#可以从任何序列，比如list列表中，选取一个随机的元素返回，可以用于字符串、列表、元组等。</span><br>random.sample()<span class="hljs-comment">#可以从指定的序列中，随机的截取指定长度的片断，不作原地修改。</span><br></code></pre></td></tr></table></figure>
-<p>那很显然，这里输出的结果不为整数，也不需要进行返回的操作，在这里就选择了random.sample()。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">import random<br>大福=[<span class="hljs-string">&#x27;提拉米苏大福 &#x27;</span>,<span class="hljs-string">&#x27;抹茶大福&#x27;</span>,<span class="hljs-string">&#x27;桃桃大福&#x27;</span>,<span class="hljs-string">&#x27;芒芒大福&#x27;</span>,<span class="hljs-string">&#x27;榴莲大福&#x27;</span>]<br>ran_大福=random.sample(大福,1)<br><span class="hljs-built_in">print</span>(ran_大福)<br></code></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php</title>
     <url>/2020/10/16/php/</url>
     <content><![CDATA[<h2 id="PHP常量"><a href="#PHP常量" class="headerlink" title="PHP常量"></a>PHP常量</h2><h3 id="设置PHP常量"><a href="#设置PHP常量" class="headerlink" title="设置PHP常量"></a>设置PHP常量</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">bool</span> define ( <span class="hljs-keyword">string</span> $name , mixed $value [ , <span class="hljs-keyword">bool</span> $case_insensitive = <span class="hljs-literal">false</span> ])<br></code></pre></td></tr></table></figure>
@@ -1440,22 +1472,6 @@
 <h3 id="PHP比较0、false、null"><a href="#PHP比较0、false、null" class="headerlink" title="PHP比较0、false、null"></a>PHP比较0、false、null</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 == false: &#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 === false: &#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> === <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 == null&#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;0 === null&#x27;</span>;<br>var_dump(<span class="hljs-number">0</span> === <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;false == null:&#x27;</span>;<br>var_dump(<span class="hljs-literal">false</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;false === null&#x27;</span>;<br>var_dump(<span class="hljs-literal">false</span> ===<span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; == false&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; === false&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> === <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; == null&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;0&quot;</span> == <span class="hljs-literal">null</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;0&quot; === null&#x27;</span>;<br><span class="hljs-keyword">echo</span> PHP_EOL;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;&quot; == false:&#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">false</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&quot;&quot; == null &#x27;</span>;<br>var_dump(<span class="hljs-string">&quot;&quot;</span> === <span class="hljs-literal">null</span>);<br><br><br><span class="hljs-comment">#输出结果：</span><br><span class="hljs-number">0</span> == <span class="hljs-literal">false</span>: <span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-number">0</span> === <span class="hljs-literal">false</span>: <span class="hljs-keyword">bool</span>(<span class="hljs-literal">false</span>)<br><br><span class="hljs-number">0</span> == nullbool(<span class="hljs-literal">true</span>)<br><span class="hljs-number">0</span> === nullbool(<span class="hljs-literal">false</span>)<br><br><span class="hljs-literal">false</span> == <span class="hljs-literal">null</span>:<span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-literal">false</span> === nullbool(<span class="hljs-literal">false</span>)<br><span class="hljs-string">&quot;0&quot;</span> == falsebool(<span class="hljs-literal">true</span>)<br><span class="hljs-string">&quot;0&quot;</span> === falsebool(<span class="hljs-literal">false</span>)<br><br><span class="hljs-string">&quot;0&quot;</span> == nullbool(<span class="hljs-literal">false</span>)<br><span class="hljs-string">&quot;0&quot;</span> === <span class="hljs-literal">null</span><br><span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">false</span>:<span class="hljs-keyword">bool</span>(<span class="hljs-literal">true</span>)<br><span class="hljs-string">&quot;&quot;</span> == <span class="hljs-literal">null</span> <span class="hljs-keyword">bool</span>(<span class="hljs-literal">false</span>)<br>  <br><span class="hljs-comment">#bool为布尔型变量，用于逻辑运算和关系运算</span><br><span class="hljs-comment">#var_dump()函数用于打印与显示程序代码结构</span><br></code></pre></td></tr></table></figure>
 
 
-
-]]></content>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PHP语句</title>
-    <url>/2020/10/24/php%E8%AF%AD%E5%8F%A5/</url>
-    <content><![CDATA[<h2 id="PHP条件语句"><a href="#PHP条件语句" class="headerlink" title="PHP条件语句"></a>PHP条件语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a nice day!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h3 id="if…else-语句"><a href="#if…else-语句" class="headerlink" title="if…else 语句"></a>if…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h3 id="if…elseif…else-语句"><a href="#if…elseif…else-语句" class="headerlink" title="if…elseif…else 语句"></a>if…elseif…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;10&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good morning!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">elseif</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
-
-<h2 id="PHP-Switch语句"><a href="#PHP-Switch语句" class="headerlink" title="PHP Switch语句"></a>PHP Switch语句</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$favcolor=<span class="hljs-string">&quot;red&quot;</span>;<br><span class="hljs-keyword">switch</span> ($favcolor)<br>&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;red&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是红色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;blue&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是蓝色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;green&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是绿色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色不是这三个！&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br><br>  <span class="hljs-comment">#输出结果：</span><br><span class="hljs-comment">#你喜欢的颜色是红色！ </span><br><br><br><br></code></pre></td></tr></table></figure>
 
 ]]></content>
       <tags>
@@ -1495,6 +1511,43 @@
 ]]></content>
       <tags>
         <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PHP语句</title>
+    <url>/2020/10/24/php%E8%AF%AD%E5%8F%A5/</url>
+    <content><![CDATA[<h2 id="PHP条件语句"><a href="#PHP条件语句" class="headerlink" title="PHP条件语句"></a>PHP条件语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a nice day!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h3 id="if…else-语句"><a href="#if…else-语句" class="headerlink" title="if…else 语句"></a>if…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h3 id="if…elseif…else-语句"><a href="#if…elseif…else-语句" class="headerlink" title="if…elseif…else 语句"></a>if…elseif…else 语句</h3><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span> <br>$t=date(<span class="hljs-string">&quot;H&quot;</span>);<br><span class="hljs-keyword">if</span> ($t&lt;<span class="hljs-string">&quot;10&quot;</span>)<br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good morning!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">elseif</span> ($t&lt;<span class="hljs-string">&quot;20&quot;</span>)<br>&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good day!&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Have a good night!&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<h2 id="PHP-Switch语句"><a href="#PHP-Switch语句" class="headerlink" title="PHP Switch语句"></a>PHP Switch语句</h2><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>$favcolor=<span class="hljs-string">&quot;red&quot;</span>;<br><span class="hljs-keyword">switch</span> ($favcolor)<br>&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;red&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是红色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;blue&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是蓝色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;green&quot;</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色是绿色！&quot;</span>;<br>	<span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你喜欢的颜色不是这三个！&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br><br>  <span class="hljs-comment">#输出结果：</span><br><span class="hljs-comment">#你喜欢的颜色是红色！ </span><br><br><br><br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs 1-4 小结</title>
+    <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164847872.png"></p>
+<p>这边以爆数据库的语句来找其异同点<br><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164914794.png"></p>
+<p><strong>information_schema数据库中三个很重要的表：</strong></p>
+<ul>
+<li>information_schema.schemata: 该数据表存储了mysql数据库中的所有数据库的库名</li>
+<li>information_schema.tables：   该数据表存储了mysql数据库中的所有数据表的表名</li>
+<li>information_schema.columns:  该数据表存储了mysql数据库中的所有列的列名</li>
+</ul>
+<h2 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h2><p>在爆数据库之前，先判断数据列数，这边有两种方法：</p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
+<p>知道数据列数再进行爆破</p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
       </tags>
   </entry>
   <entry>
@@ -1541,21 +1594,54 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs 1-4 小结</title>
-    <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164847872.png"></p>
-<p>这边以爆数据库的语句来找其异同点<br><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164914794.png"></p>
-<p><strong>information_schema数据库中三个很重要的表：</strong></p>
-<ul>
-<li>information_schema.schemata: 该数据表存储了mysql数据库中的所有数据库的库名</li>
-<li>information_schema.tables：   该数据表存储了mysql数据库中的所有数据表的表名</li>
-<li>information_schema.columns:  该数据表存储了mysql数据库中的所有列的列名</li>
-</ul>
-<h2 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h2><p>在爆数据库之前，先判断数据列数，这边有两种方法：</p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
-<p>知道数据列数再进行爆破</p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
+    <title>sqli-labs-less-1</title>
+    <url>/2020/11/07/sqli-labs-less-1-1/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>靶场终终终于于搭完了，phpstudy版本太高，会影响靶场报错</p>
+<h2 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h2><p>通过在<a href="http://127.0.0.1/sqllib/Less-1/?id=1%E5%90%8E%E7%9B%B4%E6%8E%A5%E6%B7%BB%E5%8A%A0">http://127.0.0.1/sqllib/Less-1/?id=1后直接添加</a> ‘ ,如果报错则为字符型注入，</p>
+<p>报错如下：</p>
+<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107212041672.png"></p>
+<p>此时构成语句：select  <strong>**</strong> where id=’1’</p>
+<p>尝试用 or 1=1–+ 来消除 ‘</p>
+<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107212348123.png"></p>
+<h4 id="常用尝试语句"><a href="#常用尝试语句" class="headerlink" title="常用尝试语句"></a>常用尝试语句</h4><figure class="highlight asciidoc"><table><tr><td class="code"><pre><code class="hljs asciidoc">闭合引号   |  注释<br>----------------------<br>or 1=1    | --+<br><span class="hljs-emphasis">&#x27;or 1=1   | --+</span><br><span class="hljs-emphasis">&quot;or 1=1   | --+</span><br><span class="hljs-emphasis">)or 1=1   | --+</span><br><span class="hljs-emphasis">&#x27;</span>)or 1=1  | --+<br>&quot;)or 1=1  | --+<br>&quot;))or 1=1 | --+<br></code></pre></td></tr></table></figure>
+
+<p>那为什么这里能实现正常回显呢？</p>
+<p>此时对应sql语句为 select <strong>**</strong> where id=‘1’or 1=1–+‘ LIMIT 0,1</p>
+<p>​                where id=’1’为假，1=1恒真，再运算or（一真即真），所以结果自然成立</p>
+<h3 id="通过order-by进行排序"><a href="#通过order-by进行排序" class="headerlink" title="通过order by进行排序"></a>通过order by进行排序</h3><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107214741855.png"></p>
+<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107214901559.png"></p>
+<p>可知数据仅有三列</p>
+<h2 id="union联合注入"><a href="#union联合注入" class="headerlink" title="union联合注入"></a>union联合注入</h2><p>union操作符用于合并两个或多个select的语句结果集，其中union中的select语句必须要有相同的列以及相似的数据类型且列的顺序必须相同。</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><code class="hljs crystal"><span class="hljs-keyword">select</span> column_name(s) from table_name1<br><br><span class="hljs-class"><span class="hljs-keyword">union</span></span><br><br><span class="hljs-keyword">select</span> column_name(s) from table_name2<br></code></pre></td></tr></table></figure>
+
+<p>该语法下仅选取不同的值</p>
+<p>若想取重复数值，则使用union all 操作符</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><code class="hljs crystal"><span class="hljs-keyword">select</span> column_name(s) from table_name1<br><br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">all</span></span><br><br><span class="hljs-keyword">select</span> column_name(s) from table_name2<br></code></pre></td></tr></table></figure>
+
+<p>当id的数据不存在时，出现如下情况：</p>
+<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107215844592.png"></p>
+<h2 id="爆数据库"><a href="#爆数据库" class="headerlink" title="爆数据库"></a>爆数据库</h2><p>这里利用union操作符、group_concat(str1,str2…)字符串连接函数，来实现对数据库的爆破。</p>
+<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107220937096.png"></p>
+<h2 id="爆security数据库中的数据表"><a href="#爆security数据库中的数据表" class="headerlink" title="爆security数据库中的数据表"></a>爆security数据库中的数据表</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221101207.png"></p>
+<h2 id="爆users表的列"><a href="#爆users表的列" class="headerlink" title="爆users表的列"></a>爆users表的列</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221233438.png"></p>
+<h2 id="爆数据"><a href="#爆数据" class="headerlink" title="爆数据"></a>爆数据</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221336922.png"></p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs-less-1</title>
+    <url>/2020/11/09/sqli-labs-less-1/</url>
+    <content><![CDATA[<h2 id="通过union-select寻找显示位"><a href="#通过union-select寻找显示位" class="headerlink" title="通过union select寻找显示位"></a>通过union select寻找显示位</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109205829466.png"><span class="image-caption">image-20201109205829466</span></p>
+<p>由图可知，2、3位是显示位</p>
+<p>当id的数据在数据库中不存在时，前一个选择语句为空，后一个语句的内容显示出来构造union的数据 </p>
+<p><img src="/2020/11/09/sqli-labs-less-1/image-20201109193423719.png"><span class="image-caption">image-20201109193423719</span></p>
+<p>与前者不同的是这里输入的的语句为?id=1’ and 1=2 但该语句显然为假 与id=-1‘的使用性质相同</p>
+<h2 id="查询版本及数据库名称"><a href="#查询版本及数据库名称" class="headerlink" title="查询版本及数据库名称"></a>查询版本及数据库名称</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109202804217.png"><span class="image-caption">image-20201109202804217</span></p>
+<p>这里必须两个两个查询</p>
+<h2 id="查询数据库用户名、数据库路径"><a href="#查询数据库用户名、数据库路径" class="headerlink" title="查询数据库用户名、数据库路径"></a>查询数据库用户名、数据库路径</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109203608696.png"><span class="image-caption">image-20201109203608696</span></p>
+<p>同上</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1606,43 +1692,6 @@
 
 <h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
 
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-labs-less-1</title>
-    <url>/2020/11/07/sqli-labs-less-1-1/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>靶场终终终于于搭完了，phpstudy版本太高，会影响靶场报错</p>
-<h2 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h2><p>通过在<a href="http://127.0.0.1/sqllib/Less-1/?id=1%E5%90%8E%E7%9B%B4%E6%8E%A5%E6%B7%BB%E5%8A%A0">http://127.0.0.1/sqllib/Less-1/?id=1后直接添加</a> ‘ ,如果报错则为字符型注入，</p>
-<p>报错如下：</p>
-<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107212041672.png"></p>
-<p>此时构成语句：select  <strong>**</strong> where id=’1’</p>
-<p>尝试用 or 1=1–+ 来消除 ‘</p>
-<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107212348123.png"></p>
-<h4 id="常用尝试语句"><a href="#常用尝试语句" class="headerlink" title="常用尝试语句"></a>常用尝试语句</h4><figure class="highlight asciidoc"><table><tr><td class="code"><pre><code class="hljs asciidoc">闭合引号   |  注释<br>----------------------<br>or 1=1    | --+<br><span class="hljs-emphasis">&#x27;or 1=1   | --+</span><br><span class="hljs-emphasis">&quot;or 1=1   | --+</span><br><span class="hljs-emphasis">)or 1=1   | --+</span><br><span class="hljs-emphasis">&#x27;</span>)or 1=1  | --+<br>&quot;)or 1=1  | --+<br>&quot;))or 1=1 | --+<br></code></pre></td></tr></table></figure>
-
-<p>那为什么这里能实现正常回显呢？</p>
-<p>此时对应sql语句为 select <strong>**</strong> where id=‘1’or 1=1–+‘ LIMIT 0,1</p>
-<p>​                where id=’1’为假，1=1恒真，再运算or（一真即真），所以结果自然成立</p>
-<h3 id="通过order-by进行排序"><a href="#通过order-by进行排序" class="headerlink" title="通过order by进行排序"></a>通过order by进行排序</h3><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107214741855.png"></p>
-<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107214901559.png"></p>
-<p>可知数据仅有三列</p>
-<h2 id="union联合注入"><a href="#union联合注入" class="headerlink" title="union联合注入"></a>union联合注入</h2><p>union操作符用于合并两个或多个select的语句结果集，其中union中的select语句必须要有相同的列以及相似的数据类型且列的顺序必须相同。</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><code class="hljs crystal"><span class="hljs-keyword">select</span> column_name(s) from table_name1<br><br><span class="hljs-class"><span class="hljs-keyword">union</span></span><br><br><span class="hljs-keyword">select</span> column_name(s) from table_name2<br></code></pre></td></tr></table></figure>
-
-<p>该语法下仅选取不同的值</p>
-<p>若想取重复数值，则使用union all 操作符</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><code class="hljs crystal"><span class="hljs-keyword">select</span> column_name(s) from table_name1<br><br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">all</span></span><br><br><span class="hljs-keyword">select</span> column_name(s) from table_name2<br></code></pre></td></tr></table></figure>
-
-<p>当id的数据不存在时，出现如下情况：</p>
-<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107215844592.png"></p>
-<h2 id="爆数据库"><a href="#爆数据库" class="headerlink" title="爆数据库"></a>爆数据库</h2><p>这里利用union操作符、group_concat(str1,str2…)字符串连接函数，来实现对数据库的爆破。</p>
-<p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107220937096.png"></p>
-<h2 id="爆security数据库中的数据表"><a href="#爆security数据库中的数据表" class="headerlink" title="爆security数据库中的数据表"></a>爆security数据库中的数据表</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221101207.png"></p>
-<h2 id="爆users表的列"><a href="#爆users表的列" class="headerlink" title="爆users表的列"></a>爆users表的列</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221233438.png"></p>
-<h2 id="爆数据"><a href="#爆数据" class="headerlink" title="爆数据"></a>爆数据</h2><p><img src="/2020/11/07/sqli-labs-less-1-1/image-20201107221336922.png"></p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1709,17 +1758,31 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs-less-1</title>
-    <url>/2020/11/09/sqli-labs-less-1/</url>
-    <content><![CDATA[<h2 id="通过union-select寻找显示位"><a href="#通过union-select寻找显示位" class="headerlink" title="通过union select寻找显示位"></a>通过union select寻找显示位</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109205829466.png"><span class="image-caption">image-20201109205829466</span></p>
-<p>由图可知，2、3位是显示位</p>
-<p>当id的数据在数据库中不存在时，前一个选择语句为空，后一个语句的内容显示出来构造union的数据 </p>
-<p><img src="/2020/11/09/sqli-labs-less-1/image-20201109193423719.png"><span class="image-caption">image-20201109193423719</span></p>
-<p>与前者不同的是这里输入的的语句为?id=1’ and 1=2 但该语句显然为假 与id=-1‘的使用性质相同</p>
-<h2 id="查询版本及数据库名称"><a href="#查询版本及数据库名称" class="headerlink" title="查询版本及数据库名称"></a>查询版本及数据库名称</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109202804217.png"><span class="image-caption">image-20201109202804217</span></p>
-<p>这里必须两个两个查询</p>
-<h2 id="查询数据库用户名、数据库路径"><a href="#查询数据库用户名、数据库路径" class="headerlink" title="查询数据库用户名、数据库路径"></a>查询数据库用户名、数据库路径</h2><p><img src="/2020/11/09/sqli-labs-less-1/image-20201109203608696.png"><span class="image-caption">image-20201109203608696</span></p>
-<p>同上</p>
+    <title>sqllib 11-16</title>
+    <url>/2021/01/15/sqllib-11-16/</url>
+    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
+<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
+<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
+<p>？？？？？？？？？？公屏打在问号上</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
+<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
+<p>具体原因如下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
+<p>然后就是猜下去的问题了</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
+<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
+<p>先试一下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
+<p>这边一定要打#，–+在这里不适用</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
+<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
+<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
+<p>less15 为’，less16为“）</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
+<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1800,66 +1863,68 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 11-16</title>
-    <url>/2021/01/15/sqllib-11-16/</url>
-    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
-<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
-<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
-<p>？？？？？？？？？？公屏打在问号上</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
-<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
-<p>具体原因如下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
-<p>然后就是猜下去的问题了</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
-<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
-<p>先试一下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
-<p>这边一定要打#，–+在这里不适用</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
-<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
-<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
-<p>less15 为’，less16为“）</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
-<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 29-31</title>
-    <url>/2021/01/26/sqllib-29-31/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>表面上你以为的less29</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210126221956536.png"></p>
-<p>（这不就less1嘛就这？？？）</p>
-<p>配置以后</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210126230556100.png"></p>
-<p>我是谁？我在哪？这什么玩意？</p>
-<p>PHP的文件没有放进来</p>
-<p>放进去以后</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210126231327779.png"></p>
-<p>这波啊，又出问题了可还行</p>
-<p>两天以后</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129113901618.png"><span class="image-caption">image-20210129113901618</span></p>
-<p>猜猜问题出在了哪，反正我是真的没有想到</p>
-<p>下载的jspstudy中的apache有问题就会出现上上张图的场面,php文件解析失败（测试过了每一关都会有源代码直接显示）</p>
-<p>最后采取在虚拟机上开了个phpstudy，才解决问题</p>
-<h1 id="less29"><a href="#less29" class="headerlink" title="less29"></a>less29</h1><p>id=1&amp;id=2 会显示哪一个呢</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129163024887.png"><span class="image-caption">image-20210129163024887</span></p>
-<p>Explain：apache（php）解析最后一个参数，即显示 id=2 的内容。Tomcat（jsp）解析第 一个参数，即显示 id=1 的内容。</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129162825354.png"><span class="image-caption">image-20210129162825354</span></p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129162949922.png"><span class="image-caption">image-20210129162949922</span></p>
-<h1 id="less30"><a href="#less30" class="headerlink" title="less30"></a>less30</h1><p>“ 注入，放在后面的参数上</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129195422513.png"><span class="image-caption">image-20210129195422513</span></p>
-<p>错误的话不回显，不会报错</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129195809221.png"><span class="image-caption">image-20210129195809221</span></p>
-<h1 id="less31"><a href="#less31" class="headerlink" title="less31"></a>less31</h1><p>换成“），其余同上</p>
-<p><img src="/2021/01/26/sqllib-29-31/image-20210129201331854.png"><span class="image-caption">image-20210129201331854</span></p>
-<p>我又来分享翻车案例了，然后我直接把less31的jsp文件然后用less30的替换，然后就成功了，剩下没有什么奇怪的问题了</p>
+    <title>sqllib 32-37</title>
+    <url>/2021/01/27/sqllib-32-37/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>宽字节注入</p>
+<p>Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 </p>
+<p>对宽字节注入的同学应该对这几关的 bypass 方式应该比较了解。我们在此介绍一下宽字节 </p>
+<p>注入的原理和基本用法。 </p>
+<p>原理：mysql 在使用 GBK 编码的时候，会认为两个字符为一个汉字，例如%aa%5c 就是一个 </p>
+<p>汉字（前一个 ascii 码大于 128 才能到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思 </p>
+<p>路是将 ‘ 转换为 \’ （转换的函数或者思路会在每一关遇到的时候介绍）。 </p>
+<p>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路： </p>
+<p>1、%df 吃掉 \ </p>
+<p>具体的原因是 urlencode(‘) = %5c%27，我们在%5c%27 前面添加%df，形 </p>
+<p>成%df%5c%27，而上面提到的 mysql 在 GBK 编码方式的时候会将两个字节当做一个汉字，此 </p>
+<p>事%df%5c 就是一个汉字，%27 则作为一个单独的符号在外面，同时也就达到了我们的目的。 </p>
+<p>2、将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27 的情况，后面的%5c 会被前面的%5c </p>
+<p>给注释掉。这也是 bypass 的一种方法。</p>
+<p>——摘自《mysql注入天书》</p>
+<h1 id="less32"><a href="#less32" class="headerlink" title="less32"></a>less32</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127140209158.png"><span class="image-caption">image-20210127140209158</span></p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127140144979.png"><span class="image-caption">image-20210127140144979</span></p>
+<p>通过%df把\吃掉，可以来看一下源码</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127140412993.png"><span class="image-caption">image-20210127140412993</span></p>
+<p>这里对   /      &#39;                 &quot;       进行了转义，其余同less1，可进行联合注入</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127141119091.png"><span class="image-caption">image-20210127141119091</span></p>
+<h1 id="less33"><a href="#less33" class="headerlink" title="less33"></a>less33</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127143022024.png"><span class="image-caption">image-20210127143022024</span></p>
+<p>我直接换到了less33，发现上一关的payload在这里也能用</p>
+<p>难道这两关完全一模一样，看看源代码</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127144718975.png"><span class="image-caption">image-20210127144718975</span></p>
+<p>这边使用了addslashes（）函数</p>
+<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。 </p>
+<p>预定义字符是： </p>
+<p> </p>
+<p>单引号（’） </p>
+<p> </p>
+<p>双引号（”） </p>
+<p> </p>
+<p>反斜杠（\） </p>
+<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
+<p>那看来和less32本质上是一样的</p>
+<p>那报错试一下好了</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127154417974.png"><span class="image-caption">image-20210127154417974</span></p>
+<h1 id="less34"><a href="#less34" class="headerlink" title="less34"></a>less34</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127172057988.png"><span class="image-caption">image-20210127172057988</span></p>
+<p>登录成功时的界面</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127172127407.png"><span class="image-caption">image-20210127172127407</span></p>
+<p>果然，被转义了</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127172214883.png"><span class="image-caption">image-20210127172214883</span></p>
+<p>用用之前的方法是不行的</p>
+<p>用utf-16也不行都会被转义掉</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127182529013.png"><span class="image-caption">image-20210127182529013</span></p>
+<p>抓包可以实现</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127182612522.png"><span class="image-caption">image-20210127182612522</span></p>
+<p>万能密码也可用了，payload和前面相同</p>
+<h1 id="less35"><a href="#less35" class="headerlink" title="less35"></a>less35</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127183650679.png"><span class="image-caption">image-20210127183650679</span></p>
+<p>数字型注入，和less33相似</p>
+<h1 id="less36"><a href="#less36" class="headerlink" title="less36"></a>less36</h1><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">check_quotes</span>(<span class="hljs-params">$string</span>)</span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br><br>  $string= mysql_real_escape_string($string);  <br><br>  <span class="hljs-keyword">return</span> $string;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>标题也写了</p>
+<p>下列字符受影响： </p>
+<p> \x00  \n  \r  \  ‘  “  \x1a</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127195942164.png"><span class="image-caption">image-20210127195942164</span></p>
+<p>但是同样的方法还是可以用的</p>
+<h1 id="less37"><a href="#less37" class="headerlink" title="less37"></a>less37</h1><p>和less34的情况下，我这边只有在抓包的情况下才能实现注入，这边的过滤函数同less36</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127210402092.png"><span class="image-caption">image-20210127210402092</span></p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1979,68 +2044,35 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 32-37</title>
-    <url>/2021/01/27/sqllib-32-37/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>宽字节注入</p>
-<p>Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 </p>
-<p>对宽字节注入的同学应该对这几关的 bypass 方式应该比较了解。我们在此介绍一下宽字节 </p>
-<p>注入的原理和基本用法。 </p>
-<p>原理：mysql 在使用 GBK 编码的时候，会认为两个字符为一个汉字，例如%aa%5c 就是一个 </p>
-<p>汉字（前一个 ascii 码大于 128 才能到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思 </p>
-<p>路是将 ‘ 转换为 \’ （转换的函数或者思路会在每一关遇到的时候介绍）。 </p>
-<p>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路： </p>
-<p>1、%df 吃掉 \ </p>
-<p>具体的原因是 urlencode(‘) = %5c%27，我们在%5c%27 前面添加%df，形 </p>
-<p>成%df%5c%27，而上面提到的 mysql 在 GBK 编码方式的时候会将两个字节当做一个汉字，此 </p>
-<p>事%df%5c 就是一个汉字，%27 则作为一个单独的符号在外面，同时也就达到了我们的目的。 </p>
-<p>2、将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27 的情况，后面的%5c 会被前面的%5c </p>
-<p>给注释掉。这也是 bypass 的一种方法。</p>
-<p>——摘自《mysql注入天书》</p>
-<h1 id="less32"><a href="#less32" class="headerlink" title="less32"></a>less32</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127140209158.png"><span class="image-caption">image-20210127140209158</span></p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127140144979.png"><span class="image-caption">image-20210127140144979</span></p>
-<p>通过%df把\吃掉，可以来看一下源码</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127140412993.png"><span class="image-caption">image-20210127140412993</span></p>
-<p>这里对   /      &#39;                 &quot;       进行了转义，其余同less1，可进行联合注入</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127141119091.png"><span class="image-caption">image-20210127141119091</span></p>
-<h1 id="less33"><a href="#less33" class="headerlink" title="less33"></a>less33</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127143022024.png"><span class="image-caption">image-20210127143022024</span></p>
-<p>我直接换到了less33，发现上一关的payload在这里也能用</p>
-<p>难道这两关完全一模一样，看看源代码</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127144718975.png"><span class="image-caption">image-20210127144718975</span></p>
-<p>这边使用了addslashes（）函数</p>
-<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。 </p>
-<p>预定义字符是： </p>
-<p> </p>
-<p>单引号（’） </p>
-<p> </p>
-<p>双引号（”） </p>
-<p> </p>
-<p>反斜杠（\） </p>
-<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
-<p>那看来和less32本质上是一样的</p>
-<p>那报错试一下好了</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127154417974.png"><span class="image-caption">image-20210127154417974</span></p>
-<h1 id="less34"><a href="#less34" class="headerlink" title="less34"></a>less34</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127172057988.png"><span class="image-caption">image-20210127172057988</span></p>
-<p>登录成功时的界面</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127172127407.png"><span class="image-caption">image-20210127172127407</span></p>
-<p>果然，被转义了</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127172214883.png"><span class="image-caption">image-20210127172214883</span></p>
-<p>用用之前的方法是不行的</p>
-<p>用utf-16也不行都会被转义掉</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127182529013.png"><span class="image-caption">image-20210127182529013</span></p>
-<p>抓包可以实现</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127182612522.png"><span class="image-caption">image-20210127182612522</span></p>
-<p>万能密码也可用了，payload和前面相同</p>
-<h1 id="less35"><a href="#less35" class="headerlink" title="less35"></a>less35</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127183650679.png"><span class="image-caption">image-20210127183650679</span></p>
-<p>数字型注入，和less33相似</p>
-<h1 id="less36"><a href="#less36" class="headerlink" title="less36"></a>less36</h1><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">check_quotes</span>(<span class="hljs-params">$string</span>)</span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br><br>  $string= mysql_real_escape_string($string);  <br><br>  <span class="hljs-keyword">return</span> $string;<br><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>标题也写了</p>
-<p>下列字符受影响： </p>
-<p> \x00  \n  \r  \  ‘  “  \x1a</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127195942164.png"><span class="image-caption">image-20210127195942164</span></p>
-<p>但是同样的方法还是可以用的</p>
-<h1 id="less37"><a href="#less37" class="headerlink" title="less37"></a>less37</h1><p>和less34的情况下，我这边只有在抓包的情况下才能实现注入，这边的过滤函数同less36</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127210402092.png"><span class="image-caption">image-20210127210402092</span></p>
+    <title>sqllib 29-31</title>
+    <url>/2021/01/26/sqllib-29-31/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>表面上你以为的less29</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210126221956536.png"></p>
+<p>（这不就less1嘛就这？？？）</p>
+<p>配置以后</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210126230556100.png"></p>
+<p>我是谁？我在哪？这什么玩意？</p>
+<p>PHP的文件没有放进来</p>
+<p>放进去以后</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210126231327779.png"></p>
+<p>这波啊，又出问题了可还行</p>
+<p>两天以后</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129113901618.png"><span class="image-caption">image-20210129113901618</span></p>
+<p>猜猜问题出在了哪，反正我是真的没有想到</p>
+<p>下载的jspstudy中的apache有问题就会出现上上张图的场面,php文件解析失败（测试过了每一关都会有源代码直接显示）</p>
+<p>最后采取在虚拟机上开了个phpstudy，才解决问题</p>
+<h1 id="less29"><a href="#less29" class="headerlink" title="less29"></a>less29</h1><p>id=1&amp;id=2 会显示哪一个呢</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129163024887.png"><span class="image-caption">image-20210129163024887</span></p>
+<p>Explain：apache（php）解析最后一个参数，即显示 id=2 的内容。Tomcat（jsp）解析第 一个参数，即显示 id=1 的内容。</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129162825354.png"><span class="image-caption">image-20210129162825354</span></p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129162949922.png"><span class="image-caption">image-20210129162949922</span></p>
+<h1 id="less30"><a href="#less30" class="headerlink" title="less30"></a>less30</h1><p>“ 注入，放在后面的参数上</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129195422513.png"><span class="image-caption">image-20210129195422513</span></p>
+<p>错误的话不回显，不会报错</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129195809221.png"><span class="image-caption">image-20210129195809221</span></p>
+<h1 id="less31"><a href="#less31" class="headerlink" title="less31"></a>less31</h1><p>换成“），其余同上</p>
+<p><img src="/2021/01/26/sqllib-29-31/image-20210129201331854.png"><span class="image-caption">image-20210129201331854</span></p>
+<p>我又来分享翻车案例了，然后我直接把less31的jsp文件然后用less30的替换，然后就成功了，剩下没有什么奇怪的问题了</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -2096,51 +2128,34 @@
       </tags>
   </entry>
   <entry>
-    <title>sqllib 46-53</title>
-    <url>/2021/01/28/sqllib-46-53/</url>
-    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
-<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
-<p>题目给了提示</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
-<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
-<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
-<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
-<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
-<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
-<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
-<p>布尔注入的来一个</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
-<p>延时的话我就不截图了，留个payload好了</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
-
-<p>正确直接回显，错误。。。。诶这个报错有意思</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
-<p>执行时间最大值30s还行这个错误不大影响注入</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
-<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
-<p>丢个文件试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
-<p>！！！！！貌似没有权限的样子，查一个权限</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
-<p>我有权限啊.jpg</p>
-<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
-<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
-<p>要不再丢一次试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
-<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
-<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
-<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
-<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
-<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
-<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
-<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
-<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
+    <title>sqllib 54-65 以及总结</title>
+    <url>/2021/01/29/sqllib-54-65/</url>
+    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p>收拾一下，可以准备完结撒花了✿✿ヽ(°▽°)ノ✿</p>
+<h1 id="less54-57"><a href="#less54-57" class="headerlink" title="less54-57"></a>less54-57</h1><p>联合注入</p>
+<p>54：’  55： )    56：‘）  57：” </p>
+<h1 id="less58-61"><a href="#less58-61" class="headerlink" title="less58-61"></a>less58-61</h1><p>报错注入</p>
+<p>58： ’        59:              60:      “）          61：     ‘))</p>
+<h1 id="less62-65"><a href="#less62-65" class="headerlink" title="less62-65"></a>less62-65</h1><p>盲注，延时或布尔</p>
+<p>62:    ‘)             63:         ‘             64:     ))                      65:         ) </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="/2021/01/29/sqllib-54-65/image-20210130205942799.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210009236.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210024742.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210053206.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210104225.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210116012.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210128382.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210146043.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210203156.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210214906.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210226748.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210237022.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210250709.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210301656.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210314538.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210340612.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210350642.png"></p>
+<p><img src="/2021/01/29/sqllib-54-65/image-20210130210413929.png"></p>
+<p>完结，撒花✿✿ヽ(°▽°)ノ✿</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -2199,6 +2214,57 @@
       </tags>
   </entry>
   <entry>
+    <title>sqllib 46-53</title>
+    <url>/2021/01/28/sqllib-46-53/</url>
+    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
+<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
+<p>题目给了提示</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
+<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
+<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
+<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
+<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
+<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
+<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
+<p>布尔注入的来一个</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
+<p>延时的话我就不截图了，留个payload好了</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
+
+<p>正确直接回显，错误。。。。诶这个报错有意思</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
+<p>执行时间最大值30s还行这个错误不大影响注入</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
+<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
+<p>丢个文件试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
+<p>！！！！！貌似没有权限的样子，查一个权限</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
+<p>我有权限啊.jpg</p>
+<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
+<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
+<p>要不再丢一次试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
+<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
+<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
+<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
+<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
+<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
+<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
+<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
+<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqlmap的使用常见语句</title>
     <url>/2021/01/28/sqlmap%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E8%AF%AD%E5%8F%A5/</url>
     <content><![CDATA[<p>#&gt;  ./sqlmap.py -u “注入地址” -v 1 –dbs  // 列举数据库 </p>
@@ -2211,40 +2277,6 @@
 ]]></content>
       <tags>
         <tag>sql工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 54-65 以及总结</title>
-    <url>/2021/01/29/sqllib-54-65/</url>
-    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p>收拾一下，可以准备完结撒花了✿✿ヽ(°▽°)ノ✿</p>
-<h1 id="less54-57"><a href="#less54-57" class="headerlink" title="less54-57"></a>less54-57</h1><p>联合注入</p>
-<p>54：’  55： )    56：‘）  57：” </p>
-<h1 id="less58-61"><a href="#less58-61" class="headerlink" title="less58-61"></a>less58-61</h1><p>报错注入</p>
-<p>58： ’        59:              60:      “）          61：     ‘))</p>
-<h1 id="less62-65"><a href="#less62-65" class="headerlink" title="less62-65"></a>less62-65</h1><p>盲注，延时或布尔</p>
-<p>62:    ‘)             63:         ‘             64:     ))                      65:         ) </p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="/2021/01/29/sqllib-54-65/image-20210130205942799.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210009236.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210024742.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210053206.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210104225.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210116012.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210128382.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210146043.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210203156.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210214906.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210226748.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210237022.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210250709.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210301656.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210314538.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210340612.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210350642.png"></p>
-<p><img src="/2021/01/29/sqllib-54-65/image-20210130210413929.png"></p>
-<p>完结，撒花✿✿ヽ(°▽°)ノ✿</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
       </tags>
   </entry>
   <entry>
@@ -2433,37 +2465,6 @@
       </tags>
   </entry>
   <entry>
-    <title>“Python 文件操作</title>
-    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
-
-<p>此时在文件夹中即可见一个名为test的txt文件</p>
-<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
-
-<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
-
-<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
-
-<p>若不在同一目录，则在原文件名前加上路径</p>
-]]></content>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>bugku web 1-12</title>
     <url>/2021/01/15/%E2%80%98ugku-web-1-n/</url>
     <content><![CDATA[<p>前面几题基本上看看评论就知道怎么操作了，受到了第八题的影响，第九题确实极具迷惑性。</p>
@@ -2500,6 +2501,37 @@
 ]]></content>
       <tags>
         <tag>bugku web</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>“Python 文件操作</title>
+    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
+
+<p>此时在文件夹中即可见一个名为test的txt文件</p>
+<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
+
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
+
+<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>若不在同一目录，则在原文件名前加上路径</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -2559,42 +2591,6 @@
 <p><img src="/2021/03/25/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc1/image-20210329220144077.png"><span class="image-caption">image-20210329220144077</span></p>
 <p>拿到png文件发现是白的，010打开发现是gif文件</p>
 <p>剩下的p图，然后扫码就完事了</p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>攻防世界misc-2</title>
-    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
-    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
-<p>ISCC? 比赛的名称，这</p>
-<p>用010查看gif，</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
-<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
-<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
-<p>之后继续解下去就好了</p>
-<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
-<p>什么都没捞到，flag在哪，分离看看</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
-<p>有个pdf文件，foremost分离一下</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
-<p>打开pdf就完事</p>
-<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
-<p>brainfuck，解码就可以得到flag</p>
-<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
-<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
-<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
-<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
-<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
-<p>新知识stegsolve原来可以合并图！！！</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
-<p>XOR 异或，好像明白了什么</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -2663,6 +2659,42 @@
 <p>（这个信息隐藏在哪里啊。。。。。。。。。。。。。。。。。。。）</p>
 <p>你看看端口，3401,3400变换，量子纠缠是0和1变换，好像对应上了</p>
 <p>二进制转文本，未果</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>攻防世界misc-2</title>
+    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
+    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
+<p>ISCC? 比赛的名称，这</p>
+<p>用010查看gif，</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
+<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
+<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
+<p>之后继续解下去就好了</p>
+<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
+<p>什么都没捞到，flag在哪，分离看看</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
+<p>有个pdf文件，foremost分离一下</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
+<p>打开pdf就完事</p>
+<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
+<p>brainfuck，解码就可以得到flag</p>
+<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
+<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
+<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
+<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
+<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
+<p>新知识stegsolve原来可以合并图！！！</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
+<p>XOR 异或，好像明白了什么</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
