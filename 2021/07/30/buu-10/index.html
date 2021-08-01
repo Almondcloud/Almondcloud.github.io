@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>buu-10 - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="[GKCTF 2021]银杏岛の奇妙冒险怎么可能真的去...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
+      
+    </div>
+    <div class="center">buu-10</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">buu-10</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 30, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7763</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="GKCTF-2021-银杏岛の奇妙冒险"><a href="#GKCTF-2021-银杏岛の奇妙冒险" class="headerlink" title="[GKCTF 2021]银杏岛の奇妙冒险"></a>[GKCTF 2021]银杏岛の奇妙冒险</h1><p>怎么可能真的去玩游戏呢，这辈子都不可能的，直接搜flag</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730223748362.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730223748362</span></p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730224353452.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730224353452</span></p>
+<p>右下角拼起来就是flag了</p>
+<h1 id="UTCTF2020-sstv"><a href="#UTCTF2020-sstv" class="headerlink" title="[UTCTF2020]sstv"></a>[UTCTF2020]sstv</h1><p>sstv的意思是慢扫电视，是业余无线电爱好者的一种主要图片传输方法，慢扫描电视通过无线电传输和接收单色或彩色静态图片。曾经被用在航空器上</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730231444996.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730231444996</span></p>
+<p>把音频导入即可</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730231950122.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730231950122</span></p>
+<h1 id="GWCTF2019-huyao"><a href="#GWCTF2019-huyao" class="headerlink" title="[GWCTF2019]huyao"></a>[GWCTF2019]huyao</h1><p>我以为它是普通的盲水印，后来解了个寂寞发现我太天真了</p>
+<p>这里是区域盲水印</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730233446480.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730233446480</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> cv2   <br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> argparse <span class="hljs-keyword">import</span> ArgumentParser<br>ALPHA = <span class="hljs-number">5</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_parser</span>():</span><br>    parser = ArgumentParser()<br>    parser.add_argument(<span class="hljs-string">&#x27;--original&#x27;</span>, dest=<span class="hljs-string">&#x27;ori&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--image&#x27;</span>, dest=<span class="hljs-string">&#x27;img&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--result&#x27;</span>, dest=<span class="hljs-string">&#x27;res&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--alpha&#x27;</span>, dest=<span class="hljs-string">&#x27;alpha&#x27;</span>, default=ALPHA)<br>    <span class="hljs-keyword">return</span> parser<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    parser = build_parser()<br>    options = parser.parse_args()<br>    ori = options.ori<br>    img = options.img<br>    res = options.res<br>    alpha = options.alpha<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(ori):<br>        parser.error(<span class="hljs-string">&quot;original image %s does not exist.&quot;</span> % ori)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(img):<br>        parser.error(<span class="hljs-string">&quot;image %s does not exist.&quot;</span> % img)<br>    decode(ori, img, res, alpha)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode</span>(<span class="hljs-params">ori_path, img_path, res_path, alpha</span>):</span><br>    ori = cv2.imread(ori_path)<br>    img = cv2.imread(img_path)<br>    ori_f = np.fft.fft2(ori)<br>    img_f = np.fft.fft2(img)<br>    height, width = ori.shape[<span class="hljs-number">0</span>], ori.shape[<span class="hljs-number">1</span>]<br>    watermark = (ori_f - img_f) / alpha<br>    watermark = np.real(watermark)<br>    res = np.zeros(watermark.shape)<br>    random.seed(height + width)<br>    x = range(height / <span class="hljs-number">2</span>)<br>    y = range(width)<br>    random.shuffle(x)<br>    random.shuffle(y)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(height / <span class="hljs-number">2</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(width):<br>            res[x[i]][y[j]] = watermark[i][j]<br>    cv2.imwrite(res_path, res, [int(cv2.IMWRITE_JPEG_QUALITY), <span class="hljs-number">100</span>])<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    main()<br><br></code></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45696568/article/details/116421340">https://blog.csdn.net/weixin_45696568/article/details/116421340</a></p>
+<h1 id="CFI-CTF-2018-webLogon-capture"><a href="#CFI-CTF-2018-webLogon-capture" class="headerlink" title="[CFI-CTF 2018]webLogon capture"></a>[CFI-CTF 2018]webLogon capture</h1><p>依题意，搜密码</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730235441594.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730235441594</span></p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730235517224.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730235517224</span></p>
+<h1 id="INSHack2017-sanity"><a href="#INSHack2017-sanity" class="headerlink" title="[INSHack2017]sanity"></a>[INSHack2017]sanity</h1><p>好久没看见这样朴实无华的题目了</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210730235710940.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210730235710940</span></p>
+<h1 id="INSHack2019-Sanity"><a href="#INSHack2019-Sanity" class="headerlink" title="[INSHack2019]Sanity"></a>[INSHack2019]Sanity</h1><p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210731000459904.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210731000459904</span></p>
+<h1 id="HDCTF2019-你能发现什么蛛丝马迹吗"><a href="#HDCTF2019-你能发现什么蛛丝马迹吗" class="headerlink" title="[HDCTF2019]你能发现什么蛛丝马迹吗"></a>[HDCTF2019]你能发现什么蛛丝马迹吗</h1><p>img镜像文件，直接拖到volatility里</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801140238342.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801140238342</span></p>
+<p>猜测版本，一个个试过去是Win2003SP1x86</p>
+<p>查看进程</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801140526843.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801140526843</span></p>
+<p>发现DumpIt.exe(内存取证工具)</p>
+<p>查找cmd使用记录</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801140333006.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801140333006</span></p>
+<p>以dmp的格式存下来</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801141110861.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801141110861</span></p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801141359101.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801141359101</span></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">程序和进程：<br><br><span class="hljs-number">1</span>、程序：程序是静止的，程序就是磁盘上的一个文件。<br><br><span class="hljs-number">2</span>、进程：进程是一个正在执行的程序的实例。<br><br><span class="hljs-number">3</span>、进程是动态的。<br><br><span class="hljs-number">4</span>、一旦程序被操作系统加载进内存了，那么这程序就成为了进程。<br><br>PID和PPID：<br><br><span class="hljs-number">1</span>、PID（process ID）：<br><br>PID是程序被操作系统加载到内存成为进程后动态分配的资源。<br><br>每次程序执行的时候，操作系统都会重新加载，PID在每次加载的时候都是不同的。<br><br><span class="hljs-number">2</span>、PPID（parent process ID）：PPID是程序的父进程号。<br><br><span class="hljs-number">3</span>、PID和PPID都是非零的整数。<br><br><span class="hljs-number">4</span>、PID是唯一的，一个PID只标识一个进程。<br><br><span class="hljs-number">5</span>、一个进程创建的另一个新进程称为子进程。相反地，创建子进程的进程称为父进程。<br><br><span class="hljs-number">6</span>、对于一个普通的用户进程，它的父进程就是执行它的哪个Shell，对于Linux而言，Shell就是bash。<br><br><span class="hljs-number">7</span>、bash所在的目录：[<span class="hljs-symbol">negivup@</span>localhost bin]$ cd /bin | ls bash<br></code></pre></td></tr></table></figure>
+
+<p>所以这里应该存储ppid父进程，即</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> vol.py -f memory.img  --profile=Win<span class="hljs-number">2003</span>SP<span class="hljs-number">1</span>x<span class="hljs-number">86</span> memdump -p <span class="hljs-number">1992</span> --dump-dir=./<br><br></code></pre></td></tr></table></figure>
+
+<p>这里使不使用sudo，问题不是很大</p>
+<p>将dmp文件分离发现</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801142955561.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801142955561</span></p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801143015109.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801143015109</span></p>
+<p>扫码得</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4</span>=<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801143040571.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801143040571</span></p>
+<p>aes解密</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801143329297.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801143329297</span></p>
+<h1 id="INSHack2019-INSAnity"><a href="#INSHack2019-INSAnity" class="headerlink" title="[INSHack2019]INSAnity"></a>[INSHack2019]INSAnity</h1><p>啊这个比赛我？？？？</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210731000744806.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210731000744806</span></p>
+<h1 id="INSHack2017-insanity"><a href="#INSHack2017-insanity" class="headerlink" title="[INSHack2017]insanity-"></a>[INSHack2017]insanity-</h1><p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210731000932969.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210731000932969</span></p>
+<h1 id="INSHack2018-INSanity"><a href="#INSHack2018-INSanity" class="headerlink" title="[INSHack2018]INSanity"></a>[INSHack2018]INSanity</h1><p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210731001137244.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210731001137244</span></p>
+<p>就这？？？，这几题也真，好真实的签到题</p>
+<h1 id="INSHack2019-gflag"><a href="#INSHack2019-gflag" class="headerlink" title="[INSHack2019]gflag"></a>[INSHack2019]gflag</h1><p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801143650243.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801143650243</span></p>
+<p>深奥的编程还行</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801143806076.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801143806076</span></p>
+<p>看不懂</p>
+<p>来补充一下关于3D打印的知识：<a target="_blank" rel="noopener" href="https://blog.csdn.net/redsleep/article/details/80885224">https://blog.csdn.net/redsleep/article/details/80885224</a></p>
+<p>把文件gflag后添加后缀.gcode</p>
+<p>分享一个在线预览的网站<a target="_blank" rel="noopener" href="http://gcode.ws/">http://gcode.ws/</a></p>
+<p>你就会看见</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801144446269.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801144446269</span></p>
+<p>这什么鬼</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801144519136.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801144519136</span></p>
+<p>把前两个show取消</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801144605974.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801144605974</span></p>
+<h1 id="MRCTF2020-摇滚DJ（建议大声播放"><a href="#MRCTF2020-摇滚DJ（建议大声播放" class="headerlink" title="[MRCTF2020]摇滚DJ（建议大声播放"></a>[MRCTF2020]摇滚DJ（建议大声播放</h1><p>不会真的有人去大声播放了吧</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801132045179.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801132045179</span></p>
+<p>无线电传输图像</p>
+<h1 id="greatescape"><a href="#greatescape" class="headerlink" title="greatescape"></a>greatescape</h1><p>tls协议</p>
+<p>TLS协议的架构. TLS主要分为两层，底层的是TLS记录协议，主要负责使用对称密码对消息进行加密。. 上层的是TLS握手协议，主要分为握手协议，密码规格变更协议和应用数据协议4个部分。. 握手协议负责在客户端和服务器端商定密码算法和共享密钥，包括证书认证，是4个协议中最最复杂的部分。. 密码规格变更协议负责向通信对象传达变更密码方式的信号. 警告协议负责在发生错误的时候将错误传达给对方. 应用数据协议负责将TLS承载的应用数据传达给通信对象的协议。.</p>
+<p>搜个key</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801210840405.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801210840405</span></p>
+<p>尝试在附近eq寻找key</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801210948537.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801210948537</span></p>
+<p>喜提rsa私钥</p>
+<p>通过分析流量猜测，这应该在向<code>ftp</code>服务器传送私钥，我们得到了私钥，就可以解密<code>TLS</code>报文</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">编辑-&gt;首选项-&gt;Protocols-&gt;TLS`，点击`Edit`，然后点击`+`添加`Key File<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801212142858.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801212142858</span></p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801212224027.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801212224027</span></p>
+<p>导入成功后追踪tls流</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801212852380.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801212852380</span></p>
+<h1 id="我爱Linux"><a href="#我爱Linux" class="headerlink" title="我爱Linux"></a>我爱Linux</h1><p>表面png实则jpg（虽然改了也没什么用，，文件尾才是重头戏</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801230904438.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801230904438</span></p>
+<p>搜了才知道这里是Python Picke序列化内容</p>
+<p>需要进行反序列化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle  <br><br>fp = open(<span class="hljs-string">&quot;1.txt&quot;</span>,<span class="hljs-string">&quot;rb+&quot;</span>)<br>fw = open(<span class="hljs-string">&#x27;pickle.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>)<br>a=pickle.load(fp)<br>pickle=str(a)<br>fw.write( pickle )<br>fw.close()<br>fp.close()<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801232657426.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801232657426</span></p>
+<p>收获一堆坐标，数字是在一行中的位置，‘’引起来的是内容，]表示一行结束</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python">fw = open(<span class="hljs-string">&quot;pickle.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>)<br>text=fw.read( )<br>i=<span class="hljs-number">0</span><br>a=<span class="hljs-number">0</span><br><br><br><span class="hljs-keyword">while</span> i&lt;len(text)+<span class="hljs-number">1</span>:<br>    <span class="hljs-keyword">if</span>(text[i]==<span class="hljs-string">&#x27;]&#x27;</span>):<br>       print(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>       a=<span class="hljs-number">0</span><br>    <span class="hljs-keyword">elif</span>(text[i]==<span class="hljs-string">&#x27;(&#x27;</span>):<br>        <span class="hljs-keyword">if</span>(text[i+<span class="hljs-number">2</span>]==<span class="hljs-string">&#x27;,&#x27;</span>):<br>            b=text[i+<span class="hljs-number">1</span>]<br>            d=text[i+<span class="hljs-number">1</span>]<br>            b=int(b)-int(a)<br>            c=<span class="hljs-number">1</span><br>            <span class="hljs-keyword">while</span> c&lt;b:<br>                print(<span class="hljs-string">&quot; &quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>)<br>                c += <span class="hljs-number">1</span><br>            print(text[i+<span class="hljs-number">5</span>], end=<span class="hljs-string">&quot;&quot;</span>)<br>            a=int(d)<br>        <span class="hljs-keyword">else</span>:<br>            b=text[i+<span class="hljs-number">1</span>]+text[i+<span class="hljs-number">2</span>]<br>            d=text[i+<span class="hljs-number">1</span>]+text[i+<span class="hljs-number">2</span>]<br>            b=int(b)-int(a)<br>            c=<span class="hljs-number">1</span><br>            <span class="hljs-keyword">while</span> c&lt;b:<br>                print(<span class="hljs-string">&quot; &quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>)<br>                c += <span class="hljs-number">1</span><br>            print(text[i+<span class="hljs-number">6</span>], end=<span class="hljs-string">&quot;&quot;</span>)<br>            a=int(d)<br></code></pre></td></tr></table></figure>
+
+<p>打印出来就行</p>
+<figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs smalltalk">  m<span class="hljs-comment">&quot;&quot;</span>  <span class="hljs-comment">&quot;&quot;</span>#                    m<span class="hljs-comment">&quot;&quot;</span>          mmmm  mmmmmm  mmmm    m<span class="hljs-comment">&quot;&quot;</span>      #<br><br>mm<span class="hljs-symbol">#mm</span>    #     mmm    mmmm    #     mmm   <span class="hljs-comment">&quot;   &quot;</span>#     #<span class="hljs-comment">&quot; &quot;</span>   <span class="hljs-comment">&quot;# mm#mm   mmm#</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  #      #    &quot;</span>   #  #<span class="hljs-comment">&quot; &quot;</span>#  mm<span class="hljs-comment">&quot;    &quot;</span>   #      m<span class="hljs-comment">&quot;    m&quot;</span>    mmm<span class="hljs-comment">&quot;   #    #&quot;</span> <span class="hljs-comment">&quot;#</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  #      #    m&quot;</span><span class="hljs-comment">&quot;&quot;</span>#  #   #    #    m<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;#    m&quot;</span>     m<span class="hljs-comment">&quot;       &quot;</span>#   #    #   #<br><br>  #      <span class="hljs-comment">&quot;mm  &quot;</span>mm<span class="hljs-comment">&quot;#  &quot;</span><span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;#    #    &quot;</span>mm<span class="hljs-comment">&quot;#  m#mmmm  m&quot;</span>    <span class="hljs-comment">&quot;mmm#&quot;</span>   #    <span class="hljs-comment">&quot;#m##</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                      m  #     &quot;</span><span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                       &quot;</span><span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">           #    m&quot;</span><span class="hljs-comment">&quot;   mmmm      #  mmmmmm    mm    mmm          mmmm  mmmmmm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> mmm    mmm#  mm#mm  &quot;</span>   <span class="hljs-comment">&quot;#  mmm#      #&quot;</span>   m<span class="hljs-comment">&quot;#  m&quot;</span>   <span class="hljs-comment">&quot;  mmm   #&quot;</span>  <span class="hljs-comment">&quot;m     #&quot;</span><br><br>#<span class="hljs-comment">&quot;  #  #&quot;</span> <span class="hljs-comment">&quot;#    #      mmm&quot;</span> #<span class="hljs-comment">&quot; &quot;</span>#     m<span class="hljs-comment">&quot;   #&quot;</span> #  <span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;&quot;</span><span class="hljs-symbol">#m</span> #<span class="hljs-comment">&quot;  #  #m  m#    m&quot;</span><br><br>#<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>  #   #    #        <span class="hljs-comment">&quot;# #   #    m&quot;</span>   <span class="hljs-symbol">#mmm</span><span class="hljs-symbol">#m</span> #    # #<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>   <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot; #   m&quot;</span><br><br><span class="hljs-comment">&quot;#mm&quot;</span>  <span class="hljs-comment">&quot;#m##    #    &quot;</span>mmm#<span class="hljs-comment">&quot; &quot;</span><span class="hljs-symbol">#m</span>##   m<span class="hljs-comment">&quot;        #   #mm#&quot;</span> <span class="hljs-comment">&quot;#mm&quot;</span>  <span class="hljs-comment">&quot;mmm&quot;</span>   m<span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    #  #       mmmm   mmmm   mmmm    mmm         #      #      #      mmm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> mmm#  #mmm   #&quot;</span>  <span class="hljs-comment">&quot;m m&quot;</span>  <span class="hljs-comment">&quot;m #    # m&quot;</span>   <span class="hljs-comment">&quot;  mmm   #mmm   #mmm   #mmm     #</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#&quot;</span> <span class="hljs-comment">&quot;#  #&quot;</span> <span class="hljs-comment">&quot;#  #m  m# #  m # &quot;</span>mmmm<span class="hljs-comment">&quot; #m&quot;</span><span class="hljs-comment">&quot;#m #&quot;</span>  #  #<span class="hljs-comment">&quot; &quot;</span>#  #<span class="hljs-comment">&quot; &quot;</span>#  #<span class="hljs-comment">&quot; &quot;</span>#    #<br><br>#   #  #   #   <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot; # #    # #   &quot;</span># #    # #<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>  #   #  #   #  #   #    #<br><br><span class="hljs-comment">&quot;#m##  ##m#&quot;</span>  <span class="hljs-comment">&quot;mmm&quot;</span>   <span class="hljs-symbol">#mm</span>#  <span class="hljs-comment">&quot;#mmm&quot;</span>  <span class="hljs-symbol">#mm</span>#<span class="hljs-comment">&quot; &quot;</span><span class="hljs-symbol">#mm</span><span class="hljs-comment">&quot;  ##m#&quot;</span>  #<span class="hljs-symbol">#m</span>#<span class="hljs-comment">&quot;  ##m#&quot;</span>  mm<span class="hljs-symbol">#mm</span><br><br><br><br><br><br><br><br> mmmm  mmmmm      #    mmm  <span class="hljs-comment">&quot;&quot;</span>m<br><br>#<span class="hljs-comment">&quot;  &quot;</span>m #       mmm#  m<span class="hljs-comment">&quot;   &quot;</span>   #<br><br><span class="hljs-symbol">#m</span>  m# <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>mm #<span class="hljs-comment">&quot; &quot;</span>#  <span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;&quot;</span><span class="hljs-symbol">#m</span>   <span class="hljs-comment">&quot;mm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> &quot;</span><span class="hljs-comment">&quot;&quot;</span> #      # #   #  #    #   #<br><br><span class="hljs-comment">&quot;mmm&quot;</span>  <span class="hljs-comment">&quot;mmm#&quot;</span> <span class="hljs-comment">&quot;#m##   #mm#&quot;</span>   #<br><br>                            <span class="hljs-comment">&quot;&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>sl命令需要安装，运行一下会出现小火车</p>
+<p><img   class="lazyload" data-original="/2021/07/30/buu-10/image-20210801234850256.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210801234850256</span></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/07/30/buu-10/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;30&#x2F;buu-10&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;30&#x2F;buu-10&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/07/27/buu-9/">buu-9<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GKCTF-2021-%E9%93%B6%E6%9D%8F%E5%B2%9B%E3%81%AE%E5%A5%87%E5%A6%99%E5%86%92%E9%99%A9"><span class="toc-text">[GKCTF 2021]银杏岛の奇妙冒险</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UTCTF2020-sstv"><span class="toc-text">[UTCTF2020]sstv</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GWCTF2019-huyao"><span class="toc-text">[GWCTF2019]huyao</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CFI-CTF-2018-webLogon-capture"><span class="toc-text">[CFI-CTF 2018]webLogon capture</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2017-sanity"><span class="toc-text">[INSHack2017]sanity</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2019-Sanity"><span class="toc-text">[INSHack2019]Sanity</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDCTF2019-%E4%BD%A0%E8%83%BD%E5%8F%91%E7%8E%B0%E4%BB%80%E4%B9%88%E8%9B%9B%E4%B8%9D%E9%A9%AC%E8%BF%B9%E5%90%97"><span class="toc-text">[HDCTF2019]你能发现什么蛛丝马迹吗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2019-INSAnity"><span class="toc-text">[INSHack2019]INSAnity</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2017-insanity"><span class="toc-text">[INSHack2017]insanity-</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2018-INSanity"><span class="toc-text">[INSHack2018]INSanity</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2019-gflag"><span class="toc-text">[INSHack2019]gflag</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MRCTF2020-%E6%91%87%E6%BB%9ADJ%EF%BC%88%E5%BB%BA%E8%AE%AE%E5%A4%A7%E5%A3%B0%E6%92%AD%E6%94%BE"><span class="toc-text">[MRCTF2020]摇滚DJ（建议大声播放</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#greatescape"><span class="toc-text">greatescape</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E7%88%B1Linux"><span class="toc-text">我爱Linux</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

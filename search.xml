@@ -126,6 +126,110 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-10</title>
+    <url>/2021/07/30/buu-10/</url>
+    <content><![CDATA[<h1 id="GKCTF-2021-银杏岛の奇妙冒险"><a href="#GKCTF-2021-银杏岛の奇妙冒险" class="headerlink" title="[GKCTF 2021]银杏岛の奇妙冒险"></a>[GKCTF 2021]银杏岛の奇妙冒险</h1><p>怎么可能真的去玩游戏呢，这辈子都不可能的，直接搜flag</p>
+<p><img src="/2021/07/30/buu-10/image-20210730223748362.png"><span class="image-caption">image-20210730223748362</span></p>
+<p><img src="/2021/07/30/buu-10/image-20210730224353452.png"><span class="image-caption">image-20210730224353452</span></p>
+<p>右下角拼起来就是flag了</p>
+<h1 id="UTCTF2020-sstv"><a href="#UTCTF2020-sstv" class="headerlink" title="[UTCTF2020]sstv"></a>[UTCTF2020]sstv</h1><p>sstv的意思是慢扫电视，是业余无线电爱好者的一种主要图片传输方法，慢扫描电视通过无线电传输和接收单色或彩色静态图片。曾经被用在航空器上</p>
+<p><img src="/2021/07/30/buu-10/image-20210730231444996.png"><span class="image-caption">image-20210730231444996</span></p>
+<p>把音频导入即可</p>
+<p><img src="/2021/07/30/buu-10/image-20210730231950122.png"><span class="image-caption">image-20210730231950122</span></p>
+<h1 id="GWCTF2019-huyao"><a href="#GWCTF2019-huyao" class="headerlink" title="[GWCTF2019]huyao"></a>[GWCTF2019]huyao</h1><p>我以为它是普通的盲水印，后来解了个寂寞发现我太天真了</p>
+<p>这里是区域盲水印</p>
+<p><img src="/2021/07/30/buu-10/image-20210730233446480.png"><span class="image-caption">image-20210730233446480</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> cv2   <br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> argparse <span class="hljs-keyword">import</span> ArgumentParser<br>ALPHA = <span class="hljs-number">5</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_parser</span>():</span><br>    parser = ArgumentParser()<br>    parser.add_argument(<span class="hljs-string">&#x27;--original&#x27;</span>, dest=<span class="hljs-string">&#x27;ori&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--image&#x27;</span>, dest=<span class="hljs-string">&#x27;img&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--result&#x27;</span>, dest=<span class="hljs-string">&#x27;res&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser.add_argument(<span class="hljs-string">&#x27;--alpha&#x27;</span>, dest=<span class="hljs-string">&#x27;alpha&#x27;</span>, default=ALPHA)<br>    <span class="hljs-keyword">return</span> parser<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    parser = build_parser()<br>    options = parser.parse_args()<br>    ori = options.ori<br>    img = options.img<br>    res = options.res<br>    alpha = options.alpha<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(ori):<br>        parser.error(<span class="hljs-string">&quot;original image %s does not exist.&quot;</span> % ori)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(img):<br>        parser.error(<span class="hljs-string">&quot;image %s does not exist.&quot;</span> % img)<br>    decode(ori, img, res, alpha)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode</span>(<span class="hljs-params">ori_path, img_path, res_path, alpha</span>):</span><br>    ori = cv2.imread(ori_path)<br>    img = cv2.imread(img_path)<br>    ori_f = np.fft.fft2(ori)<br>    img_f = np.fft.fft2(img)<br>    height, width = ori.shape[<span class="hljs-number">0</span>], ori.shape[<span class="hljs-number">1</span>]<br>    watermark = (ori_f - img_f) / alpha<br>    watermark = np.real(watermark)<br>    res = np.zeros(watermark.shape)<br>    random.seed(height + width)<br>    x = range(height / <span class="hljs-number">2</span>)<br>    y = range(width)<br>    random.shuffle(x)<br>    random.shuffle(y)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(height / <span class="hljs-number">2</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(width):<br>            res[x[i]][y[j]] = watermark[i][j]<br>    cv2.imwrite(res_path, res, [int(cv2.IMWRITE_JPEG_QUALITY), <span class="hljs-number">100</span>])<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    main()<br><br></code></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://blog.csdn.net/weixin_45696568/article/details/116421340">https://blog.csdn.net/weixin_45696568/article/details/116421340</a></p>
+<h1 id="CFI-CTF-2018-webLogon-capture"><a href="#CFI-CTF-2018-webLogon-capture" class="headerlink" title="[CFI-CTF 2018]webLogon capture"></a>[CFI-CTF 2018]webLogon capture</h1><p>依题意，搜密码</p>
+<p><img src="/2021/07/30/buu-10/image-20210730235441594.png"><span class="image-caption">image-20210730235441594</span></p>
+<p><img src="/2021/07/30/buu-10/image-20210730235517224.png"><span class="image-caption">image-20210730235517224</span></p>
+<h1 id="INSHack2017-sanity"><a href="#INSHack2017-sanity" class="headerlink" title="[INSHack2017]sanity"></a>[INSHack2017]sanity</h1><p>好久没看见这样朴实无华的题目了</p>
+<p><img src="/2021/07/30/buu-10/image-20210730235710940.png"><span class="image-caption">image-20210730235710940</span></p>
+<h1 id="INSHack2019-Sanity"><a href="#INSHack2019-Sanity" class="headerlink" title="[INSHack2019]Sanity"></a>[INSHack2019]Sanity</h1><p><img src="/2021/07/30/buu-10/image-20210731000459904.png"><span class="image-caption">image-20210731000459904</span></p>
+<h1 id="HDCTF2019-你能发现什么蛛丝马迹吗"><a href="#HDCTF2019-你能发现什么蛛丝马迹吗" class="headerlink" title="[HDCTF2019]你能发现什么蛛丝马迹吗"></a>[HDCTF2019]你能发现什么蛛丝马迹吗</h1><p>img镜像文件，直接拖到volatility里</p>
+<p><img src="/2021/07/30/buu-10/image-20210801140238342.png"><span class="image-caption">image-20210801140238342</span></p>
+<p>猜测版本，一个个试过去是Win2003SP1x86</p>
+<p>查看进程</p>
+<p><img src="/2021/07/30/buu-10/image-20210801140526843.png"><span class="image-caption">image-20210801140526843</span></p>
+<p>发现DumpIt.exe(内存取证工具)</p>
+<p>查找cmd使用记录</p>
+<p><img src="/2021/07/30/buu-10/image-20210801140333006.png"><span class="image-caption">image-20210801140333006</span></p>
+<p>以dmp的格式存下来</p>
+<p><img src="/2021/07/30/buu-10/image-20210801141110861.png"><span class="image-caption">image-20210801141110861</span></p>
+<p><img src="/2021/07/30/buu-10/image-20210801141359101.png"><span class="image-caption">image-20210801141359101</span></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><code class="hljs angelscript">程序和进程：<br><br><span class="hljs-number">1</span>、程序：程序是静止的，程序就是磁盘上的一个文件。<br><br><span class="hljs-number">2</span>、进程：进程是一个正在执行的程序的实例。<br><br><span class="hljs-number">3</span>、进程是动态的。<br><br><span class="hljs-number">4</span>、一旦程序被操作系统加载进内存了，那么这程序就成为了进程。<br><br>PID和PPID：<br><br><span class="hljs-number">1</span>、PID（process ID）：<br><br>PID是程序被操作系统加载到内存成为进程后动态分配的资源。<br><br>每次程序执行的时候，操作系统都会重新加载，PID在每次加载的时候都是不同的。<br><br><span class="hljs-number">2</span>、PPID（parent process ID）：PPID是程序的父进程号。<br><br><span class="hljs-number">3</span>、PID和PPID都是非零的整数。<br><br><span class="hljs-number">4</span>、PID是唯一的，一个PID只标识一个进程。<br><br><span class="hljs-number">5</span>、一个进程创建的另一个新进程称为子进程。相反地，创建子进程的进程称为父进程。<br><br><span class="hljs-number">6</span>、对于一个普通的用户进程，它的父进程就是执行它的哪个Shell，对于Linux而言，Shell就是bash。<br><br><span class="hljs-number">7</span>、bash所在的目录：[<span class="hljs-symbol">negivup@</span>localhost bin]$ cd /bin | ls bash<br></code></pre></td></tr></table></figure>
+
+<p>所以这里应该存储ppid父进程，即</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> vol.py -f memory.img  --profile=Win<span class="hljs-number">2003</span>SP<span class="hljs-number">1</span>x<span class="hljs-number">86</span> memdump -p <span class="hljs-number">1992</span> --dump-dir=./<br><br></code></pre></td></tr></table></figure>
+
+<p>这里使不使用sudo，问题不是很大</p>
+<p>将dmp文件分离发现</p>
+<p><img src="/2021/07/30/buu-10/image-20210801142955561.png"><span class="image-caption">image-20210801142955561</span></p>
+<p><img src="/2021/07/30/buu-10/image-20210801143015109.png"><span class="image-caption">image-20210801143015109</span></p>
+<p>扫码得</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4</span>=<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/30/buu-10/image-20210801143040571.png"><span class="image-caption">image-20210801143040571</span></p>
+<p>aes解密</p>
+<p><img src="/2021/07/30/buu-10/image-20210801143329297.png"><span class="image-caption">image-20210801143329297</span></p>
+<h1 id="INSHack2019-INSAnity"><a href="#INSHack2019-INSAnity" class="headerlink" title="[INSHack2019]INSAnity"></a>[INSHack2019]INSAnity</h1><p>啊这个比赛我？？？？</p>
+<p><img src="/2021/07/30/buu-10/image-20210731000744806.png"><span class="image-caption">image-20210731000744806</span></p>
+<h1 id="INSHack2017-insanity"><a href="#INSHack2017-insanity" class="headerlink" title="[INSHack2017]insanity-"></a>[INSHack2017]insanity-</h1><p><img src="/2021/07/30/buu-10/image-20210731000932969.png"><span class="image-caption">image-20210731000932969</span></p>
+<h1 id="INSHack2018-INSanity"><a href="#INSHack2018-INSanity" class="headerlink" title="[INSHack2018]INSanity"></a>[INSHack2018]INSanity</h1><p><img src="/2021/07/30/buu-10/image-20210731001137244.png"><span class="image-caption">image-20210731001137244</span></p>
+<p>就这？？？，这几题也真，好真实的签到题</p>
+<h1 id="INSHack2019-gflag"><a href="#INSHack2019-gflag" class="headerlink" title="[INSHack2019]gflag"></a>[INSHack2019]gflag</h1><p><img src="/2021/07/30/buu-10/image-20210801143650243.png"><span class="image-caption">image-20210801143650243</span></p>
+<p>深奥的编程还行</p>
+<p><img src="/2021/07/30/buu-10/image-20210801143806076.png"><span class="image-caption">image-20210801143806076</span></p>
+<p>看不懂</p>
+<p>来补充一下关于3D打印的知识：<a href="https://blog.csdn.net/redsleep/article/details/80885224">https://blog.csdn.net/redsleep/article/details/80885224</a></p>
+<p>把文件gflag后添加后缀.gcode</p>
+<p>分享一个在线预览的网站<a href="http://gcode.ws/">http://gcode.ws/</a></p>
+<p>你就会看见</p>
+<p><img src="/2021/07/30/buu-10/image-20210801144446269.png"><span class="image-caption">image-20210801144446269</span></p>
+<p>这什么鬼</p>
+<p><img src="/2021/07/30/buu-10/image-20210801144519136.png"><span class="image-caption">image-20210801144519136</span></p>
+<p>把前两个show取消</p>
+<p><img src="/2021/07/30/buu-10/image-20210801144605974.png"><span class="image-caption">image-20210801144605974</span></p>
+<h1 id="MRCTF2020-摇滚DJ（建议大声播放"><a href="#MRCTF2020-摇滚DJ（建议大声播放" class="headerlink" title="[MRCTF2020]摇滚DJ（建议大声播放"></a>[MRCTF2020]摇滚DJ（建议大声播放</h1><p>不会真的有人去大声播放了吧</p>
+<p><img src="/2021/07/30/buu-10/image-20210801132045179.png"><span class="image-caption">image-20210801132045179</span></p>
+<p>无线电传输图像</p>
+<h1 id="greatescape"><a href="#greatescape" class="headerlink" title="greatescape"></a>greatescape</h1><p>tls协议</p>
+<p>TLS协议的架构. TLS主要分为两层，底层的是TLS记录协议，主要负责使用对称密码对消息进行加密。. 上层的是TLS握手协议，主要分为握手协议，密码规格变更协议和应用数据协议4个部分。. 握手协议负责在客户端和服务器端商定密码算法和共享密钥，包括证书认证，是4个协议中最最复杂的部分。. 密码规格变更协议负责向通信对象传达变更密码方式的信号. 警告协议负责在发生错误的时候将错误传达给对方. 应用数据协议负责将TLS承载的应用数据传达给通信对象的协议。.</p>
+<p>搜个key</p>
+<p><img src="/2021/07/30/buu-10/image-20210801210840405.png"><span class="image-caption">image-20210801210840405</span></p>
+<p>尝试在附近eq寻找key</p>
+<p><img src="/2021/07/30/buu-10/image-20210801210948537.png"><span class="image-caption">image-20210801210948537</span></p>
+<p>喜提rsa私钥</p>
+<p>通过分析流量猜测，这应该在向<code>ftp</code>服务器传送私钥，我们得到了私钥，就可以解密<code>TLS</code>报文</p>
+<figure class="highlight autohotkey"><table><tr><td class="code"><pre><code class="hljs autohotkey">编辑-&gt;首选项-&gt;Protocols-&gt;TLS`，点击`Edit`，然后点击`+`添加`Key File<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/30/buu-10/image-20210801212142858.png"><span class="image-caption">image-20210801212142858</span></p>
+<p><img src="/2021/07/30/buu-10/image-20210801212224027.png"><span class="image-caption">image-20210801212224027</span></p>
+<p>导入成功后追踪tls流</p>
+<p><img src="/2021/07/30/buu-10/image-20210801212852380.png"><span class="image-caption">image-20210801212852380</span></p>
+<h1 id="我爱Linux"><a href="#我爱Linux" class="headerlink" title="我爱Linux"></a>我爱Linux</h1><p>表面png实则jpg（虽然改了也没什么用，，文件尾才是重头戏</p>
+<p><img src="/2021/07/30/buu-10/image-20210801230904438.png"><span class="image-caption">image-20210801230904438</span></p>
+<p>搜了才知道这里是Python Picke序列化内容</p>
+<p>需要进行反序列化</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle  <br><br>fp = open(<span class="hljs-string">&quot;1.txt&quot;</span>,<span class="hljs-string">&quot;rb+&quot;</span>)<br>fw = open(<span class="hljs-string">&#x27;pickle.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>)<br>a=pickle.load(fp)<br>pickle=str(a)<br>fw.write( pickle )<br>fw.close()<br>fp.close()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/30/buu-10/image-20210801232657426.png"><span class="image-caption">image-20210801232657426</span></p>
+<p>收获一堆坐标，数字是在一行中的位置，‘’引起来的是内容，]表示一行结束</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">fw = open(<span class="hljs-string">&quot;pickle.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>)<br>text=fw.read( )<br>i=<span class="hljs-number">0</span><br>a=<span class="hljs-number">0</span><br><br><br><span class="hljs-keyword">while</span> i&lt;len(text)+<span class="hljs-number">1</span>:<br>    <span class="hljs-keyword">if</span>(text[i]==<span class="hljs-string">&#x27;]&#x27;</span>):<br>       print(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>       a=<span class="hljs-number">0</span><br>    <span class="hljs-keyword">elif</span>(text[i]==<span class="hljs-string">&#x27;(&#x27;</span>):<br>        <span class="hljs-keyword">if</span>(text[i+<span class="hljs-number">2</span>]==<span class="hljs-string">&#x27;,&#x27;</span>):<br>            b=text[i+<span class="hljs-number">1</span>]<br>            d=text[i+<span class="hljs-number">1</span>]<br>            b=int(b)-int(a)<br>            c=<span class="hljs-number">1</span><br>            <span class="hljs-keyword">while</span> c&lt;b:<br>                print(<span class="hljs-string">&quot; &quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>)<br>                c += <span class="hljs-number">1</span><br>            print(text[i+<span class="hljs-number">5</span>], end=<span class="hljs-string">&quot;&quot;</span>)<br>            a=int(d)<br>        <span class="hljs-keyword">else</span>:<br>            b=text[i+<span class="hljs-number">1</span>]+text[i+<span class="hljs-number">2</span>]<br>            d=text[i+<span class="hljs-number">1</span>]+text[i+<span class="hljs-number">2</span>]<br>            b=int(b)-int(a)<br>            c=<span class="hljs-number">1</span><br>            <span class="hljs-keyword">while</span> c&lt;b:<br>                print(<span class="hljs-string">&quot; &quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>)<br>                c += <span class="hljs-number">1</span><br>            print(text[i+<span class="hljs-number">6</span>], end=<span class="hljs-string">&quot;&quot;</span>)<br>            a=int(d)<br></code></pre></td></tr></table></figure>
+
+<p>打印出来就行</p>
+<figure class="highlight smalltalk"><table><tr><td class="code"><pre><code class="hljs smalltalk">  m<span class="hljs-comment">&quot;&quot;</span>  <span class="hljs-comment">&quot;&quot;</span>#                    m<span class="hljs-comment">&quot;&quot;</span>          mmmm  mmmmmm  mmmm    m<span class="hljs-comment">&quot;&quot;</span>      #<br><br>mm<span class="hljs-symbol">#mm</span>    #     mmm    mmmm    #     mmm   <span class="hljs-comment">&quot;   &quot;</span>#     #<span class="hljs-comment">&quot; &quot;</span>   <span class="hljs-comment">&quot;# mm#mm   mmm#</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  #      #    &quot;</span>   #  #<span class="hljs-comment">&quot; &quot;</span>#  mm<span class="hljs-comment">&quot;    &quot;</span>   #      m<span class="hljs-comment">&quot;    m&quot;</span>    mmm<span class="hljs-comment">&quot;   #    #&quot;</span> <span class="hljs-comment">&quot;#</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  #      #    m&quot;</span><span class="hljs-comment">&quot;&quot;</span>#  #   #    #    m<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;#    m&quot;</span>     m<span class="hljs-comment">&quot;       &quot;</span>#   #    #   #<br><br>  #      <span class="hljs-comment">&quot;mm  &quot;</span>mm<span class="hljs-comment">&quot;#  &quot;</span><span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;#    #    &quot;</span>mm<span class="hljs-comment">&quot;#  m#mmmm  m&quot;</span>    <span class="hljs-comment">&quot;mmm#&quot;</span>   #    <span class="hljs-comment">&quot;#m##</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                      m  #     &quot;</span><span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                       &quot;</span><span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">           #    m&quot;</span><span class="hljs-comment">&quot;   mmmm      #  mmmmmm    mm    mmm          mmmm  mmmmmm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> mmm    mmm#  mm#mm  &quot;</span>   <span class="hljs-comment">&quot;#  mmm#      #&quot;</span>   m<span class="hljs-comment">&quot;#  m&quot;</span>   <span class="hljs-comment">&quot;  mmm   #&quot;</span>  <span class="hljs-comment">&quot;m     #&quot;</span><br><br>#<span class="hljs-comment">&quot;  #  #&quot;</span> <span class="hljs-comment">&quot;#    #      mmm&quot;</span> #<span class="hljs-comment">&quot; &quot;</span>#     m<span class="hljs-comment">&quot;   #&quot;</span> #  <span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;&quot;</span><span class="hljs-symbol">#m</span> #<span class="hljs-comment">&quot;  #  #m  m#    m&quot;</span><br><br>#<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>  #   #    #        <span class="hljs-comment">&quot;# #   #    m&quot;</span>   <span class="hljs-symbol">#mmm</span><span class="hljs-symbol">#m</span> #    # #<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>   <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot; #   m&quot;</span><br><br><span class="hljs-comment">&quot;#mm&quot;</span>  <span class="hljs-comment">&quot;#m##    #    &quot;</span>mmm#<span class="hljs-comment">&quot; &quot;</span><span class="hljs-symbol">#m</span>##   m<span class="hljs-comment">&quot;        #   #mm#&quot;</span> <span class="hljs-comment">&quot;#mm&quot;</span>  <span class="hljs-comment">&quot;mmm&quot;</span>   m<span class="hljs-comment">&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    #  #       mmmm   mmmm   mmmm    mmm         #      #      #      mmm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> mmm#  #mmm   #&quot;</span>  <span class="hljs-comment">&quot;m m&quot;</span>  <span class="hljs-comment">&quot;m #    # m&quot;</span>   <span class="hljs-comment">&quot;  mmm   #mmm   #mmm   #mmm     #</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#&quot;</span> <span class="hljs-comment">&quot;#  #&quot;</span> <span class="hljs-comment">&quot;#  #m  m# #  m # &quot;</span>mmmm<span class="hljs-comment">&quot; #m&quot;</span><span class="hljs-comment">&quot;#m #&quot;</span>  #  #<span class="hljs-comment">&quot; &quot;</span>#  #<span class="hljs-comment">&quot; &quot;</span>#  #<span class="hljs-comment">&quot; &quot;</span>#    #<br><br>#   #  #   #   <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot; # #    # #   &quot;</span># #    # #<span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>  #   #  #   #  #   #    #<br><br><span class="hljs-comment">&quot;#m##  ##m#&quot;</span>  <span class="hljs-comment">&quot;mmm&quot;</span>   <span class="hljs-symbol">#mm</span>#  <span class="hljs-comment">&quot;#mmm&quot;</span>  <span class="hljs-symbol">#mm</span>#<span class="hljs-comment">&quot; &quot;</span><span class="hljs-symbol">#mm</span><span class="hljs-comment">&quot;  ##m#&quot;</span>  #<span class="hljs-symbol">#m</span>#<span class="hljs-comment">&quot;  ##m#&quot;</span>  mm<span class="hljs-symbol">#mm</span><br><br><br><br><br><br><br><br> mmmm  mmmmm      #    mmm  <span class="hljs-comment">&quot;&quot;</span>m<br><br>#<span class="hljs-comment">&quot;  &quot;</span>m #       mmm#  m<span class="hljs-comment">&quot;   &quot;</span>   #<br><br><span class="hljs-symbol">#m</span>  m# <span class="hljs-comment">&quot;&quot;</span><span class="hljs-comment">&quot;&quot;</span>mm #<span class="hljs-comment">&quot; &quot;</span>#  <span class="hljs-symbol">#m</span><span class="hljs-comment">&quot;&quot;</span><span class="hljs-symbol">#m</span>   <span class="hljs-comment">&quot;mm</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> &quot;</span><span class="hljs-comment">&quot;&quot;</span> #      # #   #  #    #   #<br><br><span class="hljs-comment">&quot;mmm&quot;</span>  <span class="hljs-comment">&quot;mmm#&quot;</span> <span class="hljs-comment">&quot;#m##   #mm#&quot;</span>   #<br><br>                            <span class="hljs-comment">&quot;&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>sl命令需要安装，运行一下会出现小火车</p>
+<p><img src="/2021/07/30/buu-10/image-20210801234850256.png"><span class="image-caption">image-20210801234850256</span></p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-2</title>
     <url>/2021/07/09/buu-2/</url>
     <content><![CDATA[<h1 id="base64隐写"><a href="#base64隐写" class="headerlink" title="base64隐写"></a>base64隐写</h1><p>base64编码还是很熟悉了</p>
@@ -182,6 +286,35 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-4</title>
+    <url>/2021/07/11/buu-4/</url>
+    <content><![CDATA[<h1 id="菜刀666"><a href="#菜刀666" class="headerlink" title="菜刀666"></a>菜刀666</h1><p>流量分析啊，还是要耐心一点，一个一个的看过去，那你就会发现有不一样的地方<del>（当然要在方向正确的情况下，不然就会看个寂寞。。。。。。。）</del></p>
+<p>追踪流7 看到一串很长的内容 看到传了两个参数</p>
+<p><img src="/2021/07/11/buu-4/20200718142715430.png"></p>
+<p>这很明显是一张图片啊</p>
+<p><img src="/2021/07/11/buu-4/20200718142726771.png"></p>
+<p>因为直接去搜索了flag.txt,所以一开始就看见了hello.zip,把它从流量包里分离出来，压缩包的密码就在图上，结束了</p>
+<h1 id="BJDCTF2020-认真你就输了"><a href="#BJDCTF2020-认真你就输了" class="headerlink" title="[BJDCTF2020]认真你就输了"></a>[BJDCTF2020]认真你就输了</h1><p>谢谢，这题目真的挺离谱的</p>
+<p>表面上很玄幻说under chart，实则改个压缩包后缀，找到chart，就可以找到flag.txt</p>
+<h1 id="SWPU2019-神奇的二维码"><a href="#SWPU2019-神奇的二维码" class="headerlink" title="[SWPU2019]神奇的二维码"></a>[SWPU2019]神奇的二维码</h1><p>一张二维码的图里套4个rar我是万万没有想到的，两个压缩包分别解密另外两个压缩包然后一真一假，莫斯密码解出来就是flag了</p>
+<h1 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h1><p>原来outguess是算法，是我孤陋寡闻了。exif就是提取密码解就完事了。</p>
+<h1 id="GXYCTF2019-gakki"><a href="#GXYCTF2019-gakki" class="headerlink" title="[GXYCTF2019]gakki"></a>[GXYCTF2019]gakki</h1><p>图片套压缩包，压缩包加密四位数密码，得到flag.txt</p>
+<p><img src="/2021/07/11/buu-4/image-20210714135207286.png"></p>
+<p>我去，这么多，开始尝试搜索flag，猝，压根没有啊，作为一只菜狗，查了wp，嗯，词频分析</p>
+<p><a href="https://blog.csdn.net/mochu7777777/article/details/109377328%EF%BC%8C%E6%9F%A5%E5%88%B0%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC">https://blog.csdn.net/mochu7777777/article/details/109377328，查到一个脚本</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#Author: mochu7</span><br>alphabet = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&amp;*()_+- =\\&#123;\\&#125;[]&quot;</span><br>strings = open(<span class="hljs-string">&#x27;./flag.txt&#x27;</span>).read()<br><br>result = &#123;&#125;<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> alphabet:<br>	counts = strings.count(i)<span class="hljs-comment">#Python count() 方法用于统计字符串里某个字符或子字符串出现的次数。可选参数为在字符串搜索的开始与结束位置。</span><br>	i = <span class="hljs-string">&#x27;&#123;0&#125;&#x27;</span>.format(i)<span class="hljs-comment">#Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。基本语法是通过 &#123;&#125; 和 : 来代											替以前的 % 。format 函数可以接受不限个参数，位置可以不按顺序。</span><br>	result[i] = counts<br><br>res = sorted(result.items(),key=<span class="hljs-keyword">lambda</span> item:item[<span class="hljs-number">1</span>],reverse=<span class="hljs-literal">True</span>)<span class="hljs-comment">#sorted(d.items(), key=lambda x: x[1]) 中 d.items() 为待排序																																	的对象；key=lambda x: x[1] 为对前面的对象中的第二维数据（即																																				value）的值进行排序。 key=lambda  变量：变量[维数] 。维数可以按																																	照自己的需要进行设置。</span><br><br><span class="hljs-keyword">for</span> data <span class="hljs-keyword">in</span> res:<br>	print(data)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:<br>	flag = str(i[<span class="hljs-number">0</span>])<br>	print(flag[<span class="hljs-number">0</span>],end=<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">#print(*objects, sep=&#x27; &#x27;, end=&#x27;\n&#x27;, file=sys.stdout)</span><br>																					<span class="hljs-comment">#参数的具体含义如下：</span><br>																					<span class="hljs-comment">#objects --表示输出的对象。输出多个对象时，需要用 , （逗号）分隔。</span><br>																					<span class="hljs-comment">#sep -- 用来间隔多个对象。</span><br>																					<span class="hljs-comment">#end -- 用来设定以什么结尾。默认值是换行符 \n，我们可以换成其他字符。</span><br>																					<span class="hljs-comment">#file -- 要写入的文件对象。	</span><br>																					<span class="hljs-comment">#在python中，输出函数总是默认换行</span><br>																					<span class="hljs-comment">#具体的可以看这篇文章：https://blog.csdn.net/sinat_28576553/article/details/81154912</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="sqltest"><a href="#sqltest" class="headerlink" title="sqltest"></a>sqltest</h1><p>这题和虎符那题日志分析挺像的</p>
+<p><img src="/2021/07/11/buu-4/image-20210714160555652.png"></p>
+<p>重复的ascii就是正确的ascii</p>
+<p>由于导出的文件是一句一个，我觉得直接看可能比脚本快一点<del>（你懒你就直说</del>）~~</p>
+<p>不同的是这题ascii转出来就是flag，虎符那题要再base64进行转换。</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-3</title>
     <url>/2021/07/11/buu-3/</url>
     <content><![CDATA[<h1 id="NTFS数据流"><a href="#NTFS数据流" class="headerlink" title="NTFS数据流"></a>NTFS数据流</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>先来个介绍吧，</p>
@@ -220,35 +353,6 @@
 <p>新发现<img src="/2021/07/11/buu-3/image-20210711114918370.png"></p>
 <p>参考资料：<a href="https://blog.csdn.net/wxh0000mm/article/details/100761973">https://blog.csdn.net/wxh0000mm/article/details/100761973</a></p>
 <p>​                    <a href="https://blog.csdn.net/vivilorne/article/details/3841509">https://blog.csdn.net/vivilorne/article/details/3841509</a></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu-4</title>
-    <url>/2021/07/11/buu-4/</url>
-    <content><![CDATA[<h1 id="菜刀666"><a href="#菜刀666" class="headerlink" title="菜刀666"></a>菜刀666</h1><p>流量分析啊，还是要耐心一点，一个一个的看过去，那你就会发现有不一样的地方<del>（当然要在方向正确的情况下，不然就会看个寂寞。。。。。。。）</del></p>
-<p>追踪流7 看到一串很长的内容 看到传了两个参数</p>
-<p><img src="/2021/07/11/buu-4/20200718142715430.png"></p>
-<p>这很明显是一张图片啊</p>
-<p><img src="/2021/07/11/buu-4/20200718142726771.png"></p>
-<p>因为直接去搜索了flag.txt,所以一开始就看见了hello.zip,把它从流量包里分离出来，压缩包的密码就在图上，结束了</p>
-<h1 id="BJDCTF2020-认真你就输了"><a href="#BJDCTF2020-认真你就输了" class="headerlink" title="[BJDCTF2020]认真你就输了"></a>[BJDCTF2020]认真你就输了</h1><p>谢谢，这题目真的挺离谱的</p>
-<p>表面上很玄幻说under chart，实则改个压缩包后缀，找到chart，就可以找到flag.txt</p>
-<h1 id="SWPU2019-神奇的二维码"><a href="#SWPU2019-神奇的二维码" class="headerlink" title="[SWPU2019]神奇的二维码"></a>[SWPU2019]神奇的二维码</h1><p>一张二维码的图里套4个rar我是万万没有想到的，两个压缩包分别解密另外两个压缩包然后一真一假，莫斯密码解出来就是flag了</p>
-<h1 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h1><p>原来outguess是算法，是我孤陋寡闻了。exif就是提取密码解就完事了。</p>
-<h1 id="GXYCTF2019-gakki"><a href="#GXYCTF2019-gakki" class="headerlink" title="[GXYCTF2019]gakki"></a>[GXYCTF2019]gakki</h1><p>图片套压缩包，压缩包加密四位数密码，得到flag.txt</p>
-<p><img src="/2021/07/11/buu-4/image-20210714135207286.png"></p>
-<p>我去，这么多，开始尝试搜索flag，猝，压根没有啊，作为一只菜狗，查了wp，嗯，词频分析</p>
-<p><a href="https://blog.csdn.net/mochu7777777/article/details/109377328%EF%BC%8C%E6%9F%A5%E5%88%B0%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC">https://blog.csdn.net/mochu7777777/article/details/109377328，查到一个脚本</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#Author: mochu7</span><br>alphabet = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&amp;*()_+- =\\&#123;\\&#125;[]&quot;</span><br>strings = open(<span class="hljs-string">&#x27;./flag.txt&#x27;</span>).read()<br><br>result = &#123;&#125;<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> alphabet:<br>	counts = strings.count(i)<span class="hljs-comment">#Python count() 方法用于统计字符串里某个字符或子字符串出现的次数。可选参数为在字符串搜索的开始与结束位置。</span><br>	i = <span class="hljs-string">&#x27;&#123;0&#125;&#x27;</span>.format(i)<span class="hljs-comment">#Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。基本语法是通过 &#123;&#125; 和 : 来代											替以前的 % 。format 函数可以接受不限个参数，位置可以不按顺序。</span><br>	result[i] = counts<br><br>res = sorted(result.items(),key=<span class="hljs-keyword">lambda</span> item:item[<span class="hljs-number">1</span>],reverse=<span class="hljs-literal">True</span>)<span class="hljs-comment">#sorted(d.items(), key=lambda x: x[1]) 中 d.items() 为待排序																																	的对象；key=lambda x: x[1] 为对前面的对象中的第二维数据（即																																				value）的值进行排序。 key=lambda  变量：变量[维数] 。维数可以按																																	照自己的需要进行设置。</span><br><br><span class="hljs-keyword">for</span> data <span class="hljs-keyword">in</span> res:<br>	print(data)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:<br>	flag = str(i[<span class="hljs-number">0</span>])<br>	print(flag[<span class="hljs-number">0</span>],end=<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">#print(*objects, sep=&#x27; &#x27;, end=&#x27;\n&#x27;, file=sys.stdout)</span><br>																					<span class="hljs-comment">#参数的具体含义如下：</span><br>																					<span class="hljs-comment">#objects --表示输出的对象。输出多个对象时，需要用 , （逗号）分隔。</span><br>																					<span class="hljs-comment">#sep -- 用来间隔多个对象。</span><br>																					<span class="hljs-comment">#end -- 用来设定以什么结尾。默认值是换行符 \n，我们可以换成其他字符。</span><br>																					<span class="hljs-comment">#file -- 要写入的文件对象。	</span><br>																					<span class="hljs-comment">#在python中，输出函数总是默认换行</span><br>																					<span class="hljs-comment">#具体的可以看这篇文章：https://blog.csdn.net/sinat_28576553/article/details/81154912</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="sqltest"><a href="#sqltest" class="headerlink" title="sqltest"></a>sqltest</h1><p>这题和虎符那题日志分析挺像的</p>
-<p><img src="/2021/07/11/buu-4/image-20210714160555652.png"></p>
-<p>重复的ascii就是正确的ascii</p>
-<p>由于导出的文件是一句一个，我觉得直接看可能比脚本快一点<del>（你懒你就直说</del>）~~</p>
-<p>不同的是这题ascii转出来就是flag，虎符那题要再base64进行转换。</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -571,6 +675,104 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-8</title>
+    <url>/2021/07/25/buu-8/</url>
+    <content><![CDATA[<h1 id="蜘蛛侠呀"><a href="#蜘蛛侠呀" class="headerlink" title="蜘蛛侠呀"></a>蜘蛛侠呀</h1><p>流量包里说没有压缩包，确实，这一次分离不出来，然后每一个</p>
+<p><img src="/2021/07/25/buu-8/image-20210725203301812.png"><span class="image-caption">image-20210725203301812</span></p>
+<p>所有的<code>icmp</code>包后面都跟了一串数据，使用<code>tshark</code>把这些全部提取出来</p>
+<figure class="highlight fortran"><table><tr><td class="code"><pre><code class="hljs fortran">tshark -r <span class="hljs-keyword">out</span><span class="hljs-number">.</span>pcap -T fields -e <span class="hljs-keyword">data</span> &gt; <span class="hljs-keyword">data</span><span class="hljs-number">.</span>txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/25/buu-8/image-20210725214344375.png"><span class="image-caption">image-20210725214344375</span></p>
+<p>之后就是去重，把十六进制转为字符，去掉$$–START–$$ 和多余的空格行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    res_list = []<br>    lines = file.readlines()<br>    print(<span class="hljs-string">&#x27;[+]去重之前一共&#123;0&#125;行&#x27;</span>.format(len(lines)))<br>    print(<span class="hljs-string">&#x27;[+]开始去重，请稍等.....&#x27;</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> lines:<br>        <span class="hljs-keyword">if</span> i <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> res_list:<br>            res_list.append(i)<br>    print(<span class="hljs-string">&#x27;[+]去重后一共&#123;0&#125;行&#x27;</span>.format(len(res_list)))<br>    print(res_list)<br><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data1.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> new_file:<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> res_list:<br>        new_file.write(j)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data1.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data2.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> data:<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> file.readlines():<br>            data.write(binascii.unhexlify(i[:<span class="hljs-number">-1</span>]))<br></code></pre></td></tr></table></figure>
+
+<p>收获一张flag.gif，听闻已久的时间隐写终于见到了</p>
+<p><img src="/2021/07/25/buu-8/image-20210725222335707.png"><span class="image-caption">image-20210725222335707</span></p>
+<p>20换成0,50换成1</p>
+<p>然后</p>
+<p><img src="/2021/07/25/buu-8/image-20210725222407280.png"><span class="image-caption">image-20210725222407280</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">hash.digest() <br><span class="hljs-comment">#返回摘要，作为二进制数据字符串值</span><br><br>hash.hexdigest() <br><span class="hljs-comment">#返回摘要，作为十六进制数据字符串值</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="安洵杯-2019-easy-misc"><a href="#安洵杯-2019-easy-misc" class="headerlink" title="[安洵杯 2019]easy misc"></a>[安洵杯 2019]easy misc</h1><p><del>挖的坑是要填的</del></p>
+<p>令人头大的read</p>
+<p><img src="/2021/07/25/buu-8/image-20210727145442105.png"><span class="image-caption">image-20210727145442105</span></p>
+<p>先看看别的</p>
+<p><img src="/2021/07/25/buu-8/image-20210727145635019.png"><span class="image-caption">image-20210727145635019</span></p>
+<p>这，算数吧，大概像个压缩包密码，那个式子算出来是7，密码7+NNULLULL？？？试了一下发现不对，七位数？</p>
+<p><img src="/2021/07/25/buu-8/image-20210727151421374.png"><span class="image-caption">image-20210727151421374</span></p>
+<p>在线表演翻车，找找问题在哪里，少了个,</p>
+<p><img src="/2021/07/25/buu-8/image-20210727151519561.png"><span class="image-caption">image-20210727151519561</span></p>
+<p><img src="/2021/07/25/buu-8/image-20210727151720687.png"><span class="image-caption">image-20210727151720687</span></p>
+<p>很明显的词频隐写了，和read关联上了，再看看图</p>
+<p><img src="/2021/07/25/buu-8/image-20210727152405044.png"><span class="image-caption">image-20210727152405044</span></p>
+<p>分离出来一样的，盲水印，工具链接<a href="https://github.com/chishaxie/BlindWaterMark">https://github.com/chishaxie/BlindWaterMark</a></p>
+<p><img src="/2021/07/25/buu-8/image-20210727195327835.png"><span class="image-caption">image-20210727195327835</span></p>
+<p>词频分析，然后对照</p>
+<p>我跑出来了这样一个结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs base64">QW8obWdIWT9pMkF-sd5REtRQSQWjVfXiE&#x2F;WSFTajBtcw&#x3D;<br></code></pre></td></tr></table></figure>
+
+<p>上网搜wp</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros">QW8obWdIWT9pMkFSQWtRQjVfXiE/<span class="hljs-attribute">WSFTajBtcw</span>==<br></code></pre></td></tr></table></figure>
+
+<p>我惊了，我大为震惊，那个r属实不符合逻辑啊，我看不懂但我大受震撼</p>
+<p>按照wp的再base85就行</p>
+<p>脚本放这里了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">code_str = <span class="hljs-string">&#x27;etaonrhisdluygw&#x27;</span><br>code_dict = &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;dIW&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>:<span class="hljs-string">&#x27;sSD&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-string">&#x27;adE &#x27;</span>,<span class="hljs-string">&#x27;d&#x27;</span>:<span class="hljs-string">&#x27;jVf&#x27;</span>,<span class="hljs-string">&#x27;e&#x27;</span>:<span class="hljs-string">&#x27;QW8&#x27;</span>,<span class="hljs-string">&#x27;f&#x27;</span>:<span class="hljs-string">&#x27;SA=&#x27;</span>,<span class="hljs-string">&#x27;g&#x27;</span>:<span class="hljs-string">&#x27;jBt&#x27;</span>,<span class="hljs-string">&#x27;h&#x27;</span>:<span class="hljs-string">&#x27;5RE&#x27;</span>,<span class="hljs-string">&#x27;i&#x27;</span>:<span class="hljs-string">&#x27;tRQ&#x27;</span>,<span class="hljs-string">&#x27;j&#x27;</span>:<span class="hljs-string">&#x27;SPA&#x27;</span>,<span class="hljs-string">&#x27;k&#x27;</span>:<span class="hljs-string">&#x27;8DS&#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>:<span class="hljs-string">&#x27;XiE&#x27;</span>,<span class="hljs-string">&#x27;m&#x27;</span>:<span class="hljs-string">&#x27;S8S&#x27;</span>,<span class="hljs-string">&#x27;n&#x27;</span>:<span class="hljs-string">&#x27;MkF&#x27;</span>,<span class="hljs-string">&#x27;o&#x27;</span>:<span class="hljs-string">&#x27;T9p&#x27;</span>,<span class="hljs-string">&#x27;p&#x27;</span>:<span class="hljs-string">&#x27;PS5&#x27;</span>,<span class="hljs-string">&#x27;q&#x27;</span>:<span class="hljs-string">&#x27;E/S&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>:<span class="hljs-string">&#x27;-sd&#x27;</span>,<span class="hljs-string">&#x27;s&#x27;</span>:<span class="hljs-string">&#x27;SQW&#x27;</span>,<span class="hljs-string">&#x27;t&#x27;</span>:<span class="hljs-string">&#x27;obW&#x27;</span>,<span class="hljs-string">&#x27;u&#x27;</span>:<span class="hljs-string">&#x27;/WS&#x27;</span>,<span class="hljs-string">&#x27;v&#x27;</span>:<span class="hljs-string">&#x27;SD9&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>:<span class="hljs-string">&#x27;cw=&#x27;</span>,<span class="hljs-string">&#x27;x&#x27;</span>:<span class="hljs-string">&#x27;ASD&#x27;</span>,<span class="hljs-string">&#x27;y&#x27;</span>:<span class="hljs-string">&#x27;FTa&#x27;</span>,<span class="hljs-string">&#x27;z&#x27;</span>:<span class="hljs-string">&#x27;AE7&#x27;</span>&#125;<br>base_str=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> code_str:<br>    i = code_dict[i]<br>    base_str += i<br>print(base_str)<br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="翻车故事"><a href="#翻车故事" class="headerlink" title="翻车故事"></a>翻车故事</h3><p>安装相关模块<del>（踩雷故事增加了</del></p>
+<p><img src="/2021/07/25/buu-8/image-20210727180515713.png"><span class="image-caption">image-20210727180515713</span></p>
+<p><img src="/2021/07/25/buu-8/image-20210727181045672.png"><span class="image-caption">image-20210727181045672</span></p>
+<p><img src="/2021/07/25/buu-8/image-20210727181330184.png"><span class="image-caption">image-20210727181330184</span></p>
+<p><del>修改requirement.txt文件（我觉得我兜了一圈</del> opencv-python-4.3.0.38 不再支持 Python 2.7，</p>
+<p><img src="/2021/07/25/buu-8/image-20210727181500305.png"><span class="image-caption">image-20210727181500305</span></p>
+<p><del>合着我又装一遍轮子，冷静分析一下我刚才就应该把清华源的网址填进去</del></p>
+<p>没必要啊，其实我已经装完了啊，傻子本傻（从修改requirement.txt那个就完全大可不必</p>
+<h1 id="ACTF新生赛2020-music"><a href="#ACTF新生赛2020-music" class="headerlink" title="[ACTF新生赛2020]music"></a>[ACTF新生赛2020]music</h1><p>解压缩出来是一个无法播放的m4a文件，用010打开，这玩意一堆A1，我实在是不知道是个啥</p>
+<p><img src="/2021/07/25/buu-8/image-20210725225452816.png"><span class="image-caption">image-20210725225452816</span></p>
+<p>去网上学习，get新技巧，使用010工具异或整份文件</p>
+<p><img src="/2021/07/25/buu-8/image-20210725225604231.png"><span class="image-caption">image-20210725225604231</span></p>
+<p><img src="/2021/07/25/buu-8/image-20210725225703781.png"><span class="image-caption">image-20210725225703781</span></p>
+<p>mp3文件，不过不改后缀不是很影响播放，flag是念出来的，还是第一次见</p>
+<h1 id="寂静之城"><a href="#寂静之城" class="headerlink" title="寂静之城"></a>寂静之城</h1><p>社工题，亏得我把小说看完了，发现我来迟了，这个微博基本上是空的了，博主已设屏蔽，直接看wp吧<a href="http://www.damyahome.top/BUUCTF-misc-wp/">http://www.damyahome.top/BUUCTF-misc-wp/</a></p>
+<h1 id="GKCTF-2021-excel-骚操作"><a href="#GKCTF-2021-excel-骚操作" class="headerlink" title="[GKCTF 2021]excel 骚操作"></a>[GKCTF 2021]excel 骚操作</h1><p>做道新题好了，平复情绪</p>
+<p><img src="/2021/07/25/buu-8/image-20210725235851959.png"><span class="image-caption">image-20210725235851959</span></p>
+<p>你看着像不像个二维码，缺角的那种</p>
+<h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><p>手动填色那也挺绝望的，研究脚本ing</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> xlwt<br><span class="hljs-keyword">import</span> xlrd<br><span class="hljs-keyword">from</span> xlutils.copy <span class="hljs-keyword">import</span> copy<br><br><br><span class="hljs-comment"># 创建execl</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">def create_execl(file_name):</span><br><span class="hljs-string">    wb = xlwt.Workbook()</span><br><span class="hljs-string">    ws = wb.add_sheet(&#x27;Info&#x27;)</span><br><span class="hljs-string">    ws.write(0, 0, &quot;1&quot;)</span><br><span class="hljs-string">    ws.write(1, 0, &quot;2&quot;)</span><br><span class="hljs-string">    ws.write(2, 0, &quot;3&quot;)</span><br><span class="hljs-string">    ws.write(3, 0, &quot;2&quot;)</span><br><span class="hljs-string">    wb.save(file_name)//</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment"># 单元格上色</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">color_execl</span>(<span class="hljs-params">file_name</span>):</span><br>    styleBlueBkg = xlwt.easyxf(<span class="hljs-string">&#x27;pattern: pattern solid, fore_colour black;&#x27;</span>)  <span class="hljs-comment"># 黑色</span><br>    rb = xlrd.open_workbook(file_name)  <span class="hljs-comment"># 打开t.xls文件</span><br>    ro = rb.sheets()[<span class="hljs-number">0</span>]  <span class="hljs-comment"># 读取表单0</span><br>    wb = copy(rb)  <span class="hljs-comment"># 利用xlutils.copy下的copy函数复制</span><br>    ws = wb.get_sheet(<span class="hljs-number">0</span>)  <span class="hljs-comment"># 获取表单0</span><br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span>  range(ro.ncols):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(ro.nrows):  <span class="hljs-comment"># 循环所有的行列</span><br>            result = ro.cell(i, j).value<br>            <span class="hljs-keyword">if</span> result == <span class="hljs-number">1</span>:  <span class="hljs-comment"># 判断是否等于1</span><br>                ws.write(i, j, ro.cell(i, j).value, styleBlueBkg)<br>    wb.save(file_name)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    file_name = <span class="hljs-string">&#x27;flag.xls&#x27;</span><br>    <span class="hljs-comment">#create_execl(file_name)</span><br>    color_execl(file_name)<br></code></pre></td></tr></table></figure>
+
+<p><del>不得不说这是第一个爆改成功的脚本（是我菜了</del></p>
+<p>略微修改一下行高，</p>
+<p><img src="/2021/07/25/buu-8/image-20210726233226028.png"><span class="image-caption">image-20210726233226028</span></p>
+<p>这很显然不是二维码，搜一下发现是汉信码，得有个专门的软件才能扫</p>
+<p>找了个在线的解码<a href="http://www.efittech.com/hxdec.html">http://www.efittech.com/hxdec.html</a></p>
+<p><img src="/2021/07/25/buu-8/image-20210726234251079.png"><span class="image-caption">image-20210726234251079</span></p>
+<p>。。。。。。。。。。手机下一个中国编码好了，扫一下</p>
+<p><img src="/2021/07/25/buu-8/image-20210726235005308.png"><span class="image-caption">image-20210726235005308</span></p>
+<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><p><img src="/2021/07/25/buu-8/image-20210726235505167.png"><span class="image-caption">image-20210726235505167</span></p>
+<p>事实上还有更简单的方法，<img src="/2021/07/25/buu-8/image-20210726235600081.png"><span class="image-caption">image-20210726235600081</span></p>
+<p><img src="/2021/07/25/buu-8/image-20210726235647659.png"><span class="image-caption">image-20210726235647659</span></p>
+<p>大概是这样了，里面的设置有自定义</p>
+<h1 id="派大星的烦恼"><a href="#派大星的烦恼" class="headerlink" title="派大星的烦恼"></a>派大星的烦恼</h1><p>请认真读题！读题！！读题！！！不然真的会找不着北<del>（别问我怎么知道的</del></p>
+<p><img src="/2021/07/25/buu-8/image-20210727160231064.png"><span class="image-caption">image-20210727160231064</span></p>
+<p>2244我找了好久（习惯直接翻出了点问题，22和44会指什么？01？10？先导出看看</p>
+<p><img src="/2021/07/25/buu-8/image-20210727160814220.png"><span class="image-caption">image-20210727160814220</span></p>
+<p>挺整齐的，但格式不像二维码</p>
+<p><img src="/2021/07/25/buu-8/image-20210727162154990.png"><span class="image-caption">image-20210727162154990</span></p>
+<p>转了个寂寞，出现了不可见字符，倒过来试试</p>
+<p><img src="/2021/07/25/buu-8/image-20210727162246807.png"><span class="image-caption">image-20210727162246807</span></p>
+<p>感觉很像flag但是错了，感觉这个思路没什么问题，拿脚本跑一下，成功<del>（不得不说在线的着实不是很靠谱</del></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bin_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([chr(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [int(b, <span class="hljs-number">2</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s.split(<span class="hljs-string">&#x27; &#x27;</span>)]])<br>a = <span class="hljs-string">&quot;01101100 00101100 00001100 01101100 10011100 10101100 00001100 10000110 10101100 00101100 10001100 00011100 00101100 01000110 00100110 10101100 01100110 10100110 01101100 01000110 01101100 10100110 10101100 01000110 00101100 11000110 10100110 00101100 11001100 00011100 11001100 01001100&quot;</span><br>a = a.split(<span class="hljs-string">&#x27; &#x27;</span>)<br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> a:<br>    test = i[::<span class="hljs-number">-1</span>]<span class="hljs-comment">#::-1表示将字符串倒序，因为题目提示屁股，我们可以考虑是反着来的。</span><br>    flag += bin_to_str(test)<br><br>print(flag)<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-9</title>
     <url>/2021/07/27/buu-9/</url>
     <content><![CDATA[<h1 id="GKCTF-2021-签到"><a href="#GKCTF-2021-签到" class="headerlink" title="[GKCTF 2021]签到"></a>[GKCTF 2021]签到</h1><p>签到题 x 猜flag √</p>
@@ -707,6 +909,9 @@
 <p><img src="/2021/07/27/buu-9/image-20210729232618705.png"><span class="image-caption">image-20210729232618705</span></p>
 <p><img src="/2021/07/27/buu-9/image-20210729232843136.png"><span class="image-caption">image-20210729232843136</span></p>
 <p>stegosarus？搜一下好了，剑龙加密，只有对pyc pyo py文件才有用的</p>
+<p>作为一个成功的翻车选手</p>
+<p><img src="/2021/07/27/buu-9/image-20210730221850899.png"><span class="image-caption">image-20210730221850899</span></p>
+<p><del>这合理吗，这真实吗</del></p>
 <h1 id="voip"><a href="#voip" class="headerlink" title="voip"></a>voip</h1><p>是个流量包，看了好久啥都没发现，只有udp流</p>
 <p>搜了才知道voip是VoIP，对voip：互联网协议语音（VoIP），也称为IP电话，简称电话。 将其放在wireshark中，选择电话，voip呼叫。</p>
 <p>就可以听到flag了，是英文<del>（听力废物听了好多遍</del></p>
@@ -730,104 +935,6 @@
 <p>好家伙，这里藏了个hint，求和</p>
 <h1 id="UTCTF2020-spectogram"><a href="#UTCTF2020-spectogram" class="headerlink" title="[UTCTF2020]spectogram"></a>[UTCTF2020]spectogram</h1><p>频谱隐写</p>
 <p><img src="/2021/07/27/buu-9/image-20210729230646524.png"><span class="image-caption">image-20210729230646524</span></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu-8</title>
-    <url>/2021/07/25/buu-8/</url>
-    <content><![CDATA[<h1 id="蜘蛛侠呀"><a href="#蜘蛛侠呀" class="headerlink" title="蜘蛛侠呀"></a>蜘蛛侠呀</h1><p>流量包里说没有压缩包，确实，这一次分离不出来，然后每一个</p>
-<p><img src="/2021/07/25/buu-8/image-20210725203301812.png"><span class="image-caption">image-20210725203301812</span></p>
-<p>所有的<code>icmp</code>包后面都跟了一串数据，使用<code>tshark</code>把这些全部提取出来</p>
-<figure class="highlight fortran"><table><tr><td class="code"><pre><code class="hljs fortran">tshark -r <span class="hljs-keyword">out</span><span class="hljs-number">.</span>pcap -T fields -e <span class="hljs-keyword">data</span> &gt; <span class="hljs-keyword">data</span><span class="hljs-number">.</span>txt<br></code></pre></td></tr></table></figure>
-
-<p><img src="/2021/07/25/buu-8/image-20210725214344375.png"><span class="image-caption">image-20210725214344375</span></p>
-<p>之后就是去重，把十六进制转为字符，去掉$$–START–$$ 和多余的空格行</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    res_list = []<br>    lines = file.readlines()<br>    print(<span class="hljs-string">&#x27;[+]去重之前一共&#123;0&#125;行&#x27;</span>.format(len(lines)))<br>    print(<span class="hljs-string">&#x27;[+]开始去重，请稍等.....&#x27;</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> lines:<br>        <span class="hljs-keyword">if</span> i <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> res_list:<br>            res_list.append(i)<br>    print(<span class="hljs-string">&#x27;[+]去重后一共&#123;0&#125;行&#x27;</span>.format(len(res_list)))<br>    print(res_list)<br><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data1.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> new_file:<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> res_list:<br>        new_file.write(j)<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data1.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;data2.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> data:<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> file.readlines():<br>            data.write(binascii.unhexlify(i[:<span class="hljs-number">-1</span>]))<br></code></pre></td></tr></table></figure>
-
-<p>收获一张flag.gif，听闻已久的时间隐写终于见到了</p>
-<p><img src="/2021/07/25/buu-8/image-20210725222335707.png"><span class="image-caption">image-20210725222335707</span></p>
-<p>20换成0,50换成1</p>
-<p>然后</p>
-<p><img src="/2021/07/25/buu-8/image-20210725222407280.png"><span class="image-caption">image-20210725222407280</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">hash.digest() <br><span class="hljs-comment">#返回摘要，作为二进制数据字符串值</span><br><br>hash.hexdigest() <br><span class="hljs-comment">#返回摘要，作为十六进制数据字符串值</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="安洵杯-2019-easy-misc"><a href="#安洵杯-2019-easy-misc" class="headerlink" title="[安洵杯 2019]easy misc"></a>[安洵杯 2019]easy misc</h1><p><del>挖的坑是要填的</del></p>
-<p>令人头大的read</p>
-<p><img src="/2021/07/25/buu-8/image-20210727145442105.png"><span class="image-caption">image-20210727145442105</span></p>
-<p>先看看别的</p>
-<p><img src="/2021/07/25/buu-8/image-20210727145635019.png"><span class="image-caption">image-20210727145635019</span></p>
-<p>这，算数吧，大概像个压缩包密码，那个式子算出来是7，密码7+NNULLULL？？？试了一下发现不对，七位数？</p>
-<p><img src="/2021/07/25/buu-8/image-20210727151421374.png"><span class="image-caption">image-20210727151421374</span></p>
-<p>在线表演翻车，找找问题在哪里，少了个,</p>
-<p><img src="/2021/07/25/buu-8/image-20210727151519561.png"><span class="image-caption">image-20210727151519561</span></p>
-<p><img src="/2021/07/25/buu-8/image-20210727151720687.png"><span class="image-caption">image-20210727151720687</span></p>
-<p>很明显的词频隐写了，和read关联上了，再看看图</p>
-<p><img src="/2021/07/25/buu-8/image-20210727152405044.png"><span class="image-caption">image-20210727152405044</span></p>
-<p>分离出来一样的，盲水印，工具链接<a href="https://github.com/chishaxie/BlindWaterMark">https://github.com/chishaxie/BlindWaterMark</a></p>
-<p><img src="/2021/07/25/buu-8/image-20210727195327835.png"><span class="image-caption">image-20210727195327835</span></p>
-<p>词频分析，然后对照</p>
-<p>我跑出来了这样一个结果</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs base64">QW8obWdIWT9pMkF-sd5REtRQSQWjVfXiE&#x2F;WSFTajBtcw&#x3D;<br></code></pre></td></tr></table></figure>
-
-<p>上网搜wp</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros">QW8obWdIWT9pMkFSQWtRQjVfXiE/<span class="hljs-attribute">WSFTajBtcw</span>==<br></code></pre></td></tr></table></figure>
-
-<p>我惊了，我大为震惊，那个r属实不符合逻辑啊，我看不懂但我大受震撼</p>
-<p>按照wp的再base85就行</p>
-<p>脚本放这里了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">code_str = <span class="hljs-string">&#x27;etaonrhisdluygw&#x27;</span><br>code_dict = &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;dIW&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>:<span class="hljs-string">&#x27;sSD&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-string">&#x27;adE &#x27;</span>,<span class="hljs-string">&#x27;d&#x27;</span>:<span class="hljs-string">&#x27;jVf&#x27;</span>,<span class="hljs-string">&#x27;e&#x27;</span>:<span class="hljs-string">&#x27;QW8&#x27;</span>,<span class="hljs-string">&#x27;f&#x27;</span>:<span class="hljs-string">&#x27;SA=&#x27;</span>,<span class="hljs-string">&#x27;g&#x27;</span>:<span class="hljs-string">&#x27;jBt&#x27;</span>,<span class="hljs-string">&#x27;h&#x27;</span>:<span class="hljs-string">&#x27;5RE&#x27;</span>,<span class="hljs-string">&#x27;i&#x27;</span>:<span class="hljs-string">&#x27;tRQ&#x27;</span>,<span class="hljs-string">&#x27;j&#x27;</span>:<span class="hljs-string">&#x27;SPA&#x27;</span>,<span class="hljs-string">&#x27;k&#x27;</span>:<span class="hljs-string">&#x27;8DS&#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>:<span class="hljs-string">&#x27;XiE&#x27;</span>,<span class="hljs-string">&#x27;m&#x27;</span>:<span class="hljs-string">&#x27;S8S&#x27;</span>,<span class="hljs-string">&#x27;n&#x27;</span>:<span class="hljs-string">&#x27;MkF&#x27;</span>,<span class="hljs-string">&#x27;o&#x27;</span>:<span class="hljs-string">&#x27;T9p&#x27;</span>,<span class="hljs-string">&#x27;p&#x27;</span>:<span class="hljs-string">&#x27;PS5&#x27;</span>,<span class="hljs-string">&#x27;q&#x27;</span>:<span class="hljs-string">&#x27;E/S&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>:<span class="hljs-string">&#x27;-sd&#x27;</span>,<span class="hljs-string">&#x27;s&#x27;</span>:<span class="hljs-string">&#x27;SQW&#x27;</span>,<span class="hljs-string">&#x27;t&#x27;</span>:<span class="hljs-string">&#x27;obW&#x27;</span>,<span class="hljs-string">&#x27;u&#x27;</span>:<span class="hljs-string">&#x27;/WS&#x27;</span>,<span class="hljs-string">&#x27;v&#x27;</span>:<span class="hljs-string">&#x27;SD9&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>:<span class="hljs-string">&#x27;cw=&#x27;</span>,<span class="hljs-string">&#x27;x&#x27;</span>:<span class="hljs-string">&#x27;ASD&#x27;</span>,<span class="hljs-string">&#x27;y&#x27;</span>:<span class="hljs-string">&#x27;FTa&#x27;</span>,<span class="hljs-string">&#x27;z&#x27;</span>:<span class="hljs-string">&#x27;AE7&#x27;</span>&#125;<br>base_str=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> code_str:<br>    i = code_dict[i]<br>    base_str += i<br>print(base_str)<br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="翻车故事"><a href="#翻车故事" class="headerlink" title="翻车故事"></a>翻车故事</h3><p>安装相关模块<del>（踩雷故事增加了</del></p>
-<p><img src="/2021/07/25/buu-8/image-20210727180515713.png"><span class="image-caption">image-20210727180515713</span></p>
-<p><img src="/2021/07/25/buu-8/image-20210727181045672.png"><span class="image-caption">image-20210727181045672</span></p>
-<p><img src="/2021/07/25/buu-8/image-20210727181330184.png"><span class="image-caption">image-20210727181330184</span></p>
-<p><del>修改requirement.txt文件（我觉得我兜了一圈</del> opencv-python-4.3.0.38 不再支持 Python 2.7，</p>
-<p><img src="/2021/07/25/buu-8/image-20210727181500305.png"><span class="image-caption">image-20210727181500305</span></p>
-<p><del>合着我又装一遍轮子，冷静分析一下我刚才就应该把清华源的网址填进去</del></p>
-<p>没必要啊，其实我已经装完了啊，傻子本傻（从修改requirement.txt那个就完全大可不必</p>
-<h1 id="ACTF新生赛2020-music"><a href="#ACTF新生赛2020-music" class="headerlink" title="[ACTF新生赛2020]music"></a>[ACTF新生赛2020]music</h1><p>解压缩出来是一个无法播放的m4a文件，用010打开，这玩意一堆A1，我实在是不知道是个啥</p>
-<p><img src="/2021/07/25/buu-8/image-20210725225452816.png"><span class="image-caption">image-20210725225452816</span></p>
-<p>去网上学习，get新技巧，使用010工具异或整份文件</p>
-<p><img src="/2021/07/25/buu-8/image-20210725225604231.png"><span class="image-caption">image-20210725225604231</span></p>
-<p><img src="/2021/07/25/buu-8/image-20210725225703781.png"><span class="image-caption">image-20210725225703781</span></p>
-<p>mp3文件，不过不改后缀不是很影响播放，flag是念出来的，还是第一次见</p>
-<h1 id="寂静之城"><a href="#寂静之城" class="headerlink" title="寂静之城"></a>寂静之城</h1><p>社工题，亏得我把小说看完了，发现我来迟了，这个微博基本上是空的了，博主已设屏蔽，直接看wp吧<a href="http://www.damyahome.top/BUUCTF-misc-wp/">http://www.damyahome.top/BUUCTF-misc-wp/</a></p>
-<h1 id="GKCTF-2021-excel-骚操作"><a href="#GKCTF-2021-excel-骚操作" class="headerlink" title="[GKCTF 2021]excel 骚操作"></a>[GKCTF 2021]excel 骚操作</h1><p>做道新题好了，平复情绪</p>
-<p><img src="/2021/07/25/buu-8/image-20210725235851959.png"><span class="image-caption">image-20210725235851959</span></p>
-<p>你看着像不像个二维码，缺角的那种</p>
-<h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><p>手动填色那也挺绝望的，研究脚本ing</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding=utf-8</span><br><span class="hljs-keyword">import</span> xlwt<br><span class="hljs-keyword">import</span> xlrd<br><span class="hljs-keyword">from</span> xlutils.copy <span class="hljs-keyword">import</span> copy<br><br><br><span class="hljs-comment"># 创建execl</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">def create_execl(file_name):</span><br><span class="hljs-string">    wb = xlwt.Workbook()</span><br><span class="hljs-string">    ws = wb.add_sheet(&#x27;Info&#x27;)</span><br><span class="hljs-string">    ws.write(0, 0, &quot;1&quot;)</span><br><span class="hljs-string">    ws.write(1, 0, &quot;2&quot;)</span><br><span class="hljs-string">    ws.write(2, 0, &quot;3&quot;)</span><br><span class="hljs-string">    ws.write(3, 0, &quot;2&quot;)</span><br><span class="hljs-string">    wb.save(file_name)//</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment"># 单元格上色</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">color_execl</span>(<span class="hljs-params">file_name</span>):</span><br>    styleBlueBkg = xlwt.easyxf(<span class="hljs-string">&#x27;pattern: pattern solid, fore_colour black;&#x27;</span>)  <span class="hljs-comment"># 黑色</span><br>    rb = xlrd.open_workbook(file_name)  <span class="hljs-comment"># 打开t.xls文件</span><br>    ro = rb.sheets()[<span class="hljs-number">0</span>]  <span class="hljs-comment"># 读取表单0</span><br>    wb = copy(rb)  <span class="hljs-comment"># 利用xlutils.copy下的copy函数复制</span><br>    ws = wb.get_sheet(<span class="hljs-number">0</span>)  <span class="hljs-comment"># 获取表单0</span><br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span>  range(ro.ncols):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(ro.nrows):  <span class="hljs-comment"># 循环所有的行列</span><br>            result = ro.cell(i, j).value<br>            <span class="hljs-keyword">if</span> result == <span class="hljs-number">1</span>:  <span class="hljs-comment"># 判断是否等于1</span><br>                ws.write(i, j, ro.cell(i, j).value, styleBlueBkg)<br>    wb.save(file_name)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    file_name = <span class="hljs-string">&#x27;flag.xls&#x27;</span><br>    <span class="hljs-comment">#create_execl(file_name)</span><br>    color_execl(file_name)<br></code></pre></td></tr></table></figure>
-
-<p><del>不得不说这是第一个爆改成功的脚本（是我菜了</del></p>
-<p>略微修改一下行高，</p>
-<p><img src="/2021/07/25/buu-8/image-20210726233226028.png"><span class="image-caption">image-20210726233226028</span></p>
-<p>这很显然不是二维码，搜一下发现是汉信码，得有个专门的软件才能扫</p>
-<p>找了个在线的解码<a href="http://www.efittech.com/hxdec.html">http://www.efittech.com/hxdec.html</a></p>
-<p><img src="/2021/07/25/buu-8/image-20210726234251079.png"><span class="image-caption">image-20210726234251079</span></p>
-<p>。。。。。。。。。。手机下一个中国编码好了，扫一下</p>
-<p><img src="/2021/07/25/buu-8/image-20210726235005308.png"><span class="image-caption">image-20210726235005308</span></p>
-<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><p><img src="/2021/07/25/buu-8/image-20210726235505167.png"><span class="image-caption">image-20210726235505167</span></p>
-<p>事实上还有更简单的方法，<img src="/2021/07/25/buu-8/image-20210726235600081.png"><span class="image-caption">image-20210726235600081</span></p>
-<p><img src="/2021/07/25/buu-8/image-20210726235647659.png"><span class="image-caption">image-20210726235647659</span></p>
-<p>大概是这样了，里面的设置有自定义</p>
-<h1 id="派大星的烦恼"><a href="#派大星的烦恼" class="headerlink" title="派大星的烦恼"></a>派大星的烦恼</h1><p>请认真读题！读题！！读题！！！不然真的会找不着北<del>（别问我怎么知道的</del></p>
-<p><img src="/2021/07/25/buu-8/image-20210727160231064.png"><span class="image-caption">image-20210727160231064</span></p>
-<p>2244我找了好久（习惯直接翻出了点问题，22和44会指什么？01？10？先导出看看</p>
-<p><img src="/2021/07/25/buu-8/image-20210727160814220.png"><span class="image-caption">image-20210727160814220</span></p>
-<p>挺整齐的，但格式不像二维码</p>
-<p><img src="/2021/07/25/buu-8/image-20210727162154990.png"><span class="image-caption">image-20210727162154990</span></p>
-<p>转了个寂寞，出现了不可见字符，倒过来试试</p>
-<p><img src="/2021/07/25/buu-8/image-20210727162246807.png"><span class="image-caption">image-20210727162246807</span></p>
-<p>感觉很像flag但是错了，感觉这个思路没什么问题，拿脚本跑一下，成功<del>（不得不说在线的着实不是很靠谱</del></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bin_to_str</span>(<span class="hljs-params">s</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([chr(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [int(b, <span class="hljs-number">2</span>) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s.split(<span class="hljs-string">&#x27; &#x27;</span>)]])<br>a = <span class="hljs-string">&quot;01101100 00101100 00001100 01101100 10011100 10101100 00001100 10000110 10101100 00101100 10001100 00011100 00101100 01000110 00100110 10101100 01100110 10100110 01101100 01000110 01101100 10100110 10101100 01000110 00101100 11000110 10100110 00101100 11001100 00011100 11001100 01001100&quot;</span><br>a = a.split(<span class="hljs-string">&#x27; &#x27;</span>)<br>flag = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> a:<br>    test = i[::<span class="hljs-number">-1</span>]<span class="hljs-comment">#::-1表示将字符串倒序，因为题目提示屁股，我们可以考虑是反着来的。</span><br>    flag += bin_to_str(test)<br><br>print(flag)<br></code></pre></td></tr></table></figure>
-
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -1055,72 +1162,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dvwa-sql</title>
-    <url>/2021/02/12/dvwa-sql/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一段时间也是过完sqllib的，直接上手应该没什么问题</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>简单来说联合注入</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210212202247350.png"></p>
-<p>和前面的思路一样，最终爆破出数据，其实这里很想用报错注入的</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210212202755130.png"></p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210212202949018.png"></p>
-<p>但是（对，又双叒叕</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210212204203141.png"></p>
-<p>我输入以后<img src="/2021/02/12/dvwa-sql/image-20210212204954237.png"></p>
-<p>看来得改一下写法</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210212205743917.png"></p>
-<p>成功</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213143703388.png"></p>
-<p>这边对特殊符号进行了转义</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210213143957860.png"></p>
-<p>似乎没有了注入点，抓个包试试</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210213190229643.png"></p>
-<p>还是可以实现的，接下来的注入同low，但是是数字型注入</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213191725544.png"></p>
-<p>这边输入的页面与回显的页面不同，也没有执行302跳转，这样做的目的是为了防止一般的sqlmap注入，因为sqlmap在注入过程中，无法在查询提交页面上获取查询的结果，没有了反馈，也就没办法进一步注入。</p>
-<p><img src="/2021/02/12/dvwa-sql/image-20210213193911105.png"></p>
-<p>虽然说源代码多了limit 1 用#处理即可，注入方法同low</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213194114126.png"></p>
-<p>可以看到，Impossible级别的代码采用了PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性。</p>
-<p>参考资料：<a href="https://www.freebuf.com/articles/web/120747.html">https://www.freebuf.com/articles/web/120747.html</a></p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-weak session ids</title>
-    <url>/2021/02/16/dvwa-weak-session-ids/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
-<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
-<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
-<p>通过hackbar，</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
-<p>即可登录会话</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
-<p>这边的id数依次加一</p>
-<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
-<p>dvwasession换成了时间戳 </p>
-<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
-<p>感觉和medium蛮像的</p>
-<p>不如把这几个的源代码来比较一下</p>
-<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
-<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
-<p>但是我这里无论怎么抓包结果都是上上张图</p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
-<p>来看看源码</p>
-<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
-
-<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-xss</title>
     <url>/2021/02/18/dvwa-xss/</url>
     <content><![CDATA[<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p>跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的。</p>
@@ -1246,6 +1287,72 @@
       <categories>
         <category>靶场</category>
       </categories>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-weak session ids</title>
+    <url>/2021/02/16/dvwa-weak-session-ids/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>weak session， 弱对话</p>
+<p>如果会话 ID 可以计算或很容易猜到的话，通常只需要，这样攻击者就可以利用知道会话 ID 轻松地访问用户帐户，而不必强行使用密码或发现其他漏洞，如跨站点脚本 (XSS)。</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>抓包就对了</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163833001.png"></p>
+<p>通过hackbar，</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216163922045.png"></p>
+<p>即可登录会话</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164030199.png"></p>
+<p>这边的id数依次加一</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p>和low相似</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164257040.png"></p>
+<p>dvwasession换成了时间戳 </p>
+<p>分享一个时间轴在线工具<a href="https://tool.lu/timestamp/">https://tool.lu/timestamp/</a></p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216164752418.png"></p>
+<p>感觉和medium蛮像的</p>
+<p>不如把这几个的源代码来比较一下</p>
+<p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216170006067.png"></p>
+<p>(⊙﹏⊙)事实上，high的代码只比low的多了MD5加密</p>
+<p>但是我这里无论怎么抓包结果都是上上张图</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/16/dvwa-weak-session-ids/image-20210216171414785.png"></p>
+<p>来看看源码</p>
+<p><strong>使用了PHP setcookie()函数，来设置cookie:</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php">setcookie(name,value,expire,path,domain,secure,httponly)<br><br><br><br> 参数 	             描述<br><br><br><br>name 	    必需。规定cookie的名称。<br><br><br><br>value 	    必需。规定cookie的值。<br><br><br><br>expire   	可选。规定cookie的有效期。<br><br><br><br>path 	    可选。规定cookie的服务器路径。<br><br><br><br>domain 	    可选。规定cookie的域名。<br><br><br><br>secure 	    可选。规定是否通过安全的HTTPS连接来传输cookie。<br><br><br><br>httponly 	可选。规定是否Cookie仅可通过HTTP协议访问。<br></code></pre></td></tr></table></figure>
+
+<p><strong>$cookie_value采用随机数+时间戳+固定字符串”Impossible”，再进行sha1运算，完全不能猜测到dvwaSession的值。</strong></p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-sql</title>
+    <url>/2021/02/12/dvwa-sql/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一段时间也是过完sqllib的，直接上手应该没什么问题</p>
+<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>简单来说联合注入</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210212202247350.png"></p>
+<p>和前面的思路一样，最终爆破出数据，其实这里很想用报错注入的</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210212202755130.png"></p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210212202949018.png"></p>
+<p>但是（对，又双叒叕</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210212204203141.png"></p>
+<p>我输入以后<img src="/2021/02/12/dvwa-sql/image-20210212204954237.png"></p>
+<p>看来得改一下写法</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210212205743917.png"></p>
+<p>成功</p>
+<h1 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213143703388.png"></p>
+<p>这边对特殊符号进行了转义</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210213143957860.png"></p>
+<p>似乎没有了注入点，抓个包试试</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210213190229643.png"></p>
+<p>还是可以实现的，接下来的注入同low，但是是数字型注入</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213191725544.png"></p>
+<p>这边输入的页面与回显的页面不同，也没有执行302跳转，这样做的目的是为了防止一般的sqlmap注入，因为sqlmap在注入过程中，无法在查询提交页面上获取查询的结果，没有了反馈，也就没办法进一步注入。</p>
+<p><img src="/2021/02/12/dvwa-sql/image-20210213193911105.png"></p>
+<p>虽然说源代码多了limit 1 用#处理即可，注入方法同low</p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p><img src="/2021/02/12/dvwa-sql/image-20210213194114126.png"></p>
+<p>可以看到，Impossible级别的代码采用了PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性。</p>
+<p>参考资料：<a href="https://www.freebuf.com/articles/web/120747.html">https://www.freebuf.com/articles/web/120747.html</a></p>
+]]></content>
       <tags>
         <tag>dvwa</tag>
       </tags>
@@ -1530,27 +1637,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs 1-4 小结</title>
-    <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164847872.png"></p>
-<p>这边以爆数据库的语句来找其异同点<br><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164914794.png"></p>
-<p><strong>information_schema数据库中三个很重要的表：</strong></p>
-<ul>
-<li>information_schema.schemata: 该数据表存储了mysql数据库中的所有数据库的库名</li>
-<li>information_schema.tables：   该数据表存储了mysql数据库中的所有数据表的表名</li>
-<li>information_schema.columns:  该数据表存储了mysql数据库中的所有列的列名</li>
-</ul>
-<h2 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h2><p>在爆数据库之前，先判断数据列数，这边有两种方法：</p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
-<p>知道数据列数再进行爆破</p>
-<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqli-labs less5-6盲注</title>
     <url>/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/</url>
     <content><![CDATA[<p>这两关中不再有数据回显到前端页面，需要利用一些方法、判断进行尝试。</p>
@@ -1588,6 +1674,27 @@
 <h3 id="利用数据的重复性"><a href="#利用数据的重复性" class="headerlink" title="利用数据的重复性"></a>利用数据的重复性</h3><p><img src="/2020/11/22/sqli-labs%20less5-6%E7%9B%B2%E6%B3%A8/image-20201127204011874.png"></p>
 <p>据说这个只能查系统版本，改天来试一下好了。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>大概整理了一下这两关注入所需的方法，今天好像是写这篇博客的的的的的的的的的。。。。。。。。对，第六天（27了，就离谱），讲真内容还蛮多的，慢慢来好了，反正我不急，我真的不着急。</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs 1-4 小结</title>
+    <url>/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="分析sql查询语句"><a href="#分析sql查询语句" class="headerlink" title="分析sql查询语句"></a>分析sql查询语句</h2><p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164820214.png"></p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164847872.png"></p>
+<p>这边以爆数据库的语句来找其异同点<br><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120164914794.png"></p>
+<p><strong>information_schema数据库中三个很重要的表：</strong></p>
+<ul>
+<li>information_schema.schemata: 该数据表存储了mysql数据库中的所有数据库的库名</li>
+<li>information_schema.tables：   该数据表存储了mysql数据库中的所有数据表的表名</li>
+<li>information_schema.columns:  该数据表存储了mysql数据库中的所有列的列名</li>
+</ul>
+<h2 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h2><p>在爆数据库之前，先判断数据列数，这边有两种方法：</p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165026263.png"></p>
+<p>知道数据列数再进行爆破</p>
+<p><img src="/2020/11/18/sqli-labs-1-4-%E5%B0%8F%E7%BB%93/image-20201120165508147.png"></p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1648,56 +1755,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs-less1 语句与函数</title>
-    <url>/2020/11/11/sqli-labs-less1-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h2 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT * from 表名 WHERE 字段名&#x3D;&#39;数据&#39;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>以下是 SQL SELECT 语句使用 WHERE 子句从数据表中读取数据的通用语法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT field1, field2,...fieldN FROM table_name1, table_name2...<br>[WHERE condition1 [AND [OR]] condition2.....<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>查询语句中你可以使用一个或者多个表，表之间使用逗号**,** 分割，并使用WHERE语句来设定查询条件。</li>
-<li>你可以在 WHERE 子句中指定任何条件。</li>
-<li>你可以使用 AND 或者 OR 指定一个或多个条件。</li>
-<li>WHERE 子句也可以运用于 SQL 的 DELETE 或者 UPDATE 命令。</li>
-<li>WHERE 子句类似于程序语言中的 if 条件，根据 MySQL 表中的字段值来读取指定的数据。</li>
-</ul>
-<h2 id="MySQL-UNION-操作符"><a href="#MySQL-UNION-操作符" class="headerlink" title="MySQL UNION 操作符"></a>MySQL UNION 操作符</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>MySQL UNION 操作符用于连接两个以上的 SELECT 语句的结果组合到一个结果集合中。多个 SELECT 语句会删除重复的数据。</p>
-<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>MySQL UNION 操作符语法格式：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions]<br>UNION [ALL | DISTINCT]<br>SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions];<br></code></pre></td></tr></table></figure>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
-<li><strong>expression1, expression2, … expression_n</strong>: 要检索的列。</li>
-<li><strong>tables:</strong> 要检索的数据表。</li>
-<li><strong>WHERE conditions:</strong> 可选， 检索条件。</li>
-<li><strong>DISTINCT:</strong> 可选，删除结果集中重复的数据。默认情况下 UNION 操作符已经删除了重复数据，所以 DISTINCT 修饰符对结果没啥影响。</li>
-<li><strong>ALL:</strong> 可选，返回所有结果集，包含重复数据。</li>
-</ul>
-<h2 id="带有-WHERE-的-SQL-UNION-ALL"><a href="#带有-WHERE-的-SQL-UNION-ALL" class="headerlink" title="带有 WHERE 的 SQL UNION ALL"></a>带有 WHERE 的 SQL UNION ALL</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT country, name FROM Websites<br>WHERE country&#x3D;&#39;CN&#39;<br>UNION ALL<br>SELECT country, app_name FROM apps<br>WHERE country&#x3D;&#39;CN&#39;<br>ORDER BY country;<br><br><br></code></pre></td></tr></table></figure>
-
-<h2 id="MySQL中group-concat函数"><a href="#MySQL中group-concat函数" class="headerlink" title="MySQL中group_concat函数"></a>MySQL中group_concat函数</h2><p>完整的语法如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">group_concat([DISTINCT] 要连接的字段 [Order BY ASC&#x2F;DESC 排序字段] [Separator &#39;分隔符&#39;])<br></code></pre></td></tr></table></figure>
-
-<h2 id="MySQL猜测语句"><a href="#MySQL猜测语句" class="headerlink" title="MySQL猜测语句"></a>MySQL猜测语句</h2><h3 id="猜数据库"><a href="#猜数据库" class="headerlink" title="猜数据库"></a>猜数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select schema_name from information_schema.schemata <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="猜某库的数据表"><a href="#猜某库的数据表" class="headerlink" title="猜某库的数据表"></a>猜某库的数据表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select table_name from information_schema.tables where table_schema&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="猜某表的所有列"><a href="#猜某表的所有列" class="headerlink" title="猜某表的所有列"></a>猜某表的所有列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select column_name from information_schema.columns where table_name&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqli-labs-less5,6</title>
     <url>/2020/11/30/sqli-labs-less5-6/</url>
     <content><![CDATA[<h1 id="extracture-报错注入"><a href="#extracture-报错注入" class="headerlink" title="extracture()报错注入"></a>extracture()报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173049737.png"></p>
@@ -1752,6 +1809,56 @@
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210427554.png"></p>
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210340395.png"></p>
 <p>大概是这样一个过程，在有回显的情况下，报错注入的优势更为突出了。</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs-less1 语句与函数</title>
+    <url>/2020/11/11/sqli-labs-less1-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h2><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT * from 表名 WHERE 字段名&#x3D;&#39;数据&#39;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>以下是 SQL SELECT 语句使用 WHERE 子句从数据表中读取数据的通用语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT field1, field2,...fieldN FROM table_name1, table_name2...<br>[WHERE condition1 [AND [OR]] condition2.....<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>查询语句中你可以使用一个或者多个表，表之间使用逗号**,** 分割，并使用WHERE语句来设定查询条件。</li>
+<li>你可以在 WHERE 子句中指定任何条件。</li>
+<li>你可以使用 AND 或者 OR 指定一个或多个条件。</li>
+<li>WHERE 子句也可以运用于 SQL 的 DELETE 或者 UPDATE 命令。</li>
+<li>WHERE 子句类似于程序语言中的 if 条件，根据 MySQL 表中的字段值来读取指定的数据。</li>
+</ul>
+<h2 id="MySQL-UNION-操作符"><a href="#MySQL-UNION-操作符" class="headerlink" title="MySQL UNION 操作符"></a>MySQL UNION 操作符</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>MySQL UNION 操作符用于连接两个以上的 SELECT 语句的结果组合到一个结果集合中。多个 SELECT 语句会删除重复的数据。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>MySQL UNION 操作符语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions]<br>UNION [ALL | DISTINCT]<br>SELECT expression1, expression2, ... expression_n<br>FROM tables<br>[WHERE conditions];<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><strong>expression1, expression2, … expression_n</strong>: 要检索的列。</li>
+<li><strong>tables:</strong> 要检索的数据表。</li>
+<li><strong>WHERE conditions:</strong> 可选， 检索条件。</li>
+<li><strong>DISTINCT:</strong> 可选，删除结果集中重复的数据。默认情况下 UNION 操作符已经删除了重复数据，所以 DISTINCT 修饰符对结果没啥影响。</li>
+<li><strong>ALL:</strong> 可选，返回所有结果集，包含重复数据。</li>
+</ul>
+<h2 id="带有-WHERE-的-SQL-UNION-ALL"><a href="#带有-WHERE-的-SQL-UNION-ALL" class="headerlink" title="带有 WHERE 的 SQL UNION ALL"></a>带有 WHERE 的 SQL UNION ALL</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">SELECT country, name FROM Websites<br>WHERE country&#x3D;&#39;CN&#39;<br>UNION ALL<br>SELECT country, app_name FROM apps<br>WHERE country&#x3D;&#39;CN&#39;<br>ORDER BY country;<br><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="MySQL中group-concat函数"><a href="#MySQL中group-concat函数" class="headerlink" title="MySQL中group_concat函数"></a>MySQL中group_concat函数</h2><p>完整的语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">group_concat([DISTINCT] 要连接的字段 [Order BY ASC&#x2F;DESC 排序字段] [Separator &#39;分隔符&#39;])<br></code></pre></td></tr></table></figure>
+
+<h2 id="MySQL猜测语句"><a href="#MySQL猜测语句" class="headerlink" title="MySQL猜测语句"></a>MySQL猜测语句</h2><h3 id="猜数据库"><a href="#猜数据库" class="headerlink" title="猜数据库"></a>猜数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select schema_name from information_schema.schemata <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="猜某库的数据表"><a href="#猜某库的数据表" class="headerlink" title="猜某库的数据表"></a>猜某库的数据表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">select table_name from information_schema.tables where table_schema&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="猜某表的所有列"><a href="#猜某表的所有列" class="headerlink" title="猜某表的所有列"></a>猜某表的所有列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select column_name from information_schema.columns where table_name&#x3D;’xxxxx’ <br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="获取某列的内容"><a href="#获取某列的内容" class="headerlink" title="获取某列的内容"></a>获取某列的内容</h3><figure class="highlight plain"><table><tr><td class="code"><pre><code class="hljs mysql">Select *** from ****<br></code></pre></td></tr></table></figure>
+
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -1857,74 +1964,6 @@
 <p><img src="/2021/01/24/sqllib-18-22/image-20210125173056231.png"></p>
 <p><img src="/2021/01/24/sqllib-18-22/image-20210125173324108.png"></p>
 <p>其余皆与前面相同，就不再说了。</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 32-37</title>
-    <url>/2021/01/27/sqllib-32-37/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>宽字节注入</p>
-<p>Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 </p>
-<p>对宽字节注入的同学应该对这几关的 bypass 方式应该比较了解。我们在此介绍一下宽字节 </p>
-<p>注入的原理和基本用法。 </p>
-<p>原理：mysql 在使用 GBK 编码的时候，会认为两个字符为一个汉字，例如%aa%5c 就是一个 </p>
-<p>汉字（前一个 ascii 码大于 128 才能到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思 </p>
-<p>路是将 ‘ 转换为 \’ （转换的函数或者思路会在每一关遇到的时候介绍）。 </p>
-<p>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路： </p>
-<p>1、%df 吃掉 \ </p>
-<p>具体的原因是 urlencode(‘) = %5c%27，我们在%5c%27 前面添加%df，形 </p>
-<p>成%df%5c%27，而上面提到的 mysql 在 GBK 编码方式的时候会将两个字节当做一个汉字，此 </p>
-<p>事%df%5c 就是一个汉字，%27 则作为一个单独的符号在外面，同时也就达到了我们的目的。 </p>
-<p>2、将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27 的情况，后面的%5c 会被前面的%5c </p>
-<p>给注释掉。这也是 bypass 的一种方法。</p>
-<p>——摘自《mysql注入天书》</p>
-<h1 id="less32"><a href="#less32" class="headerlink" title="less32"></a>less32</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127140209158.png"><span class="image-caption">image-20210127140209158</span></p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127140144979.png"><span class="image-caption">image-20210127140144979</span></p>
-<p>通过%df把\吃掉，可以来看一下源码</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127140412993.png"><span class="image-caption">image-20210127140412993</span></p>
-<p>这里对   /      &#39;                 &quot;       进行了转义，其余同less1，可进行联合注入</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127141119091.png"><span class="image-caption">image-20210127141119091</span></p>
-<h1 id="less33"><a href="#less33" class="headerlink" title="less33"></a>less33</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127143022024.png"><span class="image-caption">image-20210127143022024</span></p>
-<p>我直接换到了less33，发现上一关的payload在这里也能用</p>
-<p>难道这两关完全一模一样，看看源代码</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127144718975.png"><span class="image-caption">image-20210127144718975</span></p>
-<p>这边使用了addslashes（）函数</p>
-<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。 </p>
-<p>预定义字符是： </p>
-<p> </p>
-<p>单引号（’） </p>
-<p> </p>
-<p>双引号（”） </p>
-<p> </p>
-<p>反斜杠（\） </p>
-<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
-<p>那看来和less32本质上是一样的</p>
-<p>那报错试一下好了</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127154417974.png"><span class="image-caption">image-20210127154417974</span></p>
-<h1 id="less34"><a href="#less34" class="headerlink" title="less34"></a>less34</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127172057988.png"><span class="image-caption">image-20210127172057988</span></p>
-<p>登录成功时的界面</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127172127407.png"><span class="image-caption">image-20210127172127407</span></p>
-<p>果然，被转义了</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127172214883.png"><span class="image-caption">image-20210127172214883</span></p>
-<p>用用之前的方法是不行的</p>
-<p>用utf-16也不行都会被转义掉</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127182529013.png"><span class="image-caption">image-20210127182529013</span></p>
-<p>抓包可以实现</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127182612522.png"><span class="image-caption">image-20210127182612522</span></p>
-<p>万能密码也可用了，payload和前面相同</p>
-<h1 id="less35"><a href="#less35" class="headerlink" title="less35"></a>less35</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127183650679.png"><span class="image-caption">image-20210127183650679</span></p>
-<p>数字型注入，和less33相似</p>
-<h1 id="less36"><a href="#less36" class="headerlink" title="less36"></a>less36</h1><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">check_quotes</span>(<span class="hljs-params">$string</span>)</span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br><br>  $string= mysql_real_escape_string($string);  <br><br>  <span class="hljs-keyword">return</span> $string;<br><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>标题也写了</p>
-<p>下列字符受影响： </p>
-<p> \x00  \n  \r  \  ‘  “  \x1a</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127195942164.png"><span class="image-caption">image-20210127195942164</span></p>
-<p>但是同样的方法还是可以用的</p>
-<h1 id="less37"><a href="#less37" class="headerlink" title="less37"></a>less37</h1><p>和less34的情况下，我这边只有在抓包的情况下才能实现注入，这边的过滤函数同less36</p>
-<p><img src="/2021/01/27/sqllib-32-37/image-20210127210402092.png"><span class="image-caption">image-20210127210402092</span></p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -2128,6 +2167,125 @@
       </tags>
   </entry>
   <entry>
+    <title>sqllib 32-37</title>
+    <url>/2021/01/27/sqllib-32-37/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>宽字节注入</p>
+<p>Less-32,33,34,35,36,37 六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 </p>
+<p>对宽字节注入的同学应该对这几关的 bypass 方式应该比较了解。我们在此介绍一下宽字节 </p>
+<p>注入的原理和基本用法。 </p>
+<p>原理：mysql 在使用 GBK 编码的时候，会认为两个字符为一个汉字，例如%aa%5c 就是一个 </p>
+<p>汉字（前一个 ascii 码大于 128 才能到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思 </p>
+<p>路是将 ‘ 转换为 \’ （转换的函数或者思路会在每一关遇到的时候介绍）。 </p>
+<p>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路： </p>
+<p>1、%df 吃掉 \ </p>
+<p>具体的原因是 urlencode(‘) = %5c%27，我们在%5c%27 前面添加%df，形 </p>
+<p>成%df%5c%27，而上面提到的 mysql 在 GBK 编码方式的时候会将两个字节当做一个汉字，此 </p>
+<p>事%df%5c 就是一个汉字，%27 则作为一个单独的符号在外面，同时也就达到了我们的目的。 </p>
+<p>2、将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27 的情况，后面的%5c 会被前面的%5c </p>
+<p>给注释掉。这也是 bypass 的一种方法。</p>
+<p>——摘自《mysql注入天书》</p>
+<h1 id="less32"><a href="#less32" class="headerlink" title="less32"></a>less32</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127140209158.png"><span class="image-caption">image-20210127140209158</span></p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127140144979.png"><span class="image-caption">image-20210127140144979</span></p>
+<p>通过%df把\吃掉，可以来看一下源码</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127140412993.png"><span class="image-caption">image-20210127140412993</span></p>
+<p>这里对   /      &#39;                 &quot;       进行了转义，其余同less1，可进行联合注入</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127141119091.png"><span class="image-caption">image-20210127141119091</span></p>
+<h1 id="less33"><a href="#less33" class="headerlink" title="less33"></a>less33</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127143022024.png"><span class="image-caption">image-20210127143022024</span></p>
+<p>我直接换到了less33，发现上一关的payload在这里也能用</p>
+<p>难道这两关完全一模一样，看看源代码</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127144718975.png"><span class="image-caption">image-20210127144718975</span></p>
+<p>这边使用了addslashes（）函数</p>
+<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。 </p>
+<p>预定义字符是： </p>
+<p> </p>
+<p>单引号（’） </p>
+<p> </p>
+<p>双引号（”） </p>
+<p> </p>
+<p>反斜杠（\） </p>
+<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
+<p>那看来和less32本质上是一样的</p>
+<p>那报错试一下好了</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127154417974.png"><span class="image-caption">image-20210127154417974</span></p>
+<h1 id="less34"><a href="#less34" class="headerlink" title="less34"></a>less34</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127172057988.png"><span class="image-caption">image-20210127172057988</span></p>
+<p>登录成功时的界面</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127172127407.png"><span class="image-caption">image-20210127172127407</span></p>
+<p>果然，被转义了</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127172214883.png"><span class="image-caption">image-20210127172214883</span></p>
+<p>用用之前的方法是不行的</p>
+<p>用utf-16也不行都会被转义掉</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127182529013.png"><span class="image-caption">image-20210127182529013</span></p>
+<p>抓包可以实现</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127182612522.png"><span class="image-caption">image-20210127182612522</span></p>
+<p>万能密码也可用了，payload和前面相同</p>
+<h1 id="less35"><a href="#less35" class="headerlink" title="less35"></a>less35</h1><p><img src="/2021/01/27/sqllib-32-37/image-20210127183650679.png"><span class="image-caption">image-20210127183650679</span></p>
+<p>数字型注入，和less33相似</p>
+<h1 id="less36"><a href="#less36" class="headerlink" title="less36"></a>less36</h1><figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">check_quotes</span>(<span class="hljs-params">$string</span>)</span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br><br>  $string= mysql_real_escape_string($string);  <br><br>  <span class="hljs-keyword">return</span> $string;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>标题也写了</p>
+<p>下列字符受影响： </p>
+<p> \x00  \n  \r  \  ‘  “  \x1a</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127195942164.png"><span class="image-caption">image-20210127195942164</span></p>
+<p>但是同样的方法还是可以用的</p>
+<h1 id="less37"><a href="#less37" class="headerlink" title="less37"></a>less37</h1><p>和less34的情况下，我这边只有在抓包的情况下才能实现注入，这边的过滤函数同less36</p>
+<p><img src="/2021/01/27/sqllib-32-37/image-20210127210402092.png"><span class="image-caption">image-20210127210402092</span></p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqllib 46-53</title>
+    <url>/2021/01/28/sqllib-46-53/</url>
+    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
+<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
+<p>题目给了提示</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
+<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
+<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
+<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
+<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
+<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
+<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
+<p>布尔注入的来一个</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
+<p>延时的话我就不截图了，留个payload好了</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
+
+<p>正确直接回显，错误。。。。诶这个报错有意思</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
+<p>执行时间最大值30s还行这个错误不大影响注入</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
+<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
+<p>丢个文件试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
+<p>！！！！！貌似没有权限的样子，查一个权限</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
+<p>我有权限啊.jpg</p>
+<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
+<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
+<p>要不再丢一次试试？</p>
+<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
+<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
+<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
+<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
+<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
+<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
+<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
+<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
+<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqllib 54-65 以及总结</title>
     <url>/2021/01/29/sqllib-54-65/</url>
     <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p>收拾一下，可以准备完结撒花了✿✿ヽ(°▽°)ノ✿</p>
@@ -2208,57 +2366,6 @@
 <p><a href="http://127.0.0.1/sqllib/Less-9/?id=1&#39;and">http://127.0.0.1/sqllib/Less-9/?id=1&#39;and</a> If(ascii(substr((select username from users limit 0,1),1,1))=68,1,sleep(5))–+</p>
 <h3 id="less10"><a href="#less10" class="headerlink" title="less10"></a>less10</h3><p>也就是在less9 基础上将单引号改成双引号</p>
 <p>这两关在正确时直接回显，错误时进行延时加载</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 46-53</title>
-    <url>/2021/01/28/sqllib-46-53/</url>
-    <content><![CDATA[<h6 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h6><p><del>太感人了，终于打到这了</del>，这边是order by 后的注入以及 limit 注入</p>
-<h1 id="less46"><a href="#less46" class="headerlink" title="less46"></a>less46</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129212635235.png"></p>
-<p>题目给了提示</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212618186.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129212810068.png"></p>
-<p>此处可以直接构造 ?sort= 后面的一个参数。此时，我们可以有三种形式， </p>
-<p>①直接添加注入语句，?sort=(select <strong>**</strong>) </p>
-<p>②利用一些函数。例如 rand()函数等。?sort=rand(sql 语句) </p>
-<p>Ps：此处我们可以展示一下 rand(ture)和 rand(false)的结果是不一样的。【　SQL 有一个 <strong>RAND</strong> 函数，用于产生 0 至 1 之间的随机数：】</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213016978.png"></p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129213043736.png"></p>
-<p>③利用 and，例如?sort=1 and (加 sql 语句)。 </p>
-<p>同时，sql 语句可以利用报错注入和延时注入的方式，语句我们可以很灵活的构造。 </p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129222855448.png"></p>
-<p>布尔注入的来一个</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225428694.png"></p>
-<p>延时的话我就不截图了，留个payload好了</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1</span>/sqllib/Less-<span class="hljs-number">46</span>/?sort=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>and%<span class="hljs-number">20</span>if(left(database(),<span class="hljs-number">1</span>)%<span class="hljs-number">3</span>E%<span class="hljs-number">27</span>s%<span class="hljs-number">27</span>,<span class="hljs-number">1</span>,sleep(<span class="hljs-number">5</span>))--+<br></code></pre></td></tr></table></figure>
-
-<p>正确直接回显，错误。。。。诶这个报错有意思</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129225828902.png"></p>
-<p>执行时间最大值30s还行这个错误不大影响注入</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230639794.png"></p>
-<p>试一下procedure analyse 参数后注入，里面嵌入报错注入语句</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129230848591.png"></p>
-<p>丢个文件试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231458180.png"></p>
-<p>！！！！！貌似没有权限的样子，查一个权限</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129231832953.png"></p>
-<p>我有权限啊.jpg</p>
-<p>英语不好是我的问题，是我的问题，这个errcode：22貌似是个bug？？？</p>
-<h1 id="less47"><a href="#less47" class="headerlink" title="less47"></a>less47</h1><p>从数字型注入换成‘</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129234118261.png"></p>
-<p>要不再丢一次试试？</p>
-<p><img src="/2021/01/28/sqllib-46-53/image-20210129233204538.png"></p>
-<p>这波直接写面上了，去文件夹里还真没找到这个文件</p>
-<h1 id="less48"><a href="#less48" class="headerlink" title="less48"></a>less48</h1><p><img src="/2021/01/28/sqllib-46-53/image-20210129233459094.png"></p>
-<p>这关不会回显报错信息，看起来也是不成功了，其余同less46</p>
-<h1 id="less49"><a href="#less49" class="headerlink" title="less49"></a>less49</h1><p>无报错回显，其余同less47</p>
-<h1 id="less50"><a href="#less50" class="headerlink" title="less50"></a>less50</h1><p>order by stacked injection！我觉得这关的性质像less38——less45，先用；闭合前面sort查询语句，之后在写修改数据库的语句</p>
-<h1 id="less51"><a href="#less51" class="headerlink" title="less51"></a>less51</h1><p>从less50到less51也就多了个‘的区别</p>
-<h1 id="less52"><a href="#less52" class="headerlink" title="less52"></a>less52</h1><p>注入方式同less50；无报错回显</p>
-<h1 id="less53"><a href="#less53" class="headerlink" title="less53"></a>less53</h1><p>注入方式同less51；无报错回显</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -2504,37 +2611,6 @@
       </tags>
   </entry>
   <entry>
-    <title>“Python 文件操作</title>
-    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
-
-<p>此时在文件夹中即可见一个名为test的txt文件</p>
-<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
-
-<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
-
-<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
-
-<p>若不在同一目录，则在原文件名前加上路径</p>
-]]></content>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于PHP</title>
     <url>/2020/10/09/%E5%85%B3%E4%BA%8EPHP/</url>
     <content><![CDATA[<p>PHP 是一门弱类型语言，对新手来说还是很友好的。</p>
@@ -2594,6 +2670,37 @@
 ]]></content>
       <tags>
         <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>“Python 文件操作</title>
+    <url>/2020/10/16/%E2%80%9Cpython-%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="打开一个txt文件"><a href="#打开一个txt文件" class="headerlink" title="打开一个txt文件"></a>打开一个txt文件</h2><p>先新建一个文件夹，在其中新建一个空的Python文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-comment">#w为打开文件的模式，只用于写入。若文件存在则打开文件并清空原有内容，若不存在则创建新文件。</span><br></code></pre></td></tr></table></figure>
+
+<p>此时在文件夹中即可见一个名为test的txt文件</p>
+<h2 id="查看文件属性"><a href="#查看文件属性" class="headerlink" title="查看文件属性"></a>查看文件属性</h2><h3 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>print(<span class="hljs-string">&#x27;文件名称;&#x27;</span>,file.name)<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br>print(<span class="hljs-string">&#x27;文件访问模式：&#x27;</span>,file.mode)<br></code></pre></td></tr></table></figure>
+
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">文件名称; test.txt<br>文件是否关闭： <span class="hljs-literal">False</span><br>文件访问模式： w<br></code></pre></td></tr></table></figure>
+
+<h2 id="关闭一个txt文件"><a href="#关闭一个txt文件" class="headerlink" title="关闭一个txt文件"></a>关闭一个txt文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br><br>file.close()<br>print(<span class="hljs-string">&#x27;文件是否关闭：&#x27;</span>,file.closed)<br><br><span class="hljs-comment">#显示结果：文件是否关闭： True</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件路径"><a href="#文件路径" class="headerlink" title="文件路径"></a>文件路径</h2><p>如果要打开的文件在另外的目录里，那么</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#r表示只读文件，不能写文件；\\可用/代替</span><br></code></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">r&#x27;D:\111\test.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-comment">#加上r的目的是不让反斜杠转义</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">file = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>s=file.read()<br>print(<span class="hljs-string">&#x27;文件内容是：\n&#x27;</span>,s)<br><br>文件内容是：<br> <span class="hljs-number">123456789</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = open(<span class="hljs-string">&quot;D:\\111\\test.txt&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)<br>f.write(<span class="hljs-string">&quot;123456789&quot;</span>) <span class="hljs-comment">#写入文件</span><br>f.close <span class="hljs-comment">#关闭文件</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="修改文件名、删除文件"><a href="#修改文件名、删除文件" class="headerlink" title="修改文件名、删除文件"></a>修改文件名、删除文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#rename(&quot;原来的文件名&quot;,&quot;要修改的名字&quot;)</span><br>os.rename(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;t.txt&quot;</span>)<br><span class="hljs-comment">#remove(&quot;已修改的文件名&quot;) 删除文件</span><br>os.remove(<span class="hljs-string">&quot;t.txt&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>若不在同一目录，则在原文件名前加上路径</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
