@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>buu-14 - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="[watevrCTF 2019]Unspaellabl...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
+      
+    </div>
+    <div class="center">buu-14</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">buu-14</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>August 12, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1425</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="watevrCTF-2019-Unspaellablle"><a href="#watevrCTF-2019-Unspaellablle" class="headerlink" title="[watevrCTF 2019]Unspaellablle"></a>[watevrCTF 2019]Unspaellablle</h1><p>很难想象，这个文本是电影脚本</p>
+<p>找到原文进行比对，多出的字符就是flag</p>
+<p><img   class="lazyload" data-original="https://img-blog.csdnimg.cn/20201023132635203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ppcHBvMTIzNA==,size_16,color_FFFFFF,t_70#pic_center" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">img</span></p>
+<h1 id="INSHack2018-Spreadshit"><a href="#INSHack2018-Spreadshit" class="headerlink" title="[INSHack2018]Spreadshit"></a>[INSHack2018]Spreadshit</h1><p>选中表格当中有空格的格子，全选就可以看见flag</p>
+<h1 id="羊城杯-2020-image-rar"><a href="#羊城杯-2020-image-rar" class="headerlink" title="[羊城杯 2020]image_rar"></a>[羊城杯 2020]image_rar</h1><p>蛮有意思的，给的mp4其实是一个zip文件</p>
+<p><img   class="lazyload" data-original="/2021/08/12/buu-14/image-20210813140213122.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210813140213122</span></p>
+<p>，然后压缩包里有一个假图片（rar）</p>
+<p>使用rar2hash获取hash值，然后用hashcat爆破（为什么用hashcat，因为ARCHPR无法对rar5的压缩包进行爆破</p>
+<p><img   class="lazyload" data-original="/2021/08/12/buu-14/image-20210813140254803.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210813140254803</span></p>
+<p>这是一个漫长的故事</p>
+<p><img   class="lazyload" data-original="/2021/08/12/buu-14/image-20210813153214530.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210813153214530</span></p>
+<p>然后获得密码解出来，把文件加上png后缀即可</p>
+<h1 id="CTF2019-babyflash"><a href="#CTF2019-babyflash" class="headerlink" title="[*CTF2019]babyflash"></a>[*CTF2019]babyflash</h1><p>用  JPEXS Free Flash Decompiler 打开，附上链接<a target="_blank" rel="noopener" href="https://github.com/jindrapetrik/jpexs-decompiler/releases">https://github.com/jindrapetrik/jpexs-decompiler/releases</a></p>
+<p>用一堆黑白块加一个音频</p>
+<p><img   class="lazyload" data-original="/2021/08/12/buu-14/image-20210813151112721.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210813151112721</span></p>
+<p>在音频里喜提半个flag</p>
+<p>黑白方块拿脚本拼一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> listdir<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>dirlist = listdir(<span class="hljs-string">&#x27;path&#x27;</span>)<br>dirlist.sort(key=<span class="hljs-keyword">lambda</span> x:int(x.split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))<br>qrdata = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dirlist:<br>    imgname = <span class="hljs-string">&#x27;path&#x27;</span> + <span class="hljs-string">&#x27;\\&#x27;</span>+i<br>    img = Image.open(imgname)<br>    img = img.load()<br>    <span class="hljs-keyword">if</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>):<br>        qrdata += <span class="hljs-string">&#x27;1&#x27;</span><br>    <span class="hljs-keyword">elif</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>):<br>        qrdata += <span class="hljs-string">&#x27;0&#x27;</span><br>print(qrdata)<br><br>width=height=<span class="hljs-number">21</span><br>new_img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(width,height))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(width):<br>    <span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> range(height):<br>        <span class="hljs-keyword">if</span> qrdata[i] == <span class="hljs-string">&#x27;1&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>        <span class="hljs-keyword">elif</span> qrdata[i] == <span class="hljs-string">&#x27;0&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>))<br>        i += <span class="hljs-number">1</span><br><br>new_img.save(<span class="hljs-string">&#x27;flag.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2021/08/12/buu-14/image-20210813192901884.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210813192901884</span></p>
+<p>扫一扫，拼一下之前半个flag，然后buu有个奇怪的bug，最后成功提交的flag为<strong>flag{halfflag&amp;&amp;_the_rest}</strong></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2021/08/12/buu-14/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;08&#x2F;12&#x2F;buu-14&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;08&#x2F;12&#x2F;buu-14&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/08/06/buu-13/">buu-13<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#watevrCTF-2019-Unspaellablle"><span class="toc-text">[watevrCTF 2019]Unspaellablle</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#INSHack2018-Spreadshit"><span class="toc-text">[INSHack2018]Spreadshit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BE%8A%E5%9F%8E%E6%9D%AF-2020-image-rar"><span class="toc-text">[羊城杯 2020]image_rar</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF2019-babyflash"><span class="toc-text">[*CTF2019]babyflash</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
