@@ -184,13 +184,13 @@ im...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu-13</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>August 06, 2021</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5881</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5882</span>
     </div>
   </div>
 </section>
@@ -254,7 +254,7 @@ im...">
 <p>仔细观察一下可以发现这里通过（：）分隔user和pass，用（@）分隔ip和主机名</p>
 <p><img   class="lazyload" data-original="/2021/08/06/buu-13/image-20210810211826442.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20210810211826442</span></p>
 <p>这里127.0.0.1之前没有添加@</p>
-<p>传入的URL可以为http://@127.0.0.1:<a href="mailto:&#56;&#x30;&#64;&#98;&#97;&#105;&#100;&#117;&#x2e;&#99;&#x6f;&#x6d;">&#56;&#x30;&#64;&#98;&#97;&#105;&#100;&#117;&#x2e;&#99;&#x6f;&#x6d;</a>，那么进入 safe_request_url检测之后 parse_url取到的host是baidu.com。</p>
+<p>传入的URL可以为http://@127.0.0.1:<a href="mailto:&#x38;&#x30;&#x40;&#98;&#97;&#105;&#x64;&#x75;&#46;&#99;&#111;&#x6d;">&#x38;&#x30;&#x40;&#98;&#97;&#105;&#x64;&#x75;&#46;&#99;&#111;&#x6d;</a>，那么进入 safe_request_url检测之后 parse_url取到的host是baidu.com。</p>
 <p>at符号（@）在PHP中用作错误控制操作符。当表达式附加@符号时，将忽略该表达式可能生成的错误消息。</p>
 <p>在这里@是登录名与主机名的分隔符，符号的左边是对方的登录名，右边是完整的主机名，它由主机名与域名组成。</p>
 <p>这里检查的ip是百度的ip但是在实际执行的ip则是127.0.0.1，从而成功读取flag.php，而在127.0.0.1前加一个@就是为了在后面执行程序的时候能够成功访问靶机。</p>
