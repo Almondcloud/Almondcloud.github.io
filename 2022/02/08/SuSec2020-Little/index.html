@@ -11,7 +11,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   
-  
+  <meta name="description" content="听完课觉得这题蛮有意思，复现一下
+image-2022...">
   <meta name="author" content="Almond">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -183,19 +184,35 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image9.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image5.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">SuSec2020-Little</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 08, 2022</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>0</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>434</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
-        
+        <p>听完课觉得这题蛮有意思，复现一下</p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220208203249920.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220208203249920</span></p>
+<p>开局先binwalk，发现有图片</p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220208203331099.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220208203331099</span></p>
+<p>这是给了部分flag</p>
+<p>同时仔细观察可以发现，binwalk中有一个kgb文件，搜一下</p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220208203742167.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220208203742167</span></p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220208204107518.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220208204107518</span></p>
+<p>用diskgenius打开题目给的镜像文件，发现kgb文件</p>
+<p>下了一个kgb解压，<del>这是一个漫长的故事，不要去下msi，整一个exe不香吗</del></p>
+<p>解压完有一个ogg文件，直接播放就可以听到第一部分的flag</p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220209152014537.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220209152014537</span></p>
+<p>strings找到第三部分 thirdf.mp4</p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220208233059775.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220208233059775</span></p>
+<p><img   class="lazyload" data-original="/2022/02/08/SuSec2020-Little/image-20220209152050397.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220209152050397</span></p>
+<p>使用winhex对视频进行恢复，tool -&gt;磁盘工具-&gt; 根据文件类型恢复文件，然后很奇怪我用腾讯视频才把文件打开</p>
+
       </section>
       <section class="extra">
         
@@ -209,6 +226,8 @@
         
         
         
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forenics/" rel="tag">Forenics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul> 
+
         
   <nav class="nav">
     <a></a>
