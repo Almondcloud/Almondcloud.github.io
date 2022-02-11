@@ -11,7 +11,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   
-  
+  <meta name="description" content="由于这周啥也不会，一下内容基本是复现（好菜啊啊
+WEB...">
   <meta name="author" content="Almond">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -183,19 +184,37 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image7.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">hgame-week2</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 04, 2022</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>0</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1446</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
-        
+        <p><del>由于这周啥也不会，一下内容基本是复现（好菜啊啊</del></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="一张怪怪的名片"><a href="#一张怪怪的名片" class="headerlink" title="一张怪怪的名片"></a>一张怪怪的名片</h2><p>这是一个拼二维码的环节，ps拼一下，然后扫一下，然后</p>
+<p>扫不出来，（是的这里二维码有破损，用qrazybox识别</p>
+<p>这里需要先new一个，然后选择导入图片，注意：这里的图要尽量只有二维码</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/UI%5BF%5BXBH1HJ%5D%5D_Y50%5D7OV05.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">img</span></p>
+<p>导入成功后会得到以下内容</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220211231526815.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220211231526815</span></p>
+<p>勉强识别出homeboyc那就上百度搜索，但是关停了，看wp发现这是一个社工+弱密码的操作，那这里就不再说了。</p>
+<h2 id="你上当了-我的很大"><a href="#你上当了-我的很大" class="headerlink" title="你上当了 我的很大"></a>你上当了 我的很大</h2><p>这是一个巨大的压缩包，以至于我怀疑它是一道内存取证的题目，事实上是个套娃</p>
+<p><del>首先我们需要打开压缩包然后一直打开，然后会发现flag(.mp4,然后多试几个就会发现是一样的，然而这个视频里什么都没有</del></p>
+<p>首先我们需要一个脚本，然后解压完所有压缩包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> ctypes,sys<br><span class="hljs-keyword">import</span> shutil<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unzip_file</span>(<span class="hljs-params">path</span>):</span><span class="hljs-comment"># &#x27;&#x27;&#x27;解压zip包&#x27;&#x27;&#x27;</span><br>    <span class="hljs-keyword">if</span> os.path.exists(path):<br>        <span class="hljs-keyword">if</span> path.endswith(<span class="hljs-string">&#x27;.zip&#x27;</span>):<br>            print(<span class="hljs-string">&#x27;unziping&#x27;</span>,path)<br>            z = zipfile.ZipFile(path, <span class="hljs-string">&#x27;r&#x27;</span>)<br>            unzip_path = os.path.split(path)[<span class="hljs-number">0</span>]<br>            z.extractall(path=unzip_path)<br>            zip_list = z.namelist() <span class="hljs-comment"># 返回解压后的所有文件夹和文件</span><br>            z.close() <span class="hljs-comment"># 本题文件过大，故添加本句删除，空间大请删除本句，避免权限问题</span><br>            os.remove(path)<br>            <span class="hljs-keyword">for</span> zip_file <span class="hljs-keyword">in</span> zip_list:<br>                new_path = os.path.join(unzip_path,zip_file)<br>                unzip_file(new_path)<br>        <span class="hljs-keyword">elif</span> os.path.isdir(path):<br>            <span class="hljs-keyword">for</span> file_name <span class="hljs-keyword">in</span> os.listdir(path):<br>                unzip_file(os.path.join(path, file_name))<br>        <span class="hljs-keyword">else</span>:<br>            print(<span class="hljs-string">&#x27;the path is not exist!!!&#x27;</span>)<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    zip_path = <span class="hljs-string">r&#x27;C:\Users\\0.zip&#x27;</span><br>    unzip_file(zip_path)<br></code></pre></td></tr></table></figure>
+
+<p>然后会发现有三个视频</p>
+<p>另外两个播放的时候就可以看到</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/XM%5DPZ%5BADT_3Y_D1TRR3E4W7.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">img</span></p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220211232813089.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220211232813089</span></p>
+<p>扫一下是base64，再加上题目给了两个类似的码，然后可以得到四块二维码的一部分，拼起来即可</p>
+
       </section>
       <section class="extra">
         
@@ -209,6 +228,8 @@
         
         
         
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul> 
+
         
   <nav class="nav">
     <a href="/2022/02/04/hgame-week3/"><i class="iconfont iconleft"></i>hgame-week3</a>
@@ -225,7 +246,7 @@
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-text">WEB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%BC%A0%E6%80%AA%E6%80%AA%E7%9A%84%E5%90%8D%E7%89%87"><span class="toc-text">一张怪怪的名片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E4%B8%8A%E5%BD%93%E4%BA%86-%E6%88%91%E7%9A%84%E5%BE%88%E5%A4%A7"><span class="toc-text">你上当了 我的很大</span></a></li></ol></li></ol>
   </aside>
 
         
