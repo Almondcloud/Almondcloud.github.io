@@ -184,20 +184,56 @@ WEB...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">hgame-week2</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 04, 2022</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1446</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2517</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
         <p><del>由于这周啥也不会，一下内容基本是复现（好菜啊啊</del></p>
-<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="一张怪怪的名片"><a href="#一张怪怪的名片" class="headerlink" title="一张怪怪的名片"></a>一张怪怪的名片</h2><p>这是一个拼二维码的环节，ps拼一下，然后扫一下，然后</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="Pokemon"><a href="#Pokemon" class="headerlink" title="Pokemon"></a>Pokemon</h2><p>好的我知道是sql注入，but这个在错误页面进行注入着实没有想到<del>（太菜了见得少了，id处相当牢靠了</del></p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213193937066.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213193937066</span></p>
+<p>出现报错,getStatusMessage只支持整数类型参数</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213195153985.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213195153985</span></p>
+<p>order和空格被过滤，空格的话通过/* */，也就是注释，把空格注释掉</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">error.php?code=1<span class="hljs-comment">/*%20*/</span>oorrder<span class="hljs-comment">/*%20*/</span>by<span class="hljs-comment">/*%20*/</span>2<br></code></pre></td></tr></table></figure>
+
+<p>2的时候可以正确得到回显，3的时候显示报错，说明有两个字段</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213201520659.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213201520659</span></p>
+<p>好家伙全给过滤了，双写试试</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213201619118.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213201619118</span></p>
+<p>测试成功，开工</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213202040286.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213202040286</span></p>
+<p>当前使用数据库为pokemon</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213202909256.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213202909256</span></p>
+<p>再次过滤，估计都过滤了，最后发现=被过滤了，用regexp代替</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213203841436.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213203841436</span></p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213203950043.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213203950043</span></p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220213204448794.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220213204448794</span></p>
+<p>剩下就是常规注入了，这题的难度我估计就在找注入点了，然后通过双写，大小写进行绕过，=可以通过regexp（正则匹配）或like（匹配整个值）进行替换，空格的话由于/**/被过滤，所以往中间放一点字符就行</p>
+<h2 id="At0m的留言板"><a href="#At0m的留言板" class="headerlink" title="At0m的留言板"></a>At0m的留言板</h2><p>xss漏洞，由于题目说在图片留言的兼容性测试</p>
+<p>测试模板中有个用户留言内容，类名为content，对这里进行xss攻击</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220217211556031.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217211556031</span></p>
+<h3 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h3><p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220217143026346.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217143026346</span></p>
+<p>点开如下</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220215170552002.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220215170552002</span></p>
+<h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>flag是通过var声明，列出所有全局变量</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">document.get<span class="hljs-constructor">ElementsByClassName(&#x27;<span class="hljs-params">content</span>)</span><span class="hljs-literal">[<span class="hljs-number">0</span>]</span>.innerText=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Object</span>.</span></span>keys(window)<br></code></pre></td></tr></table></figure>
+
+<p>把innerText的内容换成flag得到</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220217221105302.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217221105302</span></p>
+<p>然后通过xss触发</p>
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220217221236378.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217221236378</span></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=<span class="hljs-string">&quot;document.getElementsByClassName(&#x27;content&#x27;)[0].innerText=F149_is_Here&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/image-20220217221424012.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217221424012</span></p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="一张怪怪的名片"><a href="#一张怪怪的名片" class="headerlink" title="一张怪怪的名片"></a>一张怪怪的名片</h2><p>这是一个拼二维码的环节，ps拼一下，然后扫一下，然后</p>
 <p>扫不出来，（是的这里二维码有破损，用qrazybox识别</p>
 <p>这里需要先new一个，然后选择导入图片，注意：这里的图要尽量只有二维码</p>
 <p><img   class="lazyload" data-original="/2022/02/04/hgame-week2/UI%5BF%5BXBH1HJ%5D%5D_Y50%5D7OV05.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">img</span></p>
@@ -246,7 +282,7 @@ WEB...">
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-text">WEB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%BC%A0%E6%80%AA%E6%80%AA%E7%9A%84%E5%90%8D%E7%89%87"><span class="toc-text">一张怪怪的名片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E4%B8%8A%E5%BD%93%E4%BA%86-%E6%88%91%E7%9A%84%E5%BE%88%E5%A4%A7"><span class="toc-text">你上当了 我的很大</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pokemon"><span class="toc-text">Pokemon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#At0m%E7%9A%84%E7%95%99%E8%A8%80%E6%9D%BF"><span class="toc-text">At0m的留言板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E9%A2%84%E6%9C%9F%E8%A7%A3"><span class="toc-text">非预期解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E6%9C%9F%E8%A7%A3"><span class="toc-text">预期解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%BC%A0%E6%80%AA%E6%80%AA%E7%9A%84%E5%90%8D%E7%89%87"><span class="toc-text">一张怪怪的名片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E4%B8%8A%E5%BD%93%E4%BA%86-%E6%88%91%E7%9A%84%E5%BE%88%E5%A4%A7"><span class="toc-text">你上当了 我的很大</span></a></li></ol></li></ol>
   </aside>
 
         
