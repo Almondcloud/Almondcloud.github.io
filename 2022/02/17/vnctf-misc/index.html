@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vnctf-misc - Almond&#39;s Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="仔细找找ps缩放比例，尝试了好久，后来选择了硬看，看到...">
+  <meta name="author" content="Almond">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '听   说   你   在   看   我   博   客   ？',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: false,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: true,
+        path: 'search.xml'
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+        <i class="iconfont iconsearch j-navbar-search"></i>
+      
+    </div>
+    <div class="center">vnctf-misc</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image2.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">vnctf-misc</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>February 17, 2022</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1275</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="仔细找找"><a href="#仔细找找" class="headerlink" title="仔细找找"></a>仔细找找</h1><p>ps缩放比例，尝试了好久，后来选择了硬看，看到官方wp的我。。。。。。。。。。。。。。。。。。。。。。。</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220217232146199.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220217232146199</span></p>
+<p><del>（这也可以？？</del></p>
+<p>别的师傅感觉都是提取像素点做的，找了一个脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image,ImageDraw<br><br>image = Image.open(<span class="hljs-string">&quot;flag.png&quot;</span>)<br><br>Line=[]<br>Row=[]<br><br>black=image.getpixel((<span class="hljs-number">0</span>,<span class="hljs-number">0</span>))<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(image.height<span class="hljs-number">-1</span>):<br>    <span class="hljs-keyword">if</span>(image.getpixel((<span class="hljs-number">24</span>,i))!=black):<br>        Row.append(i)<br>        print(Row)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(image.width<span class="hljs-number">-1</span>):<br>    <span class="hljs-keyword">if</span>(image.getpixel((i,<span class="hljs-number">15</span>))!=black):<br>        Line.append(i)<br><br>ret = Image.new(<span class="hljs-string">&#x27;RGB&#x27;</span>, (len(Line), len(Row)) )<br>draw = ImageDraw.Draw(ret)<br><br><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(len(Line)<span class="hljs-number">-1</span>):<br>    <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> range(len(Row)<span class="hljs-number">-1</span>):<br>        draw.point((x, y), fill=image.getpixel((Line[x],Row[y]))) <br><br>ret.show()<br>ret.save(<span class="hljs-string">&#x27;result.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>24 和15的选择是避免中间其他颜色的干扰</p>
+<h1 id="Strange-flag"><a href="#Strange-flag" class="headerlink" title="Strange flag"></a>Strange flag</h1><p>很难想到这个flag，竟然，是一个目录</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220218154427192.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220218154427192</span></p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220218154236046.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220218154236046</span></p>
+<p><del>（论使用搜索引擎的重要性，亏我一脑子的哈夫曼）</del>，找一个脚本，</p>
+<p>或者手撕，这里参考了套神的操作：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42880719/article/details/122903690">https://blog.csdn.net/qq_42880719/article/details/122903690</a></p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220218154552820.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220218154552820</span></p>
+<p>八个一位就可以拿到flag</p>
+<h1 id="simple-macos"><a href="#simple-macos" class="headerlink" title="simple macos"></a>simple macos</h1><p>听说用取证大师做比较丝滑，but。。。我是一个试用期没申请成的选手</p>
+<p>看看wp</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220223131922584.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220223131922584</span></p>
+<p>邮件里说</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220224185824640.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220224185824640</span></p>
+<p>这里我直接改成了html格式，然后在firefox打开，然后顺着线索，</p>
+<p>在system中</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220224190330445.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220224190330445</span></p>
+<p>找到用户的图片</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220224190221035.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220224190221035</span></p>
+<p>把这张图导出，用010开</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220223162711294.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220223162711294</span></p>
+<p>把后半部分的flag删掉用oursecret打开，密码这里考的是弱密码123456</p>
+<p><img   class="lazyload" data-original="/2022/02/17/vnctf-misc/image-20220223162909505.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220223162909505</span></p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Almond</li>
+    <li><strong>本文链接：</strong><a href="http://example.com/2022/02/17/vnctf-misc/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;02&#x2F;17&#x2F;vnctf-misc&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;02&#x2F;17&#x2F;vnctf-misc&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2022/02/11/hgame-week4/">hgame-week4<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%94%E7%BB%86%E6%89%BE%E6%89%BE"><span class="toc-text">仔细找找</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Strange-flag"><span class="toc-text">Strange flag</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#simple-macos"><span class="toc-text">simple macos</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=695134722 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Almondcloud "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:695134722@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#5F9EA0" 
+        onMouseOut="this.style.color='#556B2F'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>© 2021 Almond | Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+    <div class="search">
+  <div class="search-container">
+    <div class="search-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <div class="search-input-wrapper">
+      <i class="search-input-icon iconfont iconsearch"></i>
+      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
+        autocorrect="off" autocapitalize="off">
+    </div>
+    <div class="search-output" id="search-output"></div>
+  </div>
+</div>
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
