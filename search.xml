@@ -552,7 +552,7 @@
 <p>仔细观察一下可以发现这里通过（：）分隔user和pass，用（@）分隔ip和主机名</p>
 <p><img src="/2021/08/06/buu-13/image-20210810211826442.png"><span class="image-caption">image-20210810211826442</span></p>
 <p>这里127.0.0.1之前没有添加@</p>
-<p>传入的URL可以为http://@127.0.0.1:<a href="mailto:&#x38;&#48;&#64;&#x62;&#x61;&#105;&#100;&#117;&#46;&#99;&#x6f;&#x6d;">&#x38;&#48;&#64;&#x62;&#x61;&#105;&#100;&#117;&#46;&#99;&#x6f;&#x6d;</a>，那么进入 safe_request_url检测之后 parse_url取到的host是baidu.com。</p>
+<p>传入的URL可以为http://@127.0.0.1:<a href="mailto:&#x38;&#48;&#64;&#98;&#x61;&#x69;&#x64;&#x75;&#x2e;&#99;&#111;&#109;">&#x38;&#48;&#64;&#98;&#x61;&#x69;&#x64;&#x75;&#x2e;&#99;&#111;&#109;</a>，那么进入 safe_request_url检测之后 parse_url取到的host是baidu.com。</p>
 <p>at符号（@）在PHP中用作错误控制操作符。当表达式附加@符号时，将忽略该表达式可能生成的错误消息。</p>
 <p>在这里@是登录名与主机名的分隔符，符号的左边是对方的登录名，右边是完整的主机名，它由主机名与域名组成。</p>
 <p>这里检查的ip是百度的ip但是在实际执行的ip则是127.0.0.1，从而成功读取flag.php，而在127.0.0.1前加一个@就是为了在后面执行程序的时候能够成功访问靶机。</p>
@@ -622,6 +622,53 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-14</title>
+    <url>/2021/08/12/buu-14/</url>
+    <content><![CDATA[<h1 id="watevrCTF-2019-Unspaellablle"><a href="#watevrCTF-2019-Unspaellablle" class="headerlink" title="[watevrCTF 2019]Unspaellablle"></a>[watevrCTF 2019]Unspaellablle</h1><p>很难想象，这个文本是电影脚本</p>
+<p>找到原文进行比对，多出的字符就是flag</p>
+<p><img src="https://img-blog.csdnimg.cn/20201023132635203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ppcHBvMTIzNA==,size_16,color_FFFFFF,t_70#pic_center"><span class="image-caption">img</span></p>
+<h1 id="INSHack2018-Spreadshit"><a href="#INSHack2018-Spreadshit" class="headerlink" title="[INSHack2018]Spreadshit"></a>[INSHack2018]Spreadshit</h1><p>选中表格当中有空格的格子，全选就可以看见flag</p>
+<h1 id="羊城杯-2020-image-rar"><a href="#羊城杯-2020-image-rar" class="headerlink" title="[羊城杯 2020]image_rar"></a>[羊城杯 2020]image_rar</h1><p>蛮有意思的，给的mp4其实是一个zip文件</p>
+<p><img src="/2021/08/12/buu-14/image-20210813140213122.png"><span class="image-caption">image-20210813140213122</span></p>
+<p>，然后压缩包里有一个假图片（rar）</p>
+<p>使用rar2hash获取hash值，然后用hashcat爆破（为什么用hashcat，因为ARCHPR无法对rar5的压缩包进行爆破</p>
+<p><img src="/2021/08/12/buu-14/image-20210813140254803.png"><span class="image-caption">image-20210813140254803</span></p>
+<p>这是一个漫长的故事</p>
+<p><img src="/2021/08/12/buu-14/image-20210813153214530.png"><span class="image-caption">image-20210813153214530</span></p>
+<p>然后获得密码解出来，把文件加上png后缀即可</p>
+<h1 id="CTF2019-babyflash"><a href="#CTF2019-babyflash" class="headerlink" title="[*CTF2019]babyflash"></a>[*CTF2019]babyflash</h1><p>用  JPEXS Free Flash Decompiler 打开，附上链接<a href="https://github.com/jindrapetrik/jpexs-decompiler/releases">https://github.com/jindrapetrik/jpexs-decompiler/releases</a></p>
+<p>用一堆黑白块加一个音频</p>
+<p><img src="/2021/08/12/buu-14/image-20210813151112721.png"><span class="image-caption">image-20210813151112721</span></p>
+<p>在音频里喜提半个flag</p>
+<p>黑白方块拿脚本拼一下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> listdir<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>dirlist = listdir(<span class="hljs-string">&#x27;path&#x27;</span>)<br>dirlist.sort(key=<span class="hljs-keyword">lambda</span> x:int(x.split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))<br>qrdata = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dirlist:<br>    imgname = <span class="hljs-string">&#x27;path&#x27;</span> + <span class="hljs-string">&#x27;\\&#x27;</span>+i<br>    img = Image.open(imgname)<br>    img = img.load()<br>    <span class="hljs-keyword">if</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>):<br>        qrdata += <span class="hljs-string">&#x27;1&#x27;</span><br>    <span class="hljs-keyword">elif</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>):<br>        qrdata += <span class="hljs-string">&#x27;0&#x27;</span><br>print(qrdata)<br><br>width=height=<span class="hljs-number">21</span><br>new_img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(width,height))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(width):<br>    <span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> range(height):<br>        <span class="hljs-keyword">if</span> qrdata[i] == <span class="hljs-string">&#x27;1&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>        <span class="hljs-keyword">elif</span> qrdata[i] == <span class="hljs-string">&#x27;0&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>))<br>        i += <span class="hljs-number">1</span><br><br>new_img.save(<span class="hljs-string">&#x27;flag.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/12/buu-14/image-20210813192901884.png"><span class="image-caption">image-20210813192901884</span></p>
+<p>扫一扫，拼一下之前半个flag，然后buu有个奇怪的bug，最后成功提交的flag为<strong>flag{halfflag&amp;&amp;_the_rest}</strong></p>
+<h1 id="GKCTF-2021-FireFox-Forensics"><a href="#GKCTF-2021-FireFox-Forensics" class="headerlink" title="[GKCTF 2021]FireFox Forensics"></a>[GKCTF 2021]FireFox Forensics</h1><p><img src="/2021/08/12/buu-14/image-20210814140606230.png"><span class="image-caption">image-20210814140606230</span></p>
+<p><img src="/2021/08/12/buu-14/image-20210814140631193.png"><span class="image-caption">image-20210814140631193</span></p>
+<p>有一个firepwd.py，就行<a href="https://github.com/lclevy/firepwd">https://github.com/lclevy/firepwd</a></p>
+<h1 id="XMAN2018排位赛-ppap"><a href="#XMAN2018排位赛-ppap" class="headerlink" title="[XMAN2018排位赛]ppap"></a>[XMAN2018排位赛]ppap</h1><p>题目给了一个流量包，然后追踪tcp流</p>
+<p><img src="/2021/08/12/buu-14/image-20210815190339512.png"><span class="image-caption">image-20210815190339512</span></p>
+<p>在这一大堆里由~和英文进行分割，可以分别分离出一张图，一个压缩包，一个xml文件</p>
+<p>也可以用foremost直接分离出一堆的图片，没错，那个一张里面藏着一堆的图片</p>
+<p>非预期解：直接爆破压缩包密码拿到flag，十八位密码我觉得这是要爆破个几年，听说这个网址可以，反正我没成功<a href="https://passwordrecovery.io/zip-file-password-removal/">https://passwordrecovery.io/zip-file-password-removal/</a></p>
+<p>预期解：<a href="https://blog.csdn.net/zippo1234/article/details/109364086">https://blog.csdn.net/zippo1234/article/details/109364086</a></p>
+<p>我觉得它在胡搅蛮缠</p>
+<p><img src="/2021/08/12/buu-14/image-20210815191449538.png"><span class="image-caption">image-20210815191449538</span></p>
+<p>谁会想到人脸识别找海盗，然后压缩包密码竟然在</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029172404961.png#pic_center"><span class="image-caption">海盗</span></p>
+<p>蓝色叉叉的骷髅上，然后是这个骷髅的单词skullandcrossbones</p>
+<p>我沉默了。。。。。。。。。。。。。。。</p>
+<h1 id="大流量分析（三）"><a href="#大流量分析（三）" class="headerlink" title="大流量分析（三）"></a>大流量分析（三）</h1><p>题目要求找出后门，一般渗透思路来说，对php站点，上传了一个木马后会测试phpinfo能不能返回，根据这一点搜索<code>phpinfo()</code></p>
+<p>在最后一个流量包里可以找到</p>
+<p><img src="/2021/08/12/buu-14/image-20210815184504473.png"><span class="image-caption">image-20210815184504473</span></p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-15</title>
     <url>/2021/08/31/buu-15/</url>
     <content><![CDATA[<p><del>（我觉得有必要和流量包打一架</del></p>
@@ -672,47 +719,51 @@
       </tags>
   </entry>
   <entry>
-    <title>buu-14</title>
-    <url>/2021/08/12/buu-14/</url>
-    <content><![CDATA[<h1 id="watevrCTF-2019-Unspaellablle"><a href="#watevrCTF-2019-Unspaellablle" class="headerlink" title="[watevrCTF 2019]Unspaellablle"></a>[watevrCTF 2019]Unspaellablle</h1><p>很难想象，这个文本是电影脚本</p>
-<p>找到原文进行比对，多出的字符就是flag</p>
-<p><img src="https://img-blog.csdnimg.cn/20201023132635203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ppcHBvMTIzNA==,size_16,color_FFFFFF,t_70#pic_center"><span class="image-caption">img</span></p>
-<h1 id="INSHack2018-Spreadshit"><a href="#INSHack2018-Spreadshit" class="headerlink" title="[INSHack2018]Spreadshit"></a>[INSHack2018]Spreadshit</h1><p>选中表格当中有空格的格子，全选就可以看见flag</p>
-<h1 id="羊城杯-2020-image-rar"><a href="#羊城杯-2020-image-rar" class="headerlink" title="[羊城杯 2020]image_rar"></a>[羊城杯 2020]image_rar</h1><p>蛮有意思的，给的mp4其实是一个zip文件</p>
-<p><img src="/2021/08/12/buu-14/image-20210813140213122.png"><span class="image-caption">image-20210813140213122</span></p>
-<p>，然后压缩包里有一个假图片（rar）</p>
-<p>使用rar2hash获取hash值，然后用hashcat爆破（为什么用hashcat，因为ARCHPR无法对rar5的压缩包进行爆破</p>
-<p><img src="/2021/08/12/buu-14/image-20210813140254803.png"><span class="image-caption">image-20210813140254803</span></p>
-<p>这是一个漫长的故事</p>
-<p><img src="/2021/08/12/buu-14/image-20210813153214530.png"><span class="image-caption">image-20210813153214530</span></p>
-<p>然后获得密码解出来，把文件加上png后缀即可</p>
-<h1 id="CTF2019-babyflash"><a href="#CTF2019-babyflash" class="headerlink" title="[*CTF2019]babyflash"></a>[*CTF2019]babyflash</h1><p>用  JPEXS Free Flash Decompiler 打开，附上链接<a href="https://github.com/jindrapetrik/jpexs-decompiler/releases">https://github.com/jindrapetrik/jpexs-decompiler/releases</a></p>
-<p>用一堆黑白块加一个音频</p>
-<p><img src="/2021/08/12/buu-14/image-20210813151112721.png"><span class="image-caption">image-20210813151112721</span></p>
-<p>在音频里喜提半个flag</p>
-<p>黑白方块拿脚本拼一下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> listdir<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>dirlist = listdir(<span class="hljs-string">&#x27;path&#x27;</span>)<br>dirlist.sort(key=<span class="hljs-keyword">lambda</span> x:int(x.split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))<br>qrdata = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dirlist:<br>    imgname = <span class="hljs-string">&#x27;path&#x27;</span> + <span class="hljs-string">&#x27;\\&#x27;</span>+i<br>    img = Image.open(imgname)<br>    img = img.load()<br>    <span class="hljs-keyword">if</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>):<br>        qrdata += <span class="hljs-string">&#x27;1&#x27;</span><br>    <span class="hljs-keyword">elif</span> img[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>):<br>        qrdata += <span class="hljs-string">&#x27;0&#x27;</span><br>print(qrdata)<br><br>width=height=<span class="hljs-number">21</span><br>new_img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(width,height))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(width):<br>    <span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> range(height):<br>        <span class="hljs-keyword">if</span> qrdata[i] == <span class="hljs-string">&#x27;1&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>        <span class="hljs-keyword">elif</span> qrdata[i] == <span class="hljs-string">&#x27;0&#x27;</span>:<br>            new_img.putpixel([w,h],(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>))<br>        i += <span class="hljs-number">1</span><br><br>new_img.save(<span class="hljs-string">&#x27;flag.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
+    <title>buu-16</title>
+    <url>/2022/03/03/buu-16/</url>
+    <content><![CDATA[<h1 id="INSHack2017-remote-multimedia-controller"><a href="#INSHack2017-remote-multimedia-controller" class="headerlink" title="[INSHack2017]remote-multimedia-controller"></a>[INSHack2017]remote-multimedia-controller</h1><p><img src="/2022/03/03/buu-16/image-20220303201420510.png"><span class="image-caption">image-20220303201420510</span></p>
+<p>描述看起来很nb的样子，事实上是一个简单的流量分析</p>
+<p><img src="/2022/03/03/buu-16/image-20220303201513861.png"><span class="image-caption">image-20220303201513861</span></p>
+<p>找到最长的包发现base64，然后结果是个套娃</p>
+<p><img src="/2022/03/03/buu-16/image-20220303201549086.png"><span class="image-caption">image-20220303201549086</span></p>
+<h1 id="一路到底"><a href="#一路到底" class="headerlink" title="一路到底"></a>一路到底</h1><p><img src="/2022/03/03/buu-16/image-20220304141328968.png"><span class="image-caption">image-20220304141328968</span></p>
+<p>收获了一大堆的文件，题目叫一路到底，我还以为只要找到最后一个文件就可以有flag，观察了一下文件大小，找到了</p>
+<p><img src="/2022/03/03/buu-16/image-20220304141511196.png"><span class="image-caption">image-20220304141511196</span></p>
+<p>啥也没有啊，看wp了，这是什么奇怪玩意</p>
+<p><img src="/2022/03/03/buu-16/image-20220304141714830.png"><span class="image-caption">image-20220304141714830</span></p>
+<p>麻了，重点居然在前面，这玩意拼起来是一个压缩包，研究了一下大佬的脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br><br>hex_data = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">r&#x27;C:\Users\lxy0218\Desktop\38ff11ef-e3d3-4f8a-b163-3d300bc016ea\files\start.txt&#x27;</span>, encoding=<span class="hljs-string">&#x27;gbk&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    cont = f.read()<br>    next_txt = cont[<span class="hljs-number">-36</span>:]<br>    hex_data += <span class="hljs-string">&#x27;&#123;:04x&#125;&#x27;</span>.format(int(cont[<span class="hljs-number">0</span>:cont.find(<span class="hljs-string">&#x27;:&#x27;</span>)<span class="hljs-number">-1</span>]))<span class="hljs-comment">#:04x指的是输出四位十六进制数</span><br>    <span class="hljs-comment">#print(hex_data)</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        path = <span class="hljs-string">&#x27;./files/&#x27;</span> +  next_txt<br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-keyword">with</span> open(path) <span class="hljs-keyword">as</span> f:<br>                cont = f.read()<br>                next_txt = cont[<span class="hljs-number">-36</span>:]<br>                hex_data += <span class="hljs-string">&#x27;&#123;:04x&#125;&#x27;</span>.format(int(cont[<span class="hljs-number">0</span>:cont.find(<span class="hljs-string">&#x27;:&#x27;</span>)<span class="hljs-number">-1</span>]))<br>        <span class="hljs-keyword">except</span>:<br>            <span class="hljs-keyword">break</span><br><span class="hljs-keyword">with</span> open(<span class="hljs-string">&#x27;flag.zip&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(binascii.unhexlify(hex_data))<span class="hljs-comment">#以十六进制文本写入文件</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2021/08/12/buu-14/image-20210813192901884.png"><span class="image-caption">image-20210813192901884</span></p>
-<p>扫一扫，拼一下之前半个flag，然后buu有个奇怪的bug，最后成功提交的flag为<strong>flag{halfflag&amp;&amp;_the_rest}</strong></p>
-<h1 id="GKCTF-2021-FireFox-Forensics"><a href="#GKCTF-2021-FireFox-Forensics" class="headerlink" title="[GKCTF 2021]FireFox Forensics"></a>[GKCTF 2021]FireFox Forensics</h1><p><img src="/2021/08/12/buu-14/image-20210814140606230.png"><span class="image-caption">image-20210814140606230</span></p>
-<p><img src="/2021/08/12/buu-14/image-20210814140631193.png"><span class="image-caption">image-20210814140631193</span></p>
-<p>有一个firepwd.py，就行<a href="https://github.com/lclevy/firepwd">https://github.com/lclevy/firepwd</a></p>
-<h1 id="XMAN2018排位赛-ppap"><a href="#XMAN2018排位赛-ppap" class="headerlink" title="[XMAN2018排位赛]ppap"></a>[XMAN2018排位赛]ppap</h1><p>题目给了一个流量包，然后追踪tcp流</p>
-<p><img src="/2021/08/12/buu-14/image-20210815190339512.png"><span class="image-caption">image-20210815190339512</span></p>
-<p>在这一大堆里由~和英文进行分割，可以分别分离出一张图，一个压缩包，一个xml文件</p>
-<p>也可以用foremost直接分离出一堆的图片，没错，那个一张里面藏着一堆的图片</p>
-<p>非预期解：直接爆破压缩包密码拿到flag，十八位密码我觉得这是要爆破个几年，听说这个网址可以，反正我没成功<a href="https://passwordrecovery.io/zip-file-password-removal/">https://passwordrecovery.io/zip-file-password-removal/</a></p>
-<p>预期解：<a href="https://blog.csdn.net/zippo1234/article/details/109364086">https://blog.csdn.net/zippo1234/article/details/109364086</a></p>
-<p>我觉得它在胡搅蛮缠</p>
-<p><img src="/2021/08/12/buu-14/image-20210815191449538.png"><span class="image-caption">image-20210815191449538</span></p>
-<p>谁会想到人脸识别找海盗，然后压缩包密码竟然在</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029172404961.png#pic_center"><span class="image-caption">海盗</span></p>
-<p>蓝色叉叉的骷髅上，然后是这个骷髅的单词skullandcrossbones</p>
-<p>我沉默了。。。。。。。。。。。。。。。</p>
-<h1 id="大流量分析（三）"><a href="#大流量分析（三）" class="headerlink" title="大流量分析（三）"></a>大流量分析（三）</h1><p>题目要求找出后门，一般渗透思路来说，对php站点，上传了一个木马后会测试phpinfo能不能返回，根据这一点搜索<code>phpinfo()</code></p>
-<p>在最后一个流量包里可以找到</p>
-<p><img src="/2021/08/12/buu-14/image-20210815184504473.png"><span class="image-caption">image-20210815184504473</span></p>
+<p><img src="/2022/03/03/buu-16/image-20220304150636678.png"><span class="image-caption">image-20220304150636678</span></p>
+<p>谁会想到这里是真加密然后还是小写字母和数字爆破。。。。。离谱</p>
+<p>然后把文件头改为jpg</p>
+<h1 id="SUCTF2018-dead-z3r0"><a href="#SUCTF2018-dead-z3r0" class="headerlink" title="[SUCTF2018]dead_z3r0"></a>[SUCTF2018]dead_z3r0</h1><p><img src="/2022/03/03/buu-16/image-20220304181851123.png"><span class="image-caption">image-20220304181851123</span></p>
+<p>疑似base64的东西</p>
+<p><img src="/2022/03/03/buu-16/image-20220304182145980.png"><span class="image-caption">image-20220304182145980</span></p>
+<p>感觉是被编译过的，怀疑是pyc，也许是隐写</p>
+<p><img src="/2022/03/03/buu-16/image-20220304182820609.png"><span class="image-caption">image-20220304182820609</span></p>
+<p>理论上说，这样可以得到结果，but，这个环境抽了</p>
+<p><img src="/2022/03/03/buu-16/image-20220304183854819.png"><span class="image-caption">image-20220304183854819</span></p>
+<p>不用python了</p>
+<p><img src="/2022/03/03/buu-16/image-20220304184342008.png"><span class="image-caption">image-20220304184342008</span></p>
+<p>英语看的题目描述很奇怪，翻译成中文，我只想表示我并不知道这是个啥</p>
+<p>给的是个音频</p>
+<p><img src="/2022/03/03/buu-16/image-20220304184646459.png"><span class="image-caption">image-20220304184646459</span></p>
+<p>有点东西</p>
+<p>deepsound又是什么好软件，还要爆破文件密码</p>
+<p>附上大佬的脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">deepsound2john extracts password hashes from audio files containing encrypted</span><br><span class="hljs-string">data steganographically embedded by DeepSound (http://jpinsoft.net/deepsound/).</span><br><span class="hljs-string">This method is known to work with files created by DeepSound 2.0.</span><br><span class="hljs-string">Input files should be in .wav format. Hashes can be recovered from audio files</span><br><span class="hljs-string">even after conversion from other formats, e.g.,</span><br><span class="hljs-string">    ffmpeg -i input output.wav</span><br><span class="hljs-string">Usage:</span><br><span class="hljs-string">    python3 deepsound2john.py carrier.wav &gt; hashes.txt</span><br><span class="hljs-string">    john hashes.txt</span><br><span class="hljs-string">This software is copyright (c) 2018 Ryan Govostes &lt;rgovostes@gmail.com&gt;, and</span><br><span class="hljs-string">it is hereby released to the general public under the following terms:</span><br><span class="hljs-string">Redistribution and use in source and binary forms, with or without</span><br><span class="hljs-string">modification, are permitted.</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-keyword">import</span> logging<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> textwrap<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode_data_low</span>(<span class="hljs-params">buf</span>):</span><br>  <span class="hljs-keyword">return</span> buf[::<span class="hljs-number">2</span>]<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode_data_normal</span>(<span class="hljs-params">buf</span>):</span><br>  out = bytearray()<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(buf), <span class="hljs-number">4</span>):<br>    out.append((buf[i] &amp; <span class="hljs-number">15</span>) &lt;&lt; <span class="hljs-number">4</span> | (buf[i + <span class="hljs-number">2</span>] &amp; <span class="hljs-number">15</span>))<br>  <span class="hljs-keyword">return</span> out<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode_data_high</span>(<span class="hljs-params">buf</span>):</span><br>  out = bytearray()<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(buf), <span class="hljs-number">8</span>):<br>    out.append((buf[i] &amp; <span class="hljs-number">3</span>) &lt;&lt; <span class="hljs-number">6</span>     | (buf[i + <span class="hljs-number">2</span>] &amp; <span class="hljs-number">3</span>) &lt;&lt; <span class="hljs-number">4</span> \<br>             | (buf[i + <span class="hljs-number">4</span>] &amp; <span class="hljs-number">3</span>) &lt;&lt; <span class="hljs-number">2</span> | (buf[i + <span class="hljs-number">6</span>] &amp; <span class="hljs-number">3</span>))<br>  <span class="hljs-keyword">return</span> out<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_magic</span>(<span class="hljs-params">buf</span>):</span><br>  <span class="hljs-comment"># This is a more efficient way of testing for the `DSCF` magic header without</span><br>  <span class="hljs-comment"># decoding the whole buffer</span><br>  <span class="hljs-keyword">return</span> (buf[<span class="hljs-number">0</span>] &amp; <span class="hljs-number">15</span>)  == (<span class="hljs-number">68</span> &gt;&gt; <span class="hljs-number">4</span>) <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">2</span>]  &amp; <span class="hljs-number">15</span>) == (<span class="hljs-number">68</span> &amp; <span class="hljs-number">15</span>) \<br>     <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">4</span>] &amp; <span class="hljs-number">15</span>)  == (<span class="hljs-number">83</span> &gt;&gt; <span class="hljs-number">4</span>) <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">6</span>]  &amp; <span class="hljs-number">15</span>) == (<span class="hljs-number">83</span> &amp; <span class="hljs-number">15</span>) \<br>     <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">8</span>] &amp; <span class="hljs-number">15</span>)  == (<span class="hljs-number">67</span> &gt;&gt; <span class="hljs-number">4</span>) <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">10</span>] &amp; <span class="hljs-number">15</span>) == (<span class="hljs-number">67</span> &amp; <span class="hljs-number">15</span>) \<br>     <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">12</span>] &amp; <span class="hljs-number">15</span>) == (<span class="hljs-number">70</span> &gt;&gt; <span class="hljs-number">4</span>) <span class="hljs-keyword">and</span> (buf[<span class="hljs-number">14</span>] &amp; <span class="hljs-number">15</span>) == (<span class="hljs-number">70</span> &amp; <span class="hljs-number">15</span>)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_wave</span>(<span class="hljs-params">buf</span>):</span><br>  <span class="hljs-keyword">return</span> buf[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>] == <span class="hljs-string">b&#x27;RIFF&#x27;</span> <span class="hljs-keyword">and</span> buf[<span class="hljs-number">8</span>:<span class="hljs-number">12</span>] == <span class="hljs-string">b&#x27;WAVE&#x27;</span><br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_deepsound_file</span>(<span class="hljs-params">f</span>):</span><br>  bname = os.path.basename(f.name)<br>  logger = logging.getLogger(bname)<br><br>  <span class="hljs-comment"># Check if it&#x27;s a .wav file</span><br>  buf = f.read(<span class="hljs-number">12</span>)<br>  <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> is_wave(buf):<br>    <span class="hljs-keyword">global</span> convert_warn<br>    logger.error(<span class="hljs-string">&#x27;file not in .wav format&#x27;</span>)<br>    convert_warn = <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">return</span><br>  f.seek(<span class="hljs-number">0</span>, os.SEEK_SET)<br><br>  <span class="hljs-comment"># Scan for the marker...</span><br>  hdrsz = <span class="hljs-number">104</span><br>  hdr = <span class="hljs-literal">None</span><br><br>  <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    off = f.tell()<br>    buf = f.read(hdrsz)<br>    <span class="hljs-keyword">if</span> len(buf) &lt; hdrsz: <span class="hljs-keyword">break</span><br><br>    <span class="hljs-keyword">if</span> is_magic(buf):<br>          hdr = decode_data_normal(buf)<br>          logger.info(<span class="hljs-string">&#x27;found DeepSound header at offset %i&#x27;</span>, off)<br>          <span class="hljs-keyword">break</span><br><br>    f.seek(-hdrsz + <span class="hljs-number">1</span>, os.SEEK_CUR)<br><br>  <span class="hljs-keyword">if</span> hdr <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    logger.warn(<span class="hljs-string">&#x27;does not appear to be a DeepSound file&#x27;</span>)<br>    <span class="hljs-keyword">return</span><br><br>  <span class="hljs-comment"># Check some header fields</span><br>  mode = hdr[<span class="hljs-number">4</span>]<br>  encrypted = hdr[<span class="hljs-number">5</span>]<br><br>  modes = &#123;<br>    <br>    <span class="hljs-number">2</span>: <span class="hljs-string">&#x27;low&#x27;</span>, <span class="hljs-number">4</span>: <span class="hljs-string">&#x27;normal&#x27;</span>, <span class="hljs-number">8</span>: <span class="hljs-string">&#x27;high&#x27;</span>&#125;<br>  <span class="hljs-keyword">if</span> mode <span class="hljs-keyword">in</span> modes:<br>    logger.info(<span class="hljs-string">&#x27;data is encoded in %s-quality mode&#x27;</span>, modes[mode])<br>  <span class="hljs-keyword">else</span>:<br>    logger.error(<span class="hljs-string">&#x27;unexpected data encoding mode %i&#x27;</span>, modes[mode])<br>    <span class="hljs-keyword">return</span><br><br>  <span class="hljs-keyword">if</span> encrypted == <span class="hljs-number">0</span>:<br>    logger.warn(<span class="hljs-string">&#x27;file is not encrypted&#x27;</span>)<br>    <span class="hljs-keyword">return</span><br>  <span class="hljs-keyword">elif</span> encrypted != <span class="hljs-number">1</span>:<br>    logger.error(<span class="hljs-string">&#x27;unexpected encryption flag %i&#x27;</span>, encrypted)<br>    <span class="hljs-keyword">return</span><br><br>  sha1 = hdr[<span class="hljs-number">6</span>:<span class="hljs-number">6</span>+<span class="hljs-number">20</span>]<br>  print(<span class="hljs-string">&#x27;%s:$dynamic_1529$%s&#x27;</span> % (bname, sha1.hex()))<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>  <span class="hljs-keyword">import</span> argparse<br><br>  parser = argparse.ArgumentParser()<br>  parser.add_argument(<span class="hljs-string">&#x27;--verbose&#x27;</span>, <span class="hljs-string">&#x27;-v&#x27;</span>, action=<span class="hljs-string">&#x27;store_true&#x27;</span>)<br>  parser.add_argument(<span class="hljs-string">&#x27;files&#x27;</span>, nargs=<span class="hljs-string">&#x27;+&#x27;</span>, metavar=<span class="hljs-string">&#x27;file&#x27;</span>,<br>    type=argparse.FileType(<span class="hljs-string">&#x27;rb&#x27;</span>, bufsize=<span class="hljs-number">4096</span>))<br>  args = parser.parse_args()<br><br>  <span class="hljs-keyword">if</span> args.verbose:<br>    logging.basicConfig(level=logging.INFO)<br>  <span class="hljs-keyword">else</span>:<br>    logging.basicConfig(level=logging.WARN)<br><br>  convert_warn = <span class="hljs-literal">False</span><br><br>  <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> args.files:<br>    process_deepsound_file(f)<br><br>  <span class="hljs-keyword">if</span> convert_warn:<br>    print(textwrap.dedent(<span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    ---------------------------------------------------------------</span><br><span class="hljs-string">    Some files were not in .wav format. Try converting them to .wav</span><br><span class="hljs-string">    and try again. You can use: ffmpeg -i input output.wav</span><br><span class="hljs-string">    ---------------------------------------------------------------</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span>.rstrip()), file=sys.stderr)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2022/03/03/buu-16/image-20220304201206090.png"><span class="image-caption">image-20220304201206090</span></p>
+<p><img src="/2022/03/03/buu-16/image-20220304201223917.png"><span class="image-caption">image-20220304201223917</span></p>
+<p>解开最后得到</p>
+<p><img src="/2022/03/03/buu-16/image-20220304200852691.png"><span class="image-caption">image-20220304200852691</span></p>
+<h1 id="INSHack2017-10-cl0v3rf13ld-lane-signal"><a href="#INSHack2017-10-cl0v3rf13ld-lane-signal" class="headerlink" title="[INSHack2017]10-cl0v3rf13ld-lane-signal"></a>[INSHack2017]10-cl0v3rf13ld-lane-signal</h1><p><img src="/2022/03/03/buu-16/image-20220304201911322.png"><span class="image-caption">image-20220304201911322</span></p>
+<p>打开发现是jpg</p>
+<p><img src="/2022/03/03/buu-16/image-20220304202024426.png"><span class="image-caption">image-20220304202024426</span></p>
+<h1 id="INSHack2017-10-cl0v3rf13ld-lane-signal-1"><a href="#INSHack2017-10-cl0v3rf13ld-lane-signal-1" class="headerlink" title="[INSHack2017]10-cl0v3rf13ld-lane-signal"></a>[INSHack2017]10-cl0v3rf13ld-lane-signal</h1><p>花里胡哨的题目描述，时则是一个套娃，图片套图片，图片套莫斯，</p>
+<p><img src="/2022/03/03/buu-16/image-20220304205822882.png"><span class="image-caption">image-20220304205822882</span></p>
+<p>最后音频是ogg文件后缀用MP3即可正常播放，根据图片即可得到flag</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -819,6 +870,35 @@
       </tags>
   </entry>
   <entry>
+    <title>buu-4</title>
+    <url>/2021/07/11/buu-4/</url>
+    <content><![CDATA[<h1 id="菜刀666"><a href="#菜刀666" class="headerlink" title="菜刀666"></a>菜刀666</h1><p>流量分析啊，还是要耐心一点，一个一个的看过去，那你就会发现有不一样的地方<del>（当然要在方向正确的情况下，不然就会看个寂寞。。。。。。。）</del></p>
+<p>追踪流7 看到一串很长的内容 看到传了两个参数</p>
+<p><img src="/2021/07/11/buu-4/20200718142715430.png"></p>
+<p>这很明显是一张图片啊</p>
+<p><img src="/2021/07/11/buu-4/20200718142726771.png"></p>
+<p>因为直接去搜索了flag.txt,所以一开始就看见了hello.zip,把它从流量包里分离出来，压缩包的密码就在图上，结束了</p>
+<h1 id="BJDCTF2020-认真你就输了"><a href="#BJDCTF2020-认真你就输了" class="headerlink" title="[BJDCTF2020]认真你就输了"></a>[BJDCTF2020]认真你就输了</h1><p>谢谢，这题目真的挺离谱的</p>
+<p>表面上很玄幻说under chart，实则改个压缩包后缀，找到chart，就可以找到flag.txt</p>
+<h1 id="SWPU2019-神奇的二维码"><a href="#SWPU2019-神奇的二维码" class="headerlink" title="[SWPU2019]神奇的二维码"></a>[SWPU2019]神奇的二维码</h1><p>一张二维码的图里套4个rar我是万万没有想到的，两个压缩包分别解密另外两个压缩包然后一真一假，莫斯密码解出来就是flag了</p>
+<h1 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h1><p>原来outguess是算法，是我孤陋寡闻了。exif就是提取密码解就完事了。</p>
+<h1 id="GXYCTF2019-gakki"><a href="#GXYCTF2019-gakki" class="headerlink" title="[GXYCTF2019]gakki"></a>[GXYCTF2019]gakki</h1><p>图片套压缩包，压缩包加密四位数密码，得到flag.txt</p>
+<p><img src="/2021/07/11/buu-4/image-20210714135207286.png"></p>
+<p>我去，这么多，开始尝试搜索flag，猝，压根没有啊，作为一只菜狗，查了wp，嗯，词频分析</p>
+<p><a href="https://blog.csdn.net/mochu7777777/article/details/109377328%EF%BC%8C%E6%9F%A5%E5%88%B0%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC">https://blog.csdn.net/mochu7777777/article/details/109377328，查到一个脚本</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#Author: mochu7</span><br>alphabet = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&amp;*()_+- =\\&#123;\\&#125;[]&quot;</span><br>strings = open(<span class="hljs-string">&#x27;./flag.txt&#x27;</span>).read()<br><br>result = &#123;&#125;<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> alphabet:<br>	counts = strings.count(i)<span class="hljs-comment">#Python count() 方法用于统计字符串里某个字符或子字符串出现的次数。可选参数为在字符串搜索的开始与结束位置。</span><br>	i = <span class="hljs-string">&#x27;&#123;0&#125;&#x27;</span>.format(i)<span class="hljs-comment">#Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。基本语法是通过 &#123;&#125; 和 : 来代											替以前的 % 。format 函数可以接受不限个参数，位置可以不按顺序。</span><br>	result[i] = counts<br><br>res = sorted(result.items(),key=<span class="hljs-keyword">lambda</span> item:item[<span class="hljs-number">1</span>],reverse=<span class="hljs-literal">True</span>)<span class="hljs-comment">#sorted(d.items(), key=lambda x: x[1]) 中 d.items() 为待排序																																	的对象；key=lambda x: x[1] 为对前面的对象中的第二维数据（即																																				value）的值进行排序。 key=lambda  变量：变量[维数] 。维数可以按																																	照自己的需要进行设置。</span><br><br><span class="hljs-keyword">for</span> data <span class="hljs-keyword">in</span> res:<br>	print(data)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:<br>	flag = str(i[<span class="hljs-number">0</span>])<br>	print(flag[<span class="hljs-number">0</span>],end=<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">#print(*objects, sep=&#x27; &#x27;, end=&#x27;\n&#x27;, file=sys.stdout)</span><br>																					<span class="hljs-comment">#参数的具体含义如下：</span><br>																					<span class="hljs-comment">#objects --表示输出的对象。输出多个对象时，需要用 , （逗号）分隔。</span><br>																					<span class="hljs-comment">#sep -- 用来间隔多个对象。</span><br>																					<span class="hljs-comment">#end -- 用来设定以什么结尾。默认值是换行符 \n，我们可以换成其他字符。</span><br>																					<span class="hljs-comment">#file -- 要写入的文件对象。	</span><br>																					<span class="hljs-comment">#在python中，输出函数总是默认换行</span><br>																					<span class="hljs-comment">#具体的可以看这篇文章：https://blog.csdn.net/sinat_28576553/article/details/81154912</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="sqltest"><a href="#sqltest" class="headerlink" title="sqltest"></a>sqltest</h1><p>这题和虎符那题日志分析挺像的</p>
+<p><img src="/2021/07/11/buu-4/image-20210714160555652.png"></p>
+<p>重复的ascii就是正确的ascii</p>
+<p>由于导出的文件是一句一个，我觉得直接看可能比脚本快一点<del>（你懒你就直说</del>）~~</p>
+<p>不同的是这题ascii转出来就是flag，虎符那题要再base64进行转换。</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buu-5</title>
     <url>/2021/07/14/buu-5/</url>
     <content><![CDATA[<h1 id="Mysterious"><a href="#Mysterious" class="headerlink" title="Mysterious"></a>Mysterious</h1><p>我真的没点错题吗，逆向吧这波（好的题目写了。。。。。。），让我康康ida怎么用</p>
@@ -852,35 +932,6 @@
 <p>模块安装n小时，<del>（每一台kali都有他的脾气</del></p>
 <p><img src="/2021/07/14/buu-5/image-20210718162413435.png"></p>
 <p><del>（终于成功了，太感人了</del></p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu-4</title>
-    <url>/2021/07/11/buu-4/</url>
-    <content><![CDATA[<h1 id="菜刀666"><a href="#菜刀666" class="headerlink" title="菜刀666"></a>菜刀666</h1><p>流量分析啊，还是要耐心一点，一个一个的看过去，那你就会发现有不一样的地方<del>（当然要在方向正确的情况下，不然就会看个寂寞。。。。。。。）</del></p>
-<p>追踪流7 看到一串很长的内容 看到传了两个参数</p>
-<p><img src="/2021/07/11/buu-4/20200718142715430.png"></p>
-<p>这很明显是一张图片啊</p>
-<p><img src="/2021/07/11/buu-4/20200718142726771.png"></p>
-<p>因为直接去搜索了flag.txt,所以一开始就看见了hello.zip,把它从流量包里分离出来，压缩包的密码就在图上，结束了</p>
-<h1 id="BJDCTF2020-认真你就输了"><a href="#BJDCTF2020-认真你就输了" class="headerlink" title="[BJDCTF2020]认真你就输了"></a>[BJDCTF2020]认真你就输了</h1><p>谢谢，这题目真的挺离谱的</p>
-<p>表面上很玄幻说under chart，实则改个压缩包后缀，找到chart，就可以找到flag.txt</p>
-<h1 id="SWPU2019-神奇的二维码"><a href="#SWPU2019-神奇的二维码" class="headerlink" title="[SWPU2019]神奇的二维码"></a>[SWPU2019]神奇的二维码</h1><p>一张二维码的图里套4个rar我是万万没有想到的，两个压缩包分别解密另外两个压缩包然后一真一假，莫斯密码解出来就是flag了</p>
-<h1 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h1><p>原来outguess是算法，是我孤陋寡闻了。exif就是提取密码解就完事了。</p>
-<h1 id="GXYCTF2019-gakki"><a href="#GXYCTF2019-gakki" class="headerlink" title="[GXYCTF2019]gakki"></a>[GXYCTF2019]gakki</h1><p>图片套压缩包，压缩包加密四位数密码，得到flag.txt</p>
-<p><img src="/2021/07/11/buu-4/image-20210714135207286.png"></p>
-<p>我去，这么多，开始尝试搜索flag，猝，压根没有啊，作为一只菜狗，查了wp，嗯，词频分析</p>
-<p><a href="https://blog.csdn.net/mochu7777777/article/details/109377328%EF%BC%8C%E6%9F%A5%E5%88%B0%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC">https://blog.csdn.net/mochu7777777/article/details/109377328，查到一个脚本</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#Author: mochu7</span><br>alphabet = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&amp;*()_+- =\\&#123;\\&#125;[]&quot;</span><br>strings = open(<span class="hljs-string">&#x27;./flag.txt&#x27;</span>).read()<br><br>result = &#123;&#125;<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> alphabet:<br>	counts = strings.count(i)<span class="hljs-comment">#Python count() 方法用于统计字符串里某个字符或子字符串出现的次数。可选参数为在字符串搜索的开始与结束位置。</span><br>	i = <span class="hljs-string">&#x27;&#123;0&#125;&#x27;</span>.format(i)<span class="hljs-comment">#Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。基本语法是通过 &#123;&#125; 和 : 来代											替以前的 % 。format 函数可以接受不限个参数，位置可以不按顺序。</span><br>	result[i] = counts<br><br>res = sorted(result.items(),key=<span class="hljs-keyword">lambda</span> item:item[<span class="hljs-number">1</span>],reverse=<span class="hljs-literal">True</span>)<span class="hljs-comment">#sorted(d.items(), key=lambda x: x[1]) 中 d.items() 为待排序																																	的对象；key=lambda x: x[1] 为对前面的对象中的第二维数据（即																																				value）的值进行排序。 key=lambda  变量：变量[维数] 。维数可以按																																	照自己的需要进行设置。</span><br><br><span class="hljs-keyword">for</span> data <span class="hljs-keyword">in</span> res:<br>	print(data)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:<br>	flag = str(i[<span class="hljs-number">0</span>])<br>	print(flag[<span class="hljs-number">0</span>],end=<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">#print(*objects, sep=&#x27; &#x27;, end=&#x27;\n&#x27;, file=sys.stdout)</span><br>																					<span class="hljs-comment">#参数的具体含义如下：</span><br>																					<span class="hljs-comment">#objects --表示输出的对象。输出多个对象时，需要用 , （逗号）分隔。</span><br>																					<span class="hljs-comment">#sep -- 用来间隔多个对象。</span><br>																					<span class="hljs-comment">#end -- 用来设定以什么结尾。默认值是换行符 \n，我们可以换成其他字符。</span><br>																					<span class="hljs-comment">#file -- 要写入的文件对象。	</span><br>																					<span class="hljs-comment">#在python中，输出函数总是默认换行</span><br>																					<span class="hljs-comment">#具体的可以看这篇文章：https://blog.csdn.net/sinat_28576553/article/details/81154912</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="sqltest"><a href="#sqltest" class="headerlink" title="sqltest"></a>sqltest</h1><p>这题和虎符那题日志分析挺像的</p>
-<p><img src="/2021/07/11/buu-4/image-20210714160555652.png"></p>
-<p>重复的ascii就是正确的ascii</p>
-<p>由于导出的文件是一句一个，我觉得直接看可能比脚本快一点<del>（你懒你就直说</del>）~~</p>
-<p>不同的是这题ascii转出来就是flag，虎符那题要再base64进行转换。</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
@@ -1717,6 +1768,41 @@
       </tags>
   </entry>
   <entry>
+    <title>dvwa-暴力破解</title>
+    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
+<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
+<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
+<p>先来抓个包吧</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
+<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
+<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
+<p>相比low的明显就有了变化</p>
+<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
+<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
+<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
+<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
+<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
+<p>但是token没有复制成功去查了一下发现</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
+<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
+<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
+<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
+<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
+<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
+<p>然后还多了个</p>
+<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
+]]></content>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-xss</title>
     <url>/2021/02/18/dvwa-xss/</url>
     <content><![CDATA[<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p>跨站脚本攻击（XSS），是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的。</p>
@@ -1847,59 +1933,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/10/02/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>dvwa-暴力破解</title>
-    <url>/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="low"><a href="#low" class="headerlink" title="low"></a>low</h1><p>来看看源码</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132533183.png"></p>
-<p>可以说是什么防护措施都没有了，虽然说这里是暴力破解，但是我觉得sql注入也是可以的，那就试一下</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211124758657.png"></p>
-<p>这里密码随意输入即可成功，但很有意思的事，这个前提条件是网址为127.0.0.1才行，用本机ip地址并不成功</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>也可以用brupsuite进行爆破</p>
-<p>先来抓个包吧</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211131651289.png"></p>
-<p>然后选好密码字典进行爆破（如果字典选不好的话，就爆破不了了或者是爆破时间相当的长）</p>
-<h1 id="midumn"><a href="#midumn" class="headerlink" title="midumn"></a>midumn</h1><p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211132834686.png"></p>
-<p>相比low的明显就有了变化</p>
-<p>mysql_real_escape_string(),这个函数会对字符串中的特殊符号（x00，n，r，，’，”，x1a）进行转义，因此这里不能在进行sql注入</p>
-<p>但是在这里依然可以用brupsuite进行爆破，方法同low</p>
-<h1 id="high"><a href="#high" class="headerlink" title="high"></a>high</h1><p>在medium的基础上，增加了stripslashes( )函数删除由 addslashes() 函数添加的反斜杠,如果有两个连续的反斜线,则只去掉一个。、 mysql_real_escape_string对参数username、password进行过滤、转义，进一步抵御sql注入。</p>
-<p>看看还增加了什么，token而且还是在登陆时随机产生的，且优先级高于sql查询，那直接爆破的话看起来是不行了</p>
-<p>这边的爆破方法我参考了这篇文章 <a href="https://blog.csdn.net/m0_46432705/article/details/106364716">https://blog.csdn.net/m0_46432705/article/details/106364716</a></p>
-<p>但是token没有复制成功去查了一下发现</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211142953061.png"></p>
-<p>我原来这边的设置是never，所以无法实现服务器返回的token</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211143415491.png"></p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210212223913790.png"><span class="image-caption">image-20210212223913790</span></p>
-<p>找找返回长度不同的，试一下就知道密码了<del>（手动滑稽</del></p>
-<h1 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h1><p>看了一下和high的源代码蛮像的</p>
-<p>可以看到Impossible级别的代码加入了可靠的防爆破机制，当检测到频繁的错误登录后，系统会将账户锁定，爆破也就无法继续。</p>
-<p><img src="/2021/02/02/dvwa-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/image-20210211144228923.png"></p>
-<p>然后还多了个</p>
-<p>这是因为不能使用PDO扩展本身执行任何数据库操作，从而阻止破坏sql语句结构执行恶意的sql命令。</p>
-]]></content>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hgame-week1</title>
     <url>/2022/01/22/hgame-week1/</url>
     <content><![CDATA[<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="欢迎欢迎！热烈欢迎！"><a href="#欢迎欢迎！热烈欢迎！" class="headerlink" title="欢迎欢迎！热烈欢迎！"></a>欢迎欢迎！热烈欢迎！</h2><p>关注公众号嘛，不说了</p>
@@ -1999,6 +2032,24 @@
       <tags>
         <tag>misc</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/10/02/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>hgame-week2</title>
@@ -2510,6 +2561,37 @@
       </tags>
   </entry>
   <entry>
+    <title>sqllib 11-16</title>
+    <url>/2021/01/15/sqllib-11-16/</url>
+    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
+<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
+<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
+<p>？？？？？？？？？？公屏打在问号上</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
+<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
+<p>具体原因如下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
+<p>然后就是猜下去的问题了</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
+<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
+<p>先试一下</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
+<p>这边一定要打#，–+在这里不适用</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
+<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
+<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
+<p>less15 为’，less16为“）</p>
+<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
+<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
+]]></content>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs-less5,6</title>
     <url>/2020/11/30/sqli-labs-less5-6/</url>
     <content><![CDATA[<h1 id="extracture-报错注入"><a href="#extracture-报错注入" class="headerlink" title="extracture()报错注入"></a>extracture()报错注入</h1><p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130173049737.png"></p>
@@ -2564,37 +2646,6 @@
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210427554.png"></p>
 <p><img src="/2020/11/30/sqli-labs-less5-6/image-20201130210340395.png"></p>
 <p>大概是这样一个过程，在有回显的情况下，报错注入的优势更为突出了。</p>
-]]></content>
-      <tags>
-        <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqllib 11-16</title>
-    <url>/2021/01/15/sqllib-11-16/</url>
-    <content><![CDATA[<h2 id="less11、less12"><a href="#less11、less12" class="headerlink" title="less11、less12"></a>less11、less12</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210115195957251.png"></p>
-<p>这两关与less1-4基本思路相同，这边主要是想尝试一下一次性爆出所有数据</p>
-<h2 id="less13、less14"><a href="#less13、less14" class="headerlink" title="less13、less14"></a>less13、less14</h2><p><img src="/2021/01/15/sqllib-11-16/image-20210122231855864.png"><span class="image-caption">image-20210122231855864</span></p>
-<p>？？？？？？？？？？公屏打在问号上</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122233855565.png"><span class="image-caption">image-20210122233855565</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234206216.png"><span class="image-caption">image-20210122234206216</span></p>
-<p>仔细观察可以看出，我在这里把submit改成了1submit，在源代码中修改</p>
-<p>具体原因如下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210122234345703.png"><span class="image-caption">image-20210122234345703</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123113701694.png"><span class="image-caption">image-20210123113701694</span></p>
-<p>然后就是猜下去的问题了</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123114437891.png"><span class="image-caption">image-20210123114437891</span></p>
-<p>这里应该是可以用报错注入的，那我直接尝试一下爆数据</p>
-<p>先试一下</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123121815689.png"><span class="image-caption">image-20210123121815689</span></p>
-<p>这边一定要打#，–+在这里不适用</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122225873.png"><span class="image-caption">image-20210123122225873</span></p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123122432714.png"><span class="image-caption">image-20210123122432714</span></p>
-<p>大概就是这样子的啦，less14在less13的基础上将‘）换成了“，其余皆相同，这里不再赘述</p>
-<h2 id="less15、less16"><a href="#less15、less16" class="headerlink" title="less15、less16"></a>less15、less16</h2><p>这两关均无报错信息，只能用延时和报错了</p>
-<p>less15 为’，less16为“）</p>
-<p><img src="/2021/01/15/sqllib-11-16/image-20210123204010453.png"><span class="image-caption">image-20210123204010453</span></p>
-<p>正确的时候可以直接登录，不正确的时候延时 5 秒</p>
 ]]></content>
       <tags>
         <tag>sqli-labs</tag>
@@ -3497,6 +3548,42 @@
       </tags>
   </entry>
   <entry>
+    <title>攻防世界misc-2</title>
+    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
+    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
+<p>ISCC? 比赛的名称，这</p>
+<p>用010查看gif，</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
+<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
+<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
+<p>之后继续解下去就好了</p>
+<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
+<p>什么都没捞到，flag在哪，分离看看</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
+<p>有个pdf文件，foremost分离一下</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
+<p>打开pdf就完事</p>
+<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
+<p>brainfuck，解码就可以得到flag</p>
+<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
+<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
+<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
+<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
+<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
+<p>新知识stegsolve原来可以合并图！！！</p>
+<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
+<p>XOR 异或，好像明白了什么</p>
+]]></content>
+      <tags>
+        <tag>misc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>攻防世界-misc3</title>
     <url>/2021/04/09/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-misc3/</url>
     <content><![CDATA[<h1 id="MISCall"><a href="#MISCall" class="headerlink" title="MISCall"></a>MISCall</h1><p>文件用010打开没有半点提示，用binwalk发现是bzip文件，tar解压</p>
@@ -3559,42 +3646,6 @@
 <p>（这个信息隐藏在哪里啊。。。。。。。。。。。。。。。。。。。）</p>
 <p>你看看端口，3401,3400变换，量子纠缠是0和1变换，好像对应上了</p>
 <p>二进制转文本，未果</p>
-]]></content>
-      <tags>
-        <tag>misc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>攻防世界misc-2</title>
-    <url>/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/</url>
-    <content><![CDATA[<h1 id="Aesop-secret"><a href="#Aesop-secret" class="headerlink" title="Aesop_secret"></a>Aesop_secret</h1><p>附件是一个疯狂跳动的gif，感觉有一点点像二维码，用ps修改后发现是</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401204948831.png"></p>
-<p>ISCC? 比赛的名称，这</p>
-<p>用010查看gif，</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205032655.png"></p>
-<p>最后一段看起来像极了base64，/+.. 这几个符号看起来又不太对劲，好了我没辙了（围观wp ing）</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210401205332585.png"></p>
-<p>这个提示我这没有啊，没有啊，没有啊。。。。。。。</p>
-<p>之后继续解下去就好了</p>
-<h1 id="simple-transfer"><a href="#simple-transfer" class="headerlink" title="simple_transfer"></a>simple_transfer</h1><p>我以为这是一道朴实无华的流量分析题，然后我在流量包里找flag。。。。。。。。。</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402214833805.png"></p>
-<p>什么都没捞到，flag在哪，分离看看</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402215121906.png"></p>
-<p>有个pdf文件，foremost分离一下</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210402220006179.png"></p>
-<p>打开pdf就完事</p>
-<h1 id="can-has-stdio"><a href="#can-has-stdio" class="headerlink" title="can_has_stdio?"></a>can_has_stdio?</h1><p>压缩包里是个没有后缀名的文件，用010打开</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408162635548.png"></p>
-<p>brainfuck，解码就可以得到flag</p>
-<h1 id="hit-the-core"><a href="#hit-the-core" class="headerlink" title="hit-the-core"></a>hit-the-core</h1><p>反正不知道是什么玩意的就010，然后看到这一串</p>
-<p>cvqAeqacLtqazEigwiXobxrCrtuiTzahfFreqc{bnjrKwgk83kgd43j85ePgb_e_rwqr7fvbmHjklo3tews_hmkogooyf0vbnk0ii87Drfgh_n kiwutfb0ghk9ro987k5tfb_hjiouo087ptfcv}</p>
-<p>很长的字符串，从第三位开始，每5位进行提取得到flag。（奇怪的知识增加了）</p>
-<h1 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What-is-this"></a>What-is-this</h1><p>我是谁？我在哪？这是啥？</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408210530113.png"></p>
-<p>压缩包里套了一个未命名文件，嗯，还是压缩包，加上后缀后解压，得到这两张图，感觉信息量很大，但是我确实没扫出什么来</p>
-<p>新知识stegsolve原来可以合并图！！！</p>
-<p><img src="/2021/04/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cmisc-2/image-20210408211111907.png"></p>
-<p>XOR 异或，好像明白了什么</p>
 ]]></content>
       <tags>
         <tag>misc</tag>
