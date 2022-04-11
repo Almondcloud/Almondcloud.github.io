@@ -184,7 +184,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image6.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image9.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">buu1-web</h1>
     <div class="head-info">
@@ -514,10 +514,6 @@ calc.php引起注意，打开看看
 
 file_get_contents()读取文件内容
 
-
-
-
-
 PHP的字符串解析特性
 这是别人对PHP字符串解析漏洞的理解，
 我们知道PHP将查询字符串（在URL或正文中）转换为内部$_GET或的关联数组$_POST。例如：/?foo=bar变成Array([foo] => “bar”)。值得注意的是，查询字符串在解析的过程中会将某些字符删除或用下划线代替。例如，/?%20news[id%00=42会转换为Array([news_id] => 42)。如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：
@@ -532,14 +528,45 @@ HP需要将所有参数转换为有效的变量名，因此在解析查询字符
 
 2.将某些字符转换为下划线（包括空格）
 
-
-
-
-
-
-
 参考链接：https://blog.csdn.net/weixin_44077544/article/details/102630714
 
+# [ACTF2020 新生赛]BackupFile
+
+扫一扫得到备份文件
+
+![image-20220327215523579](buu1-web/image-20220327215523579.png)
+
+![image-20220327215553139](buu1-web/image-20220327215553139.png)
+
+php弱比较，传参key=123即可绕过
+
+# [护网杯 2018]easy_tornado
+
+让我康康有什么
+
+![image-20220328210600168](buu1-web/image-20220328210600168.png)
+
+![image-20220328210620835](buu1-web/image-20220328210620835.png)
+
+![image-20220328210635443](buu1-web/image-20220328210635443.png)
+
+知道了flag在哪里，提示了cookie_secret,render,那就查一下，render（)可以对服务器端渲染，*render*方法的实质就是生成template模板这里是考的是模板注入（ssti），因为[render](https://so.csdn.net/so/search?q=render&spm=1001.2101.3001.7020)（）是tornado里的函数，[Tornado](https://so.csdn.net/so/search?q=Tornado&spm=1001.2101.3001.7020)框架的附属文件handler.settings中存在cookie_secret，
+
+测试注入点
+
+![image-20220328213049326](buu1-web/image-20220328213049326.png)
+
+![image-20220328213510476](buu1-web/image-20220328213510476.png)
+
+从报错页面进行注入
+
+![image-20220328214852638](buu1-web/image-20220328214852638.png)
+
+![image-20220328214949353](buu1-web/image-20220328214949353.png)
+
+![image-20220328220413072](buu1-web/image-20220328220413072.png)
+
+![image-20220328220339212](buu1-web/image-20220328220339212.png)
 
       </section>
       <section class="extra">
